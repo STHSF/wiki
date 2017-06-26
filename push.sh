@@ -1,3 +1,3 @@
 git add . --all
-git commit -am 'code'
+git commit -am 'date +%F'
 git push origin master
