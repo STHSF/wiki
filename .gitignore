@@ -3,6 +3,16 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+output
+*.py[cd]
+output
+.DS_Store
+.ipynb_checkpoints/
+*.o
+*.proj
+*.iml
+.idea/
+
 # C extensions
 *.so
 

@@ -1,0 +1,17 @@
+# Document:
+# http://simiki.org/docs/configuration.html
+
+url: 
+title: sthsf's personal knowledge wiki
+keywords: technology, machine learning, data mining, economics, accounting
+description: A wiki website of sthsf when I learned new knowledgy and technics.
+author: sthsf
+
+root: /wiki
+
+deploy:
+    - type: git
+      remote: origin
+      branch: gh-pages
+      
+theme: simple
