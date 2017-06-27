@@ -58,6 +58,8 @@ fab delpoy
 
 此时就可以通过访问yourUserName.github.io/wiki来访问你的个人git了。
 
+在**windows下的部署**可以参考tracholar同学的博客。写的也比较详细。
+
 很多人要问那我写的东西如何发布到上面去呢？
 # 网页发布流程 #
 
