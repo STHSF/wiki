@@ -1,8 +1,8 @@
-/*  
-Theme Name: Simple2
-Author: Tanky Woo<me@tankywoo.com>
-Author URI: http://www.wutianqi.com/
-Description: Default theme for simiki.
+/*
+Theme Name: Simple-修改版
+Author: tracholar<zuoyuanlxz@gmail.com>， 原作者Tanky Woo<me@tankywoo.com>
+Author URI: https://tracholar.github.io/  http://www.wutianqi.com/
+Description: Default theme for simiki. tracholar修改版
 Version: 0.1
 License: The MIT License (MIT)
 Tags: simple, single-columns, code, codehighlight, white, markdown
@@ -23,18 +23,18 @@ body {
     font-family: "Helvetica Neue", "Segoe UI", Arial, Sans-Serif;
     line-height: 1.5em;
     background-color: whitesmoke;
-    color: #2f2f2f;
 }
 
 a { color: #0645ad; text-decoration: none; }
-a:visited { color: #0645ad; }
-a:hover { color: #06e; }
-a:active { color: #06e; }
+a:visited { color: #0b0080; }
+a:hover { color: #06e; text-decoration: underline; }
+a:active { color: #faa700; }
 
 p { margin: 0 0 1.5em 0; text-align: justify; }
 
 h1, h2, h3, h4, h5, h6 {
     font-weight: normal;
+    color: #111;
     line-height: 1em;
 }
 
@@ -47,9 +47,14 @@ h6 { font-size: 0.8em; }
 
 blockquote {
     color: #666;
-    margin: 0;
-    padding-left: 3em;
+    margin: .5em 0;
+	padding: 1em 0;
+    padding-left: 2em;
     border-left: 0.4em #eee solid;
+}
+
+blockquote p {
+	margin: 0;
 }
 
 hr {
@@ -68,7 +73,11 @@ ul, ol {
 
 ul li { list-style-type: square; }
 
-ul li p { margin: 0; }
+li p { margin: 0.5em 0; }
+
+li ul {
+	margin-top: 0;
+}
 
 img {
     border: 0;
@@ -84,13 +93,17 @@ table {
     border: 1px solid #ccc;
 }
 
+th, td {
+	border: 1px solid #ddd;
+}
+
 td {
     vertical-align: top;
     padding: 3px 6px;
 }
 
 /* Optimization for pre and code tag */
-pre, code { 
+pre, code {
     font-family: Consolas, "DejaVu Sans Mono", "Lucida Console", Monaco, Andale Mono, "MS Gothic", monospace;
     font-size: 13px;
     border-radius: 3px;
@@ -100,13 +113,14 @@ pre, code {
 }
 
 code {
-    color: #666;
-    background-color: #eee;
+    color: #c7254e;
+    background-color: #f9f2f4;
     margin: 0 2px;
-    padding: 1px 3px;
+    padding: 2px 4px;
+    font-size: 90%;
 }
 
-pre { 
+pre {
     border: 1px solid #eee;
     padding: 8px 12px;
     white-space: pre;
@@ -127,7 +141,7 @@ pre code {
 /* Custom Configuration */
 #container {
     background: white;
-    width: 50em;
+    max-width: 50em;
     line-height: 1.5em;
     margin: 1.5em auto 3em auto;
     padding: 1.5em 2em;
@@ -137,13 +151,7 @@ pre code {
     -moz-box-shadow: 2px 2px 8px #aaa;
 }
 
-#header .updated {
-  float: right;
-  font-size: 80%;
-  color: #555;
-}
-
-.title, .page_title {
+#wiki_title, #title {
     text-align: center;
     font-size: 2em;
     line-height: 1.5em;
@@ -151,43 +159,33 @@ pre code {
     margin: 20px 0;
 }
 
-.page_title {
+#title {
     border-bottom: 1px dashed #eee;
 }
 
-#footer p {
-    margin: 10px auto;
-    font-size: 80%;
-    text-align: center;
-    color: #555;
-    line-height: 1em;
+#header {
 }
 
-#footer a { color: #555; }
-#footer a:hover { color: black; }
-
-.post-nav a { color: #555; }
-.post-nav a:hover { color: black; }
-
-.category a { color: #555; }
-.category a:hover { color: black; }
-
-.category_pages ul {
-  padding-left: 0;
+#footer {
+    margin: 10px auto;
+    color: grey;
+    font-size: 80%;
+    text-align: center;
 }
 
 li.pagelist {
     width: 100%;
     margin-right: 1.5em;
     list-style-type: none;
+    white-space: nowrap;
     overflow: hidden;
 }
 
-.item_arrow:before {
+li.pagelist:before {
     content: "\0BB \020";
 }
 
-.index ul { margin: 0; }
+#index ul { margin: 0; }
 
 /* Table of Contents */
 .toc {
@@ -213,35 +211,27 @@ li.pagelist {
 
 /* Hackers */
 /* Hacker for codehilite */
-table.highlighttable {
+table.codehilitetable {
+    border-collapse: separate;
     border: 1px solid #eee;
-    border-collapse: separate !important;
+    margin: 14px 0;
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
 }
 
-.highlighttable td {
+.codehilitetable pre {
+    margin: 0;
+    border: 0 none;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+}
+
+.codehilitetable td {
+    border: 0 none;
     padding: 0;
-    border: none;
-}
-
-.highlighttable td.code {
-    width: 100%;
-}
-
-.highlighttable .linenodiv {
-    border-right: 1px solid #ccc;
-}
-
-.highlighttable .linenodiv pre {
     margin: 0;
-    border: none;
-}
-
-.highlighttable .highlight pre {
-    margin: 0;
-    border: none;
 }
 
 /* Clear the float problem */
@@ -268,10 +258,6 @@ table.hlcodetable {
     border: none;
 }
 
-.hlcodetable td.code {
-    width: 100%;
-}
-
 .hlcodetable .linenodiv {
     border-right: 1px solid #ccc;
 }
@@ -286,10 +272,27 @@ table.hlcodetable {
     border: none;
 }
 
-.list_wrapper {
-  display: inline-block;
+#content-footer::before {
+    content: "";
+    clear: both;
+    display: block;
+}
+#content-footer{
+    margin-top: 3em;
+    padding: 1em 0;
+    text-align: right;
+    color: #aaa;
 }
 
-.coll_name {
-  float: left;
+
+@media screen and (max-width:500px) {
+	.toc {
+		float: none;
+	}
+}
+
+@media screen and (min-width:1100px) {
+    #container {
+        max-width: 62%;
+    }
 }
