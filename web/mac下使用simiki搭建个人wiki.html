@@ -46,11 +46,81 @@
 <p>Simiki 是一个简单的个人Wiki框架。使用Markdown书写Wiki, 生成静态HTML页面。Wiki源文件按目录分类存放, 方便管理维护。</p>
 <h2 id="_2">目录结构</h2>
 <p>主要介绍一下content和output两个文件夹。</p>
-<p>使用simiki新建初始化(<em>simiki init</em>)之后会出现四个文件或文件夹，其中content下存储的是源文件(目前只支持markdown)，后面simiki<br />
-编译的时候会将content下的文件编译成静态文件目录，并存放到output中。</p>
+<p>使用simiki新建初始化(<em>simiki init</em>)之后会出现四个文件或文件夹，其中content下存储的是源文件(目前只支持markdown)，后面使用simiki g编译的时候会将content下的文件编译成静态文件目录，并存放到output中。</p>
+<h2 id="simiki-quick-start">simiki quick start</h2>
+<p>个人觉得simiki还是比较容易上手的，具体的安装见<a href="http://simiki.org/quickstart.html">QuickStart</a></p>
 <h1 id="mac">Mac下部署</h1>
 <p>本文中关于simiki的部署主要还是参考官网，但对于新手来说还是有一定的坑的，所以我把整个流程再详细的解释一遍。</p>
-<p>安装完相关的包之后</p>
+<p>在这之前本人已经在github中使用了<a href="sthsf.github.io">sthsf.github.io</a>，所以只需要重新新建一个wiki仓库。</p>
+<p>在github中新建完wiki仓库后，clone到本地</p>
+<div class="hlcode"><pre><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="o">:</span><span class="c1">//github.com/yourUsername/wiki.git</span>
+</pre></div>
+
+
+<p>进入wiki文件夹，然后simiki初始化</p>
+<div class="hlcode"><pre><span class="n">cd</span> <span class="n">wiki</span>
+<span class="n">simiki</span> <span class="n">init</span>
+<span class="n">simiki</span> <span class="n">q</span>
+</pre></div>
+
+
+<p>这时候原来clone下来的wiki空文件夹里面会产生几个文件和文件夹。这时候如何将github.io与这个wiki仓库链接起来呢？</p>
+<p>simiki官网给了一个方法：安装Fabric，并且在生成的_config.yml中添加deploy配置项：</p>
+<div class="hlcode"><pre><span class="n">deploy</span><span class="err">：</span>
+    <span class="o">-</span> <span class="n">type</span><span class="o">:</span> <span class="n">git</span>
+      <span class="nl">remote:</span> <span class="n">origin</span>
+      <span class="nl">branch:</span> <span class="n">gh</span><span class="o">-</span><span class="n">pages</span>
+</pre></div>
+
+
+<p>该段代码的作用就是将output目录下生成的子文件或者子文件目录，基于git的方式，推送到远程仓库相应的分支下。</p>
+<p>当然这里需要注意的是我们需要安装ghp-import，同时要确认本地和远程仓库关联了。<br />
+然后直接执行部署命令即可。</p>
+<div class="hlcode"><pre><span class="n">fab</span> <span class="n">delpoy</span>
+</pre></div>
+
+
+<p>此时就可以通过访问yourUserName.github.io/wiki来访问你的个人git了。</p>
+<p>很多人要问那我写的东西如何发布到上面去呢？</p>
+<h1 id="_3">网页发布流程</h1>
+<p>首先需要注意的是目前simiki仅支持markdown的格式，因此我们每次的文章都需要用markdown的形式来书写，同时还要注意每个markdown都需要添加类似于头文件的东西，如</p>
+<div class="hlcode"><pre><span class="o">---</span>
+<span class="nl">title:</span> <span class="s">&quot;Getting Started&quot;</span>
+<span class="nl">layout:</span> <span class="n">page</span>
+<span class="nl">date:</span> <span class="mi">2099</span><span class="o">-</span><span class="mo">06</span><span class="o">-</span><span class="mo">02</span> <span class="mo">00</span><span class="o">:</span><span class="mo">00</span>
+<span class="o">---</span>
+</pre></div>
+
+
+<p>如果每个markdown中没有上面的文件内容，你在使用simiki g编译的时候会报下面的错误:</p>
+<div class="hlcode"><pre><span class="nx">Traceback</span> <span class="p">(</span><span class="nx">most</span> <span class="nx">recent</span> <span class="nb">call</span> <span class="nb">last</span><span class="p">):</span>
+  <span class="nb">File</span> <span class="s2">&quot;/usr/local/bin/simiki&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">11</span><span class="p">,</span> <span class="k">in</span> <span class="o">&lt;</span><span class="nx">module</span><span class="o">&gt;</span>
+    <span class="nx">sys.exit</span><span class="p">(</span><span class="nx">main</span><span class="p">())</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Library/Python/2.7/site-packages/simiki/cli.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">404</span><span class="p">,</span> <span class="k">in</span> <span class="nx">main</span>
+    <span class="nx">generator.generate</span><span class="p">(</span><span class="n">include_draft</span><span class="o">=</span><span class="nx">args</span><span class="err">[</span><span class="s1">&#39;--draft&#39;</span><span class="cp">]</span>)
+  File &quot;/Library/Python/2.7/site-packages/simiki/cli.py&quot;, line 181, in generate
+    self.generate_tags()
+  File &quot;/Library/Python/2.7/site-packages/simiki/cli.py&quot;, line 217, in generate_tags
+    meta, _ = g.get_meta_and_content(do_render=False)
+  File &quot;/Library/Python/2.7/site-packages/simiki/generators.py&quot;, line 135, in get_meta_and_content
+    meta_str, content_str = self.extract_page(self._src_file)
+  File &quot;/Library/Python/2.7/site-packages/simiki/generators.py&quot;, line 203, in extract_page
+    raise Exception(&#39;extracting page with format error, &#39;
+Exception: extracting page with format error, see <span class="nt">&lt;http:</span><span class="err">//</span><span class="na">simiki</span><span class="err">.</span><span class="na">org</span><span class="err">/</span><span class="na">docs</span><span class="err">/</span><span class="na">metadata</span><span class="err">.</span><span class="na">html</span><span class="nt">&gt;</span>
+</pre></div>
+
+
+<p>这也是我在写文章的时候遇到的一个坑，害得我重新创建了很多次。</p>
+<p>当我们文章写好后就可以发布出去了，这时候使用simiki g命令来编译。编译成功后使用命令：</p>
+<div class="hlcode"><pre><span class="n">fab</span> <span class="n">deploy</span>
+</pre></div>
+
+
+<p>就可以将output中的文件／文件目录提交到gh-pages分支并推送到remote地址。当然如果熟悉github代码更新的同学不妨可以自己提交更新。</p>
+<p>这时候你就可以在yourUserName.github.ig/wiki下看到你发布的内容了。</p>
+<p>最后一步就是将你写的文件提交到master分支上即可，由于output下存的是静态页面，每次添加都会改变，所以我们可以在gitignore中将其忽略提交。</p>
+<p><strong>注</strong>:其他的部署方式可以参见<a href="http://simiki.org/zh-docs/deploy.html">simiki</a>官网。</p>
+<p>本文也参考了tracholar同学的作品。</p>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2017-06-02 00:00 </span></div>
 <div id="comments"></div>
