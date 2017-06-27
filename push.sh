@@ -1,3 +1,5 @@
+a = date +%F
+
 git add . --all
-git commit -am 'date +%F'
+git commit -am a
 git push origin master
