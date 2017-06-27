@@ -5,7 +5,7 @@
         <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
         <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
         <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
-        <title>sthsf's personal knowledge wiki</title>
+        <title>Mac下使用simiki搭建个人wiki - sthsf's personal knowledge wiki</title>
         <meta name="keywords" content="technology, machine learning, data mining, economics, accounting"/>
         <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -34,116 +34,44 @@
     <body>
         <div id="container">
             
-    <div id="wiki_title">sthsf's personal knowledge wiki</div>
+<div id="header">
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#web">web</a>&nbsp;»&nbsp;<a href="/wiki/#web-web">web</a>&nbsp;»&nbsp;Mac下使用simiki搭建个人wiki</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">Mac下使用simiki搭建个人wiki</div>
+<div id="content">
+  <h1 id="_1">写在前面</h1>
+<p>本人搭建个人wiki也是机缘巧合，最近一直在尝试学习一点前端的知识，尝试着使用github弄个<a href="https://sthsf.github.io/">个人博客</a>啥的玩玩，扩充自己的知识。同时，自己从事算法类的工作，其实也是程序猿的一种啦，这两天在网上查找资料的时候发现了<a href="https://tracholar.github.io/wiki/">tracholar</a>的个人wiki，我觉得写得不错，同时也是整理自己平时学习的东西的一个好的方案。我也尝试了很多知识管理类的软件，比如百度云笔记，Evrnote等都觉得不是很方便。于是尝试使用这个个人wiki。</p>
+<h1 id="simiki">simiki介绍</h1>
+<p>Simiki 是一个简单的个人Wiki框架。使用Markdown书写Wiki, 生成静态HTML页面。Wiki源文件按目录分类存放, 方便管理维护。</p>
+<h2 id="_2">目录结构</h2>
+<p>使用</p>
+<h1 id="mac">Mac下部署</h1>
+<p>本文的不是主要参考的是</p>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2017-06-02 00:00 </span></div>
+<div id="comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script type="text/javascript">
+const gitment = new Gitment({
+  title: 'Mac下使用simiki搭建个人wiki',
+  owner: 'tracholar',
+  repo: 'wiki',
+  oauth: {
+    client_id: '0cc0476e504b5e70ae7c',
+    client_secret: 'ab98e39ef79469040057eba9c6b2b543b84c72ee',
+  },
+  // ...
+  // For more available options, check out the documentation below
+})
 
-    <div id="index">
-  
-    
-    
-    <h2 id="about">about</h2>
-      
-      <ul>
-          
-        <li class="pagelist">
-          <a href="./about/gettingstarted.html">Getting Started</a>
-        </li>
-          
-      </ul>
-    <div class="clearfix"></div>
-    
-  
-    
-    
-    <h2 id="algorithm">algorithm</h2>
-      
-      <ul>
-          
-        <li class="pagelist">
-          <a href="./algorithm/tes.html">Getting Started</a>
-        </li>
-          
-      </ul>
-    <div class="clearfix"></div>
-    
-  
-    
-    
-    <h2 id="economics">economics</h2>
-      
-      <ul>
-          
-        <li class="pagelist">
-          <a href="./economics/tes.html">Getting Started</a>
-        </li>
-          
-      </ul>
-    <div class="clearfix"></div>
-    
-  
-    
-    
-    <h2 id="machine_learning">machine_learning</h2>
-      
-      <ul>
-          
-        <li class="pagelist">
-          <a href="./machine_learning/tes.html">Getting Started</a>
-        </li>
-          
-      </ul>
-    <div class="clearfix"></div>
-    
-  
-    
-    
-    <h2 id="spark">spark</h2>
-      
-      <ul>
-          
-        <li class="pagelist">
-          <a href="./spark/tes.html">Getting Started</a>
-        </li>
-          
-      </ul>
-    <div class="clearfix"></div>
-    
-  
-    
-    
-    <h2 id="tools">tools</h2>
-      
-      <ul>
-          
-        <li class="pagelist">
-          <a href="./tools/tes.html">Getting Started</a>
-        </li>
-          
-      </ul>
-    <div class="clearfix"></div>
-    
-  
-    
-    
-    <h2 id="web">web</h2>
-      
-      <ul>
-          
-        
-        <li class="pagelist" id="web-web">web</li>
-            
-            <ul>
-          
-        <li class="pagelist">
-          <a href="./web/web/mac下使用simiki搭建个人wiki.html">Mac下使用simiki搭建个人wiki</a>
-        </li>
-          
-      </ul>
-          
-      </ul>
-    <div class="clearfix"></div>
-    
-  
-    </div>
+gitment.render('comments')
+// or
+// gitment.render(document.getElementById('comments'))
+// or
+// document.body.appendChild(gitment.render())
+</script>
 
         </div>
         <div id="footer">
