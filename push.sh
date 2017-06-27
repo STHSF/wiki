@@ -1,5 +1,7 @@
-a = date +%F
+#!/bin/sh
+
+time=`date "+%Y-%m-%d-%H"`
 
 git add . --all
-git commit -am a
+git commit -am ${time}
 git push origin master
