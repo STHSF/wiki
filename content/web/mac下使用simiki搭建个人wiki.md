@@ -106,6 +106,7 @@ fab deploy
 **注**:其他的部署方式可以参见[simiki](http://simiki.org/zh-docs/deploy.html)官网。
 
 本文也参考了tracholar同学的作品。
+页面下的评论参考的是[gitment](https://imsun.net/posts/gitment-introduction/)的内容
 
 
 
