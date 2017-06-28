@@ -23,7 +23,7 @@ Simiki 是一个简单的个人Wiki框架。使用Markdown书写Wiki, 生成静�
 # Mac下部署
 本文中关于simiki的部署主要还是参考官网，但对于新手来说还是有一定的坑的，所以我把整个流程再详细的解释一遍。
 
-在这之前本人已经在github中使用了[sthsf.github.io](sthsf.github.io)，所以只需要重新新建一个wiki仓库。
+在这之前本人已经在github中使用了[sthsf.github.io](https://sthsf.github.io)，所以只需要重新新建一个wiki仓库。
 
 在github中新建完wiki仓库后，clone到本地
 
