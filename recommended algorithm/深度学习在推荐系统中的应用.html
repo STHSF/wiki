@@ -40,10 +40,17 @@
 <div class="clearfix"></div>
 <div id="title">深度学习在推荐系统中的应用</div>
 <div id="content">
-  <h1 id="_1"><strong>一、推荐系统的基本知识</strong></h1>
+  <div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#_1">更新中。。。。。</a></li>
+<li><a href="#_2">一、推荐系统的基本知识</a></li>
+<li><a href="#_3">二、基于协同过滤的推荐方法</a></li>
+</ul>
+</div>
+<h1 id="_1">更新中。。。。。</h1>
+<h1 id="_2"><strong>一、推荐系统的基本知识</strong></h1>
 <p>推荐系统的基本功能就是帮助用户主动找到满足其偏好的个性化物品并且推荐给用户，推荐系统的输入数据可以是多种多样的，总结起来主要是用户（User）、物品（Item）和评分（Ratings）三个层面。他们分别对应于一个矩阵中的行、列和值。对于某一个特定的用户，推荐系统的输出为一个推荐列表，该列表按照偏好得分顺序给出了该用户可能感兴趣的物品。</p>
 <p>推荐问题一个典型的形式化描述如下：我们拥有一个大型稀疏矩阵，该矩阵的每一行表示一个User，每一列表示一个Item，矩阵中每个“+”号表示该User对Item的Rating，(该分值可以是二值化分值，喜欢与不喜欢；也可以是0~5的分值等)。</p>
-<h1 id="_2"><strong>二、基于协同过滤的推荐方法</strong></h1>
+<h1 id="_3"><strong>二、基于协同过滤的推荐方法</strong></h1>
 <p>基于协同过滤的推荐方法通过搜集用户过去的行为以获得其对物品的显示或隐式信息，根据用户对物品的偏好，发现物品或者用户的相关性，然后基于这些关联性进行推荐。</p>
 <p>协同过滤主要分为两类：Memory-based推荐和Model-based推荐。其中Memory-based又分为User-based和Item-based两种方法。</p>
 <p><strong>Memory-based方法</strong>主要是通过执行近邻搜索，把每一个Item或者User看成一个向量，计算其他所有的Item或者User之间两两相似度后，就可以进行预测和推荐了。</p>
