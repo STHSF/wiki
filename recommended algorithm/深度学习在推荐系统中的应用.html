@@ -55,10 +55,7 @@
 <p>协同过滤主要分为两类：Memory-based推荐和Model-based推荐。其中Memory-based又分为User-based和Item-based两种方法。</p>
 <p><strong>Memory-based方法</strong>主要是通过执行近邻搜索，把每一个Item或者User看成一个向量，计算其他所有的Item或者User之间两两相似度后，就可以进行预测和推荐了。</p>
 <p>Model—based推荐最常见的方法是matrix factorization（矩阵分解），矩阵分解通过把原始的评分矩阵R分解成两个矩阵相乘，并且只考虑评分的值，训练时不考虑missing项的值，将矩阵R分解成U和V之后，评分矩阵R中missing的值就可以通过U某列和V中的某行相乘得到。矩阵分解的目标函数为：</p>
-<div class="hlcode"><pre><span class="n">argmin</span> <span class="o">=</span> <span class="n">mc</span><span class="o">^</span><span class="mi">2</span>
-</pre></div>
-
-
+<p>$$\sqrt{2}\$$</p>
 <p>如何用深度学习推荐电影？教你做自己的推荐系统！<br />
 https://www.leiphone.com/news/201705/rOD6wP779DLXx8mI.html</p>
 <p>聊聊YouTube基于深度神经网络的推荐系统<br />
