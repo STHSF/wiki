@@ -12,3 +12,5 @@ simiki g
 
 echo "提交到gh-pages分支"
 fab deploy
+
+echo "结束"
