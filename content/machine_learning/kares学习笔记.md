@@ -22,3 +22,6 @@ date: 2017-06-30 10:03
 
 # 嵌入层 Embedding
 
+# 参考文献：
+[1](http://www.cnblogs.com/LittleHann/p/6442161.html)
+[2](http://tracholar.github.io/wiki/machine-learning/keras.html)
