@@ -5,7 +5,7 @@
     <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
     <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
-    <title>Tensorflow学习笔记-Seq2Seq详解 - sthsf's personal knowledge wiki</title>
+    <title>linux 创建自己的命令 - sthsf's personal knowledge wiki</title>
     <meta name="keywords" content="technology, machine learning, data mining, economics, accounting"/>
     <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -35,39 +35,46 @@
 <div id="container">
     
 <div id="header">
-  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#deep learning">deep learning</a>&nbsp;»&nbsp;Tensorflow学习笔记-Seq2Seq详解</div>
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#linux tricks">linux tricks</a>&nbsp;»&nbsp;linux 创建自己的命令</div>
 </div>
 <div class="clearfix"></div>
-<div id="title">Tensorflow学习笔记-Seq2Seq详解</div>
+<div id="title">linux 创建自己的命令</div>
 <div id="content">
   <h1 id="_1">写在前面</h1>
-<p>Seq2Seq是基于tensorflow的一种通用编码器&amp;解码器框架，可用于机器翻译，文本摘要，会话模型，图像描述等。</p>
-<p><img alt="dd" src="/Users/li/Desktop/164611_Wqpl_2896879.gif" /></p>
-<p><a href="https://www.oschina.net/p/seq2seq">通用编码器&amp;解码器框架seq2seq</a></p>
-<p><a href="http://blog.csdn.net/diligent_321/article/details/53590289">TensorFlow中Sequence-to-Sequence样例代码详解</a></p>
-<p><a href="http://blog.csdn.net/appleml/article/details/54017873">sequence_loss_by_example(logits, targets, weights)</a></p>
-<p><a href="http://blog.csdn.net/u012871493/article/details/72350332">tensorflow的legacy_seq2seq模块</a></p>
-<p><a href="https://www.tensorflow.org/api_docs/python/tf/contrib/legacy_seq2seq/sequence_loss_by_example">tf.contrib.legacy_seq2seq.sequence_loss_by_example</a></p>
-<p><a href="http://www.2cto.com/kf/201611/561130.html">tensorflow学习笔记（十一）：seq2seq Model</a><br />
-<a href="http://blog.csdn.net/u012436149/article/details/52976413">tensorflow学习笔记（十一）：seq2seq Model相关接口介绍</a></p>
-<p><a href="http://www.360doc.com/content/17/0321/10/10408243_638692790.shtml">RNN回归例子</a></p>
-<p><a href="https://r2rt.com/styles-of-truncated-backpropagation.html">Styles of Truncated Backpropagation</a></p>
-<p><a href="http://www.360doc.com/content/17/0321/10/10408243_638692495.shtml">lstm分类的例子涉及dynamic_nn</a></p>
-<p><a href="http://blog.csdn.net/u010223750/article/details/71079036">tensorflow高阶教程:tf.dynamic_rnn</a></p>
-<p><a href="http://blog.csdn.net/u014595019/article/details/52759104"> tensorflow笔记：多层LSTM代码分析</a></p>
-<p><a href="http://www.wildml.com/2016/08/rnns-in-tensorflow-a-practical-guide-and-undocumented-features/">RNNs in Tensorflow, a Practical Guide and Undocumented Features</a></p>
-<p><a href="http://blog.csdn.net/mydear_11000/article/details/52440115">解析Tensorflow官方PTB模型的demo</a></p>
-<p><a href="http://blog.csdn.net/u012436149/article/details/52828786">tensorflow0.10.0 ptb_word_lm.py 源码解析</a></p>
-<p><a href="http://blog.csdn.net/u012436149/article/details/53843158"> tensorflow学习笔记（二十六）：构建TF代码</a></p>
-<p><a href="http://blog.csdn.net/u012436149/article/details/52874718">tensorflow学习笔记（三）：损失函数</a></p>
+<p>在linux下想要找到多层目录下的某个文件，如果对目录结构不是很熟需要不停的cd到该目录下，推出终端后又要重复以上的步骤。对于一些经常用到的命令，我们可以自定义到shell脚本里面，这样我们只要用一个简单的字符，替代原来很多重复的命令，从而节省了很多时间。</p>
+<h1 id="_2">具体做法：</h1>
+<p>举个例子，比如我经常使用到source /home/source/book/tensorflow/bin/activate 这个命令，如果在不熟悉目录结构的情况下，</p>
+<div class="hlcode"><pre><span class="n">cd</span> <span class="o">/</span><span class="n">home</span>
+<span class="n">ls</span>
+<span class="n">cd</span><span class="o">/</span><span class="n">source</span>
+<span class="n">ls</span>
+<span class="n">cd</span> <span class="n">book</span><span class="o">/</span>
+<span class="n">ls</span>
+<span class="n">cd</span> <span class="n">tensorflow</span><span class="o">/</span>
+<span class="n">ls</span>
+<span class="n">cd</span> <span class="n">bin</span><span class="o">/</span>
+<span class="n">ls</span>
+<span class="n">source</span> <span class="n">activate</span>
+</pre></div>
+
+
+<p>这样通常会比较浪费时间, 那么我们可以使用一个字符来替代source /home/source/book/tensorflow/bin/activate这条命令。<br />
+其实我们只需要在～／.bashrc 这个文件下添加几行代码就可以了。</p>
+<p>主要的步骤是在.bashrc这个文件中添加下一这条命令</p>
+<div class="hlcode"><pre><span class="nb">alias</span> <span class="o">[</span>tensor<span class="o">]</span> <span class="o">[</span><span class="nb">source</span> /home/source/book/tensorflow/bin/activate<span class="o">]</span>
+</pre></div>
+
+
+<p>然后保存退出，最后<code>source ~/.bashrc</code>使得bash生效。</p>
+<p>这时候我们就可以使用tensor这个命令来替换原来那么长的命令行来。</p>
 </div>
-<div id="content-footer">created in <span class="create-date date"> 2017-07-06 00:00 </span></div>
+<div id="content-footer">created in <span class="create-date date"> 2099-06-02 00:00 </span></div>
 <div id="comments"></div>
 <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
 <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script type="text/javascript">
 const gitment = new Gitment({
-  title: 'Tensorflow学习笔记-Seq2Seq详解',
+  title: 'linux 创建自己的命令',
   owner: 'sthsf',
   repo: 'wiki',
   oauth: {
