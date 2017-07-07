@@ -1,5 +1,5 @@
 ---
-title: "linux 创建自己的命令"
+title: "linux 添加自定义的命令"
 layout: page
 date: 2099-06-02 00:00
 ---
@@ -11,10 +11,10 @@ date: 2099-06-02 00:00
 
 举个例子，比如我经常使用到source /home/source/book/tensorflow/bin/activate 这个命令，如果在不熟悉目录结构的情况下，
 
-```
+```bash
 cd /home
 ls
-cd/source
+cd source/
 ls
 cd book/
 ls
