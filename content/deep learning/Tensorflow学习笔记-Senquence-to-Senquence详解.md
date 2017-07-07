@@ -1,10 +1,25 @@
 ---
-title: "Tensorflow学习笔记-Senquence-to-Senquence详解"
+title: "Tensorflow学习笔记-Seq2Seq详解"
 layout: page
-date: 2099-06-02 00:00
+date: 2017-07-06 00:00
 ---
 
-# hello word #
+# 写在前面
+Seq2Seq是基于tensorflow的一种通用编码器&解码器框架，可用于机器翻译，文本摘要，会话模型，图像描述等。
+
+
+![dd](/Users/li/Desktop/164611_Wqpl_2896879.gif)
+
+
+
+
+
+
+
+
+
+
+
 [通用编码器&解码器框架seq2seq](https://www.oschina.net/p/seq2seq)
 
 [TensorFlow中Sequence-to-Sequence样例代码详解](http://blog.csdn.net/diligent_321/article/details/53590289)
