@@ -30,7 +30,7 @@ source activate
 主要的步骤是在.bashrc这个文件中添加下一这条命令
 
 ```bash
-alias [tensor] [source /home/source/book/tensorflow/bin/activate]
+alias [tensor]=['source /home/source/book/tensorflow/bin/activate']
 ```
 然后保存退出，最后```source ~/.bashrc```使得bash生效。
 
