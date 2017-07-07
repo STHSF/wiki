@@ -25,7 +25,7 @@ ls
 source activate
 ```
 
-这样通常会比较浪费时间, 那么我们可以使用一个字符来替代source /home/source/book/tensorflow/bin/activate这条命令。
+这样通常会比较浪费时间, 同样如果熟悉目录结构输入```source /home/source/book/tensorflow/bin/activate```这条命令也比较长，因此我们可以使用一个字符来替代这条长长的命令。
 其实我们只需要在～／.bashrc 这个文件下添加几行代码就可以了。
 
 主要的步骤是在.bashrc这个文件中添加下一这条命令
