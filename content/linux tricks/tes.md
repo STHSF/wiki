@@ -9,7 +9,7 @@ date: 2099-06-02 00:00
 
 # 具体做法：
 
-举个例子，比如我经常使用到source /home/source/book/tensorflow/bin/activate 这个命令，如果在不熟悉目录结构的情况下，
+举个例子，比如我经常使用到```source /home/source/book/tensorflow/bin/activate``` 这个命令，如果在不熟悉目录结构的情况下，
 
 ```bash
 cd /home
