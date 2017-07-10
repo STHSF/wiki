@@ -56,3 +56,7 @@ ps -ef
 
 ps -aux 
 ```
+
+
+[](http://blog.csdn.net/hejinjing_tom_com/article/details/24031099)
+[](http://www.cnblogs.com/qiangweikang/p/4800545.html)
