@@ -41,60 +41,70 @@
 <div id="title">linux查看机器运行状态常用命令</div>
 <div id="content">
   <h1 id="_1">查看系统基本信息</h1>
-<div class="hlcode"><pre>top 
+<div class="hlcode"><pre>lsb_release -a  <span class="c"># 查看linux版本</span>
 
-uname -a
+top  <span class="c"># 查看谁最占用cpu等资源</span>
 
-cat /etc/issue
+uname -a  <span class="c"># 查看内核／操作系统／cpu等信息</span>
 
-cat /proc/version
+cat /etc/issue  <span class="c"># 查看操作系统版本</span>
 
-cat /proc/cpuinfo
+cat /proc/version  <span class="c"># 查看内核</span>
+
+cat /proc/cpuinfo  <span class="c"># 查看cpu信息</span>
 
 cat /proc/meminfo
 
-free -m
+free -m <span class="c"># 查看linux内存使用情况和交换区使用量</span>
 
-hostname
+hostname  <span class="c"># 查看主机名</span>
 
-lspci -tv
+lspci -tv  <span class="c"># 列出所有PCI设备</span>
 
-lsusb -tv
+lsusb -tv  <span class="c"># 列出所有USB设备</span>
 
-env  <span class="c">#</span>
+env  <span class="c"># 查看环境变量资源</span>
 
-df -h
+df -h  <span class="c"># 查看系统的硬盘占用情况</span>
 
-dmesg
+du -h  <span class="c"># 查看有一个目录下的文件占用大小</span>
 
-uptime
+du -sh &lt;file_name&gt;  <span class="c"># 查看某个目录或者文件的大小</span>
 
-chkconfig --list
+dmesg  <span class="c"># 查看内核信息</span>
 
-whoami who w
+uptime  <span class="c"># 查看系统的平均负载,cpu运行时间</span>
 
-rpm -qa
+chkconfig --list  <span class="c"># 查看服务</span>
 
-rpm -qf
+whoami who w  <span class="c"># 查看登陆的终端名字</span>
 
-rpm -ql &lt;package-name&gt;
+rpm -qa  <span class="c"># 查看所有的安装包</span>
 
-rpm -qc &lt;package-name&gt;
+rpm -qf  <span class="c"># 查看文件属于哪个包</span>
 
-rpm -qd &lt;package-name&gt;
+rpm -ql &lt;package-name&gt;  <span class="c"># 查询一个已经安装软件包里包含的文件</span>
 
-rpm -qi &lt;package-name&gt;
+rpm -qc &lt;package-name&gt;  <span class="c"># 查询一个已安装软件包的配置文件位置</span>
 
-ps -ef
+rpm -qd &lt;package-name&gt;  <span class="c"># 查询一个已安装软件包的描述信息</span>
 
-ps -aux 
+rpm -qi &lt;package-name&gt;   <span class="c"># 查询一个已安装软件包的文档安装位置</span>
+
+ps -ef   <span class="c"># 查看进行信息</span>
+
+ps -aux  <span class="c"># 查看进程信息</span>
+
+netstat -an  <span class="c"># 查看网络连接</span>
+
+nestat -tlnp | grep &lt;port&gt;  <span class="c"># 查看端口的应用和进程id</span>
+
+tail -n10 /var/log/message  <span class="c"># 查看系统日志</span>
+
+tail -30 /var/log/secure <span class="c"># 查看用户登陆日志</span>
 </pre></div>
-
-
-<p><a href="http://blog.csdn.net/hejinjing_tom_com/article/details/24031099"></a><br />
-<a href="http://www.cnblogs.com/qiangweikang/p/4800545.html"></a></p>
 </div>
-<div id="content-footer">created in <span class="create-date date"> 2099-06-02 00:00 </span></div>
+<div id="content-footer">created in <span class="create-date date"> 2017-07-11 10:00 </span></div>
 <div id="comments"></div>
 <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
 <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
