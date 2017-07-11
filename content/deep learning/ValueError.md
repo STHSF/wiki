@@ -3,6 +3,8 @@ title: "ValueError: Variable lstm_cell/rnn/multi_rnn_cell/cell_0/basic_lstm_cell
 layout: page
 date: 2017-07-10 09:00
 ---
+# 写在前面
+最近在学习使用tensorflow构建language model，将其中遇到的问题记录下来，供大家参考，学习交流。
 
 # 错误提示
  48 Traceback (most recent call last):
@@ -105,3 +107,12 @@ def reset_default_graph():
   """
 ```
 我对python多线程不是很清楚，贴下源码，反正在类中添加这个函数之后之前的问题就解决了。
+
+题外话：tensorflow1.2版本之后，定义多层lstm(```MultiRNNCell```)与原来的版本改变比较大，可以看考[PTB tutorials---Stacking multiple LSTMs](https://www.tensorflow.org/tutorials/recurrent#recurrent-neural-networks).
+
+# 参考文献
+
+[1](http://blog.csdn.net/u014283248/article/details/64440268)
+[2](http://www.cnblogs.com/max-hu/p/7101164.html)
+[How to reuse weights in MultiRNNCell?](https://stackoverflow.com/questions/43935609/how-to-reuse-weights-in-multirnncell)
+[ValueError: Attempt to reuse RNNCell with a different variable scope than its first use.](https://github.com/tensorflow/tensorflow/issues/8191)
