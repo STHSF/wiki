@@ -3,6 +3,8 @@ title: "ValueError: Variable lstm_cell/rnn/multi_rnn_cell/cell_0/basic_lstm_cell
 layout: page
 date: 2017-07-10 09:00
 ---
+[TOC]
+
 # 写在前面
 最近在学习使用tensorflow构建language model，遇到关于模型重用的问题，我将模型的训练和预测放在同一个文件中时出现的问题,提示lstm_cell kernal已经存在.
 
