@@ -100,12 +100,12 @@
  95   File "/home/tf1.0/local/lib/python2.7/site-packages/tensorflow/python/ops/rnn_cell_impl.py", l    ine 183, in _rnn_get_variable<br />
  96     variable = getter(*args, </strong>kwargs)<br />
  97   File "/home/tf1.0/local/lib/python2.7/site-packages/tensorflow/python/ops/rnn_cell_impl.py", l    ine 183, in _rnn_get_variable<br />
- 98     variable = getter(</em>args, **kwargs)<br />
+ 98     variable = getter(</em>args, <strong>kwargs)<br />
  99   File "/home/tf1.0/local/lib/python2.7/site-packages/tensorflow/python/ops/variable_scope.py",     line 352, in _true_getter<br />
 100     use_resource=use_resource)<br />
 101   File "/home/tf1.0/local/lib/python2.7/site-packages/tensorflow/python/ops/variable_scope.py",     line 664, in _get_single_variable<br />
 102     name, "".join(traceback.format_list(tb))))<br />
-103 ValueError: Variable lstm_cell/rnn/multi_rnn_cell/cell_0/basic_lstm_cell/kernel already exists,     disallowed. Did you mean to set reuse=True in VarScope? Originally defined at:<br />
+</strong>103 ValueError: Variable lstm_cell/rnn/multi_rnn_cell/cell_0/basic_lstm_cell/kernel already exists,     disallowed. Did you mean to set reuse=True in VarScope? Originally defined at:**<br />
 104<br />
 105   File "anna_writer.py", line 110, in add_lstm_cell<br />
 106     initial_state=self.initial_state)<br />
@@ -114,7 +114,32 @@
 109   File "anna_writer.py", line 172, in train<br />
 110     conf.grad_clip, is_training=True)</p>
 <h1 id="_2">解决方法</h1>
-<p><a href="https://stackoverflow.com/questions/43957967/tensorflow-v1-1-0-multi-rnn-basiclstmcell-error-reuse-parameter-python-3-5">stackoverflow</a></p>
+<p>这个问题困扰了我两天，始终找不到解决方案，当我的训练模型和预测模型分开运行时程序没有报错，但是两个程序放在一起运行时就会出现问题，网上搜索的结果大都是关于<a href="https://stackoverflow.com/questions/43957967/tensorflow-v1-1-0-multi-rnn-basiclstmcell-error-reuse-parameter-python-3-5">共享权重的问题</a>，错误提示是</p>
+<div class="hlcode"><pre>ValueError: Variable hello/rnn/basic_lstm_cell/weights already exists, disallowed. Did you mean to <span class="nb">set </span><span class="nv">reuse</span><span class="o">=</span>True in VarScope?
+</pre></div>
+
+
+<p>，这个error跟我的错误还是有一定的区别的。这些问题主要原因在于使用多层lstm_cell或者双向lstm的时候忽略了定义变量的variable_scope，导致lstm_cell的作用域不一样，但是程序加载的时候并不知道，所以当声明的cell不是同一个的时候，需要用</p>
+<div class="hlcode"><pre><span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+</pre></div>
+
+
+<p>来定义不同的作用范围就可以了，具体还要根据实际情况。</p>
+<p>而我的问题好像网上还没有这样的解释，我仔细看错误的提示，分析我的代码，当train和predict放在一起的时候，会调用两次class language_model：这时候就会出现系统里应该存在两个不同的lstm_cell模型，但是系统无法辨别出来，所以会提示<strong>kernel already exists</strong>，而不是<strong>weights already exists</strong>。</p>
+<p>而tensorflow有一个reset_default_graph()函数，</p>
+<div class="hlcode"><pre><span class="k">def</span> <span class="nf">reset_default_graph</span><span class="p">():</span>
+  <span class="sd">&quot;&quot;&quot;Clears the default graph stack and resets the global default graph.</span>
+
+<span class="sd">  NOTE: The default graph is a property of the current thread. This</span>
+<span class="sd">  function applies only to the current thread.  Calling this function while</span>
+<span class="sd">  a `tf.Session` or `tf.InteractiveSession` is active will result in undefined</span>
+<span class="sd">  behavior. Using any previously created `tf.Operation` or `tf.Tensor` objects</span>
+<span class="sd">  after calling this function will result in undefined behavior.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+</pre></div>
+
+
+<p>我对python多线程不是很清楚，贴下源码，反正在类中添加这个函数之后之前的问题就解决了。</p>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2017-07-10 09:00 </span></div>
 <div id="comments"></div>
