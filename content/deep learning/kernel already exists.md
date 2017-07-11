@@ -9,7 +9,7 @@ date: 2017-07-10 09:00
 最近在学习使用tensorflow构建language model，遇到关于模型重用的问题，我将模型的训练和预测放在同一个文件中时出现的问题,提示lstm_cell kernal已经存在.
 
 # 错误提示
-```python
+```
 48 Traceback (most recent call last): 
 49 File "anna_writer.py", line 274, in <module> 
 50 samp = generate_samples(checkpoint, 20000, prime="The ") 
@@ -83,7 +83,7 @@ with tf.variable_scope(name):
 
 而我的问题好像网上还没有这样的解释，我仔细看错误的提示，分析我的代码，当train和predict放在一起的时候，会调用两次class language_model：这时候就会出现系统里应该存在两个不同的lstm_cell模型，但是系统无法辨别出来，所以会提示**kernel already exists**，而不是**weights already exists**。
 
-而tensorflow有一个reset_default_graph()函数，
+而tensorflow有一个reset_default_graph()函数，我对python多线程不是很清楚，贴下源码，
 
 ```python
 def reset_default_graph():
@@ -96,7 +96,40 @@ def reset_default_graph():
   after calling this function will result in undefined behavior.
   """
 ```
-我对python多线程不是很清楚，贴下源码，反正在类中添加这个函数之后之前的问题就解决了。
+然后在我定义的language_model类中添加这个函数之后之前的问题就解决了。
+
+```python
+class language_model:
+    def __init__(self, num_classes, batch_size=100, seq_length=50, learning_rate=0.01, num_layers=5, hidden_units=128,
+                 keep_prob=0.8, grad_clip=5, is_training=True):
+        # 模型的训练和预测放在同一个文件下时如果没有这个函数会报错。
+        tf.reset_default_graph()  
+        self.learning_rate = learning_rate
+        self.num_layers = num_layers
+        self.hidden_units = hidden_units
+        self.is_training = is_training
+        self.keep_prob = keep_prob
+        self.grad_clip = grad_clip
+        self.num_classes = num_classes
+
+        if self.is_training:
+            self.batch_size = batch_size
+            self.seq_length = seq_length
+        else:
+            self.batch_size = 1
+            self.seq_length = 1
+
+        with tf.name_scope('add_input_layer'):
+            self.add_input_layer()
+        with tf.variable_scope('lstm_cell'):
+            self.add_multi_cells()
+        with tf.name_scope('build_output'):
+            self.build_output()
+        with tf.name_scope('cost'):
+            self.compute_cost()
+        with tf.name_scope('train_op'):
+            self.train_op()
+```
 
 **题外话** ：tensorflow1.2版本之后，定义多层lstm(```MultiRNNCell```)与原来的版本改变比较大，可以看考[PTB tutorials---Stacking multiple LSTMs](https://www.tensorflow.org/tutorials/recurrent#recurrent-neural-networks).
 
