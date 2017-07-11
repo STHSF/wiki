@@ -69,7 +69,7 @@ date: 2017-07-10 09:00
 100     use_resource=use_resource)
 101   File "/home/tf1.0/local/lib/python2.7/site-packages/tensorflow/python/ops/variable_scope.py",     line 664, in _get_single_variable
 102     name, "".join(traceback.format_list(tb))))
-103 ValueError: Variable lstm_cell/rnn/multi_rnn_cell/cell_0/basic_lstm_cell/kernel already exists,     disallowed. Did you mean to set reuse=True in VarScope? Originally defined at:
+**103 ValueError: Variable lstm_cell/rnn/multi_rnn_cell/cell_0/basic_lstm_cell/kernel already exists,     disallowed. Did you mean to set reuse=True in VarScope? Originally defined at:**
 104
 105   File "anna_writer.py", line 110, in add_lstm_cell
 106     initial_state=self.initial_state)
@@ -79,6 +79,29 @@ date: 2017-07-10 09:00
 110     conf.grad_clip, is_training=True)
 
 # 解决方法
+这个问题困扰了我两天，始终找不到解决方案，当我的训练模型和预测模型分开运行时程序没有报错，但是两个程序放在一起运行时就会出现问题，网上搜索的结果大都是关于[共享权重的问题](https://stackoverflow.com/questions/43957967/tensorflow-v1-1-0-multi-rnn-basiclstmcell-error-reuse-parameter-python-3-5)，错误提示是
+```bash
+ValueError: Variable hello/rnn/basic_lstm_cell/weights already exists, disallowed. Did you mean to set reuse=True in VarScope?
+```
+，这个error跟我的错误还是有一定的区别的。这些问题主要原因在于使用多层lstm_cell或者双向lstm的时候忽略了定义变量的variable_scope，导致lstm_cell的作用域不一样，但是程序加载的时候并不知道，所以当声明的cell不是同一个的时候，需要用
+```python
+with tf.variable_scope(name):
+```
+来定义不同的作用范围就可以了，具体还要根据实际情况。
 
-[stackoverflow](https://stackoverflow.com/questions/43957967/tensorflow-v1-1-0-multi-rnn-basiclstmcell-error-reuse-parameter-python-3-5)
+而我的问题好像网上还没有这样的解释，我仔细看错误的提示，分析我的代码，当train和predict放在一起的时候，会调用两次class language_model：这时候就会出现系统里应该存在两个不同的lstm_cell模型，但是系统无法辨别出来，所以会提示**kernel already exists**，而不是**weights already exists**。
 
+而tensorflow有一个reset_default_graph()函数，
+
+```python
+def reset_default_graph():
+  """Clears the default graph stack and resets the global default graph.
+
+  NOTE: The default graph is a property of the current thread. This
+  function applies only to the current thread.  Calling this function while
+  a `tf.Session` or `tf.InteractiveSession` is active will result in undefined
+  behavior. Using any previously created `tf.Operation` or `tf.Tensor` objects
+  after calling this function will result in undefined behavior.
+  """
+```
+我对python多线程不是很清楚，贴下源码，反正在类中添加这个函数之后之前的问题就解决了。
