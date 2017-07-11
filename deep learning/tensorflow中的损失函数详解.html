@@ -43,6 +43,10 @@
   <div class="toc"><span class="toctitle">Table of Contents</span><ul>
 <li><a href="#_1">写在前面</a></li>
 <li><a href="#loss-function">Loss function</a></li>
+<li><a href="#tensorflowloss-function">Tensorflow中的loss function实现</a><ul>
+<li><a href="#cross_entropy">cross_entropy交叉熵</a></li>
+</ul>
+</li>
 </ul>
 </div>
 <h1 id="_1">写在前面</h1>
@@ -58,6 +62,13 @@ $$<br />
 L =\sum_{i=1}^{N}{l(y_i, f(x_i))} +\lambda R(w)<br />
 $$<br />
 其中$(\lambda)$为正则项超参数，常用的正则化方法包括：L1正则和L2正则</p>
+<h1 id="tensorflowloss-function">Tensorflow中的loss function实现</h1>
+<h2 id="cross_entropy"><code>cross_entropy</code>交叉熵</h2>
+<div class="hlcode"><pre><span class="k">def</span> <span class="nf">softmax_cross_entropy_with_logits</span><span class="p">(</span><span class="n">_sentinel</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>  <span class="c"># pylint: disable=invalid-name</span>
+                                      <span class="n">labels</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">logits</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                                      <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Computes softmax cross entropy between `logits` and `labels`.&quot;&quot;&quot;</span>
+</pre></div>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2017-07-06 11:40 </span></div>
 <div id="comments"></div>
