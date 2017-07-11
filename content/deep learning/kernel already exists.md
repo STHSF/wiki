@@ -133,7 +133,7 @@ class language_model:
 
 **题外话** ：tensorflow1.2版本之后，定义多层lstm(```MultiRNNCell```)与原来的版本改变比较大，可以看考[PTB tutorials---Stacking multiple LSTMs](https://www.tensorflow.org/tutorials/recurrent#recurrent-neural-networks).
 
-***文中涉及到的代码见：[github](https://github.com/STHSF/DeepNaturalLanguageProcessing/tree/develop/DeepNLP/language_model/anna)***
+***文中涉及到的代码见：[github--anna](https://github.com/STHSF/DeepNaturalLanguageProcessing/tree/master/language_model/anna)***
 # 参考文献
 
 [1、tensorflow1.x版本rnn生成cell 报错解决方案](http://blog.csdn.net/u014283248/article/details/64440268)
