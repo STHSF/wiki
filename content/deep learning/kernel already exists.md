@@ -98,8 +98,9 @@ def reset_default_graph():
 ```
 我对python多线程不是很清楚，贴下源码，反正在类中添加这个函数之后之前的问题就解决了。
 
-题外话：tensorflow1.2版本之后，定义多层lstm(```MultiRNNCell```)与原来的版本改变比较大，可以看考[PTB tutorials---Stacking multiple LSTMs](https://www.tensorflow.org/tutorials/recurrent#recurrent-neural-networks).
+**题外话** ：tensorflow1.2版本之后，定义多层lstm(```MultiRNNCell```)与原来的版本改变比较大，可以看考[PTB tutorials---Stacking multiple LSTMs](https://www.tensorflow.org/tutorials/recurrent#recurrent-neural-networks).
 
+***文中涉及到的代码见：[github](https://github.com/STHSF/DeepNaturalLanguageProcessing/tree/develop/DeepNLP/language_model/anna)***
 # 参考文献
 
 [1、tensorflow1.x版本rnn生成cell 报错解决方案](http://blog.csdn.net/u014283248/article/details/64440268)
