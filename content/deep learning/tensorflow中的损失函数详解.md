@@ -23,3 +23,14 @@ L =\sum_{i=1}^{N}{l(y_i, f(x_i))} +\lambda R(w)
 $$
 其中$(\lambda)$为正则项超参数，常用的正则化方法包括：L1正则和L2正则
 
+
+# Tensorflow中的loss function实现
+
+## `cross_entropy`交叉熵
+
+```python
+def softmax_cross_entropy_with_logits(_sentinel=None,  # pylint: disable=invalid-name
+                                      labels=None, logits=None,
+                                      dim=-1, name=None):
+    """Computes softmax cross entropy between `logits` and `labels`."""
+```
