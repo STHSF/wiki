@@ -16,7 +16,7 @@ $$
 $$
 
 ```
-行内公式:```$"公式"$```
+行内公式:```$"公式"$```  注：有的地方可能需要用小括号将公式括起来
 
 # 常见的转字符
 
@@ -29,6 +29,13 @@ $$
 - 箭头, \leftarrow(←), \rightarrow(→), \longrightarrow(⟶), \uparrow(↑)等; 
 - 其它符号, \nabla(∇), \angle(∠), \forall(∀), \exists(∃), \prime(导数的撇′). 
 - 而对于专有名词,如一些函数名, 如sin x中的sin, 就要用罗马体, 而不是一般的数学斜体排印,我们可以用sinx, 也可以用TeX提供的直接在函数名前加”\”的方法: sinx,一般的函数均有定义, 如\sin, \cos, \lim, \log等.
+
+# 希腊字母
+
+# 空心字母和Fraktur字母
+
+# 常见的表达式
+
 
 # 参考文献
 [MarkDown(LaTex) 数学公式](http://blog.csdn.net/Linear_Luo/article/details/52224996)
