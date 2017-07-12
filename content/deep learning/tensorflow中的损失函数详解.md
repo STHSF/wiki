@@ -90,3 +90,19 @@ Function(softmax_cross_entropy_with_logits) result=
 ```
 
 从结果可以看出softmax_cross_entropy_with_logits()与我们个公式逻辑是相符合的，整个过程可以大概了解到softmax_cross_entropy_with_logits()的操作情况。
+
+
+## tf.nn.sigmoid_cross_entropy_with_logits(logits, targets, name=None)*
+## tf.nn.log_softmax(logits, name=None)	
+## tf.nn.sparse_softmax_cross_entropy_with_logits(logits, labels, name=None)
+## tf.nn.weighted_cross_entropy_with_logits(logits, targets, pos_weight, name=None)	
+# sampled loss functions
+## tf.nn.nce_loss(weights, biases, inputs, labels, num_sampled,num_classes, num_true=1, sampled_values=None,remove_accidental_hits=False, partition_strategy=’mod’,name=’nce_loss’)
+## tf.nn.sampled_softmax_loss(weights, biases, inputs, labels, num_sampled, num_classes, num_true=1, sampled_values=None,remove_accidental_hits=True, partition_strategy=’mod’, name=’sampled_softmax_loss’)
+
+# sequence to sequence中的loss function
+## sequence_loss_by_example(logits, targets, weights)
+## tf.contrib.legacy_seq2seq.sequence_loss_by_example
+
+
+
