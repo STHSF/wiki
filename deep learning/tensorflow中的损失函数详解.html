@@ -45,6 +45,20 @@
 <li><a href="#loss-function">Loss function</a></li>
 <li><a href="#tensorflowloss-function">Tensorflow中的loss function实现</a><ul>
 <li><a href="#cross_entropy">cross_entropy交叉熵</a></li>
+<li><a href="#tfnnsigmoid_cross_entropy_with_logitslogits-targets-namenone">tf.nn.sigmoid_cross_entropy_with_logits(logits, targets, name=None)*</a></li>
+<li><a href="#tfnnlog_softmaxlogits-namenone">tf.nn.log_softmax(logits, name=None)</a></li>
+<li><a href="#tfnnsparse_softmax_cross_entropy_with_logitslogits-labels-namenone">tf.nn.sparse_softmax_cross_entropy_with_logits(logits, labels, name=None)</a></li>
+<li><a href="#tfnnweighted_cross_entropy_with_logitslogits-targets-pos_weight-namenone">tf.nn.weighted_cross_entropy_with_logits(logits, targets, pos_weight, name=None)</a></li>
+</ul>
+</li>
+<li><a href="#sampled-loss-functions">sampled loss functions</a><ul>
+<li><a href="#tfnnnce_lossweights-biases-inputs-labels-num_samplednum_classes-num_true1-sampled_valuesnoneremove_accidental_hitsfalse-partition_strategymodnamence_loss">tf.nn.nce_loss(weights, biases, inputs, labels, num_sampled,num_classes, num_true=1, sampled_values=None,remove_accidental_hits=False, partition_strategy=’mod’,name=’nce_loss’)</a></li>
+<li><a href="#tfnnsampled_softmax_lossweights-biases-inputs-labels-num_sampled-num_classes-num_true1-sampled_valuesnoneremove_accidental_hitstrue-partition_strategymod-namesampled_softmax_loss">tf.nn.sampled_softmax_loss(weights, biases, inputs, labels, num_sampled, num_classes, num_true=1, sampled_values=None,remove_accidental_hits=True, partition_strategy=’mod’, name=’sampled_softmax_loss’)</a></li>
+</ul>
+</li>
+<li><a href="#sequence-to-sequenceloss-function">sequence to sequence中的loss function</a><ul>
+<li><a href="#sequence_loss_by_examplelogits-targets-weights">sequence_loss_by_example(logits, targets, weights)</a></li>
+<li><a href="#tfcontriblegacy_seq2seqsequence_loss_by_example">tf.contrib.legacy_seq2seq.sequence_loss_by_example</a></li>
 </ul>
 </li>
 </ul>
@@ -122,6 +136,16 @@ $$<br />
 
 
 <p>从结果可以看出softmax_cross_entropy_with_logits()与我们个公式逻辑是相符合的，整个过程可以大概了解到softmax_cross_entropy_with_logits()的操作情况。</p>
+<h2 id="tfnnsigmoid_cross_entropy_with_logitslogits-targets-namenone">tf.nn.sigmoid_cross_entropy_with_logits(logits, targets, name=None)*</h2>
+<h2 id="tfnnlog_softmaxlogits-namenone">tf.nn.log_softmax(logits, name=None)</h2>
+<h2 id="tfnnsparse_softmax_cross_entropy_with_logitslogits-labels-namenone">tf.nn.sparse_softmax_cross_entropy_with_logits(logits, labels, name=None)</h2>
+<h2 id="tfnnweighted_cross_entropy_with_logitslogits-targets-pos_weight-namenone">tf.nn.weighted_cross_entropy_with_logits(logits, targets, pos_weight, name=None)</h2>
+<h1 id="sampled-loss-functions">sampled loss functions</h1>
+<h2 id="tfnnnce_lossweights-biases-inputs-labels-num_samplednum_classes-num_true1-sampled_valuesnoneremove_accidental_hitsfalse-partition_strategymodnamence_loss">tf.nn.nce_loss(weights, biases, inputs, labels, num_sampled,num_classes, num_true=1, sampled_values=None,remove_accidental_hits=False, partition_strategy=’mod’,name=’nce_loss’)</h2>
+<h2 id="tfnnsampled_softmax_lossweights-biases-inputs-labels-num_sampled-num_classes-num_true1-sampled_valuesnoneremove_accidental_hitstrue-partition_strategymod-namesampled_softmax_loss">tf.nn.sampled_softmax_loss(weights, biases, inputs, labels, num_sampled, num_classes, num_true=1, sampled_values=None,remove_accidental_hits=True, partition_strategy=’mod’, name=’sampled_softmax_loss’)</h2>
+<h1 id="sequence-to-sequenceloss-function">sequence to sequence中的loss function</h1>
+<h2 id="sequence_loss_by_examplelogits-targets-weights">sequence_loss_by_example(logits, targets, weights)</h2>
+<h2 id="tfcontriblegacy_seq2seqsequence_loss_by_example">tf.contrib.legacy_seq2seq.sequence_loss_by_example</h2>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2017-07-06 11:40 </span></div>
 <div id="comments"></div>
