@@ -34,8 +34,8 @@ def softmax_cross_entropy_with_logits(_sentinel=None,  # pylint: disable=invalid
                                       dim=-1, name=None):
     """Computes softmax cross entropy between `logits` and `labels`."""
 ```
-logits: 神经网络的最后一层输出，如果有batch的话，它的大小为[batch_size, num_classes], 单样本的话大小就是num_classes
-labels: 样本的实际标签，大小与logits相同。
+- logits: 神经网络的最后一层输出，如果有batch的话，它的大小为[batch_size, num_classes], 单样本的话大小就是num_classes
+- labels: 样本的实际标签，大小与logits相同。
 
 具体的执行流程大概分为两步，第一步首先是对网络最后一层的输出做一个softmax，这一步通常是求取输出属于某一类的概率，对于单样本而言，就是输出一个num_classes大小的向量$([Y_1, Y_2, Y_3, ....])$, 其中$(Y_1, Y_2, Y_3)$分别表示属于该类别的概率， softmax的公式为：
 $$
