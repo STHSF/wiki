@@ -1,4 +1,5 @@
 #!/bin/sh
+#!/usr/bin/python2.7
 
 echo "提交到主分支"
 time=`date "+%Y-%m-%d-%H"`
