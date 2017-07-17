@@ -43,37 +43,36 @@ $$
 # 希腊字母
 
 # 字体
-- Use \mathbb or \Bbb for "blackboard bold": 
+- Use \mathbb or \Bbb for "blackboard bold":
 
     - $(\mathbb{abcefghijklmnopqrstuvwxyz})$
     - $(\mathbb{ABCDEFGHIJKLMNOPQRSTUVWXYZ})$
-    - $(\Bbb{abcefghijklmnopqrstuvwxyz})$
-    - $(\Bbb{ABCDEFGHIJKLMNOPQRSTUVWXYZ})$
 
 - Use \mathbf for boldface:
     - $(\mathbf{abcefghijklmnopqrstuvwxyz})$.
     - $(\mathbf{ABCDEFGHIJKLMNOPQRSTUVWXYZ})$.
 
-- Use \mathtt for "typewriter" font: 
+- Use \mathtt for "typewriter" font:
     - $(\mathtt{abcefghijklmnopqrstuvwxyz})$
     - $(\mathtt{ABCDEFGHIJKLMNOPQRSTUVWXYZ})$
 
-- Use \mathrm for roman font: 
+- Use \mathrm for roman font:
     - $(\mathrm{abcefghijklmnopqrstuvwxyz})$
     - $(\mathrm{ABCDEFGHIJKLMNOPQRSTUVWXYZ})$
 
-- Use \mathsf for sans-serif font: 
+- Use \mathsf for sans-serif font:
     - $(\mathsf{abcefghijklmnopqrstuvwxyz})$
     - $(\mathsf{ABCDEFGHIJKLMNOPQRSTUVWXYZ})$
 
-- Use \mathcal for "calligraphic" letters: 
+- Use \mathcal for "calligraphic" letters:
     - $(\mathcal{abcefghijklmnopqrstuvwxyz})$
     - $(\mathcal{ABCDEFGHIJKLMNOPQRSTUVWXYZ})$
 
-- Use \mathscr for script letters: 
+- Use \mathscr for script letters:
     - $(\mathscr{abcefghijklmnopqrstuvwxyz})$
     - $(\mathscr{ABCDEFGHIJKLMNOPQRSTUVWXYZ})$
-- Use \mathfrak for "Fraktur" (old German style) letters: 
+    
+- Use \mathfrak for "Fraktur" (old German style) letters:
     - $(\mathfrak{abcefghijklmnopqrstuvwxyz})$
     - $(\mathfrak{ABCDEFGHIJKLMNOPQRSTUVWXYZ})$
 
