@@ -42,6 +42,13 @@ $$
 
 # 希腊字母
 
+| 字母名称 | 大写 | markdown | 小写 | markdown|
+| :-------: |:---:| :--------:|:----:| :-------:|
+|alpha |$(A)$|A|$(\alpha)$|\alpha|
+|beta|$(B)$|B|$(\beta)$|\beta|
+|gamma|$(\Gamma)$|\Gamma|$(\gamma)$|\gamma|
+||||||
+
 # 字体
 - Use \mathbb or \Bbb for "blackboard bold":
 
