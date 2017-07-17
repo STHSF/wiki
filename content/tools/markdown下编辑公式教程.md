@@ -34,7 +34,7 @@ $$
 
 - 箭头, \leftarrow(←), \rightarrow(→), \longrightarrow(⟶), \uparrow(↑)等; 
 
-- 绝对值， \vert ($(\vert(x))$), \Vert ($(\Vert(x))$), \langle ($(\langle(x))$)
+- 绝对值， \vert ($(\vert{x})$), \Vert ($(\Vert{x})$), \langle ($(\langle{x})$)
 
 - 其它符号, \nabla(∇), \angle(∠), \forall(∀), \exists(∃), \prime(导数的撇′). 
 
