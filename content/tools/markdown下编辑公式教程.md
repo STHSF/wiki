@@ -42,12 +42,33 @@ $$
 
 # 希腊字母
 
-| 字母名称 | 大写 | markdown | 小写 | markdown|
+| 字母名称 | 大写 | markdown语法 | 小写 | markdown语法|
 | :-------: |:---:| :--------:|:----:| :-------:|
 |alpha |$(A)$|A|$(\alpha)$|\alpha|
 |beta|$(B)$|B|$(\beta)$|\beta|
 |gamma|$(\Gamma)$|\Gamma|$(\gamma)$|\gamma|
-||||||
+|delta|$(\Delta)$|\Delta|$(\delta)$|\delta|
+|epsilon|$(E)$|E|$(\epsilon)$|\epsilon|
+||||$(\varepsilon)$|\varepsilon|
+|zeta|$(Z)$|Z|$(\zeta)$|\zeta|
+|eta|$(E)$|E|$(\eta)$|\eta|
+|theta|$(\Theta)$|\Theta|$(\theta)$|\theta|
+|iota|$(I)$|I|$(\iota)$|\iota|
+|kappa|$(K)$|K|$(\kappa)$|\kappa|
+|lambda|$(\Lambda)$|\Lambda|$(\lambda)$|\lambda|
+|Mu|$(M)$|M|$(\mu)$	|\mu|
+|nu|$(N)$|N|$(\nu)$|\nu|
+|xi|$(\Xi)$|\Xi|$(\Xi)$|\xi|
+|omicron|$(O)$|O|$(\omicron)$|\omicron|
+|pi|$(Pi)$|	\Pi|$(\pi)$|pi|
+|rho|$(P)$|	P|$(\rho)$|\rho|
+|sigma|$(\Sigma)$|\Sigma|$(\sigma)$|\sigma|
+|tau|$(T)$|T|$(\tau)$|\tau|
+|upsilon|$(\Upsilon)$|\Upsilon|$(\upsilon)$|\upsilon|
+|phi|$(\Phi)$|\Phi|$(\phi)$|\phi|
+||||$(\varphi)$|\varphi|
+|chi|$(X)$|X|$(\chi)$|\chi|
+|psi|$(\Psi)$|\Psi|$(\psi)$|\psi|
 
 # 字体
 - Use \mathbb or \Bbb for "blackboard bold":
