@@ -1,7 +1,7 @@
 ---
 title: "Markdown 编辑数学公式"
 layout: page
-date: 2099-06-02 00:00
+date: 2017-06-02 00:00
 ---
 
 # 写在前面
@@ -21,13 +21,21 @@ $$
 # 常见的转字符
 
 - 求和: \sum_{i=1}^n{x_i}  ($(\sum_{i=1}^n{x_i})$)
+
 - 趋近于: \to  ($(\to)$)
+
 - 无穷大: \infty ($(\infty)$)
+
 - 二元关系: \times ($(\times)$), \div ($(\div)$), \pm ($(\pm)$), \circ ($(\circ)$), \cdot ($(\cdot)$)
+
 - 关系运算符：如\leq(≤), \geq(≥), \subset(⊂), \supset(⊃), \in(∈); 
+
 - 否定关系运算符：如\not=(≠), \not<(≮), \not\supset (⊅); 
+
 - 箭头, \leftarrow(←), \rightarrow(→), \longrightarrow(⟶), \uparrow(↑)等; 
+
 - 其它符号, \nabla(∇), \angle(∠), \forall(∀), \exists(∃), \prime(导数的撇′). 
+
 - 而对于专有名词,如一些函数名, 如sin x中的sin, 就要用罗马体, 而不是一般的数学斜体排印,我们可以用sinx, 也可以用TeX提供的直接在函数名前加”\”的方法: sinx,一般的函数均有定义, 如\sin, \cos, \lim, \log等.
 
 # 希腊字母
