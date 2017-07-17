@@ -5,7 +5,7 @@
     <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
     <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
-    <title>Markdown 编辑数学公式 - sthsf's personal knowledge wiki</title>
+    <title>基于Spark分布式集群的TensorflowOnSpark平台搭建 - sthsf's personal knowledge wiki</title>
     <meta name="keywords" content="technology, machine learning, data mining, economics, accounting"/>
     <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -35,65 +35,24 @@
 <div id="container">
     
 <div id="header">
-  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#tools">tools</a>&nbsp;»&nbsp;Markdown 编辑数学公式</div>
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#spark">spark</a>&nbsp;»&nbsp;基于Spark分布式集群的TensorflowOnSpark平台搭建</div>
 </div>
 <div class="clearfix"></div>
-<div id="title">Markdown 编辑数学公式</div>
+<div id="title">基于Spark分布式集群的TensorflowOnSpark平台搭建</div>
 <div id="content">
-  <h1 id="_1">写在前面</h1>
-<p>在markdown下写文章比较方便，但对于初学者而言数学表达式的编写还是有点困难的，本文记载了markdown中的一些常用的数学表达式的编码规则，这种编码规则使用的时LaTeX的编码规则，了解一些常见的编码规则，可以为自己的工作带来便利。</p>
-<h1 id="_2">基本用法</h1>
-<p>行间公式：</p>
-<div class="hlcode"><pre><span class="err">$$</span>
-<span class="s">&quot;公式&quot;</span>
-<span class="err">$$</span>
-</pre></div>
-
-
-<p>行内公式:<code>$"公式"$</code>  注：有的地方可能需要用小括号将公式括起来</p>
-<h1 id="_3">常见的转字符</h1>
-<ul>
-<li>
-<p>求和: \sum_{i=1}^n{x_i}  ($(\sum_{i=1}^n{x_i})$)</p>
-</li>
-<li>
-<p>趋近于: \to  ($(\to)$)</p>
-</li>
-<li>
-<p>无穷大: \infty ($(\infty)$)</p>
-</li>
-<li>
-<p>二元关系: \times ($(\times)$), \div ($(\div)$), \pm ($(\pm)$), \circ ($(\circ)$), \cdot ($(\cdot)$)</p>
-</li>
-<li>
-<p>关系运算符：如\leq(≤), \geq(≥), \subset(⊂), \supset(⊃), \in(∈); </p>
-</li>
-<li>
-<p>否定关系运算符：如\not=(≠), \not&lt;(≮), \not\supset (⊅); </p>
-</li>
-<li>
-<p>箭头, \leftarrow(←), \rightarrow(→), \longrightarrow(⟶), \uparrow(↑)等; </p>
-</li>
-<li>
-<p>其它符号, \nabla(∇), \angle(∠), \forall(∀), \exists(∃), \prime(导数的撇′). </p>
-</li>
-<li>
-<p>而对于专有名词,如一些函数名, 如sin x中的sin, 就要用罗马体, 而不是一般的数学斜体排印,我们可以用sinx, 也可以用TeX提供的直接在函数名前加”\”的方法: sinx,一般的函数均有定义, 如\sin, \cos, \lim, \log等.</p>
-</li>
-</ul>
-<h1 id="_4">希腊字母</h1>
-<h1 id="fraktur">空心字母和Fraktur字母</h1>
-<h1 id="_5">常见的表达式</h1>
-<h1 id="_6">参考文献</h1>
-<p><a href="http://blog.csdn.net/Linear_Luo/article/details/52224996">MarkDown(LaTex) 数学公式</a></p>
+  <h1 id="standalone">Standalone模式</h1>
+<h1 id="yarn">YARN模式</h1>
+<h1 id="_1">参考文献：</h1>
+<p><a href="http://blog.csdn.net/jiangpeng59/article/details/72867368">standalone</a><br />
+<a href="http://www.cnblogs.com/heimianshusheng/p/6768019.html">yarn</a></p>
 </div>
-<div id="content-footer">created in <span class="create-date date"> 2017-06-02 00:00 </span></div>
+<div id="content-footer">created in <span class="create-date date"> 2017-07-17 10:00 </span></div>
 <div id="comments"></div>
 <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
 <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script type="text/javascript">
 const gitment = new Gitment({
-  title: 'Markdown 编辑数学公式',
+  title: '基于Spark分布式集群的TensorflowOnSpark平台搭建',
   owner: 'sthsf',
   repo: 'wiki',
   oauth: {
