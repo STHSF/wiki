@@ -34,6 +34,8 @@ $$
 
 - 箭头, \leftarrow(←), \rightarrow(→), \longrightarrow(⟶), \uparrow(↑)等; 
 
+- 绝对值， \vert ($(\vert(x))$), \Vert ($(\Vert(x))$), \langle ($(\langle(x))$)
+
 - 其它符号, \nabla(∇), \angle(∠), \forall(∀), \exists(∃), \prime(导数的撇′). 
 
 - 而对于专有名词,如一些函数名, 如sin x中的sin, 就要用罗马体, 而不是一般的数学斜体排印,我们可以用sinx, 也可以用TeX提供的直接在函数名前加”\”的方法: sinx,一般的函数均有定义, 如\sin, \cos, \lim, \log等.
@@ -44,6 +46,9 @@ $$
 
 # 常见的表达式
 
+- 
+
 
 # 参考文献
 [MarkDown(LaTex) 数学公式](http://blog.csdn.net/Linear_Luo/article/details/52224996)
+[MATHEMATICS meta](https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference)
