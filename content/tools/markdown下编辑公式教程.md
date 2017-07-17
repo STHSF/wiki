@@ -106,9 +106,10 @@ $$
 
 # 常见的表达式
 
-- 分数： \frac{a+1}{a-1} ($(\frac{a+1}{a-1})$)
-- \sum_{i=0}^n {i^2} ={\frac{(i+1)(i^2+6)}{i-1}}) ($(\sum_{i=0}^n {i^2} ={\frac{(i+1)(i^2+6)}{i-1}})$)
-
+- 分数：$$(\frac{a+1}{a-1})$$
+语法： \frac{a+1}{a-1} 
+- $$(\sum_{i=0}^n {i^2} ={\frac{(i+1)(i^2+6)}{i-1}})$$
+语法：\sum_{i=0}^n {i^2} ={\frac{(i+1)(i^2+6)}{i-1}}
 
 # 参考文献
 [MarkDown(LaTex) 数学公式](http://blog.csdn.net/Linear_Luo/article/details/52224996)
