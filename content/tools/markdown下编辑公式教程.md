@@ -28,7 +28,7 @@ $$
 
 - 二元关系: \times ($(\times)$), \div ($(\div)$), \pm ($(\pm)$), \circ ($(\circ)$), \cdot ($(\cdot)$)
 
-- 关系运算符：如\leq(≤), \geq(≥), \subset(⊂), \supset(⊃), \in(∈); 
+- 关系运算符：如\leq(≤), \geq(≥), \subset(⊂), \supset(⊃), \in(∈), \bigcup $(\bigcup)$, \bigcap $(\bigcap)$, \iint $(\iint)$, \int $(\int)$; 
 
 - 否定关系运算符：如\not=(≠), \not<(≮), \not\supset (⊅); 
 
