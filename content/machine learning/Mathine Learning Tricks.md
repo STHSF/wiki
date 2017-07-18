@@ -3,8 +3,8 @@ title: "Mathine Learning Tricks"
 layout: page
 date: 2017-07-18 14:00
 ---
-
-# 1、Feature Scaling（normalization）
+# 特征工程
+## 1、Feature Scaling（normalization）
 让不同的输入特征数据具有相同的分布，这样在梯度下降中更新参数时效率更高。
 ### 方法
 scaling的方法很多种，其中之一就是求特征向量每个维度的均值和方差。
