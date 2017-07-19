@@ -78,6 +78,12 @@ $$<br />
 其中$(\lambda)$为正则项超参数，常用的正则化方法包括：L1正则和L2正则</p>
 <h1 id="tensorflowloss-function">Tensorflow中的loss function实现</h1>
 <h2 id="cross_entropy"><code>cross_entropy</code>交叉熵</h2>
+<p>交叉熵刻画的是两个概率分布之间的距离，是分类问题中使用比较广泛的损失函数之一。给定两个概率分布p和q，通过交叉熵计算的两个概率分布之间的距离为：<br />
+$$<br />
+H(X=x)=-\sum_x{p(x)logq(x)}<br />
+$$<br />
+我们通过softmax回归将神经网络前向传播得到的结果变成交叉熵要求的概率分布得分。<br />
+Tensorflow中定义的交叉熵函数如下：</p>
 <div class="hlcode"><pre><span class="k">def</span> <span class="nf">softmax_cross_entropy_with_logits</span><span class="p">(</span><span class="n">_sentinel</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>  <span class="c"># pylint: disable=invalid-name</span>
                                       <span class="n">labels</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">logits</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
                                       <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
@@ -87,39 +93,39 @@ $$<br />
 
 <ul>
 <li>logits: 神经网络的最后一层输出，如果有batch的话，它的大小为[batch_size, num_classes], 单样本的话大小就是num_classes</li>
-<li>labels: 样本的实际标签，大小与logits相同。</li>
+<li>labels: 样本的实际标签，大小与logits相同。且必须采用labels=y_，logits=y的形式将参数传入。<br />
+Tenosrflow中集成的交叉熵操作是施加在未经过Softmax处理的logits上<br />
+具体的执行流程大概分为两步，第一步首先是对网络最后一层的输出做一个softmax，这一步通常是求取输出属于某一类的概率，对于单样本而言，就是输出一个num_classes大小的向量$([Y_1, Y_2, Y_3, ....])$, 其中$(Y_1, Y_2, Y_3)$分别表示属于该类别的概率， softmax的公式为：</li>
 </ul>
-<p>具体的执行流程大概分为两步，第一步首先是对网络最后一层的输出做一个softmax，这一步通常是求取输出属于某一类的概率，对于单样本而言，就是输出一个num_classes大小的向量$([Y_1, Y_2, Y_3, ....])$, 其中$(Y_1, Y_2, Y_3)$分别表示属于该类别的概率， softmax的公式为：</p>
 <p>$$softmax(x)_i={{exp(x_i)}\over{\sum_jexp(x_j)}}$$</p>
 <p>第二步是对softmax输出的向量$([Y_1, Y_2, Y_3,...])$和样本的时机标签做一个交叉熵，公式如下：</p>
 <p>$$H_{y'}(y)=-\sum_i{y_i'}log(y_i)$$</p>
 <p>其中$(y_i')$指代实际标签向量中的第i个值，$(y_i)$就是softmax的输出向量$([Y_1, Y_2, Y_3,...])$中的第i个元素的值。<br />
 显而易见。预测$(y_i)$越准确，结果的值就越小（前面有负号），最后求一个平均，就得到我们想要的loss了</p>
-<p>这里需要注意的是，这个函数返回值不是一个数，而是一个向量，如果要求交叉熵，我们要在做一步tf.resuce_sum操作，就是对向量里面的所有元素求和，最后就能得到$(H_{y'}(y))$,如果要求loss，则需要做一步tf.reduce_mean操作，对向量求均值。<br />
+<p><strong>这里需要注意的是，这个函数返回值不是一个数，而是一个向量，如果要求交叉熵，我们要在做一步tf.resuce_sum操作，就是对向量里面的所有元素求和，</strong>最后就能得到$(H_{y'}(y))$,如果要求loss，则需要做一步tf.reduce_mean操作，对向量求均值。<br />
 下面这段代码可以测试上面的理论：</p>
-<div class="hlcode"><pre><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>  
+<div class="hlcode"><pre><span class="c"># coding=utf-8</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>  
 
-<span class="c">#our NN&#39;s output  </span>
+<span class="c"># 神经网络的输出</span>
 <span class="n">logits</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">,</span><span class="mf">3.0</span><span class="p">],[</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">,</span><span class="mf">3.0</span><span class="p">],[</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">,</span><span class="mf">3.0</span><span class="p">]])</span>  
-<span class="c">#step1:do softmax  </span>
+<span class="c"># 使用softmax的输出</span>
 <span class="n">y</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">logits</span><span class="p">)</span>  
-<span class="c">#true label  </span>
+<span class="c"># 正确的标签</span>
 <span class="n">y_</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">],[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">],[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">]])</span>  
-<span class="c">#step2:do cross_entropy  </span>
-<span class="n">cross_entropy</span> <span class="o">=</span> <span class="o">-</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">y_</span><span class="o">*</span><span class="n">tf</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>  
-<span class="c">#do cross_entropy just one step  </span>
-<span class="n">cross_entropy2</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax_cross_entropy_with_logits</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">y_</span><span class="p">))</span><span class="c">#dont forget tf.reduce_sum()!!  </span>
+<span class="c"># 计算交叉熵  </span>
+<span class="n">cross_entropy</span> <span class="o">=</span> <span class="o">-</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">y_</span><span class="o">*</span><span class="n">tf</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">clip_by_value</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mf">1e-10</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)))</span>  
+<span class="c"># 使用tf.nn.softmax_cross_entropy_with_logits()函数直接计算神经网络的输出结果的交叉熵。</span>
+<span class="c"># 但是不能忘记使用tf.reduce_sum()!!!!</span>
+<span class="n">cross_entropy2</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax_cross_entropy_with_logits</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">y_</span><span class="p">))</span> 
 
-<span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">sess</span><span class="p">:</span>  
-    <span class="n">softmax</span><span class="o">=</span><span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>  
-    <span class="n">c_e</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">cross_entropy</span><span class="p">)</span>  
-    <span class="n">c_e2</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">cross_entropy2</span><span class="p">)</span>  
-    <span class="k">print</span><span class="p">(</span><span class="s">&quot;step1:softmax result=&quot;</span><span class="p">)</span>  
-    <span class="k">print</span><span class="p">(</span><span class="n">softmax</span><span class="p">)</span>  
-    <span class="k">print</span><span class="p">(</span><span class="s">&quot;step2:cross_entropy result=&quot;</span><span class="p">)</span>  
-    <span class="k">print</span><span class="p">(</span><span class="n">c_e</span><span class="p">)</span>  
-    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Function(softmax_cross_entropy_with_logits) result=&quot;</span><span class="p">)</span>  
-    <span class="k">print</span><span class="p">(</span><span class="n">c_e2</span><span class="p">)</span> 
+<span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">sess</span><span class="p">:</span>
+    <span class="n">softmax</span><span class="o">=</span><span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">c_e</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">cross_entropy</span><span class="p">)</span>
+    <span class="n">c_e2</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">cross_entropy2</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;step1:softmax result=&quot;</span><span class="p">,</span> <span class="n">softmax</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;step2:cross_entropy result=&quot;</span><span class="p">,</span> <span class="n">c_e</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Function(softmax_cross_entropy_with_logits) result=&quot;</span><span class="p">,</span> <span class="n">c_e2</span><span class="p">)</span>
 </pre></div>
 
 
@@ -135,7 +141,8 @@ $$<br />
 </pre></div>
 
 
-<p>从结果可以看出softmax_cross_entropy_with_logits()与我们个公式逻辑是相符合的，整个过程可以大概了解到softmax_cross_entropy_with_logits()的操作情况。</p>
+<p>其中tf.clip_by_calue()函数可将一个tensor的元素数值限制在指定的范围内，这样可以防止一些错误运算，起到数值检查的作用。<br />
+从结果可以看出softmax_cross_entropy_with_logits()与我们个公式逻辑是相符合的，整个过程可以大概了解到softmax_cross_entropy_with_logits()的操作情况。</p>
 <h2 id="tfnnsigmoid_cross_entropy_with_logitslogits-targets-namenone">tf.nn.sigmoid_cross_entropy_with_logits(logits, targets, name=None)*</h2>
 <h2 id="tfnnlog_softmaxlogits-namenone">tf.nn.log_softmax(logits, name=None)</h2>
 <h2 id="tfnnsparse_softmax_cross_entropy_with_logitslogits-labels-namenone">tf.nn.sparse_softmax_cross_entropy_with_logits(logits, labels, name=None)</h2>
