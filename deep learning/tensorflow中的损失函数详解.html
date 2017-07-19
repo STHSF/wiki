@@ -45,10 +45,10 @@
 <li><a href="#loss-function">Loss function</a></li>
 <li><a href="#tensorflowloss-function">Tensorflow中的loss function实现</a><ul>
 <li><a href="#cross_entropy">cross_entropy交叉熵</a></li>
-<li><a href="#tfnnsigmoid_cross_entropy_with_logitslogits-targets-namenone">tf.nn.sigmoid_cross_entropy_with_logits(logits, targets, name=None)*</a></li>
-<li><a href="#tfnnlog_softmaxlogits-namenone">tf.nn.log_softmax(logits, name=None)</a></li>
 <li><a href="#tfnnsparse_softmax_cross_entropy_with_logitslogits-labels-namenone">tf.nn.sparse_softmax_cross_entropy_with_logits(logits, labels, name=None)</a></li>
+<li><a href="#tfnnsigmoid_cross_entropy_with_logitslogits-targets-namenone">tf.nn.sigmoid_cross_entropy_with_logits(logits, targets, name=None)</a></li>
 <li><a href="#tfnnweighted_cross_entropy_with_logitslogits-targets-pos_weight-namenone">tf.nn.weighted_cross_entropy_with_logits(logits, targets, pos_weight, name=None)</a></li>
+<li><a href="#tfnnlog_softmaxlogits-namenone">tf.nn.log_softmax(logits, name=None)</a></li>
 </ul>
 </li>
 <li><a href="#sampled-loss-functions">sampled loss functions</a><ul>
@@ -102,7 +102,10 @@ Tenosrflow中集成的交叉熵操作是施加在未经过Softmax处理的logits
 <p>$$H_{y'}(y)=-\sum_i{y_i'}log(y_i)$$</p>
 <p>其中$(y_i')$指代实际标签向量中的第i个值，$(y_i)$就是softmax的输出向量$([Y_1, Y_2, Y_3,...])$中的第i个元素的值。<br />
 显而易见。预测$(y_i)$越准确，结果的值就越小（前面有负号），最后求一个平均，就得到我们想要的loss了</p>
-<p><strong>这里需要注意的是，这个函数返回值不是一个数，而是一个向量，如果要求交叉熵，我们要在做一步tf.resuce_sum操作，就是对向量里面的所有元素求和，</strong>最后就能得到$(H_{y'}(y))$,如果要求loss，则需要做一步tf.reduce_mean操作，对向量求均值。<br />
+<p><strong><em y_="y'">这里需要注意的是，这个函数返回值不是一个数，而是一个向量，如果要求交叉熵，我们要在做一步tf.resuce_sum操作，就是对向量里面的所有元素求和, 最后就能得到$(H</em>(y))$,如果要求loss，则需要做一步tf.reduce_mean操作，对向量求均值。_</strong><br />
+<strong>警告：</strong><br />
+- 这个操作的输入logits是未经缩放的，该操作内部会对logits使用Softmax操作。<br />
+- 参数labels，ligits必须有相同的形状[batch_size, num_classes]和相同的类型[(float16, float32, float64)中的一种]。<br />
 下面这段代码可以测试上面的理论：</p>
 <div class="hlcode"><pre><span class="c"># coding=utf-8</span>
 <span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>  
@@ -143,10 +146,39 @@ Tenosrflow中集成的交叉熵操作是施加在未经过Softmax处理的logits
 
 <p>其中tf.clip_by_calue()函数可将一个tensor的元素数值限制在指定的范围内，这样可以防止一些错误运算，起到数值检查的作用。<br />
 从结果可以看出softmax_cross_entropy_with_logits()与我们个公式逻辑是相符合的，整个过程可以大概了解到softmax_cross_entropy_with_logits()的操作情况。</p>
-<h2 id="tfnnsigmoid_cross_entropy_with_logitslogits-targets-namenone">tf.nn.sigmoid_cross_entropy_with_logits(logits, targets, name=None)*</h2>
-<h2 id="tfnnlog_softmaxlogits-namenone">tf.nn.log_softmax(logits, name=None)</h2>
 <h2 id="tfnnsparse_softmax_cross_entropy_with_logitslogits-labels-namenone">tf.nn.sparse_softmax_cross_entropy_with_logits(logits, labels, name=None)</h2>
+<div class="hlcode"><pre><span class="k">def</span> <span class="nf">sparse_softmax_cross_entropy_with_logits</span><span class="p">(</span><span class="n">_sentinel</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>  <span class="c"># pylint: disable=invalid-name</span>
+                                             <span class="n">labels</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">logits</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                                             <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Computes sparse softmax cross entropy between `logits` and `labels`.</span>
+<span class="sd">  Args:</span>
+<span class="sd">    _sentinel: Used to prevent positional parameters. Internal, do not use.</span>
+<span class="sd">    labels: `Tensor` of shape `[d_0, d_1, ..., d_{r-1}]` (where `r` is rank of</span>
+<span class="sd">      `labels` and result) and dtype `int32` or `int64`. Each entry in `labels`</span>
+<span class="sd">      must be an index in `[0, num_classes)`. Other values will raise an</span>
+<span class="sd">      exception when this op is run on CPU, and return `NaN` for corresponding</span>
+<span class="sd">      loss and gradient rows on GPU.</span>
+<span class="sd">    logits: Unscaled log probabilities of shape</span>
+<span class="sd">      `[d_0, d_1, ..., d_{r-1}, num_classes]` and dtype `float32` or `float64`.</span>
+<span class="sd">    name: A name for the operation (optional).</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    A `Tensor` of the same shape as `labels` and of the same type as `logits`</span>
+<span class="sd">    with the softmax cross entropy loss.</span>
+
+<span class="sd">  Raises:</span>
+<span class="sd">    ValueError: If logits are scalars (need to have rank &gt;= 1) or if the rank</span>
+<span class="sd">      of the labels is not equal to the rank of the labels minus one.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+</pre></div>
+
+
+<p>该函数与tf.nn.softmax_cross_entropy_with_logits()函数十分相似，唯一的区别在于labels，该函数的labels要求是排他性的即只有一个正确的类别，如果labels的每一行是one_hot表示形式，可以使用tf.nn.sparse_softmax_cross_entropy_with_logits()。</p>
+<h2 id="tfnnsigmoid_cross_entropy_with_logitslogits-targets-namenone">tf.nn.sigmoid_cross_entropy_with_logits(logits, targets, name=None)</h2>
+<p>sigmoid_cross_entropy_with_logits是TensorFlow最早实现的交叉熵算法。这个函数的输入是logits和labels，logits就是神经网络模型中的 W * X矩阵，注意不需要经过sigmoid，而labels的shape和logits相同，就是正确的标签值，例如这个模型一次要判断100张图是否包含10种动物，这两个输入的shape都是[100, 10]。注释中还提到这10个分类之间是独立的、不要求是互斥，这种问题我们称为多目标（多标签）分类，例如判断图片中是否包含10种动物中的一种或几种，标签值可以包含多个1或0个1。</p>
 <h2 id="tfnnweighted_cross_entropy_with_logitslogits-targets-pos_weight-namenone">tf.nn.weighted_cross_entropy_with_logits(logits, targets, pos_weight, name=None)</h2>
+<p>weighted_sigmoid_cross_entropy_with_logits是sigmoid_cross_entropy_with_logits的拓展版，多支持一个pos_weight参数，在传统基于sigmoid的交叉熵算法上，正样本算出的值乘以某个系数。</p>
+<h2 id="tfnnlog_softmaxlogits-namenone">tf.nn.log_softmax(logits, name=None)</h2>
 <h1 id="sampled-loss-functions">sampled loss functions</h1>
 <h2 id="tfnnnce_lossweights-biases-inputs-labels-num_samplednum_classes-num_true1-sampled_valuesnoneremove_accidental_hitsfalse-partition_strategymodnamence_loss">tf.nn.nce_loss(weights, biases, inputs, labels, num_sampled,num_classes, num_true=1, sampled_values=None,remove_accidental_hits=False, partition_strategy=’mod’,name=’nce_loss’)</h2>
 <h2 id="tfnnsampled_softmax_lossweights-biases-inputs-labels-num_sampled-num_classes-num_true1-sampled_valuesnoneremove_accidental_hitstrue-partition_strategymod-namesampled_softmax_loss">tf.nn.sampled_softmax_loss(weights, biases, inputs, labels, num_sampled, num_classes, num_true=1, sampled_values=None,remove_accidental_hits=True, partition_strategy=’mod’, name=’sampled_softmax_loss’)</h2>
