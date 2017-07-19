@@ -41,7 +41,7 @@ def softmax_cross_entropy_with_logits(_sentinel=None,  # pylint: disable=invalid
 ```
 - logits: 神经网络的最后一层输出，如果有batch的话，它的大小为[batch_size, num_classes], 单样本的话大小就是num_classes
 - labels: 样本的实际标签，大小与logits相同。且必须采用labels=y_，logits=y的形式将参数传入。
-Tenosrflow中集成的交叉熵操作是施加在未经过Softmax处理的logits上
+
 具体的执行流程大概分为两步，第一步首先是对网络最后一层的输出做一个softmax，这一步通常是求取输出属于某一类的概率，对于单样本而言，就是输出一个num_classes大小的向量$([Y_1, Y_2, Y_3, ....])$, 其中$(Y_1, Y_2, Y_3)$分别表示属于该类别的概率， softmax的公式为：
 
 $$softmax(x)_i={{exp(x_i)}\over{\sum_jexp(x_j)}}$$
@@ -56,7 +56,7 @@ $$H_{y'}(y)=-\sum_i{y_i'}log(y_i)$$
 _这里需要注意的是，这个函数返回值不是一个数，而是一个向量，如果要求交叉熵，我们要在做一步tf.resuce_sum操作，就是对向量里面的所有元素求和, 最后就能得到$(H_{y'}(y))$,如果要求loss，则需要做一步tf.reduce_mean操作，对向量求均值。_
 
 **警告：**
-- 这个操作的输入logits是未经缩放的，该操作内部会对logits使用Softmax操作。
+- Tenosrflow中集成的交叉熵操作是施加在未经过Softmax处理的logits上, 这个操作的输入logits是未经缩放的, 该操作内部会对logits使用Softmax操作。
 - 参数labels，ligits必须有相同的形状[batch_size, num_classes]和相同的类型[(float16, float32, float64)中的一种]。
 下面这段代码可以测试上面的理论：
 ```python
@@ -140,6 +140,9 @@ weighted_sigmoid_cross_entropy_with_logits是sigmoid_cross_entropy_with_logits�
 # sequence to sequence中的loss function
 ## sequence_loss_by_example(logits, targets, weights)
 ## tf.contrib.legacy_seq2seq.sequence_loss_by_example
+
+# 参考文献
+[1](http://blog.csdn.net/marsjhao/article/details/72630147)
 
 
 
