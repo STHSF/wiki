@@ -53,7 +53,8 @@ $$H_{y'}(y)=-\sum_i{y_i'}log(y_i)$$
 其中$(y_i')$指代实际标签向量中的第i个值，$(y_i)$就是softmax的输出向量$([Y_1, Y_2, Y_3,...])$中的第i个元素的值。
 显而易见。预测$(y_i)$越准确，结果的值就越小（前面有负号），最后求一个平均，就得到我们想要的loss了
 
-**_这里需要注意的是，这个函数返回值不是一个数，而是一个向量，如果要求交叉熵，我们要在做一步tf.resuce_sum操作，就是对向量里面的所有元素求和, 最后就能得到$(H_{y'}(y))$,如果要求loss，则需要做一步tf.reduce_mean操作，对向量求均值。_**
+_这里需要注意的是，这个函数返回值不是一个数，而是一个向量，如果要求交叉熵，我们要在做一步tf.resuce_sum操作，就是对向量里面的所有元素求和, 最后就能得到$(H_{y'}(y))$,如果要求loss，则需要做一步tf.reduce_mean操作，对向量求均值。_
+
 **警告：**
 - 这个操作的输入logits是未经缩放的，该操作内部会对logits使用Softmax操作。
 - 参数labels，ligits必须有相同的形状[batch_size, num_classes]和相同的类型[(float16, float32, float64)中的一种]。
@@ -61,7 +62,7 @@ $$H_{y'}(y)=-\sum_i{y_i'}log(y_i)$$
 ```python
 # coding=utf-8
 import tensorflow as tf  
-  
+
 # 神经网络的输出
 logits=tf.constant([[1.0,2.0,3.0],[1.0,2.0,3.0],[1.0,2.0,3.0]])  
 # 使用softmax的输出
