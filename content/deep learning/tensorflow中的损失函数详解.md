@@ -27,7 +27,12 @@ $$
 # Tensorflow中的loss function实现
 
 ## `cross_entropy`交叉熵
-
+交叉熵刻画的是两个概率分布之间的距离，是分类问题中使用比较广泛的损失函数之一。给定两个概率分布p和q，通过交叉熵计算的两个概率分布之间的距离为：
+$$
+H(X=x)=-\sum_x{p(x)logq(x)}
+$$
+我们通过softmax回归将神经网络前向传播得到的结果变成交叉熵要求的概率分布得分。
+Tensorflow中定义的交叉熵函数如下：
 ```python
 def softmax_cross_entropy_with_logits(_sentinel=None,  # pylint: disable=invalid-name
                                       labels=None, logits=None,
@@ -35,8 +40,8 @@ def softmax_cross_entropy_with_logits(_sentinel=None,  # pylint: disable=invalid
     """Computes softmax cross entropy between `logits` and `labels`."""
 ```
 - logits: 神经网络的最后一层输出，如果有batch的话，它的大小为[batch_size, num_classes], 单样本的话大小就是num_classes
-- labels: 样本的实际标签，大小与logits相同。
-
+- labels: 样本的实际标签，大小与logits相同。且必须采用labels=y_，logits=y的形式将参数传入。
+Tenosrflow中集成的交叉熵操作是施加在未经过Softmax处理的logits上
 具体的执行流程大概分为两步，第一步首先是对网络最后一层的输出做一个softmax，这一步通常是求取输出属于某一类的概率，对于单样本而言，就是输出一个num_classes大小的向量$([Y_1, Y_2, Y_3, ....])$, 其中$(Y_1, Y_2, Y_3)$分别表示属于该类别的概率， softmax的公式为：
 
 $$softmax(x)_i={{exp(x_i)}\over{\sum_jexp(x_j)}}$$
@@ -48,33 +53,32 @@ $$H_{y'}(y)=-\sum_i{y_i'}log(y_i)$$
 其中$(y_i')$指代实际标签向量中的第i个值，$(y_i)$就是softmax的输出向量$([Y_1, Y_2, Y_3,...])$中的第i个元素的值。
 显而易见。预测$(y_i)$越准确，结果的值就越小（前面有负号），最后求一个平均，就得到我们想要的loss了
 
-这里需要注意的是，这个函数返回值不是一个数，而是一个向量，如果要求交叉熵，我们要在做一步tf.resuce_sum操作，就是对向量里面的所有元素求和，最后就能得到$(H_{y'}(y))$,如果要求loss，则需要做一步tf.reduce_mean操作，对向量求均值。
+**这里需要注意的是，这个函数返回值不是一个数，而是一个向量，如果要求交叉熵，我们要在做一步tf.resuce_sum操作，就是对向量里面的所有元素求和，**最后就能得到$(H_{y'}(y))$,如果要求loss，则需要做一步tf.reduce_mean操作，对向量求均值。
 下面这段代码可以测试上面的理论：
 
 ```python
+# coding=utf-8
 import tensorflow as tf  
   
-#our NN's output  
+# 神经网络的输出
 logits=tf.constant([[1.0,2.0,3.0],[1.0,2.0,3.0],[1.0,2.0,3.0]])  
-#step1:do softmax  
+# 使用softmax的输出
 y=tf.nn.softmax(logits)  
-#true label  
+# 正确的标签
 y_=tf.constant([[0.0,0.0,1.0],[0.0,0.0,1.0],[0.0,0.0,1.0]])  
-#step2:do cross_entropy  
-cross_entropy = -tf.reduce_sum(y_*tf.log(y))  
-#do cross_entropy just one step  
-cross_entropy2=tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits(logits, y_))#dont forget tf.reduce_sum()!!  
+# 计算交叉熵  
+cross_entropy = -tf.reduce_sum(y_*tf.log(tf.clip_by_value(y, 1e-10, 1.0)))  
+# 使用tf.nn.softmax_cross_entropy_with_logits()函数直接计算神经网络的输出结果的交叉熵。
+# 但是不能忘记使用tf.reduce_sum()!!!!
+cross_entropy2 = tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits(logits, y_)) 
   
-with tf.Session() as sess:  
-    softmax=sess.run(y)  
-    c_e = sess.run(cross_entropy)  
-    c_e2 = sess.run(cross_entropy2)  
-    print("step1:softmax result=")  
-    print(softmax)  
-    print("step2:cross_entropy result=")  
-    print(c_e)  
-    print("Function(softmax_cross_entropy_with_logits) result=")  
-    print(c_e2) 
+with tf.Session() as sess:
+    softmax=sess.run(y)
+    c_e = sess.run(cross_entropy)
+    c_e2 = sess.run(cross_entropy2)
+    print("step1:softmax result=", softmax)
+    print("step2:cross_entropy result=", c_e)
+    print("Function(softmax_cross_entropy_with_logits) result=", c_e2)
 ```
 输出结果：
 
@@ -88,7 +92,7 @@ step2:cross_entropy result=
 Function(softmax_cross_entropy_with_logits) result=  
 1.2228 
 ```
-
+其中tf.clip_by_calue()函数可将一个tensor的元素数值限制在指定的范围内，这样可以防止一些错误运算，起到数值检查的作用。
 从结果可以看出softmax_cross_entropy_with_logits()与我们个公式逻辑是相符合的，整个过程可以大概了解到softmax_cross_entropy_with_logits()的操作情况。
 
 
