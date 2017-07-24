@@ -16,7 +16,7 @@ date: 2017-06-24 10:00
 对于时间序列的数据集，模型的输入格式为[batch_size, seq_length, input_dim], 其中，batch_size表示一个batch中的样本的个数，seq_length表示序列的长度，input_dim表示输入样本的维度。
 那实际工程下如何取准备这些数据呢，我们假设样本训练集$([x_1, x_2, x_3, ..., x_{datalength}])$的长度为data_length，事实上有两种截取方式。
 ### 法一
-第一种就是先按照seq_length这个窗口进行截取，然后按照bacth_size个数据向后依次截取，则总的迭代次数iterations = data_length // (batch_size * seq_length), 则一个batch中的第一行数据可以表示为$([x_1, x_2, ...,x_{seqlength}])$,第二行的数据可以表示为$([x_{seqlength+1}, x_{seqlength+2}, ..., x_{seqlength+x_{seqlength+1}}])$, 最后一行数据可以表示为$([x_{batch_size}])$
+第一种就是先按照seq_length这个窗口进行截取，然后按照bacth_size个数据向后依次截取，则总的迭代次数iterations = (data_length - seq_length) // batch_size, 则一个batch中的第一行数据可以表示为$([x_1, x_2, ...,x_{seqlength}])$,第二行的数据可以表示为$([x_{seqlength+1}, x_{seqlength+2}, ..., x_{seqlength+x_{seqlength+1}}])$, 最后一行数据可以表示为$([x_{batch_size}])$
 ### 程序模拟
 假设序列为:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
 
