@@ -1,0 +1,237 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <title>Tensorflow中准备一个batch的数据的看法 - sthsf's personal knowledge wiki</title>
+    <meta name="keywords" content="technology, machine learning, data mining, economics, accounting"/>
+    <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$(',')$'], ['\\(','\\)']]}
+        });
+        </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-78529611-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+
+<body>
+<div id="container">
+    
+<div id="header">
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#deep learning">deep learning</a>&nbsp;»&nbsp;Tensorflow中准备一个batch的数据的看法</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">Tensorflow中准备一个batch的数据的看法</div>
+<div id="content">
+  <h1 id="_1">写在前面</h1>
+<p>在深度学习中除了模型最重要之外，数据更为重要，数据格式是模型输入的第一步，这里暂时只讨论batch_size的含义，如何准备batch_size的训练集数据,并不去过多的讨论如何batch_size的大小对学习效果的影响。</p>
+<h1 id="batch_size">batch_size</h1>
+<p>准备batch_size的数据的原因主要是训练集在执行反向传播时需要用到梯度下降算法，使用所有样本进行训练的时候，会使得训练的时间复杂度大大增加，因此采用mini-batch的形式来进行参数寻优。<br />
+主要的思想就是每次训练使用batch_size个数据进行参数寻优，一批中的数据共同决定了本次梯度的方向。</p>
+<h1 id="batch_size_1">batch_size中涉及到的参数</h1>
+<h2 id="_2">时间序列的数据</h2>
+<p>对于时间序列的数据集，模型的输入格式为$([batch_size, seq_length, input_dim])$, 其中，batch_size表示一个batch中的样本的个数，seq_length表示序列的长度，input_dim表示输入样本的维度。<br />
+那实际工程下如何取准备这些数据呢，我们假设样本训练集$([x_1, x_2, x_3, ..., x_{data_length}])$的长度为data_length，事实上有两种截取方式。</p>
+<h3 id="_3">法一</h3>
+<p>第一种就是先按照seq_length这个窗口进行截取，然后按照bacth_size个数据向后依次截取，则总的迭代次数iterations = data_length// 则一个batch中的第一行数据可以表示为$([x_1, x_2, ...,x_{seq_length}])$,第二行的数据可以表示为$([x_{seq_length+1}, x_{seq_length+2}, ..., x_{seq_length+x_{seq_length+1}}])$, 最后一行数据可以表示为$([x_{batch_size}])$</p>
+<h3 id="_4">程序模拟</h3>
+<p>假设序列为:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]</p>
+<div class="hlcode"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">seq_length</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">raw_data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">20</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">get_batch</span><span class="p">(</span><span class="n">raw_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_length</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">raw_data</span><span class="p">)</span>
+    <span class="n">data_length</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">num_steps</span> <span class="o">=</span> <span class="n">data_length</span> <span class="o">-</span> <span class="n">seq_length</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">iterations</span> <span class="o">=</span> <span class="n">num_steps</span> <span class="o">//</span> <span class="n">batch_size</span>
+    <span class="n">xdata</span><span class="o">=</span><span class="p">[]</span>
+    <span class="n">ydata</span><span class="o">=</span><span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_steps</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">xdata</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">seq_length</span><span class="p">])</span>
+        <span class="n">ydata</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">+</span><span class="n">seq_length</span><span class="p">])</span>
+
+    <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iterations</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xdata</span><span class="p">)[</span><span class="n">batch</span> <span class="o">*</span> <span class="n">batch_size</span><span class="p">:</span> <span class="n">batch</span> <span class="o">*</span> <span class="n">batch_size</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xdata</span><span class="p">)[</span><span class="n">batch</span> <span class="o">*</span> <span class="n">batch_size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span> <span class="n">batch</span> <span class="o">*</span> <span class="n">batch_size</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="k">yield</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+</pre></div>
+
+
+<p>输出的训练集数据的格式为：</p>
+<div class="hlcode"><pre><span class="nl">x1:</span> <span class="p">[[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span><span class="p">]]</span>
+<span class="nl">y1:</span> <span class="p">[[</span><span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span><span class="p">]]</span>
+<span class="nl">x2:</span> <span class="p">[[</span> <span class="mi">5</span>  <span class="mi">6</span>  <span class="mi">7</span><span class="p">]</span>
+     <span class="p">[</span> <span class="mi">6</span>  <span class="mi">7</span>  <span class="mi">8</span><span class="p">]</span>
+     <span class="p">[</span> <span class="mi">7</span>  <span class="mi">8</span>  <span class="mi">9</span><span class="p">]</span>
+     <span class="p">[</span> <span class="mi">8</span>  <span class="mi">9</span> <span class="mi">10</span><span class="p">]]</span>
+<span class="nl">y2:</span> <span class="p">[[</span> <span class="mi">6</span>  <span class="mi">7</span>  <span class="mi">8</span><span class="p">]</span>
+     <span class="p">[</span> <span class="mi">7</span>  <span class="mi">8</span>  <span class="mi">9</span><span class="p">]</span>
+     <span class="p">[</span> <span class="mi">8</span>  <span class="mi">9</span> <span class="mi">10</span><span class="p">]</span>
+     <span class="p">[</span> <span class="mi">9</span> <span class="mi">10</span> <span class="mi">11</span><span class="p">]]</span>
+<span class="nl">x3:</span> <span class="p">[[</span> <span class="mi">9</span> <span class="mi">10</span> <span class="mi">11</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">10</span> <span class="mi">11</span> <span class="mi">12</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">11</span> <span class="mi">12</span> <span class="mi">13</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">12</span> <span class="mi">13</span> <span class="mi">14</span><span class="p">]]</span>
+<span class="nl">y3:</span> <span class="p">[[</span><span class="mi">10</span> <span class="mi">11</span> <span class="mi">12</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">11</span> <span class="mi">12</span> <span class="mi">13</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">12</span> <span class="mi">13</span> <span class="mi">14</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">13</span> <span class="mi">14</span> <span class="mi">15</span><span class="p">]]</span>
+<span class="nl">x4:</span> <span class="p">[[</span><span class="mi">13</span> <span class="mi">14</span> <span class="mi">15</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">14</span> <span class="mi">15</span> <span class="mi">16</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">15</span> <span class="mi">16</span> <span class="mi">17</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">16</span> <span class="mi">17</span> <span class="mi">18</span><span class="p">]]</span>
+<span class="nl">y4:</span> <span class="p">[[</span><span class="mi">14</span> <span class="mi">15</span> <span class="mi">16</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">15</span> <span class="mi">16</span> <span class="mi">17</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">16</span> <span class="mi">17</span> <span class="mi">18</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">17</span> <span class="mi">18</span> <span class="mi">19</span><span class="p">]]</span>
+</pre></div>
+
+
+<h3 id="_5">法二</h3>
+<p>第二种方法以bacth_size和seq_length为基础一个batch中应该包含的数据个数为batch_size * seq_length个数据，那么iterations= data_length//(batch_size * seq_length).<br />
+- step1、利用numpy中的矩阵技巧，先将序列reshpe成[batch_size, seq_length* iterations]的形状，<br />
+- step2、然后利用for循环将reshape后的数据截取成若干个batch。</p>
+<h3 id="_6">程序模拟</h3>
+<div class="hlcode"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">seq_length</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">raw_data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span>
+            <span class="mi">14</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> 
+            <span class="mi">23</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> 
+            <span class="mi">31</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">36</span><span class="p">,</span> <span class="mi">37</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="mi">39</span><span class="p">,</span> <span class="mi">40</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">get_batch2</span><span class="p">(</span><span class="n">raw_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_length</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">raw_data</span><span class="p">)</span>
+    <span class="n">data_length</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">iterations</span> <span class="o">=</span> <span class="p">(</span><span class="n">data_length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="p">(</span><span class="n">batch_size</span> <span class="o">*</span> <span class="n">seq_length</span><span class="p">)</span>
+    <span class="n">round_data_len</span> <span class="o">=</span> <span class="n">iterations</span> <span class="o">*</span> <span class="n">batch_size</span> <span class="o">*</span> <span class="n">seq_length</span>
+    <span class="n">xdata</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:</span><span class="n">round_data_len</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">iterations</span><span class="o">*</span><span class="n">seq_length</span><span class="p">)</span>
+    <span class="n">ydata</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="n">round_data_len</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">iterations</span><span class="o">*</span><span class="n">seq_length</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iterations</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">xdata</span><span class="p">[:,</span> <span class="n">i</span><span class="o">*</span><span class="n">seq_length</span><span class="p">:(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">seq_length</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">ydata</span><span class="p">[:,</span> <span class="n">i</span><span class="o">*</span><span class="n">seq_length</span><span class="p">:(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">seq_length</span><span class="p">]</span>
+        <span class="k">yield</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+</pre></div>
+
+
+<p>step1 产生的结果为：</p>
+<div class="hlcode"><pre><span class="n">x</span><span class="err">：</span>
+<span class="p">[[</span> <span class="mi">1</span>  <span class="mi">2</span>  <span class="mi">3</span>  <span class="mi">4</span>  <span class="mi">5</span>  <span class="mi">6</span>  <span class="mi">7</span>  <span class="mi">8</span>  <span class="mi">9</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">10</span> <span class="mi">11</span> <span class="mi">12</span> <span class="mi">13</span> <span class="mi">14</span> <span class="mi">15</span> <span class="mi">16</span> <span class="mi">17</span> <span class="mi">18</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">19</span> <span class="mi">20</span> <span class="mi">21</span> <span class="mi">22</span> <span class="mi">23</span> <span class="mi">24</span> <span class="mi">25</span> <span class="mi">26</span> <span class="mi">27</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">28</span> <span class="mi">29</span> <span class="mi">30</span> <span class="mi">31</span> <span class="mi">32</span> <span class="mi">33</span> <span class="mi">34</span> <span class="mi">35</span> <span class="mi">36</span><span class="p">]]</span>
+<span class="err">对应的标签</span><span class="n">y</span><span class="err">为：</span>
+<span class="p">[[</span> <span class="mi">2</span>  <span class="mi">3</span>  <span class="mi">4</span>  <span class="mi">5</span>  <span class="mi">6</span>  <span class="mi">7</span>  <span class="mi">8</span>  <span class="mi">9</span> <span class="mi">10</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">11</span> <span class="mi">12</span> <span class="mi">13</span> <span class="mi">14</span> <span class="mi">15</span> <span class="mi">16</span> <span class="mi">17</span> <span class="mi">18</span> <span class="mi">19</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">20</span> <span class="mi">21</span> <span class="mi">22</span> <span class="mi">23</span> <span class="mi">24</span> <span class="mi">25</span> <span class="mi">26</span> <span class="mi">27</span> <span class="mi">28</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">29</span> <span class="mi">30</span> <span class="mi">31</span> <span class="mi">32</span> <span class="mi">33</span> <span class="mi">34</span> <span class="mi">35</span> <span class="mi">36</span> <span class="mi">37</span><span class="p">]]</span>
+</pre></div>
+
+
+<p>step2 生成的结果为：</p>
+<div class="hlcode"><pre><span class="nl">x1:</span> <span class="p">[[</span> <span class="mi">1</span>  <span class="mi">2</span>  <span class="mi">3</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">10</span> <span class="mi">11</span> <span class="mi">12</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">19</span> <span class="mi">20</span> <span class="mi">21</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">28</span> <span class="mi">29</span> <span class="mi">30</span><span class="p">]]</span>
+<span class="nl">y1:</span> <span class="p">[[</span> <span class="mi">2</span>  <span class="mi">3</span>  <span class="mi">4</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">11</span> <span class="mi">12</span> <span class="mi">13</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">20</span> <span class="mi">21</span> <span class="mi">22</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">29</span> <span class="mi">30</span> <span class="mi">31</span><span class="p">]]</span>
+<span class="nl">x2:</span> <span class="p">[[</span> <span class="mi">4</span>  <span class="mi">5</span>  <span class="mi">6</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">13</span> <span class="mi">14</span> <span class="mi">15</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">22</span> <span class="mi">23</span> <span class="mi">24</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">31</span> <span class="mi">32</span> <span class="mi">33</span><span class="p">]]</span>
+<span class="nl">y2:</span> <span class="p">[[</span> <span class="mi">5</span>  <span class="mi">6</span>  <span class="mi">7</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">14</span> <span class="mi">15</span> <span class="mi">16</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">23</span> <span class="mi">24</span> <span class="mi">25</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">32</span> <span class="mi">33</span> <span class="mi">34</span><span class="p">]]</span>
+<span class="nl">x3:</span> <span class="p">[[</span> <span class="mi">7</span>  <span class="mi">8</span>  <span class="mi">9</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">16</span> <span class="mi">17</span> <span class="mi">18</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">25</span> <span class="mi">26</span> <span class="mi">27</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">34</span> <span class="mi">35</span> <span class="mi">36</span><span class="p">]]</span>
+<span class="nl">y3:</span> <span class="p">[[</span> <span class="mi">8</span>  <span class="mi">9</span> <span class="mi">10</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">17</span> <span class="mi">18</span> <span class="mi">19</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">26</span> <span class="mi">27</span> <span class="mi">28</span><span class="p">]</span>
+     <span class="p">[</span><span class="mi">35</span> <span class="mi">36</span> <span class="mi">37</span><span class="p">]]</span>
+</pre></div>
+
+
+<h1 id="_7">总结</h1>
+<p>目前我还不能确定第一种方法的正确性，但是从生产的结果上来看我没有找到明显的错误，第二种方法是我看到的大部分人在准备训练集的时候所用的方法，可能代码的思想不一样，但是思路应该差不多。<br />
+对比两种方法，</p>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2099-06-02 00:00 </span></div>
+<div id="comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script type="text/javascript">
+const gitment = new Gitment({
+  title: 'Tensorflow中准备一个batch的数据的看法',
+  owner: 'sthsf',
+  repo: 'wiki',
+  oauth: {
+    client_id: '086c54c5fd95adfdc372',
+    client_secret: '2ad9ebe87b952d2c77fccf99c334881b91eaa73d',
+  },
+  // ...
+  // For more available options, check out the documentation below
+})
+gitment.render('comments')
+// or
+// gitment.render(document.getElementById('comments'))
+// or
+// document.body.appendChild(gitment.render())
+</script>
+
+</div>
+<div id="footer">
+            <span>
+                Copyright © 2017 sthsf.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+                Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
+            </span>
+</div>
+
+
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?90e1dcdd1938573c19f9ff6521188e91";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</body>
+</html>
