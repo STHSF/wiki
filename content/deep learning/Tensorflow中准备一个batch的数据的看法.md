@@ -23,7 +23,7 @@ date: 2017-06-24 10:00
 ```python
 import numpy as np
 
-batch_size = 10
+batch_size = 4
 seq_length = 3
 raw_data = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
 
