@@ -1,5 +1,5 @@
 ---
-title: "Tensorflow中的损失函数详解"
+title: "Tensorflow基础知识---损失函数详解"
 layout: page
 date: 2017-07-06 11:40
 ---

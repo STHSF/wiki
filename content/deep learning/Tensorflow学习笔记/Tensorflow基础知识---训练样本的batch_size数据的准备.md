@@ -1,5 +1,5 @@
 ---
-title: "Tensorflow中准备一个batch的数据的看法"
+title: "Tensorflow基础知识---训练样本的batch_size数据的准备"
 layout: page
 date: 2017-06-24 10:00
 ---

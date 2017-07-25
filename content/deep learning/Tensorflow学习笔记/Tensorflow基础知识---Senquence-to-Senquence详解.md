@@ -1,5 +1,5 @@
 ---
-title: "Tensorflow学习笔记-Seq2Seq详解"
+title: "Tensorflow基础知识---Senquence-to-Senquence详解"
 layout: page
 date: 2017-07-06 00:00
 ---
