@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <title>Tensorflow基础知识---共享变量 - sthsf's personal knowledge wiki</title>
+    <meta name="keywords" content="technology, machine learning, data mining, economics, accounting"/>
+    <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$(',')$'], ['\\(','\\)']]}
+        });
+        </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-78529611-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+
+<body>
+<div id="container">
+    
+<div id="header">
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#deep learning">deep learning</a>&nbsp;»&nbsp;<a href="/wiki/#deep learning-Tensorflow学习笔记">Tensorflow学习笔记</a>&nbsp;»&nbsp;Tensorflow基础知识---共享变量</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">Tensorflow基础知识---共享变量</div>
+<div id="content">
+  <h1 id="_1">写在前面</h1>
+<p>工作之余，学习tensorflow已经有一段时间了，时间总是零零碎碎，期间也用tensorflow搭建过一些框架，但是代码都是在参考别人的基础上实现的，随着对模型的深入，开始自己写代码框架，在写的过程中发现自己的基础不是很扎实，特别是对Tensorflow的一些基础的api并不是完全领会，当初只是知道别人是这么用的，所以我也跟着用了。现在自己的定义的时候发现他们之间的差别不是很清楚，所以还是得静下心来把这些基础知识弄清楚。</p>
+<h1 id="tfvariable-tfget_variable">tf.Variable() &amp; tf.get_variable()</h1>
+<h1 id="tfname_scope-tfvariable_scope">tf.name_scope() &amp; tf.variable_scope()</h1>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2017-07-25 23:00 </span></div>
+<div id="comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script type="text/javascript">
+const gitment = new Gitment({
+  title: 'Tensorflow基础知识---共享变量',
+  owner: 'sthsf',
+  repo: 'wiki',
+  oauth: {
+    client_id: '086c54c5fd95adfdc372',
+    client_secret: '2ad9ebe87b952d2c77fccf99c334881b91eaa73d',
+  },
+  // ...
+  // For more available options, check out the documentation below
+})
+gitment.render('comments')
+// or
+// gitment.render(document.getElementById('comments'))
+// or
+// document.body.appendChild(gitment.render())
+</script>
+
+</div>
+<div id="footer">
+            <span>
+                Copyright © 2017 sthsf.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+                Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
+            </span>
+</div>
+
+
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?90e1dcdd1938573c19f9ff6521188e91";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</body>
+</html>
