@@ -42,7 +42,24 @@
 <div id="content">
   <h1 id="_1">写在前面</h1>
 <p>Seq2Seq是基于tensorflow的一种通用编码器&amp;解码器框架，可用于机器翻译，文本摘要，会话模型，图像描述等。</p>
-<p><img alt="dd" src="/Users/li/Desktop/164611_Wqpl_2896879.gif" /></p>
+<h1 id="sequence_to_sequence-model">Sequence_to_Sequence Model</h1>
+<p>常见的语言模型的研究对象是单一序列，例如（文本生成），而Sequence_to_Sequence Model同时研究两个序列之间的关系。Encoder-Decoder的基本结构如下：<br />
+<a href="">Encoder-Decoder基本结构</a><br />
+上图是一个已经在时间维度上展开的Encoder-Decoder模型，典型的Sequence_to_Sequence Model通常是由两个RNN网络构成，一个被称为编码器，另一个被称为译码器，encoder负责把variable-length的序列编码成fixed-length的语义表示向量，decoder则<br />
+负责把fixed-length的语义向量解码成variable-length的输出序列，并且每个时刻t输出词的概率都与前t-1时刻的输出有关。</p>
+<h2 id="encoder">Encoder</h2>
+<p>Encoder的过程比较简单，一般直接用RNN(LSTM)进行语义向量的生成：<br />
+$$<br />
+h_t = f(x_t, h_{t-1})\<br />
+c = \phi(h_1,h_2,...,h_T)<br />
+$$<br />
+其中f是非线性激活函数，$(h_{t-1})$是上一个隐节点输出，$(x_t)$是当前时刻的输入，向量c通常为RNN的最后一个隐节点（h,Hidden state）,或者是多个隐节点的加权和。</p>
+<h2 id="decoder">Decoder</h2>
+<p>该模型的decoder过程是使用另一个RNN通过当前状态$(h_t)$来预测当前的输出符号$(y_t)$, 其中的$(h_t)$,$(y_t)$都与其前一个隐状态和输出有关：<br />
+$$<br />
+h_t= f(h_{t-1}, y_{t-1}, c)\<br />
+P(y_t|y_{t-1},...,y_1,c)=g(h_t, y_{t-1}, c)<br />
+$$</p>
 <p><a href="https://www.oschina.net/p/seq2seq">通用编码器&amp;解码器框架seq2seq</a></p>
 <p><a href="http://blog.csdn.net/diligent_321/article/details/53590289">TensorFlow中Sequence-to-Sequence样例代码详解</a></p>
 <p><a href="http://blog.csdn.net/appleml/article/details/54017873">sequence_loss_by_example(logits, targets, weights)</a></p>
