@@ -7,11 +7,24 @@ date: 2017-07-06 00:00
 # 写在前面
 Seq2Seq是基于tensorflow的一种通用编码器&解码器框架，可用于机器翻译，文本摘要，会话模型，图像描述等。
 
-
-![dd](/Users/li/Desktop/164611_Wqpl_2896879.gif)
-
-
-
+# Sequence_to_Sequence Model
+常见的语言模型的研究对象是单一序列，例如（文本生成），而Sequence_to_Sequence Model同时研究两个序列之间的关系。Encoder-Decoder的基本结构如下：
+[Encoder-Decoder基本结构]()
+上图是一个已经在时间维度上展开的Encoder-Decoder模型，典型的Sequence_to_Sequence Model通常是由两个RNN网络构成，一个被称为编码器，另一个被称为译码器，encoder负责把variable-length的序列编码成fixed-length的语义表示向量，decoder则
+负责把fixed-length的语义向量解码成variable-length的输出序列，并且每个时刻t输出词的概率都与前t-1时刻的输出有关。
+## Encoder
+Encoder的过程比较简单，一般直接用RNN(LSTM)进行语义向量的生成：
+$$
+h_t = f(x_t, h_{t-1})\\
+c = \phi(h_1,h_2,...,h_T)
+$$
+其中f是非线性激活函数，$(h_{t-1})$是上一个隐节点输出，$(x_t)$是当前时刻的输入，向量c通常为RNN的最后一个隐节点（h,Hidden state）,或者是多个隐节点的加权和。
+## Decoder
+该模型的decoder过程是使用另一个RNN通过当前状态$(h_t)$来预测当前的输出符号$(y_t)$, 其中的$(h_t)$,$(y_t)$都与其前一个隐状态和输出有关：
+$$
+h_t= f(h_{t-1}, y_{t-1}, c)\\
+P(y_t|y_{t-1},...,y_1,c)=g(h_t, y_{t-1}, c)
+$$
 
 
 
