@@ -9,7 +9,8 @@ Seq2Seq是基于tensorflow的一种通用编码器&解码器框架，可用于�
 
 # Sequence_to_Sequence Model
 常见的语言模型的研究对象是单一序列，例如（文本生成），而Sequence_to_Sequence Model同时研究两个序列之间的关系。Encoder-Decoder的基本结构如下：
-[Encoder-Decoder基本结构]()
+[Encoder-Decoder基本结构](/wiki/static/images/1.jpg")
+<img src="/wiki/static/images/gan-algo.png" alt="GAN-GLAORITHM"/>
 上图是一个已经在时间维度上展开的Encoder-Decoder模型，典型的Sequence_to_Sequence Model通常是由两个RNN网络构成，一个被称为编码器，另一个被称为译码器，encoder负责把variable-length的序列编码成fixed-length的语义表示向量，decoder则
 负责把fixed-length的语义向量解码成variable-length的输出序列，并且每个时刻t输出词的概率都与前t-1时刻的输出有关。
 ## Encoder
