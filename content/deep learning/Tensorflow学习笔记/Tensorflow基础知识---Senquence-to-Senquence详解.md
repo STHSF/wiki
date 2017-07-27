@@ -56,14 +56,16 @@ $$
 
 而注意力机制在decoder预测的时候，将encoder中每个时刻的隐藏状态都利用上了，这样，encoder过程中的多个语义信息(隐藏状态)就可以都被利用来表达整个句子的信息了。增加了注意力机制模型的encoder-decoder框架理解起来如下图所示：
 <center><img src="/wiki/static/images/seq2seq/am-encoder-decoder.jpg" alt="attention mechanism模型理解"/></center>
-其中，每个&(c_i)&可能对应着不同的源语句子单词的注意力分配概率分布:
-$$
-c_i=\sum_{j=1}^{T_x}{\alpha_{ij}h_{j}}
-$$
+其中，每个&(c_i)&可能对应着不同的源语句子单词的注意力分配概率分布.
 
-
-另外，在encoder的过程中还使用了双端的GRU结构，这比单向的GRU效果要好。模型结构见下图：
+另外，在encoder的过程中还使用了双向循环网络(bidirection RNN)，这比单向的效果要好。模型结构见下图：
 <center><img src="/wiki/static/images/seq2seq/attention mechanism.png" alt="attention mechanism模型结构"/></center>
+如上图所示, 在注意机制中，我们的源序列&(x=(x_1, x_2, ...., x_t))&分别被正向和反向地输入模型，进而得到了正反两层隐节点，语义向量c则由RNN中的隐节点h通过不同权重a加权而成，其公式如下：
+
+$$
+c_t=\sum_{j=1}^{T_x}{\alpha_{tj}h_{j}}
+\\ \alpha_{tj} = \frac{e^{\eta(s_{t-1},h_j)}}{\sum_{j'}e^{\eta(s_{t-1},h_{j'})}}
+$$
 
 
 
