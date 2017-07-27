@@ -11,8 +11,8 @@ Seq2Seq是基于tensorflow的一种通用编码器&解码器框架，可用于�
 常见的语言模型的研究对象是单一序列，例如（文本生成），而Sequence_to_Sequence Model同时研究两个序列之间的关系。Encoder-Decoder的基本结构如下：
 <img src="/wiki/static/images/seq2seq/Encoder-Decoder基本结构.jpg" alt="Encoder-Decoder基本结构"/>
 表示sequence ABC被翻译成sequence WXYZ， 其中<EOS>是一句话的结束符。
-上图是一个已经在时间维度上展开的Encoder-Decoder模型，典型的Sequence_to_Sequence Model通常是由两个RNN网络构成，一个被称为编码器，另一个被称为译码器，encoder负责把variable-length的序列编码成一个固定大小的语义表示向量(fixed-length vector representation)，我们可以理解为把一段文本进行语义表示。
-decoder则负责把encoder得到的fixed-length的语义向量解码成另一个variable-length的token序列，这个token序列就是另一个sequence，并且每个时刻t输出词的概率都与前t-1时刻的输出有关。优化时采用极大似然估计，让encoder前的序列A被encoder后在decoder得到的序列B的概率最大。在这里序列A和B的长度是可以不一样的。
+
+上图是一个已经在时间维度上展开的Encoder-Decoder模型，典型的Sequence_to_Sequence Model通常是由两个RNN网络构成，一个被称为编码器，另一个被称为译码器，encoder负责把variable-length的序列编码成一个固定大小的语义表示向量(fixed-length vector representation)，我们可以理解为把一段文本进行语义表示。decoder则负责把encoder得到的fixed-length的语义向量解码成另一个variable-length的token序列，这个token序列就是另一个sequence，并且每个时刻t输出词的概率都与前t-1时刻的输出有关。优化时采用极大似然估计，让encoder前的序列A被encoder后在decoder得到的序列B的概率最大。在这里序列A和B的长度是可以不一样的。
 
 我们将上面的模型展开可以得到：
 <center><img src="/wiki/static/images/seq2seq/encoder-decoder.png" alt="Encoder-Decoder展开"/></center>
