@@ -56,7 +56,14 @@ $$
 
 而注意力机制在decoder预测的时候，将encoder中每个时刻的隐藏状态都利用上了，这样，encoder过程中的多个语义信息(隐藏状态)就可以都被利用来表达整个句子的信息了。增加了注意力机制模型的encoder-decoder框架理解起来如下图所示：
 <center><img src="/wiki/static/images/seq2seq/am-encoder-decoder.jpg" alt="attention mechanism模型理解"/></center>
-其中，每个&(c_i)&可能对应着不同的源语句子单词的注意力分配概率分布.
+其中，每个$(c_i)$可能对应着不同的源语句子单词的注意力分配概率分布.此时目标单词生成的过程如下：
+$$
+y_1 = f(c_1)
+
+y_2 = f(c_2, y_1)
+
+y_3 = f(c_3, y_2)
+$$
 
 另外，在encoder的过程中还使用了双向循环网络(bidirection RNN)，这比单向的效果要好。模型结构见下图：
 <center><img src="/wiki/static/images/seq2seq/attention mechanism.png" alt="attention mechanism模型结构"/></center>
