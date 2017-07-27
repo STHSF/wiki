@@ -44,7 +44,7 @@ $$
 [github](https://github.com/nicolas-ivanov/tf_seq2seq_chatbot)上有一张更详细的图：
 <center><img src="/wiki/static/images/seq2seq/encoder-decoder展开.png" alt="Encoder-Decoder详细展开"/></center>
 
-上图展示的是一个邮件对话的应用场景，图中的 Encoder 和 Decoder 都只展示了一层的普通的 LSTMCell。从上面的结构中，我们可以看到，整个模型结构还是非常简单的。 EncoderCell 最后一个时刻的状态 [cXT,hXT] 就是上面说的中间语义向量 c ，它将作为 DecoderCell 的初始状态。然后在 DecoderCell 中，每个时刻的输出将会作为下一个时刻的输入。以此类推，直到 DecoderCell 某个时刻预测输出特殊符号 <END> 结束。
+上图展示的是一个邮件对话的应用场景，图中的 Encoder 和 Decoder 都只展示了一层的普通的 LSTMCell。从上面的结构中，我们可以看到，整个模型结构还是非常简单的。 EncoderCell 最后一个时刻的状态 $([c_{X_T},h_{X_T}])$ 就是上面说的中间语义向量 c ，它将作为 DecoderCell 的初始状态。然后在 DecoderCell 中，每个时刻的输出将会作为下一个时刻的输入。以此类推，直到 DecoderCell 某个时刻预测输出特殊符号 <END> 结束。
 
 在原论文中，作者使用的是4层LSTM，原理上跟1层LSTM是一样的，[CS224n](http://web.stanford.edu/class/cs224n/lectures/cs224n-2017-lecture1.pdf)中给我们提供了一个三层的模型结构有助于我们对Encode-Decode的理解：
 <center><img src="/wiki/static/images/seq2seq/4-level-encode-decode.jpg" alt="Encoder-Decoder-4层展开"/></center>
