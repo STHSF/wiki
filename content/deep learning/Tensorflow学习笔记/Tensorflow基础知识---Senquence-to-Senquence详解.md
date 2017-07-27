@@ -15,9 +15,7 @@ Seq2Seq是基于tensorflow的一种通用编码器&解码器框架，可用于�
 decoder则负责把encoder得到的fixed-length的语义向量解码成另一个variable-length的token序列，这个token序列就是另一个sequence，并且每个时刻t输出词的概率都与前t-1时刻的输出有关。优化时采用极大似然估计，让encoder前的序列A被encoder后在decoder得到的序列B的概率最大。在这里序列A和B的长度是可以不一样的。
 
 我们将上面的模型展开可以得到：
-<img src="/wiki/static/images/seq2seq/encoder-decoder.png" alt="Encoder-Decoder展开"/>
-
-
+<center><img src="/wiki/static/images/seq2seq/encoder-decoder.png" alt="Encoder-Decoder展开"/></center>
 
 ## Encoder
 Encoder的过程比较简单，一般直接用RNN(LSTM)进行语义向量的生成：
