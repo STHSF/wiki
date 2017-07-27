@@ -33,14 +33,14 @@ $$
 
 该模型的decoder过程是使用另一个RNN通过当前状态$(h_t)$来预测当前的输出符号$(y_t)$, 其中的$(h_t)$,$(y_t)$都与其前一个隐状态和输出有关：
 $$
-h_t= f(h_{t-1}, y_{t-1}, c)
+s_t= f(s_{t-1}, y_{t-1}, c)
 $$
-同样，根据$(h_t)$我们就可以求出$(y_t)$的条件概率
+同样，根据$(s_t)$我们就可以求出$(y_t)$的条件概率
 $$
-P(y_t|y_{t-1},...,y_1,c)=g(h_t, y_{t-1}, c)
+P(y_t|y_{t-1},...,y_1,c)=g(s_t, y_{t-1}, c)
 $$
 这里有两个函数$(f)$和$(g)$，一般来说，f函数结构应该是一个RNNCell结构或者类似的结构；g函数一般是softmax。我们可以这样理解，在Encoder中我们得到一个涵盖整个句子信息的实数向量c，现在我们一步步从c中抽取信息。
-首先给Decoder一个启动信号$(y_0)$(如特殊符号<START>),然后Decoder根据$(h_0,y_0,c)$就能够计算出$(y_1)$的概率分布了，同理，根据$(h_1, y_1, c)$可以计算$(y_2)$的概率分布，依此类推直到预测到结束的特殊标志<END>,才结束预测。
+首先给Decoder一个启动信号$(y_0)$(如特殊符号<START>),然后Decoder根据$(s_0,y_0,c)$就能够计算出$(y_1)$的概率分布了，同理，根据$(s_1, y_1, c)$可以计算$(y_2)$的概率分布，依此类推直到预测到结束的特殊标志<END>,才结束预测。
 [github](https://github.com/nicolas-ivanov/tf_seq2seq_chatbot)上有一张更详细的图：
 <center><img src="/wiki/static/images/seq2seq/encoder-decoder展开.png" alt="Encoder-Decoder详细展开"/></center>
 
