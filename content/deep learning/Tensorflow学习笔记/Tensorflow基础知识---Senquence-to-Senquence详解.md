@@ -95,6 +95,8 @@ $$
 
 [The DIY Guide to Seq2Seq](https://github.com/jxieeducation/DIY-Data-Science/blob/master/research/seq2seq.md)
 
+[从LSTM到Seq2Seq](http://x-algo.cn/index.php/2017/01/13/1609/)
+
 [Junwei Pan's Blog](http://www.kemaswill.com/about/)
 
 [TensorFlow中Sequence-to-Sequence样例代码详解](http://blog.csdn.net/diligent_321/article/details/53590289)
