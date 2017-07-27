@@ -84,9 +84,9 @@ $$<br />
 <center><img src="/wiki/static/images/seq2seq/am-encoder-decoder.jpg" alt="attention mechanism模型理解"/></center><br />
 此时目标单词生成的过程如下：<br />
 $$<br />
-y_1 = f(c_1)\</p>
-<p>y_2 = f(c_2, y_1)\</p>
-<p>y_3 = f(c_3, y_2, y_1)\<br />
+y_1 = f(c_1)\<br />
+y_2 = f(c_2, y_1)\<br />
+y_3 = f(c_3, y_2, y_1)\<br />
 $$<br />
 其中，每个$(c_i)$可能对应着不同的源语句子单词的注意力分配概率分布(对应输入序列X不同单词的概率分布).<br />
 另外，在encoder的过程中还使用了双向循环网络(bidirection RNN)，这比单向的效果要好。模型结构见下图：<br />
