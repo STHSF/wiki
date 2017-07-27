@@ -51,7 +51,16 @@ $$
 
 ## Attention Mechanism
 当Encode的序列过长时，会导致c保留的信息缺失，[Bahdanau](https://arxiv.org/pdf/1409.0473.pdf)在Encoder和Decoder的基础上提出了注意力机制，
+注意力机制模型主要的修改在decoder过程，传统的decoder中，每次预测下个词都会用到语义向量词c，而传统的decoder中的c主要是最后一个时刻的隐藏状态，这就意味着不管decoder生成的哪个单词，句子X中的任意单词对生成某个目标单词$(y_i)$的影响是相同的，也就是说没有加入注意力机制模型的encoder-decoder模型，目标序列对预测序列的贡献是相同的，例如，在翻译模型当中，每个被翻译目标单词对与翻译目标单词的贡献显然是不同的，
+而传统的encoder-decoder模型无法体现这一点，这就是为何说它没有引入注意力机制的原因。没有引入注意力机制的模型在输入句子比较短的时候估计问题不大，但是如果输入句子比较长，此时所有语义完全通过一个中间语义向量来表示，单词自身的信息已经消失，可想而知会丢失很多细节信息，这也是为何要引入注意力模型的重要原因。
 
+而注意力机制在decoder预测的时候，将encoder中每个时刻的隐藏状态都利用上了，这样，encoder过程中的多个语义信息(隐藏状态)就可以都被利用来表达整个句子的信息了。增加了注意力机制模型的encoder-decoder框架理解起来如下图所示：
+<center><img src="/wiki/static/images/seq2seq/am-encoder-decoder.jpg" alt="attention mechanism模型理解"/></center>
+
+
+
+另外，在encoder的过程中还使用了双端的GRU结构，这比单向的GRU效果要好。模型结构见下图：
+<center><img src="/wiki/static/images/seq2seq/attention mechanism.png" alt="attention mechanism模型结构"/></center>
 
 
 
