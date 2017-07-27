@@ -85,12 +85,19 @@ $$<br />
 其中，每个&amp;(c_i)&amp;可能对应着不同的源语句子单词的注意力分配概率分布.</p>
 <p>另外，在encoder的过程中还使用了双向循环网络(bidirection RNN)，这比单向的效果要好。模型结构见下图：<br />
 <center><img src="/wiki/static/images/seq2seq/attention mechanism.png" alt="attention mechanism模型结构"/></center><br />
-如上图所示, 在注意机制中，我们的源序列$(x=(x_1, x_2, ...., x_t))$分别被正向和反向地输入模型，进而得到了正反两层隐节点，语义向量c则由RNN中的隐节点h通过不同权重a加权而成，其公式如下：<br />
+如上图所示, 在注意机制中，我们的源序列$(x=(x_1, x_2, ...., x_t))$分别被正向和反向地输入模型，进而得到了正反两层隐节点，语义向量c则由RNN中的隐节点的隐状态h通过不同权重$(\alpha)$加权而成，其公式如下：<br />
 $$<br />
-c_i=\sum_{j=1}^{T_x}{\alpha_{ij}h_{j}};\ <br />
-\alpha_{ij} = \frac{e^{\eta(s_{i-1},h_j)}}{\sum_{j'}e^{\eta(s_{i-1},h_{j'})}}<br />
-$$</p>
-<p>其中，$(\eta)$为一个调整“注意回应强度”的函数,是一种对齐模型，$(s_{i-1})$是decoder过程的前一个隐状态的输出，$(h_j)$是encoder过程的当前第j个隐状态。</p>
+c_i=\sum_{j=1}^{n}{\alpha_{ij}h_{j}}<br />
+$$<br />
+其中n为输入序列的长度，$(h_j)$是第j时刻的隐状态，而权重$(\alpha_{ij})$的计算公式如下：<br />
+$$<br />
+\alpha_{ij} = \frac{exp(e_{ij})}{\sum_{k=1}^nexp(e_{ik})}<br />
+$$<br />
+这里：<br />
+$$<br />
+e_{ij} = \eta(s_{i-1}, h_j)<br />
+$$<br />
+其中，$(\eta)$为一个调整“注意回应强度”的函数,是一种对齐模型，$(s_{i-1})$是decoder过程的前一个隐状态的输出，$(h_j)$是encoder过程的当前第j个隐状态。</p>
 <p>我们知道每一个隐节点$(h_i)$都包含了对应的输入字符&amp;(x_i)&amp;以及其对上下文的联系，这么做意义就在于现在模型可以突破固定长度输入的限制，根据不同的输入长度构建不同个数的隐节点，故不论我们输入的序列（比如待翻译的一段原文）长度如何，都可以得到模型输出结果。</p>
 <h1 id="tensorflowseq2seq">Tensorflow中的Seq2Seq</h1>
 <h1 id="_2">应用领域</h1>
