@@ -82,12 +82,14 @@ $$<br />
 而传统的encoder-decoder模型无法体现这一点，这就是为何说它没有引入注意力机制的原因。没有引入注意力机制的模型在输入句子比较短的时候估计问题不大，但是如果输入句子比较长，此时所有语义完全通过一个中间语义向量来表示，单词自身的信息已经消失，可想而知会丢失很多细节信息，这也是为何要引入注意力模型的重要原因。</p>
 <p>而注意力机制在decoder预测的时候，将encoder中每个时刻的隐藏状态都利用上了，这样，encoder过程中的多个语义信息(隐藏状态)就可以都被利用来表达整个句子的信息了。增加了注意力机制模型的encoder-decoder框架理解起来如下图所示：<br />
 <center><img src="/wiki/static/images/seq2seq/am-encoder-decoder.jpg" alt="attention mechanism模型理解"/></center><br />
-其中，每个&amp;(c_i)&amp;可能对应着不同的源语句子单词的注意力分配概率分布:<br />
-$$<br />
-c_i=\sum_{j=1}^{T_x}{\alpha_{ij}h_{j}}<br />
+其中，每个&amp;(c_i)&amp;可能对应着不同的源语句子单词的注意力分配概率分布.</p>
+<p>另外，在encoder的过程中还使用了双向循环网络(bidirection RNN)，这比单向的效果要好。模型结构见下图：<br />
+<center><img src="/wiki/static/images/seq2seq/attention mechanism.png" alt="attention mechanism模型结构"/></center><br />
+如上图所示, 在注意机制中，我们的源序列&amp;(x=(x_1, x_2, ...., x_t))&amp;分别被正向和反向地输入模型，进而得到了正反两层隐节点，语义向量c则由RNN中的隐节点h通过不同权重a加权而成，其公式如下：</p>
+<p>$$<br />
+c_t=\sum_{j=1}^{T_x}{\alpha_{tj}h_{j}}<br />
+\ \alpha_{tj} = \frac{e^{\eta(s_{t-1},h_j)}}{\sum_{j'}e^{\eta(s_{t-1},h_{j'})}}<br />
 $$</p>
-<p>另外，在encoder的过程中还使用了双端的GRU结构，这比单向的GRU效果要好。模型结构见下图：<br />
-<center><img src="/wiki/static/images/seq2seq/attention mechanism.png" alt="attention mechanism模型结构"/></center></p>
 <p><a href="https://www.oschina.net/p/seq2seq">通用编码器&amp;解码器框架seq2seq</a></p>
 <p><a href="http://blog.csdn.net/jerr__y/article/details/53749693">seq2seq学习笔记</a></p>
 <p><a href="http://blog.csdn.net/diligent_321/article/details/53590289">TensorFlow中Sequence-to-Sequence样例代码详解</a></p>
