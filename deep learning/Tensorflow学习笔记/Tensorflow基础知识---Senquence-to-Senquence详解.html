@@ -85,10 +85,10 @@ $$<br />
 其中，每个&amp;(c_i)&amp;可能对应着不同的源语句子单词的注意力分配概率分布.</p>
 <p>另外，在encoder的过程中还使用了双向循环网络(bidirection RNN)，这比单向的效果要好。模型结构见下图：<br />
 <center><img src="/wiki/static/images/seq2seq/attention mechanism.png" alt="attention mechanism模型结构"/></center><br />
-如上图所示, 在注意机制中，我们的源序列&amp;(x=(x_1, x_2, ...., x_t))&amp;分别被正向和反向地输入模型，进而得到了正反两层隐节点，语义向量c则由RNN中的隐节点h通过不同权重a加权而成，其公式如下：</p>
-<p>$$<br />
-c_t=\sum_{j=1}^{T_x}{\alpha_{tj}h_{j}}<br />
-\ \alpha_{tj} = \frac{e^{\eta(s_{t-1},h_j)}}{\sum_{j'}e^{\eta(s_{t-1},h_{j'})}}<br />
+如上图所示, 在注意机制中，我们的源序列&amp;(x=(x_1, x_2, ...., x_t))&amp;分别被正向和反向地输入模型，进而得到了正反两层隐节点，语义向量c则由RNN中的隐节点h通过不同权重a加权而成，其公式如下：<br />
+$$<br />
+c_t=\sum_{j=1}^{T_x}{\alpha_{tj}h_{j}};\ <br />
+\alpha_{tj} = \frac{e^{\eta(s_{t-1},h_j)}}{\sum_{j'}e^{\eta(s_{t-1},h_{j'})}}<br />
 $$</p>
 <p><a href="https://www.oschina.net/p/seq2seq">通用编码器&amp;解码器框架seq2seq</a></p>
 <p><a href="http://blog.csdn.net/jerr__y/article/details/53749693">seq2seq学习笔记</a></p>
