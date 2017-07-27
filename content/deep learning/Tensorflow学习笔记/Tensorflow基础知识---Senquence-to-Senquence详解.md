@@ -18,19 +18,23 @@ Seq2Seq是基于tensorflow的一种通用编码器&解码器框架，可用于�
 <center><img src="/wiki/static/images/seq2seq/encoder-decoder.png" alt="Encoder-Decoder展开"/></center>
 
 ## Encoder
-Encoder的过程比较简单，一般直接用RNN(LSTM)进行语义向量的生成：
+Encoder的过程比较简单，一般直接用RNN(LSTM,GRU,RNN等)进行语义向量的生成，上图中每个圆圈代表一个RNNCell，每个time_step，我们能向Encoder中输入一个字/词（一般是表示这个字/词的一个实数向量），直到输入这个句子的最后一个字/词$(X_T)$,然后输出整个句子的语义向量c(一般的，$(c=h_X_T, X_t)$是最后一个输入)。
+
+因为RNN的特点就是把前面每一步输入信息都考虑进来了，所以理论上这个c就能够包含整个句子的信息。因此，c可以作为这个句子的一种语义表示。即为该句的句向量。
 $$
 h_t = f(x_t, h_{t-1})\\
 c = \phi(h_1,h_2,...,h_T)
 $$
-其中f是非线性激活函数，$(h_{t-1})$是上一个隐节点输出，$(x_t)$是当前时刻的输入，向量c通常为RNN的最后一个隐节点（h,Hidden state）,或者是多个隐节点的加权和。
+其中f是非线性激活函数，可以是sigmod、tan、relu、lstm等，$(h_{t-1})$是上一个隐节点输出，$(x_t)$是当前时刻的输入，向量c通常为RNN的最后一个隐节点（h,Hidden state）,或者是多个隐节点的加权和。
 ## Decoder
+在Decoder过程中，就是一步步将句向量c中蕴含的信息分析出来。
+
 该模型的decoder过程是使用另一个RNN通过当前状态$(h_t)$来预测当前的输出符号$(y_t)$, 其中的$(h_t)$,$(y_t)$都与其前一个隐状态和输出有关：
 $$
 h_t= f(h_{t-1}, y_{t-1}, c)\\
 P(y_t|y_{t-1},...,y_1,c)=g(h_t, y_{t-1}, c)
 $$
-
+编码完成后，我们的语义向量c会进入一个RNN解码器中进行解释，简单说，解释的过程就是被理解为运用贪心算法（一种局部最优解算法，即选取一种度量标准，默认在当前状态下进行最好的选择）来返回对应概率最大的词汇，或是通过集束搜索（Beam Search，一种启发式搜索算法，可以基于设别性能给予时间允许内的最优解）在序列输出检索大量的词汇，从而得到最优选择。
 
 
 ## attention mechanism
@@ -42,6 +46,8 @@ $$
 
 
 [通用编码器&解码器框架seq2seq](https://www.oschina.net/p/seq2seq)
+
+[seq2seq学习笔记](http://blog.csdn.net/jerr__y/article/details/53749693)
 
 [TensorFlow中Sequence-to-Sequence样例代码详解](http://blog.csdn.net/diligent_321/article/details/53590289)
 
