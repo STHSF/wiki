@@ -115,6 +115,8 @@ $$
 
 [tensorflow学习笔记（十一）：seq2seq Model相关接口介绍](http://blog.csdn.net/u012436149/article/details/52976413)
 
+[Tensorflow新版Seq2Seq接口使用](http://www.2cto.com/kf/201707/654042.html)
+
 [RNN回归例子](http://www.360doc.com/content/17/0321/10/10408243_638692790.shtml)
 
 [Styles of Truncated Backpropagation](https://r2rt.com/styles-of-truncated-backpropagation.html)
