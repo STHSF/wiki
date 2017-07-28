@@ -11,3 +11,10 @@ date: 2017-07-25 23:00
 
 
 # tf.name_scope() & tf.variable_scope()
+
+
+# 参考文献
+[ tensorflow学习笔记（二十三）：variable与get_variable](http://blog.csdn.net/u012436149/article/details/53696970)
+[tensorflow学习笔记(十五): variable scope](http://www.2cto.com/kf/201611/562404.html)
+[tf.variable_scope和tf.name_scope的用法](http://blog.csdn.net/uestc_c2_403/article/details/72328815)
+[TF Boys (TensorFlow Boys ) 养成记（三）： TensorFlow 变量共享](http://www.cnblogs.com/Charles-Wan/p/6200446.html)

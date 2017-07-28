@@ -144,5 +144,6 @@ weighted_sigmoid_cross_entropy_with_logits是sigmoid_cross_entropy_with_logits�
 # 参考文献
 [1](http://blog.csdn.net/marsjhao/article/details/72630147)
 
-
+[tensorflow学习笔记（三）：损失函数](http://blog.csdn.net/u012436149/article/details/52874718)
+[sequence_loss_by_example(logits, targets, weights）](http://blog.csdn.net/appleml/article/details/54017873)
 

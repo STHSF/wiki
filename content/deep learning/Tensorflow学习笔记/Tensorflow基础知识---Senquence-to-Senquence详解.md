@@ -132,5 +132,3 @@ $$
 [tensorflow0.10.0 ptb_word_lm.py 源码解析](http://blog.csdn.net/u012436149/article/details/52828786)
 
 [ tensorflow学习笔记（二十六）：构建TF代码](http://blog.csdn.net/u012436149/article/details/53843158)
-
-[tensorflow学习笔记（三）：损失函数](http://blog.csdn.net/u012436149/article/details/52874718)
