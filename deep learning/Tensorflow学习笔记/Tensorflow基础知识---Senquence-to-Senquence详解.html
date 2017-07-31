@@ -58,7 +58,8 @@ $$<br />
 $$<br />
 c = \phi(h_1,h_2,...,h_T)<br />
 $$<br />
-其中f是非线性激活函数，可以是sigmod、tan、relu、lstm等，$(h_{t-1})$是上一个隐节点输出，$(x_t)$是当前时刻的输入，向量c通常为RNN的最后一个隐节点（h,Hidden state）,或者是多个隐节点的加权和。</p>
+其中f是非线性激活函数，可以是sigmod、tan、relu、lstm等，$(h_{t-1})$是上一个隐节点输出，$(x_t)$是当前时刻的输入，向量c通常为RNN的最后一个隐节点（h,Hidden state）,或者是多个隐节点的加权和。<br />
+图一中，encoder的输入为$([A,B,C])$</p>
 <h2 id="decoder">Decoder</h2>
 <p>在Decoder过程中，就是一步步将句向量c中蕴含的信息分析出来。编码完成后，我们的语义向量c会进入一个RNN解码器中进行解释，简单说，解释的过程就是被理解为运用贪心算法（一种局部最优解算法，即选取一种度量标准，默认在当前状态下进行最好的选择）来返回对应概率最大的词汇，或是通过集束搜索（Beam Search，一种启发式搜索算法，可以基于设别性能给予时间允许内的最优解）在序列输出检索大量的词汇，从而得到最优选择。</p>
 <p>该模型的decoder过程是使用另一个RNN通过当前状态$(s_t)$来预测当前的输出符号$(y_t)$, 其中的$(s_t)$,$(y_t)$都与其前一个隐状态和输出有关：<br />
@@ -75,7 +76,8 @@ $$<br />
 <center><img src="/wiki/static/images/seq2seq/encoder-decoder展开.png" alt="Encoder-Decoder详细展开"/></center></p>
 <p>上图展示的是一个邮件对话的应用场景，图中的 Encoder 和 Decoder 都只展示了一层的普通的 LSTMCell。从上面的结构中，我们可以看到，整个模型结构还是非常简单的。 EncoderCell 最后一个时刻的状态 $([c_{X_T},h_{X_T}])$ 就是上面说的中间语义向量 c ，它将作为 DecoderCell 的初始状态。然后在 DecoderCell 中，每个时刻的输出将会作为下一个时刻的输入。以此类推，直到 DecoderCell 某个时刻预测输出特殊符号 <END> 结束。</p>
 <p>在原论文中，作者使用的是4层LSTM，原理上跟1层LSTM是一样的，<a href="http://web.stanford.edu/class/cs224n/lectures/cs224n-2017-lecture1.pdf">CS224n</a>中给我们提供了一个三层的模型结构有助于我们对Encode-Decode的理解：<br />
-<center><img src="/wiki/static/images/seq2seq/4-level-encode-decode.jpg" alt="Encoder-Decoder-4层展开"/></center></p>
+<center><img src="/wiki/static/images/seq2seq/4-level-encode-decode.jpg" alt="Encoder-Decoder-4层展开"/></center><br />
+图一中Decoder的输入为$([<EOS>, w, x, y, z])$, Decoder的输出为：$([w, x, y, z,<EOS>])$, 其中<EOS>表示结束符。</p>
 <h2 id="attention-mechanism">Attention Mechanism</h2>
 <p>当Encode的序列过长时，会导致c保留的信息缺失，<a href="https://arxiv.org/pdf/1409.0473.pdf">Bahdanau</a>在Encoder和Decoder的基础上提出了注意力机制，<br />
 注意力机制模型主要的修改在decoder过程，传统的decoder中，每次预测下个词都会用到语义向量词c，而传统的decoder中的c主要是最后一个时刻的隐藏状态，这就意味着不管decoder生成的哪个单词，句子X中的任意单词对生成某个目标单词$(y_i)$的影响是相同的，也就是说没有加入注意力机制模型的encoder-decoder模型，目标序列对预测序列的贡献是相同的，例如，在翻译模型当中，每个被翻译目标单词对与翻译目标单词的贡献显然是不同的，<br />
