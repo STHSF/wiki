@@ -49,7 +49,7 @@ $$
 
 在原论文中，作者使用的是4层LSTM，原理上跟1层LSTM是一样的，[CS224n](http://web.stanford.edu/class/cs224n/lectures/cs224n-2017-lecture1.pdf)中给我们提供了一个三层的模型结构有助于我们对Encode-Decode的理解：
 <center><img src="/wiki/static/images/seq2seq/4-level-encode-decode.jpg" alt="Encoder-Decoder-4层展开"/></center>
-图一中Decoder的输入为$([<EOS>, w, x, y, z])$, Decoder的输出为：$([w, x, y, z,<EOS>])$, 其中<EOS>表示结束符。
+图一中Decoder的输入为$([<EOS>, w, x, y, z])$, Decoder的输出为：$([w, x, y, z,<EOS>])$, 其中$(<EOS>)$表示结束符。
 ## Attention Mechanism
 当Encode的序列过长时，会导致c保留的信息缺失，[Bahdanau](https://arxiv.org/pdf/1409.0473.pdf)在Encoder和Decoder的基础上提出了注意力机制，
 注意力机制模型主要的修改在decoder过程，传统的decoder中，每次预测下个词都会用到语义向量词c，而传统的decoder中的c主要是最后一个时刻的隐藏状态，这就意味着不管decoder生成的哪个单词，句子X中的任意单词对生成某个目标单词$(y_i)$的影响是相同的，也就是说没有加入注意力机制模型的encoder-decoder模型，目标序列对预测序列的贡献是相同的，例如，在翻译模型当中，每个被翻译目标单词对与翻译目标单词的贡献显然是不同的，
