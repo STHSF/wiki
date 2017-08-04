@@ -5,8 +5,8 @@
     <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
     <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
-    <title>Mathine Learning Tricks - sthsf's personal knowledge wiki</title>
-    <meta name="keywords" content="technology, machine learning, data mining, economics, accounting"/>
+    <title>应用到文本领域的卷积方法 - sthsf's personal knowledge wiki</title>
+    <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
     <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width" />
@@ -35,33 +35,23 @@
 <div id="container">
     
 <div id="header">
-  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm">Algorithm</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-machine learning">machine learning</a>&nbsp;»&nbsp;Mathine Learning Tricks</div>
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm">Algorithm</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning">DeepLearning</a>&nbsp;»&nbsp;应用到文本领域的卷积方法</div>
 </div>
 <div class="clearfix"></div>
-<div id="title">Mathine Learning Tricks</div>
+<div id="title">应用到文本领域的卷积方法</div>
 <div id="content">
-  <h1 id="_1">特征工程</h1>
-<h2 id="1feature-scalingnormalization">1、Feature Scaling（normalization）</h2>
-<p>让不同的输入特征数据具有相同的分布，这样在梯度下降中更新参数时效率更高。</p>
-<h3 id="_2">方法</h3>
-<p>scaling的方法很多种，其中之一就是求特征向量每个维度的均值和方差。<br />
-假设对于样本数据集$(X=[X^1, X^2, X^3, ....,X^r])$, 其中$(X^r=[x_1^r, x_2^r, x_3^r, ..., x_i^r])$<br />
-分别求每一个维度$(i)$的均值和方差。<br />
-- mean: $(m_i)$<br />
-- standard deviation: $(\sigma_i)$<br />
-则，每个特征元素可重新表示为：<br />
-$$<br />
-x_i^r=\frac{x_i^r-m_i}{\sigma_i}<br />
-$$<br />
-修改后是的每个维度数据的均值为0，方差为1。</p>
+  <h1 id="hello-word">hello word</h1>
+<h1 id="_1">参考文献</h1>
+<p><a href="http://www.datalearner.com/blog/1051495871419286">应用到文本领域的卷积方法</a><br />
+<a href="https://github.com/yoonkim/CNN_sentence">Convolutional Neural Networks for Sentence Classification</a></p>
 </div>
-<div id="content-footer">created in <span class="create-date date"> 2017-07-18 14:00 </span></div>
+<div id="content-footer">created in <span class="create-date date"> 2099-06-02 00:00 </span></div>
 <div id="comments"></div>
 <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
 <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script type="text/javascript">
 const gitment = new Gitment({
-  title: 'Mathine Learning Tricks',
+  title: '应用到文本领域的卷积方法',
   owner: 'sthsf',
   repo: 'wiki',
   oauth: {
