@@ -34,7 +34,11 @@ def get_decoder_layer():
 ```
 代码里分别调用了两次LSTMCell，并分别使用dynamic_cell计算不同的输入数据，运行的时候会出现上面的错误。
 
-在查了源码和一些资料后，在dynamic_rnn中添加了scope参数之后这个问题就解决了。
+*解决方案就是在dynamic_rnn中添加了scope参数的设置。*
+大多数文章都是在讨论dynamic_rnn通用的用途和使用方法以及常用的参数比如time_major等；
+对于函数内部在极少情况下需要用到的参数并没有太多的解释比如scope，在一些介绍双向RNN的文章中有提及到scope这个参数，但也没有做相关解释。
+所以我猜测这还是跟变量的作用域有关，但是至于为什么使用variable_scope却没有用的原因就不知道了。
+
 # 修改后的代码
 ```
 def get_encoder_layer():
@@ -59,6 +63,7 @@ def get_decoder_layer():
 ```
 源码中对scope的解释是：```scope: VariableScope for the created subgraph; defaults to "rnn".```
 其他地方没有太多的解释。我也刚刚接触tensorflow，对这些参数的理解不是很透彻，简单的讲，对于tensorflow入门比较简单，网上很多tutorials，但是想要真正的理解每个函数的意义并不是一件简单的事。
+如果你有相关详细的解释请给我留言。
 
 #### 参考代码[seq2seq_basic_advanced.py](https://github.com/STHSF/DeepNaturalLanguageProcessing/tree/develop/Seq2Seq)
 
