@@ -44,7 +44,8 @@ def get_encoder_layer():
     encoder_output, encoder_final_state = tf.nn.dynamic_rnn(encoder_cell,
                                                             encoder_inputs_embedded,
                                                             dtype=tf.float32,
-                                                            time_major=True)
+                                                            time_major=True,
+                                                            scope='encode_cell')
 def get_decoder_layer():
     decoder_inputs_embedded = embedding(decoder_inputs)
     with tf.variable_scope('decoder_cell'):
