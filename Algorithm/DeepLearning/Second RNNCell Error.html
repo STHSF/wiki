@@ -1,0 +1,144 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <title>have a second RNNCell use the weights of a variable scope - sthsf's personal knowledge wiki</title>
+    <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
+    <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$(',')$'], ['\\(','\\)']]}
+        });
+        </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-78529611-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+
+<body>
+<div id="container">
+    
+<div id="header">
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm">Algorithm</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning">DeepLearning</a>&nbsp;»&nbsp;have a second RNNCell use the weights of a variable scope</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">have a second RNNCell use the weights of a variable scope</div>
+<div id="content">
+  <h1 id="_1">写在前面</h1>
+<p>最近在实现seq2seq的时候遇到这样一个问题，我在同一段代码里需要定义两个不同的RNNcell，并且要分别使用dynamic_rnn去计算两个RNNCell的输出，虽然两个RNNCell我都定义了不同的variable_scope但是还是会报错，错误的提示如下：</p>
+<h1 id="_2">错误提示</h1>
+<div class="hlcode"><pre><span class="n">ValueError</span><span class="o">:</span> <span class="n">Attempt</span> <span class="n">to</span> <span class="n">have</span> <span class="n">a</span> <span class="n">second</span> <span class="n">RNNCell</span> <span class="n">use</span> <span class="n">the</span> <span class="n">weights</span> <span class="n">of</span> <span class="n">a</span> <span class="n">variable</span> <span class="n">scope</span> <span class="n">that</span> <span class="n">already</span> <span class="n">has</span> <span class="n">weights</span><span class="o">:</span> <span class="s1">&#39;rnn/lstm_cell&#39;</span><span class="o">;</span> <span class="n">and</span> <span class="n">the</span> <span class="n">cell</span> <span class="n">was</span> <span class="n">not</span> <span class="n">constructed</span> <span class="k">as</span> <span class="n">LSTMCell</span><span class="o">(...,</span> <span class="n">reuse</span><span class="o">=</span><span class="n">True</span><span class="o">).</span>  <span class="n">To</span> <span class="n">share</span> <span class="n">the</span> <span class="n">weights</span> <span class="n">of</span> <span class="n">an</span> <span class="n">RNNCell</span><span class="o">,</span> <span class="n">simply</span> <span class="n">reuse</span> <span class="n">it</span> <span class="k">in</span> <span class="n">your</span> <span class="n">second</span> <span class="n">calculation</span><span class="o">,</span> <span class="n">or</span> <span class="n">create</span> <span class="n">a</span> <span class="k">new</span> <span class="n">one</span> <span class="k">with</span> <span class="n">the</span> <span class="n">argument</span> <span class="n">reuse</span><span class="o">=</span><span class="n">True</span><span class="o">.</span>
+</pre></div>
+
+
+<h1 id="_3">涉及的部分代码</h1>
+<div class="hlcode"><pre><span class="n">def</span> <span class="n">get_encoder_layer</span><span class="p">()</span><span class="o">:</span>
+    <span class="n">encoder_inputs_embedded</span> <span class="o">=</span> <span class="n">embedding</span><span class="p">(</span><span class="n">encoder_inputs</span><span class="p">)</span>
+        <span class="n">with</span> <span class="n">tf</span><span class="p">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="err">&#39;</span><span class="n">encoder</span><span class="err">&#39;</span><span class="p">)</span><span class="o">:</span>
+        <span class="n">encoder_cell</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">contrib</span><span class="p">.</span><span class="n">rnn</span><span class="p">.</span><span class="n">LSTMCell</span><span class="p">(</span><span class="n">encoder_hidden_units</span><span class="p">)</span>
+    <span class="n">encoder_output</span><span class="p">,</span> <span class="n">encoder_final_state</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">dynamic_rnn</span><span class="p">(</span><span class="n">encoder_cell</span><span class="p">,</span>
+                                                            <span class="n">encoder_inputs_embedded</span><span class="p">,</span>
+                                                            <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">,</span>
+                                                            <span class="n">time_major</span><span class="o">=</span><span class="n">True</span><span class="p">)</span>
+<span class="n">def</span> <span class="n">get_decoder_layer</span><span class="p">()</span><span class="o">:</span>
+    <span class="n">decoder_inputs_embedded</span> <span class="o">=</span> <span class="n">embedding</span><span class="p">(</span><span class="n">decoder_inputs</span><span class="p">)</span>
+    <span class="n">with</span> <span class="n">tf</span><span class="p">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="err">&#39;</span><span class="n">decoder</span><span class="err">&#39;</span><span class="p">)</span><span class="o">:</span>
+        <span class="n">decoder_cell</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">contrib</span><span class="p">.</span><span class="n">rnn</span><span class="p">.</span><span class="n">LSTMCell</span><span class="p">(</span><span class="n">decoder_hidden_units</span><span class="p">)</span>
+    <span class="n">decoder_outputs</span><span class="p">,</span> <span class="n">decoder_final_state</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">dynamic_rnn</span><span class="p">(</span><span class="n">decoder_cell</span><span class="p">,</span>
+                                                             <span class="n">decoder_inputs_embedded</span><span class="p">,</span>
+                                                             <span class="n">initial_state</span><span class="o">=</span><span class="n">self</span><span class="p">.</span><span class="n">encoder_final_state</span><span class="p">,</span>
+                                                             <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">,</span>
+                                                             <span class="n">time_major</span><span class="o">=</span><span class="n">True</span><span class="p">)</span>
+</pre></div>
+
+
+<p>代码里分别调用了两次LSTMCell，并分别使用dynamic_cell计算不同的输入数据，运行的时候会出现上面的错误。</p>
+<p>在查了源码和一些资料后，在dynamic_rnn中添加了scope参数之后这个问题就解决了。</p>
+<h1 id="_4">修改后的代码</h1>
+<div class="hlcode"><pre><span class="n">def</span> <span class="n">get_encoder_layer</span><span class="p">()</span><span class="o">:</span>
+    <span class="n">encoder_inputs_embedded</span> <span class="o">=</span> <span class="n">embedding</span><span class="p">(</span><span class="n">encoder_inputs</span><span class="p">)</span>
+        <span class="n">with</span> <span class="n">tf</span><span class="p">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="err">&#39;</span><span class="n">encoder_cell</span><span class="err">&#39;</span><span class="p">)</span><span class="o">:</span>
+        <span class="n">encoder_cell</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">contrib</span><span class="p">.</span><span class="n">rnn</span><span class="p">.</span><span class="n">LSTMCell</span><span class="p">(</span><span class="n">encoder_hidden_units</span><span class="p">)</span>
+    <span class="n">encoder_output</span><span class="p">,</span> <span class="n">encoder_final_state</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">dynamic_rnn</span><span class="p">(</span><span class="n">encoder_cell</span><span class="p">,</span>
+                                                            <span class="n">encoder_inputs_embedded</span><span class="p">,</span>
+                                                            <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">,</span>
+                                                            <span class="n">time_major</span><span class="o">=</span><span class="n">True</span><span class="p">)</span>
+<span class="n">def</span> <span class="n">get_decoder_layer</span><span class="p">()</span><span class="o">:</span>
+    <span class="n">decoder_inputs_embedded</span> <span class="o">=</span> <span class="n">embedding</span><span class="p">(</span><span class="n">decoder_inputs</span><span class="p">)</span>
+    <span class="n">with</span> <span class="n">tf</span><span class="p">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="err">&#39;</span><span class="n">decoder_cell</span><span class="err">&#39;</span><span class="p">)</span><span class="o">:</span>
+        <span class="n">decoder_cell</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">contrib</span><span class="p">.</span><span class="n">rnn</span><span class="p">.</span><span class="n">LSTMCell</span><span class="p">(</span><span class="n">decoder_hidden_units</span><span class="p">)</span>
+    <span class="n">decoder_outputs</span><span class="p">,</span> <span class="n">decoder_final_state</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">dynamic_rnn</span><span class="p">(</span><span class="n">decoder_cell</span><span class="p">,</span>
+                                                             <span class="n">decoder_inputs_embedded</span><span class="p">,</span>
+                                                             <span class="n">initial_state</span><span class="o">=</span><span class="n">self</span><span class="p">.</span><span class="n">encoder_final_state</span><span class="p">,</span>
+                                                             <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">,</span>
+                                                             <span class="n">time_major</span><span class="o">=</span><span class="n">True</span><span class="p">,</span>
+                                                             <span class="n">scope</span><span class="o">=</span><span class="err">&#39;</span><span class="n">decode_cell</span><span class="err">&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>源码中对scope的解释是：<code>scope: VariableScope for the created subgraph; defaults to "rnn".</code><br />
+其他地方没有太多的解释。我也刚刚接触tensorflow，对这些参数的理解不是很透彻，简单的讲，对于tensorflow入门比较简单，网上很多tutorials，但是想要真正的理解每个函数的意义并不是一件简单的事。</p>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2099-06-02 00:00 </span></div>
+<div id="comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script type="text/javascript">
+const gitment = new Gitment({
+  title: 'have a second RNNCell use the weights of a variable scope',
+  owner: 'sthsf',
+  repo: 'wiki',
+  oauth: {
+    client_id: '086c54c5fd95adfdc372',
+    client_secret: '2ad9ebe87b952d2c77fccf99c334881b91eaa73d',
+  },
+  // ...
+  // For more available options, check out the documentation below
+})
+gitment.render('comments')
+// or
+// gitment.render(document.getElementById('comments'))
+// or
+// document.body.appendChild(gitment.render())
+</script>
+
+</div>
+<div id="footer">
+            <span>
+                Copyright © 2017 sthsf.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+                Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
+            </span>
+</div>
+
+
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?90e1dcdd1938573c19f9ff6521188e91";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</body>
+</html>
