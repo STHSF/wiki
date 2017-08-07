@@ -17,10 +17,10 @@ date: 2017-08-02 00:00
 ```
 import numpy as np
 import tensorflow as tf
-
 ```
 
 ## 数据预处理
+# 定义参数
 ```
 # 填充标记
 PAD = 0
