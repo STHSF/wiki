@@ -1,7 +1,7 @@
 ---
 title: "have a second RNNCell use the weights of a variable scope"
 layout: page
-date: 2099-06-02 00:00
+date: 2017-08-07 22:10
 ---
 # 写在前面
 最近在实现seq2seq的时候遇到这样一个问题，我在同一段代码里需要定义两个不同的RNNcell，并且要分别使用dynamic_rnn去计算两个RNNCell的输出，虽然两个RNNCell我都定义了不同的variable_scope但是还是会报错，错误的提示如下：
