@@ -1,5 +1,5 @@
 ---
-title: "have a second RNNCell use the weights of a variable scope"
+title: "ValueError: Attempt to have a second RNNCell use the weights of a variable scope that already has weights"
 layout: page
 date: 2017-08-07 22:10
 ---
