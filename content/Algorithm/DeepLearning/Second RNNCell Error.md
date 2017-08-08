@@ -63,6 +63,9 @@ def get_decoder_layer():
 ```
 源码中对scope的解释是：```scope: VariableScope for the created subgraph; defaults to "rnn".```
 其他地方没有太多的解释。我也刚刚接触tensorflow，对这些参数的理解不是很透彻，简单的讲，对于tensorflow入门比较简单，网上很多tutorials，但是想要真正的理解每个函数的意义并不是一件简单的事。
+
+同样也有人建议在LSTMCell中添加reuse=tf.get_variable_scope().reuse，我在我的代码中试过了，还是会提示同样的错误.
+
 如果你有相关详细的解释请给我留言。
 
 #### 参考代码[seq2seq_basic_advanced.py](https://github.com/STHSF/DeepNaturalLanguageProcessing/tree/develop/Seq2Seq)
