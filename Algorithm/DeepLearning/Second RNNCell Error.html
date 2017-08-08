@@ -97,8 +97,9 @@
 
 
 <p>源码中对scope的解释是：<code>scope: VariableScope for the created subgraph; defaults to "rnn".</code><br />
-其他地方没有太多的解释。我也刚刚接触tensorflow，对这些参数的理解不是很透彻，简单的讲，对于tensorflow入门比较简单，网上很多tutorials，但是想要真正的理解每个函数的意义并不是一件简单的事。<br />
-如果你有相关详细的解释请给我留言。</p>
+其他地方没有太多的解释。我也刚刚接触tensorflow，对这些参数的理解不是很透彻，简单的讲，对于tensorflow入门比较简单，网上很多tutorials，但是想要真正的理解每个函数的意义并不是一件简单的事。</p>
+<p>同样也有人建议在LSTMCell中添加reuse=tf.get_variable_scope().reuse，我在我的代码中试过了，还是会提示同样的错误.</p>
+<p>如果你有相关详细的解释请给我留言。</p>
 <h4 id="seq2seq_basic_advancedpy">参考代码<a href="https://github.com/STHSF/DeepNaturalLanguageProcessing/tree/develop/Seq2Seq">seq2seq_basic_advanced.py</a></h4>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2017-08-07 22:10 </span></div>
