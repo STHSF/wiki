@@ -1,5 +1,5 @@
 ---
-title: "Linux下MySQL安装与配置.md"
+title: "Linux下MySQL安装与配置"
 layout: page
 date: 2099-06-02 00:00
 ---
@@ -55,4 +55,6 @@ tcp        0      0 localhost:mysql         *:*                     LISTEN      
 查看表中的内容：```show columns from "table_name";```
 
 显示数据表的详细索引信息，包括PRIMARY KEY（主键）: ```show index from "table_name";```
+
+
 
