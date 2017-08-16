@@ -4,8 +4,6 @@ layout: page
 date: 2017-08-16 08:59
 ---
 
-# 安装MySQLdb出现的错误
-
 ## MySQLdb 安装
 - 从[MySQL for Python](https://sourceforge.net/projects/mysql-python/files/mysql-python/1.2.3/)上下载安装压缩包。
 ```
