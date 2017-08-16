@@ -5,7 +5,7 @@
     <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
     <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
-    <title>Linux下MySQL安装与配置 - sthsf's personal knowledge wiki</title>
+    <title>Linux下MySQL安装配置与使用 - sthsf's personal knowledge wiki</title>
     <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
     <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -35,10 +35,10 @@
 <div id="container">
     
 <div id="header">
-  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#DataBase">DataBase</a>&nbsp;»&nbsp;Linux下MySQL安装与配置</div>
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#DataBase">DataBase</a>&nbsp;»&nbsp;Linux下MySQL安装配置与使用</div>
 </div>
 <div class="clearfix"></div>
-<div id="title">Linux下MySQL安装与配置</div>
+<div id="title">Linux下MySQL安装配置与使用</div>
 <div id="content">
   <h1 id="mysql">MySQL安装</h1>
 <div class="hlcode"><pre><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">mysql</span><span class="o">-</span><span class="n">server</span>
@@ -76,8 +76,11 @@
 <p>查看database列表：<code>show databases;</code></p>
 <p>操作数据库：<code>use "database_name";</code></p>
 <p>查看表名：<code>show tables;</code></p>
-<p>查看表中的内容：<code>show columns from "table_name";</code></p>
+<p>显示表的结构：<code>show columns from "table_name";</code></p>
+<p>显示表的结构：<code>describe "table_name";</code></p>
 <p>显示数据表的详细索引信息，包括PRIMARY KEY（主键）: <code>show index from "table_name";</code></p>
+<p>创建数据库：<code>create database "database_name"</code><br />
+删除数据库： <code>drop database "database_name"</code></p>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2099-06-02 00:00 </span></div>
 <div id="comments"></div>
@@ -85,7 +88,7 @@
 <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script type="text/javascript">
 const gitment = new Gitment({
-  title: 'Linux下MySQL安装与配置',
+  title: 'Linux下MySQL安装配置与使用',
   owner: 'sthsf',
   repo: 'wiki',
   oauth: {
