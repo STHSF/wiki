@@ -1,7 +1,7 @@
 ---
 title: "Linux下MySQL安装配置与使用"
 layout: page
-date: 2099-06-02 00:00
+date: 2017-08-17 10:00
 ---
 
 # MySQL安装
@@ -59,5 +59,25 @@ tcp        0      0 localhost:mysql         *:*                     LISTEN      
 显示数据表的详细索引信息，包括PRIMARY KEY（主键）: ```show index from "table_name";```
 
 创建数据库：```create database "database_name"```
+
 删除数据库： ```drop database "database_name"```
+
+## python 操作mysql
+```python
+import MySQLdb
+ 
+conn = MySQLdb.connect(host='localhost',port=3306, user='root', passwd='1234567890', db='compet',)
+
+cur = conn.cursor() 
+# 创建数据库
+# sql = "CREATE TABLE pricedetial (security_id varchar(10), data_date varchar(20), d0_wd varchar(20), d0_open varchar(20), d1_wd varchar(20), d1_open varchar(20), d2_wd varchar(20), d2_open varchar(20), d3_wd varchar(20), d3_open varchar(20), tag varchar(10))"
+# 插入数据
+sql = "INSERT INTO pricedetial (security_id, data_date, d0_wd, d0_open, d1_wd, d1_open, d2_wd, d2_open, d3_wd, d3_open, tag) VALUES ('%s','%s','%s','%s','%s','%s'    ,'%s','%s','%s','%s','%s')" % ('l', 'yu', '12', '13', '14', '15', '16', '17', '18', '19', 'train')
+cur.execute(sql)
+cur.close()
+conn.commit()
+conn.close()
+```
+
+
 
