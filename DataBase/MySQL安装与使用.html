@@ -79,10 +79,25 @@
 <p>显示表的结构：<code>show columns from "table_name";</code></p>
 <p>显示表的结构：<code>describe "table_name";</code></p>
 <p>显示数据表的详细索引信息，包括PRIMARY KEY（主键）: <code>show index from "table_name";</code></p>
-<p>创建数据库：<code>create database "database_name"</code><br />
-删除数据库： <code>drop database "database_name"</code></p>
+<p>创建数据库：<code>create database "database_name"</code></p>
+<p>删除数据库： <code>drop database "database_name"</code></p>
+<h2 id="python-mysql">python 操作mysql</h2>
+<div class="hlcode"><pre><span class="kn">import</span> <span class="nn">MySQLdb</span>
+
+<span class="n">conn</span> <span class="o">=</span> <span class="n">MySQLdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s">&#39;localhost&#39;</span><span class="p">,</span><span class="n">port</span><span class="o">=</span><span class="mi">3306</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="s">&#39;root&#39;</span><span class="p">,</span> <span class="n">passwd</span><span class="o">=</span><span class="s">&#39;1234567890&#39;</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="s">&#39;compet&#39;</span><span class="p">,)</span>
+
+<span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> 
+<span class="c"># 创建数据库</span>
+<span class="c"># sql = &quot;CREATE TABLE pricedetial (security_id varchar(10), data_date varchar(20), d0_wd varchar(20), d0_open varchar(20), d1_wd varchar(20), d1_open varchar(20), d2_wd varchar(20), d2_open varchar(20), d3_wd varchar(20), d3_open varchar(20), tag varchar(10))&quot;</span>
+<span class="c"># 插入数据</span>
+<span class="n">sql</span> <span class="o">=</span> <span class="s">&quot;INSERT INTO pricedetial (security_id, data_date, d0_wd, d0_open, d1_wd, d1_open, d2_wd, d2_open, d3_wd, d3_open, tag) VALUES (&#39;</span><span class="si">%s</span><span class="s">&#39;,&#39;</span><span class="si">%s</span><span class="s">&#39;,&#39;</span><span class="si">%s</span><span class="s">&#39;,&#39;</span><span class="si">%s</span><span class="s">&#39;,&#39;</span><span class="si">%s</span><span class="s">&#39;,&#39;</span><span class="si">%s</span><span class="s">&#39;    ,&#39;</span><span class="si">%s</span><span class="s">&#39;,&#39;</span><span class="si">%s</span><span class="s">&#39;,&#39;</span><span class="si">%s</span><span class="s">&#39;,&#39;</span><span class="si">%s</span><span class="s">&#39;,&#39;</span><span class="si">%s</span><span class="s">&#39;)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;l&#39;</span><span class="p">,</span> <span class="s">&#39;yu&#39;</span><span class="p">,</span> <span class="s">&#39;12&#39;</span><span class="p">,</span> <span class="s">&#39;13&#39;</span><span class="p">,</span> <span class="s">&#39;14&#39;</span><span class="p">,</span> <span class="s">&#39;15&#39;</span><span class="p">,</span> <span class="s">&#39;16&#39;</span><span class="p">,</span> <span class="s">&#39;17&#39;</span><span class="p">,</span> <span class="s">&#39;18&#39;</span><span class="p">,</span> <span class="s">&#39;19&#39;</span><span class="p">,</span> <span class="s">&#39;train&#39;</span><span class="p">)</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+<span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
 </div>
-<div id="content-footer">created in <span class="create-date date"> 2099-06-02 00:00 </span></div>
+<div id="content-footer">created in <span class="create-date date"> 2017-08-17 10:00 </span></div>
 <div id="comments"></div>
 <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
 <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
