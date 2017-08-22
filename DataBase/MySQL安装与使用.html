@@ -49,38 +49,48 @@
 
 <p>在第一步安装的过程中会弹出窗口要求输入root用户的密码，需要记住这个密码。</p>
 <h3 id="_1">检查是否安装成功</h3>
-<p>输入命令：</p>
+<ul>
+<li>输入命令：</li>
+</ul>
 <div class="hlcode"><pre><span class="n">netstat</span> <span class="o">-</span><span class="n">tap</span> <span class="o">|</span> <span class="n">grep</span> <span class="n">mysql</span>
 </pre></div>
 
 
-<p>输出的正确结果为：</p>
+<ul>
+<li>输出的正确结果为：</li>
+</ul>
 <div class="hlcode"><pre><span class="n">tcp</span>        <span class="mi">0</span>      <span class="mi">0</span> <span class="n">localhost</span><span class="o">:</span><span class="n">mysql</span>         <span class="o">*:*</span>                     <span class="n">LISTEN</span>      <span class="mi">23368</span><span class="o">/</span><span class="n">mysqld</span>
 </pre></div>
 
 
 <p>出现以上结果就代表安装成功了。</p>
 <h3 id="mysql_1">MySQL的一些简单管理：</h3>
-<p>启动MySQL服务：<code>sudo start mysql</code></p>
-<p>停止MySQL服务：<code>sudo stop mysql</code></p>
-<p>修改 MySQL 的管理员密码：<code>sudo mysqladmin -u root password "newpassword"</code></p>
-<p>设置远程访问(正常情况下，mysql占用的3306端口只是在IP 127.0.0.1上监听，拒绝了其他IP的访问（通过netstat可以查看到）。取消本地监听需要修改 my.cnf 文件：)：<br />
+<ul>
+<li>启动MySQL服务：<code>sudo start mysql</code></li>
+<li>停止MySQL服务：<code>sudo stop mysql</code></li>
+<li>修改 MySQL 的管理员密码：<code>sudo mysqladmin -u root password "newpassword"</code></li>
+<li>设置远程访问(正常情况下，mysql占用的3306端口只是在IP 127.0.0.1上监听，拒绝了其他IP的访问（通过netstat可以查看到）。取消本地监听需要修改 my.cnf 文件：)：<br />
 <code>sudo vi /etc/mysql/my.cnf</code><br />
-<code>bind-address = 127.0.0.1 //找到此内容并且注释</code></p>
+<code>bind-address = 127.0.0.1 //找到此内容并且注释</code></li>
+</ul>
 <h3 id="mysqlapt-get-install">MySQL安装后的目录结构分析(此结构只针对于使用apt-get install 在线安装情况)：</h3>
-<p>数据库存放目录：<code>/var/lib/mysql/</code></p>
-<p>相关配置文件存放目录：<code>/usr/share/mysql</code></p>
-<p>相关命令存放目录：<code>/usr/bin(mysqladmin mysqldump等命令)</code></p>
-<p>启动脚步存放目录：<code>/etc/rc.d/init.d/</code></p>
+<ul>
+<li>数据库存放目录：<code>/var/lib/mysql/</code></li>
+<li>相关配置文件存放目录：<code>/usr/share/mysql</code></li>
+<li>相关命令存放目录：<code>/usr/bin(mysqladmin mysqldump等命令)</code></li>
+<li>启动脚步存放目录：<code>/etc/rc.d/init.d/</code></li>
+</ul>
 <h3 id="_2">常用命令</h3>
-<p>查看database列表：<code>show databases;</code></p>
-<p>操作数据库：<code>use "database_name";</code></p>
-<p>查看表名：<code>show tables;</code></p>
-<p>显示表的结构：<code>show columns from "table_name";</code></p>
-<p>显示表的结构：<code>describe "table_name";</code></p>
-<p>显示数据表的详细索引信息，包括PRIMARY KEY（主键）: <code>show index from "table_name";</code></p>
-<p>创建数据库：<code>create database "database_name"</code></p>
-<p>删除数据库： <code>drop database "database_name"</code></p>
+<ul>
+<li>查看database列表：<code>show databases;</code></li>
+<li>操作数据库：<code>use "database_name";</code></li>
+<li>查看表名：<code>show tables;</code></li>
+<li>显示表的结构：<code>show columns from "table_name";</code></li>
+<li>显示表的结构：<code>describe "table_name";</code></li>
+<li>显示数据表的详细索引信息，包括PRIMARY KEY（主键）: <code>show index from "table_name";</code></li>
+<li>创建数据库：<code>create database "database_name"</code></li>
+<li>删除数据库： <code>drop database "database_name"</code></li>
+</ul>
 <h2 id="python-mysql">python 操作mysql</h2>
 <div class="hlcode"><pre><span class="kn">import</span> <span class="nn">MySQLdb</span>
 
