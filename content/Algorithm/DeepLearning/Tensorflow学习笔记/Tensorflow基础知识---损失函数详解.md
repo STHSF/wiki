@@ -57,7 +57,7 @@ _这里需要注意的是，这个函数返回值不是一个数，而是一个�
 
 **警告：**
 - Tenosrflow中集成的交叉熵操作是施加在未经过Softmax处理的logits上, 这个操作的输入logits是未经缩放的, 该操作内部会对logits使用Softmax操作。
-- 参数labels，ligits必须有相同的形状[batch_size, num_classes]和相同的类型[(float16, float32, float64)中的一种]。
+- 参数labels，ligits必须有相同的shape,如:[batch_size, num_classes]和相同的类型, 如:[(float16, float32, float64)中的一种]。
 下面这段代码可以测试上面的理论：
 ```python
 # coding=utf-8
@@ -101,7 +101,8 @@ Function(softmax_cross_entropy_with_logits) result=
 ## tf.nn.sparse_softmax_cross_entropy_with_logits(logits, labels, name=None)
 ```python
 def sparse_softmax_cross_entropy_with_logits(_sentinel=None,  # pylint: disable=invalid-name
-                                             labels=None, logits=None,
+                                             labels=None, 
+                                             logits=None,
                                              name=None):
   """Computes sparse softmax cross entropy between `logits` and `labels`.
   Args:
@@ -124,12 +125,14 @@ def sparse_softmax_cross_entropy_with_logits(_sentinel=None,  # pylint: disable=
       of the labels is not equal to the rank of the labels minus one.
   """
 ```
-该函数与tf.nn.softmax_cross_entropy_with_logits()函数十分相似，唯一的区别在于labels，该函数的labels要求是排他性的即只有一个正确的类别，如果labels的每一行是one_hot表示形式，可以使用tf.nn.sparse_softmax_cross_entropy_with_logits()。
+该函数与tf.nn.softmax_cross_entropy_with_logits()函数十分相似，唯一的区别在于labels的shape，该函数的labels要求是排他性的即只有一个正确的类别，如果labels的每一行不需要进行one_hot表示，可以使用tf.nn.sparse_softmax_cross_entropy_with_logits()。
 
 ## tf.nn.sigmoid_cross_entropy_with_logits(logits, targets, name=None)
 sigmoid_cross_entropy_with_logits是TensorFlow最早实现的交叉熵算法。这个函数的输入是logits和labels，logits就是神经网络模型中的 W * X矩阵，注意不需要经过sigmoid，而labels的shape和logits相同，就是正确的标签值，例如这个模型一次要判断100张图是否包含10种动物，这两个输入的shape都是[100, 10]。注释中还提到这10个分类之间是独立的、不要求是互斥，这种问题我们称为多目标（多标签）分类，例如判断图片中是否包含10种动物中的一种或几种，标签值可以包含多个1或0个1。
+
 ## tf.nn.weighted_cross_entropy_with_logits(logits, targets, pos_weight, name=None)	
 weighted_sigmoid_cross_entropy_with_logits是sigmoid_cross_entropy_with_logits的拓展版，多支持一个pos_weight参数，在传统基于sigmoid的交叉熵算法上，正样本算出的值乘以某个系数。
+
 ## tf.nn.log_softmax(logits, name=None)	
 
 
