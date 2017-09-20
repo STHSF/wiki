@@ -92,6 +92,38 @@ $$
     2015年，Google的Andrew M.Dai和Quo V.Le提出了将Seq2Seq的自动编码器作为LSTM文本分类的一个预训练步骤，从而提高了分类的稳定性。这使得Seq2Seq技术的目的不再局限于得到序列本身，为其应用领域翻开了崭新的一页。
 
 # 参考文献
+[用tensorflow实现seq2seq模型](http://blog.csdn.net/u013713117/article/details/54986436)
+
+[ TensorFlow Seq2Seq Model笔记](http://blog.csdn.net/wangxinginnlp/article/details/66971931)
+
+[The Unreasonable Effectiveness of Recurrent Neural Networks](http://karpathy.github.io/2015/05/21/rnn-effectiveness/)
+
+[从Encoder到Decoder实现Seq2Seq模型](https://zhuanlan.zhihu.com/p/27608348)
+
+[漫谈四种神经网络序列解码模型【附示例代码】](http://jacoxu.com/encoder_decoder/)
+
+[TensorFlow深度学习笔记 循环神经网络实践](http://www.cnblogs.com/hellocwh/p/5626457.html)
+
+[各类Seq2Seq模型对比及《Attention Is All You Need》中技术详解](https://baijiahao.baidu.com/s?id=1570993947756118&wfr=spider&for=pc)
+
+[tensorflow的legacy_seq2seq](https://lan2720.github.io/2017/03/10/tensorflow%E7%9A%84legacy-seq2seq/)
+
+[seq2seq中的beam search算法过程](https://mp.weixin.qq.com/s/H6eYxS7rXGDH_B8Znrxqsg?scene=25#wechat_redirect)
+
+[seq2seq模型初探](http://www.jianshu.com/p/779e022a8644?hmsr=toutiao.io)
+
+[tensorflow-seq2seq-tutorials](https://github.com/ematvey/tensorflow-seq2seq-tutorials/blob/master/model_new.py)
+
+[tensorflow学习笔记（十一）：seq2seq Model相关接口介绍](http://blog.csdn.net/u012436149/article/details/52976413)
+
+[Chatbots with Seq2Seq](http://suriyadeepan.github.io/2016-06-28-easy-seq2seq/)
+
+[Tensorflow seq2seq模型 实现聊天机器人](http://www.easyapple.net/?p=1384)
+
+[Tensorflow新版Seq2Seq接口使用](https://www.2cto.com/kf/201707/654042.html)
+
+[seq2seq模型之raw_rnn](http://www.jianshu.com/p/f775ea3eefd2)
+
 [通用编码器&解码器框架seq2seq](https://www.oschina.net/p/seq2seq)
 
 [seq2seq学习笔记](http://blog.csdn.net/jerr__y/article/details/53749693)
