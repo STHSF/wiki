@@ -105,7 +105,7 @@ Tensorflow中定义的交叉熵函数如下：</p>
 <p><em y_="y'">这里需要注意的是，这个函数返回值不是一个数，而是一个向量，如果要求交叉熵，我们要在做一步tf.resuce_sum操作，就是对向量里面的所有元素求和, 最后就能得到$(H</em>(y))$,如果要求loss，则需要做一步tf.reduce_mean操作，对向量求均值。_</p>
 <p><strong>警告：</strong><br />
 - Tenosrflow中集成的交叉熵操作是施加在未经过Softmax处理的logits上, 这个操作的输入logits是未经缩放的, 该操作内部会对logits使用Softmax操作。<br />
-- 参数labels，ligits必须有相同的形状[batch_size, num_classes]和相同的类型[(float16, float32, float64)中的一种]。<br />
+- 参数labels，ligits必须有相同的shape,如:[batch_size, num_classes]和相同的类型, 如:[(float16, float32, float64)中的一种]。<br />
 下面这段代码可以测试上面的理论：</p>
 <div class="hlcode"><pre><span class="c"># coding=utf-8</span>
 <span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>  
@@ -148,7 +148,8 @@ Tensorflow中定义的交叉熵函数如下：</p>
 从结果可以看出softmax_cross_entropy_with_logits()与我们个公式逻辑是相符合的，整个过程可以大概了解到softmax_cross_entropy_with_logits()的操作情况。</p>
 <h2 id="tfnnsparse_softmax_cross_entropy_with_logitslogits-labels-namenone">tf.nn.sparse_softmax_cross_entropy_with_logits(logits, labels, name=None)</h2>
 <div class="hlcode"><pre><span class="k">def</span> <span class="nf">sparse_softmax_cross_entropy_with_logits</span><span class="p">(</span><span class="n">_sentinel</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>  <span class="c"># pylint: disable=invalid-name</span>
-                                             <span class="n">labels</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">logits</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                                             <span class="n">labels</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
+                                             <span class="n">logits</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
                                              <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Computes sparse softmax cross entropy between `logits` and `labels`.</span>
 <span class="sd">  Args:</span>
@@ -173,7 +174,7 @@ Tensorflow中定义的交叉熵函数如下：</p>
 </pre></div>
 
 
-<p>该函数与tf.nn.softmax_cross_entropy_with_logits()函数十分相似，唯一的区别在于labels，该函数的labels要求是排他性的即只有一个正确的类别，如果labels的每一行是one_hot表示形式，可以使用tf.nn.sparse_softmax_cross_entropy_with_logits()。</p>
+<p>该函数与tf.nn.softmax_cross_entropy_with_logits()函数十分相似，唯一的区别在于labels的shape，该函数的labels要求是排他性的即只有一个正确的类别，如果labels的每一行不需要进行one_hot表示，可以使用tf.nn.sparse_softmax_cross_entropy_with_logits()。</p>
 <h2 id="tfnnsigmoid_cross_entropy_with_logitslogits-targets-namenone">tf.nn.sigmoid_cross_entropy_with_logits(logits, targets, name=None)</h2>
 <p>sigmoid_cross_entropy_with_logits是TensorFlow最早实现的交叉熵算法。这个函数的输入是logits和labels，logits就是神经网络模型中的 W * X矩阵，注意不需要经过sigmoid，而labels的shape和logits相同，就是正确的标签值，例如这个模型一次要判断100张图是否包含10种动物，这两个输入的shape都是[100, 10]。注释中还提到这10个分类之间是独立的、不要求是互斥，这种问题我们称为多目标（多标签）分类，例如判断图片中是否包含10种动物中的一种或几种，标签值可以包含多个1或0个1。</p>
 <h2 id="tfnnweighted_cross_entropy_with_logitslogits-targets-pos_weight-namenone">tf.nn.weighted_cross_entropy_with_logits(logits, targets, pos_weight, name=None)</h2>

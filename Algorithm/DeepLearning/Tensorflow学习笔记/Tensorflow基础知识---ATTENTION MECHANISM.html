@@ -5,7 +5,7 @@
     <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
     <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
-    <title>Tensorflow基础知识---tf.dyanmic_rnn - sthsf's personal knowledge wiki</title>
+    <title>Tensorflow基础知识---ATTENTION MECHANISM - sthsf's personal knowledge wiki</title>
     <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
     <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -35,37 +35,26 @@
 <div id="container">
     
 <div id="header">
-  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm">Algorithm</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning">DeepLearning</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning-Tensorflow学习笔记">Tensorflow学习笔记</a>&nbsp;»&nbsp;Tensorflow基础知识---tf.dyanmic_rnn</div>
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm">Algorithm</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning">DeepLearning</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning-Tensorflow学习笔记">Tensorflow学习笔记</a>&nbsp;»&nbsp;Tensorflow基础知识---ATTENTION MECHANISM</div>
 </div>
 <div class="clearfix"></div>
-<div id="title">Tensorflow基础知识---tf.dyanmic_rnn</div>
+<div id="title">Tensorflow基础知识---ATTENTION MECHANISM</div>
 <div id="content">
-  <h1 id="_1">写在前面</h1>
-<p>dynamic_rnn是在定义了RNN的主体结构后，对RNNCell进行计算的函数，本文主要来解释<code>tf.nn.dynamic_rnn()</code>的参数，</p>
-<p>dynamic_rnn中主要的参数包括cell, inputs, initial_state=None, time_major=False, scope=None<br />
-    - cell是指定义的RNNCell；<br />
-    - inputs是指输入的数据，它的基本格式如[batch_size, max_time, inputs_dim]<br />
-        - 如果inputs的格式是[batch_size, max_time, inputs_dim], 则time_major=False<br />
-        - 如果inputs的格式是[max_time, batch_size, inputs_dim], 则time_major=True<br />
-    - initial_state：state初始化输入。<br />
-    - scope：</p>
-<h1 id="_2">疑问</h1>
-<p>关于initial_state的疑问：<br />
-1、是否在调用dynamic_rnn的时候都需要对其state进行初始化<br />
-2、每一个batch训练结束之后，当前batch的final_state是否是要通过赋值给下一个batch的initial_state，如果没有赋值,是不是每个batch的state是不搭嘎的，即每个batch都是重新计算state，并且final_state都没有利用起来</p>
+  <h1 id="hello-word">hello word</h1>
 <h1 id="reference">Reference</h1>
-<p><a href="http://blog.csdn.net/u013082989/article/details/73693392">深度学习（08）_RNN-LSTM循环神经网络-03-Tensorflow进阶实现</a></p>
-<p><a href="https://hanxiao.github.io/2017/08/16/Why-I-use-raw-rnn-Instead-of-dynamic-rnn-in-Tensorflow-So-Should-You-0/">Why I Use raw_rnn Instead of dynamic_rnn in Tensorflow and So Should You</a></p>
-<p><a href="http://blog.csdn.net/mydear_11000/article/details/52414342">解读tensorflow之rnn</a></p>
-<p><a href="http://blog.csdn.net/u010223750/article/details/71079036#reply">tensorflow高阶教程:tf.dynamic_rnn</a></p>
+<p><a href="https://blog.heuritech.com/2016/01/20/attention-mechanism/">ATTENTION MECHANISM</a><br />
+<a href="http://blog.csdn.net/malefactor/article/details/50583474">以Attention Model为例谈谈两种研究创新模式</a><br />
+<a href="http://blog.csdn.net/malefactor/article/details/50550211">自然语言处理中的Attention Model：是什么及为什么</a><br />
+<a href="https://mp.weixin.qq.com/s?__biz=MzAwMjM3MTc5OA==&amp;mid=2652692816&amp;idx=1&amp;sn=2bc7d60903c6767081cbea83de238279&amp;chksm=812338e9b654b1ff197556271b0364ac1d85cc360ebf5c69ec765aa16b6608053977454ffd16&amp;mpshare=1&amp;scene=23&amp;srcid=08099AHBwe5avNwArh6OadUd#rd">EMNLP 2017 | 文本情绪原因发现</a><br />
+[]</p>
 </div>
-<div id="content-footer">created in <span class="create-date date"> 2017-07-25 23:00 </span></div>
+<div id="content-footer">created in <span class="create-date date"> 2017-09-19 14:00 </span></div>
 <div id="comments"></div>
 <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
 <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script type="text/javascript">
 const gitment = new Gitment({
-  title: 'Tensorflow基础知识---tf.dyanmic_rnn',
+  title: 'Tensorflow基础知识---ATTENTION MECHANISM',
   owner: 'sthsf',
   repo: 'wiki',
   oauth: {
