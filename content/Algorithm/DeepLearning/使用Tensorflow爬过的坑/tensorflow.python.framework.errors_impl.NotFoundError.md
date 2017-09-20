@@ -146,7 +146,7 @@ print sess.run(v2)
 **训练程序所保存的训练模型数据在两个不同的操作系统却是可以load的，这与上面的问题相冲突。**
 
 # 结论
-### 所以文章中找到的问题的原因并不是根本的原因，但是笔者目前还没有找到相关的解决方法，如果你有解决方法请联系我，谢谢
+### 对于不同的操作系统之间的训练模型共享，笔者目前还没有找到相关的解决方法，如果你有好的解决方法请联系我，谢谢
 
 # 参考文献
 [文中提示错误的相关代码---bidirectiona_rnn实现中文分词](https://github.com/STHSF/DeepNaturalLanguageProcessing/tree/master/segmentation)
