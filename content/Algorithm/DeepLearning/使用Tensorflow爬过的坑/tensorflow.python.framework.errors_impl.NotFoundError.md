@@ -153,7 +153,7 @@ print sess.run(v2)
 
 但是今天我在更换interpreter的时候偶然发现一个问题，从interpreter的预览的包版本和使用pip list的包版本竟然不一样，具体原因我先不深究。但我可以确定的是这两个图是同一个python环境。
 
-<center><img src="/wiki/static/images/keng/preferences.png" alt="p1"/></center>
+<center><img src="/wiki/static/images/keng/Preferences.png" alt="p1"/></center>
 <center><img src="/wiki/static/images/keng/preference2.png" alt="p2"/></center>
 
 后来为了验证这个原因，我使用virtualenv安装了一个与上面的linux一样的python的虚拟环境，将虚拟环境设置为pycharm的interpreter，然后运行从linux上拷贝下来的程序和模型。运行没有出错。
