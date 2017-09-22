@@ -145,8 +145,21 @@ print sess.run(v2)
 ```
 **训练程序所保存的训练模型数据在两个不同的操作系统却是可以load的，这与上面的问题相冲突。**
 
-# 结论
+## 结论
 ### 对于不同的操作系统之间的训练模型共享，笔者目前还没有找到相关的解决方法，如果你有好的解决方法请联系我，谢谢
+
+# 续
+上面的问题是我自己搞错了，实际上错误原因跟操作系统是没有关系的。最终的原因还是因为我的tensorflow的package版本不一样。原先我在比对两个操作系统python安装包的时候使用的是pip list来查看的，两个操作系统的主要的python包都一样。为了保险起见，我还使用requestment.txt将两个系统的python完全统一。按理说再出现错误就不是python环境的问题。但是至始至终我都忽略了一个问题，我在mac下使用的是pycharm来运行程序的，虽然我使用的interpreter是python2.7的那个环境，而且在pycharm的自带终端里使用pip list 也是显示的相同的包。
+
+但是今天我在更换interpreter的时候偶然发现一个问题，从interpreter的预览的包版本和使用pip list的包版本竟然不一样，具体原因我先不深究。但我可以确定的是这两个图是同一个python环境。
+
+<center><img src="/wiki/static/images/keng/preferences.png" alt="p1"/></center>
+<center><img src="/wiki/static/images/keng/preference2.png" alt="p2"/></center>
+
+后来为了验证这个原因，我使用virtualenv安装了一个与上面的linux一样的python的虚拟环境，将虚拟环境设置为pycharm的interpreter，然后运行从linux上拷贝下来的程序和模型。运行没有出错。
+
+# 所以最终的原因还是python依赖包的版本不同导致的。这个坑也是醉了，但是pycharm的那个问题还没解决，但是IDE的问题跟程序没什么太大的关联。
+
 
 # 参考文献
 [文中提示错误的相关代码---bidirectiona_rnn实现中文分词](https://github.com/STHSF/DeepNaturalLanguageProcessing/tree/master/segmentation)
