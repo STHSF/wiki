@@ -148,8 +148,9 @@ def cost_compute(logits, target_inputs, num_classes):
 
     cost = tf.reduce_mean(loss, name='cost')
     return cost
-
 ```
+完整代码请参考[bi_lstm_advanced.py](https://github.com/STHSF/DeepNaturalLanguageProcessing/tree/develop/ChineseSegmentation/src)
+
 ## tf.nn.sigmoid_cross_entropy_with_logits(logits, targets, name=None)
 sigmoid_cross_entropy_with_logits是TensorFlow最早实现的交叉熵算法。这个函数的输入是logits和labels，logits就是神经网络模型中的 W * X矩阵，注意不需要经过sigmoid，而labels的shape和logits相同，就是正确的标签值，例如这个模型一次要判断100张图是否包含10种动物，这两个输入的shape都是[100, 10]。注释中还提到这10个分类之间是独立的、不要求是互斥，这种问题我们称为多目标（多标签）分类，例如判断图片中是否包含10种动物中的一种或几种，标签值可以包含多个1或0个1。
 
