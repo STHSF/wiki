@@ -126,7 +126,30 @@ def sparse_softmax_cross_entropy_with_logits(_sentinel=None,  # pylint: disable=
   """
 ```
 该函数与tf.nn.softmax_cross_entropy_with_logits()函数十分相似，唯一的区别在于labels的shape，该函数的labels要求是排他性的即只有一个正确的类别，如果labels的每一行不需要进行one_hot表示，可以使用tf.nn.sparse_softmax_cross_entropy_with_logits()。
+### Demo
+下面的代码列举了sparse_softmax_cross_entropy_with_logits()和softmax_cross_entropy_with_logits()的输入输出。
+```python
+def cost_compute(logits, target_inputs, num_classes):
+    # shape = [batch_size * num_steps, ]
+    # labels'shape = [batch_size * num_steps, num_classes]
+    # logits'shape = [shape = [batch_size * num_steps, num_classes]]
+    # 这里可以使用tf.nn.sparse_softmax_cross_entropy_with_logits()和tf.nn.softmax_cross_entropy_with_logits()两种方式来计算rnn
+    # 但要注意labels的shape。
+    # eg.1
+    # loss = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=tf.reshape(target_inputs, [-1]),
+    #                                                       logits=logits, name='loss')
 
+    # eg.2
+    targets = tf.one_hot(target_inputs, num_classes)  # [batch_size, seq_length, num_classes]
+    # 不能使用logit.get_shape(), 因为在定义logit时shape=[None, num_steps], 这里使用会报错
+    # y_reshaped = tf.reshape(targets, logits.get_shape())  # y_reshaped: [batch_size * seq_length, num_classes]
+    loss = tf.nn.softmax_cross_entropy_with_logits(labels=tf.reshape(targets, [-1, num_classes]),
+                                                   logits=logits, name='loss')
+
+    cost = tf.reduce_mean(loss, name='cost')
+    return cost
+
+```
 ## tf.nn.sigmoid_cross_entropy_with_logits(logits, targets, name=None)
 sigmoid_cross_entropy_with_logits是TensorFlow最早实现的交叉熵算法。这个函数的输入是logits和labels，logits就是神经网络模型中的 W * X矩阵，注意不需要经过sigmoid，而labels的shape和logits相同，就是正确的标签值，例如这个模型一次要判断100张图是否包含10种动物，这两个输入的shape都是[100, 10]。注释中还提到这10个分类之间是独立的、不要求是互斥，这种问题我们称为多目标（多标签）分类，例如判断图片中是否包含10种动物中的一种或几种，标签值可以包含多个1或0个1。
 
