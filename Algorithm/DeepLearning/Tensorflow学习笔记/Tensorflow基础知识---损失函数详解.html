@@ -105,11 +105,13 @@ Tensorflow中定义的交叉熵函数如下：</p>
 <p>$$H_{y'}(y)=-\sum_i{y_i'}log(y_i)$$</p>
 <p>其中$(y_i')$指代实际标签向量中的第i个值，$(y_i)$就是softmax的输出向量$([Y_1, Y_2, Y_3,...])$中的第i个元素的值。<br />
 显而易见。预测$(y_i)$越准确，结果的值就越小（前面有负号），最后求一个平均，就得到我们想要的loss了</p>
-<p><em y_="y'">这里需要注意的是，这个函数返回值不是一个数，而是一个向量，如果要求交叉熵，我们要在做一步tf.resuce_sum操作，就是对向量里面的所有元素求和, 最后就能得到$(H</em>(y))$,如果要求loss，则需要做一步tf.reduce_mean操作，对向量求均值。_</p>
-<p><strong>警告：</strong><br />
-- Tenosrflow中集成的交叉熵操作是施加在未经过Softmax处理的logits上, 这个操作的输入logits是未经缩放的, 该操作内部会对logits使用Softmax操作。<br />
-- 参数labels，ligits必须有相同的shape,如:[batch_size, num_classes]和相同的类型, 如:[(float16, float32, float64)中的一种]。<br />
-下面这段代码可以测试上面的理论：</p>
+<p><strong>这里需要注意的是，这个函数返回值不是一个数，而是一个向量，如果要求交叉熵，我们要在做一步tf.resuce_sum操作，就是对向量里面的所有元素求和, 最后就能得到$(H_{y'}(y))$,如果要求loss，则需要做一步tf.reduce_mean操作，对向量求均值.</strong></p>
+<p><strong>warning：</strong></p>
+<ul>
+<li>Tenosrflow中集成的交叉熵操作是施加在未经过Softmax处理的logits上, 这个操作的输入logits是未经缩放的, 该操作内部会对logits使用Softmax操作。</li>
+<li>参数labels，ligits必须有相同的shape,如:[batch_size, num_classes]和相同的类型, 如:[(float16, float32, float64)中的一种]。</li>
+</ul>
+<p>下面这段代码可以测试上面的理论：</p>
 <div class="hlcode"><pre><span class="c"># coding=utf-8</span>
 <span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>  
 
