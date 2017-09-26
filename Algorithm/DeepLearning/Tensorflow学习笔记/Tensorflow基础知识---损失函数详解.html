@@ -45,7 +45,10 @@
 <li><a href="#loss-function">Loss function</a></li>
 <li><a href="#tensorflowloss-function">Tensorflow中的loss function实现</a><ul>
 <li><a href="#cross_entropy">cross_entropy交叉熵</a></li>
-<li><a href="#tfnnsparse_softmax_cross_entropy_with_logitslogits-labels-namenone">tf.nn.sparse_softmax_cross_entropy_with_logits(logits, labels, name=None)</a></li>
+<li><a href="#tfnnsparse_softmax_cross_entropy_with_logitslogits-labels-namenone">tf.nn.sparse_softmax_cross_entropy_with_logits(logits, labels, name=None)</a><ul>
+<li><a href="#demo">Demo</a></li>
+</ul>
+</li>
 <li><a href="#tfnnsigmoid_cross_entropy_with_logitslogits-targets-namenone">tf.nn.sigmoid_cross_entropy_with_logits(logits, targets, name=None)</a></li>
 <li><a href="#tfnnweighted_cross_entropy_with_logitslogits-targets-pos_weight-namenone">tf.nn.weighted_cross_entropy_with_logits(logits, targets, pos_weight, name=None)</a></li>
 <li><a href="#tfnnlog_softmaxlogits-namenone">tf.nn.log_softmax(logits, name=None)</a></li>
@@ -175,6 +178,30 @@ Tensorflow中定义的交叉熵函数如下：</p>
 
 
 <p>该函数与tf.nn.softmax_cross_entropy_with_logits()函数十分相似，唯一的区别在于labels的shape，该函数的labels要求是排他性的即只有一个正确的类别，如果labels的每一行不需要进行one_hot表示，可以使用tf.nn.sparse_softmax_cross_entropy_with_logits()。</p>
+<h3 id="demo">Demo</h3>
+<p>下面的代码列举了sparse_softmax_cross_entropy_with_logits()和softmax_cross_entropy_with_logits()的输入输出。</p>
+<div class="hlcode"><pre><span class="k">def</span> <span class="nf">cost_compute</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">target_inputs</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">):</span>
+    <span class="c"># shape = [batch_size * num_steps, ]</span>
+    <span class="c"># labels&#39;shape = [batch_size * num_steps, num_classes]</span>
+    <span class="c"># logits&#39;shape = [shape = [batch_size * num_steps, num_classes]]</span>
+    <span class="c"># 这里可以使用tf.nn.sparse_softmax_cross_entropy_with_logits()和tf.nn.softmax_cross_entropy_with_logits()两种方式来计算rnn</span>
+    <span class="c"># 但要注意labels的shape。</span>
+    <span class="c"># eg.1</span>
+    <span class="c"># loss = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=tf.reshape(target_inputs, [-1]),</span>
+    <span class="c">#                                                       logits=logits, name=&#39;loss&#39;)</span>
+
+    <span class="c"># eg.2</span>
+    <span class="n">targets</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">one_hot</span><span class="p">(</span><span class="n">target_inputs</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">)</span>  <span class="c"># [batch_size, seq_length, num_classes]</span>
+    <span class="c"># 不能使用logit.get_shape(), 因为在定义logit时shape=[None, num_steps], 这里使用会报错</span>
+    <span class="c"># y_reshaped = tf.reshape(targets, logits.get_shape())  # y_reshaped: [batch_size * seq_length, num_classes]</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax_cross_entropy_with_logits</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">]),</span>
+                                                   <span class="n">logits</span><span class="o">=</span><span class="n">logits</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;loss&#39;</span><span class="p">)</span>
+
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;cost&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cost</span>
+</pre></div>
+
+
 <h2 id="tfnnsigmoid_cross_entropy_with_logitslogits-targets-namenone">tf.nn.sigmoid_cross_entropy_with_logits(logits, targets, name=None)</h2>
 <p>sigmoid_cross_entropy_with_logits是TensorFlow最早实现的交叉熵算法。这个函数的输入是logits和labels，logits就是神经网络模型中的 W * X矩阵，注意不需要经过sigmoid，而labels的shape和logits相同，就是正确的标签值，例如这个模型一次要判断100张图是否包含10种动物，这两个输入的shape都是[100, 10]。注释中还提到这10个分类之间是独立的、不要求是互斥，这种问题我们称为多目标（多标签）分类，例如判断图片中是否包含10种动物中的一种或几种，标签值可以包含多个1或0个1。</p>
 <h2 id="tfnnweighted_cross_entropy_with_logitslogits-targets-pos_weight-namenone">tf.nn.weighted_cross_entropy_with_logits(logits, targets, pos_weight, name=None)</h2>
