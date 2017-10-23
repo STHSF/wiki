@@ -45,12 +45,14 @@
 <li><a href="#_2">供给数据</a></li>
 <li><a href="#_3">从文件中读取数据</a><ul>
 <li><a href="#1csv">1、从csv中读取数据</a></li>
-<li><a href="#2tensorflowtfrecord">2、把网络或者内存中的数据转化为tensorflow的专用格式tfRecord,存文件后再读取。</a></li>
+<li><a href="#2-bin">2、 .bin 格式的二进制文件</a></li>
+<li><a href="#3tensorflowtfrecord">3、把网络或者内存中的数据转化为tensorflow的专用格式tfRecord,存文件后再读取。</a></li>
 </ul>
 </li>
 <li><a href="#_4">预加载数据</a></li>
 </ul>
 </li>
+<li><a href="#_5">参考文献</a></li>
 </ul>
 </div>
 <h1 id="_1">写在前面</h1>
@@ -70,19 +72,29 @@
 <li>可配置的 文件名乱序(shuffling)</li>
 <li>可配置的 最大训练迭代数(epoch limit)</li>
 <li>文件名队列</li>
-<li>针对输入文件格式的阅读器</li>
+<li>针对输入文件格式的阅读器(首先要知道你要读取的文件的格式，选择对应的文件读取器)</li>
 <li>纪录解析器</li>
 <li>可配置的预处理器</li>
 <li>样本队列</li>
 </ul>
 <h3 id="1csv">1、从csv中读取数据</h3>
-<h3 id="2tensorflowtfrecord">2、把网络或者内存中的数据转化为tensorflow的专用格式tfRecord,存文件后再读取。</h3>
+<p>用的文件读取器和解码器就是 TextLineReader 和 decode_csv</p>
+<h3 id="2-bin">2、 .bin 格式的二进制文件</h3>
+<p>用 tf.FixedLengthRecordReader 和 tf.decode_raw 读取固定长度的文件读取器和解码器</p>
+<h3 id="3tensorflowtfrecord">3、把网络或者内存中的数据转化为tensorflow的专用格式tfRecord,存文件后再读取。</h3>
+<p>如果你要读取的数据是图片，或者是其他类型的格式，那么可以先把数据转换成 TensorFlow 的标准支持格式 tfrecords ，它其实是一种二进制文件，通过修改 tf.train.Example 的Features，将 protocol buffer 序列化为一个字符串，再通过 tf.python_io.TFRecordWriter 将序列化的字符串写入 tfrecords，然后再用跟上面一样的方式读取tfrecords，只是读取器变成了tf.TFRecordReader，之后通过一个解析器tf.parse_single_example ，然后用解码器 tf.decode_raw 解码。</p>
 <h2 id="_4">预加载数据</h2>
-<p>在TensorFlow图中定义常量或变量来保存所有数据(仅适用于数据量比较小的情况)。这仅用于可以完全加载到存储器中的小的数据集。有两种方法：</p>
+<p>在TensorFlow图中定义常量或变量来保存所有数据。这仅用于可以完全加载到存储器中的小的数据集。有两种方法：</p>
 <ul>
 <li>存储在常数中。</li>
 <li>存储在变量中，初始化后，永远不要改变它的值。</li>
 </ul>
+<h1 id="_5">参考文献</h1>
+<p><a href="http://www.cnblogs.com/Charles-Wan/p/6197019.html">TF Boys (TensorFlow Boys ) 养成记（二）： TensorFlow 数据读取</a></p>
+<p><a href="http://wiki.jikexueyuan.com/project/tensorflow-zh/how_tos/reading_data.html">数据读取</a></p>
+<p><a href="http://blog.csdn.net/u012759136/article/details/52232266">TensorFlow高效读取数据的方法</a><br />
+<a href=""></a><br />
+<a href=""></a></p>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2017-10-23 10:00 </span></div>
 <div id="comments"></div>
