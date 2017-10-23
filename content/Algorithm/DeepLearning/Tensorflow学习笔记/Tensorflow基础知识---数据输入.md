@@ -50,9 +50,7 @@ date: 2017-10-23 10:00
 
 # 参考文献
 [TF Boys (TensorFlow Boys ) 养成记（二）： TensorFlow 数据读取](http://www.cnblogs.com/Charles-Wan/p/6197019.html)
-
 [数据读取](http://wiki.jikexueyuan.com/project/tensorflow-zh/how_tos/reading_data.html)
-
 [TensorFlow高效读取数据的方法](http://blog.csdn.net/u012759136/article/details/52232266)
 []()
 []()
