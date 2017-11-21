@@ -43,7 +43,5 @@ with tf.Graph().as_default():
 第二个坑主要是训练模型的accuracy在不断提高，loss在不断减少，但是测试模型的数据却非常混乱。
 训练和测试模型的accuracy 和cost，Tensorboard中的GRAPHS如下
 <center><img src="/wiki/static/images/mnist/acc_cost.png" alt="GRAPHS_UNROLLING" height="600" width="600"/></center>
-<center><img src="/wiki/static/images/mnist/train_test_erro.png" alt="GRAPHS_UNROLLING" height="600" width="600"/></center>
-原先我开始怀疑是否是超参的设置问题，但是不管怎么调节其结果都没有什么变化，测试集的精度依旧很低，cost也没有变化。
-
-
+<center><img src="/wiki/static/images/mnist/tran_test_erro.png" alt="GRAPHS_UNROLLING" height="600" width="600"/></center>
+原先我开始怀疑是否是超参的设置问题，但是不管怎么调节其结果都没有什么变化，测试集的精度依旧很低，cost也没有变化。后来
