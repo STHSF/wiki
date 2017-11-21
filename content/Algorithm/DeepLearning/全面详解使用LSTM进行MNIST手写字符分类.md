@@ -12,12 +12,12 @@ date: 2017-11-21 00:00
 
 首先，我们先看下结果：
 ### 模型训练和测试的accuracy 和cost
-<center><img src="/wiki/static/images/mnist/train_test.jpg" alt="scalaers"/></center>
+<center><img src="/wiki/static/images/mnist/train_test.jpg" alt="scalaers" height="200" width="200"/></center>
 
 ### tensorboard 中的GRAPHS
-<center><img src="/wiki/static/images/mnist/graphs.jpg" alt="GRAPHS"/></center>
+<center><img src="/wiki/static/images/mnist/graphs.jpg" alt="GRAPHS" height="200" width="200"/></center>
 ### GRAPH展开
-<center><img src="/wiki/static/images/mnist/graph_unrolling.jpg" alt="GRAPHS_UNROLLING"/></center>
+<center><img src="/wiki/static/images/mnist/graph_unrolling.jpg" alt="GRAPHS_UNROLLING" height="200" width="200"/></center>
 
 
 
