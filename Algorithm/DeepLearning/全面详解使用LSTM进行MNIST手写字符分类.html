@@ -46,11 +46,11 @@
 这里面设计的主要问题是训练模型和测试模型的参数共享，以及tf.summary的应用。</p>
 <p>首先，我们先看下结果：</p>
 <h3 id="accuracy-cost">模型训练和测试的accuracy 和cost</h3>
-<p><center><img src="/wiki/static/images/mnist/train_test.jpg" alt="scalaers" height="200" width="200"/></center></p>
+<p><center><img src="/wiki/static/images/mnist/train_test.jpg" alt="scalaers" height="400" width="400"/></center></p>
 <h3 id="tensorboard-graphs">tensorboard 中的GRAPHS</h3>
-<p><center><img src="/wiki/static/images/mnist/graphs.jpg" alt="GRAPHS" height="100" width="100"/></center></p>
+<p><center><img src="/wiki/static/images/mnist/graphs.jpg" alt="GRAPHS" height="250" width="250"/></center></p>
 <h3 id="graph">GRAPH展开</h3>
-<p><center><img src="/wiki/static/images/mnist/graph_unrolling.jpg" alt="GRAPHS_UNROLLING" height="200" width="200"/></center></p>
+<p><center><img src="/wiki/static/images/mnist/graph_unrolling.jpg" alt="GRAPHS_UNROLLING" height="400" width="400"/></center></p>
 <h2 id="_2">实现过程中踩过的坑</h2>
 <h3 id="tfsummary">tf.summary的使用</h3>
 <p>为了防止模型的过拟合，tensorflow提供了droupout机制，在训练过程中drop掉某些节点来防止过拟合，但是测试模型并不需要使用到dorp以及一些train_op,因此有的教程中会将is_training作为模型的一个变量。<br />
