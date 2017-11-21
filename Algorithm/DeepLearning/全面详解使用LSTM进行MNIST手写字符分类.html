@@ -44,7 +44,7 @@
 <p>使用LSTM进行MNIST手写字符分类的Tensorflow代码其官方教程中就已经给出，很多其他的教程中也就把他拿过来作为lstm在分类中的应用作为讲解，但是很多代码依然是基于tensorflow官网代码。<br />
 本教程中主要的代码跟官网没有差别，比如rnn_cell的定义，超参的设置也基本相同，本文主要的侧重点在给出了training_model和testing_model,并且结合tensorboard将训练和测试过程中的accuracy和loss展现出来。<br />
 这里面涉及的主要问题是训练模型和测试模型的参数共享，以及tf.summary的应用。</p>
-<p>我们先看下结果：</p>
+<p>我们先看下正确的结果：</p>
 <h3 id="accuracy-cost">模型训练和测试的accuracy 和cost</h3>
 <p><center><img src="/wiki/static/images/mnist/train_test.png" alt="scalaers" height="600" width="600"/></center></p>
 <h3 id="tensorboard-graphs">tensorboard 中的GRAPHS</h3>
