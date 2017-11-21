@@ -1,7 +1,7 @@
 ---
 title: "全面详解Tensorflow使用LSTM进行MNIST手写字符分类"
 layout: page
-date: 2017-11-21 00:00
+date: 2017-11-22 00:10
 ---
 
 # 写在前面
@@ -91,3 +91,4 @@ with tf.variable_scope("biases"):
 ## 参考文献
 [文中涉及到的完全代码](https://github.com/STHSF/DeepLearning/tree/master/TF/RNN)
 [tensorflow.python.framework.errors_impl.InvalidArgumentError](https://sthsf.github.io/wiki/Algorithm/DeepLearning/使用Tensorflow爬过的坑/tensorflow.python.framework.errors_impl.InvalidArgumentError.html)
+[Tensorflow 变量的共享](https://www.cnblogs.com/rocketfan/p/5773373.html)
