@@ -9,7 +9,7 @@ date: 2017-11-21 00:00
 本教程中主要的代码跟官网没有差别，比如rnn_cell的定义，超参的设置也基本相同，本文主要的侧重点在给出了training_model和testing_model,并且结合tensorboard将训练和测试过程中的accuracy和loss展现出来。
 这里面涉及的主要问题是训练模型和测试模型的参数共享，以及tf.summary的应用。
 
-我们先看下结果：
+我们先看下正确的结果：
 ### 模型训练和测试的accuracy 和cost
 <center><img src="/wiki/static/images/mnist/train_test.png" alt="scalaers" height="600" width="600"/></center>
 
