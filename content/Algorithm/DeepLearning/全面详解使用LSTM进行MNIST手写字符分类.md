@@ -15,7 +15,7 @@ date: 2017-11-21 00:00
 <center><img src="/wiki/static/images/mnist/train_test.jpg" alt="scalaers" height="200" width="200"/></center>
 
 ### tensorboard 中的GRAPHS
-<center><img src="/wiki/static/images/mnist/graphs.jpg" alt="GRAPHS" height="200" width="200"/></center>
+<center><img src="/wiki/static/images/mnist/graphs.jpg" alt="GRAPHS" height="100" width="100"/></center>
 ### GRAPH展开
 <center><img src="/wiki/static/images/mnist/graph_unrolling.jpg" alt="GRAPHS_UNROLLING" height="200" width="200"/></center>
 
