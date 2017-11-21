@@ -209,5 +209,4 @@ with tf.Graph().as_default():
 
 # 参考文献
 [常用集合: Variable, Summary, 自定义](http://blog.csdn.net/shenxiaolu1984/article/details/52815641)
-
 [tensorflow学习笔记（二十九）：merge_all引发的血案](http://blog.csdn.net/u012436149/article/details/53894364)
