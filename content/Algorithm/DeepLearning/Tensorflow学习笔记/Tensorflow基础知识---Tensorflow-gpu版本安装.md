@@ -11,7 +11,7 @@ date: 2017-12-12 14:00
 安装之前使用```sudo apt-get install upgrade```将系统的软件进行升级。
 然后在System Settings -> Software&Update -> Additional Drivers 下，等待刷新完毕后，会出现 NVIDIA Corporation：Unknown，然后勾选第一个选项，然后点击更新。更新完成后重启电脑。
 
-打开终端，输入nvidia-smi，就会出现显卡的相关信息。
+打开终端，输入nvidia-smi，就会出现显卡的相关信息, 如下图所示。
 
 <center><img src="/wiki/static/images/tensorgpu/nvidia-driver.png" alt="nvidia-driver"/></center>
 
@@ -191,6 +191,9 @@ totalMemory: 7.92GiB freeMemory: 7.34GiB
 2017-12-12 13:36:44.024480: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1120] Creating TensorFlow device (/device:GPU:0) -> (device: 0, name: GeForce GTX 1080, pci bus id: 0000:01:00.0, compute capability: 6.1)
 
 ```
+具体运行结果如下图所示：
+<center><img src="/wiki/static/images/tensorgpu/tensorflow.png" alt="tensorflow"/></center>
+
 至此，基于Ubuntu的tensorflow-gpu版本就安装配置完成，下面就可以畅快的"吃鸡"啦。
 
 # 五、一些问题
