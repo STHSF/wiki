@@ -148,6 +148,9 @@ $ ./mnistCUDNN
 5. 如果安装成功，程序的最后则会显示
 Test passed!
 ```
+详细运行结果如下图所示：
+<center><img src="/wiki/static/images/tensorgpu/mnist.png" alt="mnist"/></center>
+
 
 # 四、安装gpu版tensorflow
 本文使用的是virtualenv安装的tensorflow。
