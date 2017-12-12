@@ -47,7 +47,7 @@ options nouveau modeset=0
 ```
 sudo update-initramfs -u
 ```
-修改后需要重新启动系统，确认下nouveau是否已经被干掉了，```lsmod |grep nouveau```
+修改后需要重新启动系统，确认下nouveau是否已经被干掉了，```lsmod | grep nouveau```
 
 #### 2、```Ctrl + Alt + F1``` 进入命令行模式，执行，
 ```
@@ -98,7 +98,7 @@ $ sudo service lightdm start     // 重启桌面服务
 为了检查安装是否正确，从cuda的samples中选择样例进行测试。
 ```
 cd /usr/local/cuda-7.5/samples/1_Utilities/deviceQuery
-make
+sudo make clean && make
 sudo ./deviceQuery
 ```
 
