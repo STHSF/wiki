@@ -14,7 +14,7 @@ date: 2017-12-12 14:00
 打开终端，输入nvidia-smi，就会出现显卡的相关信息。
 
 ## 2、nvidia官网下载对应显卡驱动安装
-
+待完善......
 
 # 安装cuda
 
@@ -101,4 +101,49 @@ export LD_LIBRARY_PATH
 最后```source /etc/profile```即可。
 
 # 安装cuddn
+
+在CUDA安装好之后，CUDNN安装相对比较容易，根据官网教程，首先从官网上下载四个文件，
+```
+cudnn-8.0-linux-x64-v7.tgz
+
+libcudnn7_7.0.5.15-1+cuda8.0_amd64.deb
+
+libcudnn7-dev_7.0.5.15-1+cuda8.0_amd64.deb
+
+libcudnn7-doc_7.0.5.15-1+cuda8.0_amd64.deb
+```
+根据对应的系统和cuda版本下载，我的系统是ubuntu16.04，cuda版本为8.0.然后需要注意的是cuda的安装路径，如果在安装cuda使用的默认路径/usr/local/cuda/，则不需要修改。
+
+在四个文件的下载目录下。
+```
+# 解压 cuDNN package.
+¥ tar -xzvf cudnn-8.0-linux-x64-v7.tgz
+
+# 将下面的文件复制到 CUDA Toolkit 文件目录下。
+$ sudo cp cuda/include/cudnn.h /usr/local/cuda/include
+$ sudo cp cuda/lib64/libcudnn* /usr/local/cuda/lib64
+$ sudo chmod a+r /usr/local/cuda/include/cudnn.h /usr/local/cuda/lib64/libcudnn*
+
+# 安装 runtime library,
+sudo dpkg -i libcudnn7_7.0.5.15-1+cuda8.0_amd64.deb
+
+# 安装 developer library,
+sudo dpkg -i libcudnn7-dev_7.0.5.15-1+cuda8.0_amd64.deb
+
+# 安装 code samples and the cuDNN Library User Guide
+sudo dpkg -i libcudnn7-doc_7.0.5.15-1+cuda8.0_amd64.deb
+```
+## 验证cudnn是否安装正确
+```
+1. 将某一个 cuDNN 样例复制到某一可读写文件目录下
+$ cp -r /usr/src/cudnn_samples_v7/ $HOME
+2. 进入该文件目录， 本文选择的是mnistCUDNN测试
+$ cd $HOME/cudnn_samples_v7/mnistCUDNN
+3. 编译 mnistCUDNN 样例.
+$ make clean && make
+4. 运行 mnistCUDNN 样例.
+$ ./mnistCUDNN
+5. 如果安装成功，程序的最后则会显示
+Test passed!
+```
 
