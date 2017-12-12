@@ -45,6 +45,7 @@
 <h2 id="1ubuntu">1、ubuntu自带</h2>
 <p>在System Settings -&gt; Software&amp;Update -&gt; Additional Drivers 下，等待刷新完毕后，会出现 NVIDIA Corporation：Unknown，然后勾选第一个选项，然后点击更新。更新完成后重启电脑。</p>
 <p>打开终端，输入nvidia-smi，就会出现显卡的相关信息。</p>
+<p><center><img src="/wiki/static/images/tensorgpu/encoder-decoder.png" alt="Encoder-Decoder展开"/></center></p>
 <h2 id="2nvidia">2、nvidia官网下载对应显卡驱动安装</h2>
 <p>待完善......</p>
 <h1 id="cuda">安装cuda</h1>
@@ -73,31 +74,29 @@
 
 <h2 id="3run">3、安装.run文件</h2>
 <div class="hlcode"><pre><span class="n">sudo</span> <span class="n">sh</span> <span class="n">cuda_8</span><span class="mf">.0.44</span><span class="n">_linux_ubuntu_14</span><span class="mf">.04</span><span class="p">.</span><span class="n">run</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">opengl</span><span class="o">-</span><span class="n">libs</span>
+</pre></div>
 
-<span class="err">运行之后会跳出</span><span class="n">readme</span><span class="err">文件，然后按住</span><span class="n">ctro</span> <span class="o">+</span> <span class="n">c</span> <span class="err">跳过。</span>
 
-<span class="err">然后会出现</span> <span class="n">Do</span> <span class="n">you</span> <span class="n">accept</span> <span class="n">the</span> <span class="n">previously</span> <span class="n">read</span> <span class="n">EULA</span> <span class="err">输入</span> <span class="n">accept</span><span class="err">，进入下一步。</span>
-
-<span class="n">INSTALL</span> <span class="n">NVIDIA</span> <span class="n">Accelerates</span> <span class="n">Graphics</span> <span class="n">Driver</span> <span class="k">for</span> <span class="n">Linux</span><span class="o">-</span><span class="n">x86_64</span> <span class="mf">375.26</span> <span class="err">输入</span><span class="n">n</span><span class="err">，进入下一步；</span>
-
-<span class="n">Install</span> <span class="n">the</span>  <span class="n">CUDA</span> <span class="mf">8.0</span> <span class="n">Toolkit</span><span class="o">?</span> <span class="err">输入</span><span class="n">y</span><span class="err">，</span> <span class="err">进入下一步；</span>
-
-<span class="n">Enter</span> <span class="n">Tookit</span> <span class="n">Location</span> <span class="err">点击</span><span class="n">enter</span><span class="err">，进入下一步；</span>
-
-<span class="n">Do</span> <span class="n">you</span> <span class="n">want</span> <span class="n">to</span> <span class="n">install</span> <span class="n">a</span> <span class="n">symbolic</span> <span class="n">link</span> <span class="n">at</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span> <span class="err">输入</span><span class="n">y</span><span class="err">，进入下一步；</span>
-
-<span class="n">Install</span> <span class="n">the</span> <span class="n">CUDA</span> <span class="mf">8.0</span> <span class="n">Samples</span><span class="o">?</span> <span class="err">输入</span><span class="n">y</span><span class="err">，</span> <span class="err">进入下一步；</span>
-
+<p>运行之后会跳出readme文件，然后按住ctr+ c跳过。<br />
+然后会依次出现以下提示：</p>
+<div class="hlcode"><pre><span class="n">Do</span> <span class="n">you</span> <span class="n">accept</span> <span class="n">the</span> <span class="n">previously</span> <span class="n">read</span> <span class="n">EULA</span><span class="err">，</span>  <span class="err">输入</span> <span class="n">accept</span><span class="err">，进入下一步。</span>
+<span class="n">INSTALL</span> <span class="n">NVIDIA</span> <span class="n">Accelerates</span> <span class="n">Graphics</span> <span class="n">Driver</span> <span class="k">for</span> <span class="n">Linux</span><span class="o">-</span><span class="n">x86_64</span> <span class="mf">375.26</span><span class="err">，</span>  <span class="err">输入</span><span class="n">n</span><span class="err">，进入下一步；</span>
+<span class="n">Install</span> <span class="n">the</span>  <span class="n">CUDA</span> <span class="mf">8.0</span> <span class="n">Toolkit</span><span class="o">?</span><span class="err">，</span>  <span class="err">输入</span><span class="n">y</span><span class="err">，</span> <span class="err">进入下一步；</span>
+<span class="n">Enter</span> <span class="n">Tookit</span> <span class="n">Location</span> <span class="err">点击</span><span class="n">enter</span><span class="err">，</span> <span class="err">进入下一步；</span>
+<span class="n">Do</span> <span class="n">you</span> <span class="n">want</span> <span class="n">to</span> <span class="n">install</span> <span class="n">a</span> <span class="n">symbolic</span> <span class="n">link</span> <span class="n">at</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span><span class="err">，</span>  <span class="err">输入</span><span class="n">y</span><span class="err">，进入下一步；</span>
+<span class="n">Install</span> <span class="n">the</span> <span class="n">CUDA</span> <span class="mf">8.0</span> <span class="n">Samples</span><span class="o">?</span>  <span class="err">输入</span><span class="n">y</span><span class="err">，</span> <span class="err">进入下一步；</span>
 <span class="n">Enter</span> <span class="n">CUDA</span> <span class="n">Samples</span> <span class="n">Location</span> <span class="err">点击</span><span class="n">enter</span><span class="err">，</span> <span class="err">进入下一步；</span>
-
 <span class="err">程序开始安装。。。</span>
 </pre></div>
 
 
-<p>安装完成之后，会提示一个summary；大致内容如下。<br />
-Driver: Not Selectd<br />
-Toolkit: INstalled in /usr/local/cuda-8.0<br />
-Samples: Installed in /home/jerry, but missing recommended libraries</p>
+<p>安装完成之后，会提示一个summary；大致内容如下。</p>
+<div class="hlcode"><pre><span class="n">Driver</span><span class="o">:</span> <span class="n">Not</span> <span class="n">Selectd</span>
+<span class="n">Toolkit</span><span class="o">:</span> <span class="n">INstalled</span> <span class="k">in</span> <span class="sr">/usr/local/</span><span class="n">cuda</span><span class="o">-</span><span class="mf">8.0</span>
+<span class="n">Samples</span><span class="o">:</span> <span class="n">Installed</span> <span class="k">in</span> <span class="sr">/home/</span><span class="n">jerry</span><span class="o">,</span> <span class="n">but</span> <span class="n">missing</span> <span class="n">recommended</span> <span class="n">libraries</span>
+</pre></div>
+
+
 <p><strong><em>注意</em></strong><br />
 这时候会有一个提示，CUDA Driver没有安装，根据提示，在.run文件后面添加-silent -driver。</p>
 <div class="hlcode"><pre><span class="n">sudo</span> <span class="n">sh</span> <span class="n">cuda_8</span><span class="mf">.0.44</span><span class="n">_linux_ubuntu_14</span><span class="mf">.04</span><span class="p">.</span><span class="n">run</span> <span class="o">-</span><span class="n">silent</span> <span class="o">-</span><span class="n">driver</span>
@@ -140,21 +139,17 @@ Samples: Installed in /home/jerry, but missing recommended libraries</p>
 
 
 <p>根据对应的系统和cuda版本下载，我的系统是ubuntu16.04，cuda版本为8.0.然后需要注意的是cuda的安装路径，如果在安装cuda使用的默认路径/usr/local/cuda/，则不需要修改。</p>
-<p>在四个文件的下载目录下。</p>
+<p>在存放四个文件的下载目录下。</p>
 <div class="hlcode"><pre><span class="cp"># 解压 cuDNN package.</span>
-<span class="err">¥</span> <span class="n">tar</span> <span class="o">-</span><span class="n">xzvf</span> <span class="n">cudnn</span><span class="o">-</span><span class="mf">8.0</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">x64</span><span class="o">-</span><span class="n">v7</span><span class="p">.</span><span class="n">tgz</span>
-
+<span class="err">$</span> <span class="n">tar</span> <span class="o">-</span><span class="n">xzvf</span> <span class="n">cudnn</span><span class="o">-</span><span class="mf">8.0</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">x64</span><span class="o">-</span><span class="n">v7</span><span class="p">.</span><span class="n">tgz</span>
 <span class="cp"># 将下面的文件复制到 CUDA Toolkit 文件目录下。</span>
 <span class="err">$</span> <span class="n">sudo</span> <span class="n">cp</span> <span class="n">cuda</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">cudnn</span><span class="p">.</span><span class="n">h</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span><span class="o">/</span><span class="n">include</span>
 <span class="err">$</span> <span class="n">sudo</span> <span class="n">cp</span> <span class="n">cuda</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libcudnn</span><span class="o">*</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span><span class="o">/</span><span class="n">lib64</span>
 <span class="err">$</span> <span class="n">sudo</span> <span class="n">chmod</span> <span class="n">a</span><span class="o">+</span><span class="n">r</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">cudnn</span><span class="p">.</span><span class="n">h</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libcudnn</span><span class="o">*</span>
-
 <span class="cp"># 安装 runtime library,</span>
 <span class="n">sudo</span> <span class="n">dpkg</span> <span class="o">-</span><span class="n">i</span> <span class="n">libcudnn7_7</span><span class="mf">.0.5.15</span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="n">cuda8</span><span class="mf">.0</span><span class="n">_amd64</span><span class="p">.</span><span class="n">deb</span>
-
 <span class="cp"># 安装 developer library,</span>
 <span class="n">sudo</span> <span class="n">dpkg</span> <span class="o">-</span><span class="n">i</span> <span class="n">libcudnn7</span><span class="o">-</span><span class="n">dev_7</span><span class="mf">.0.5.15</span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="n">cuda8</span><span class="mf">.0</span><span class="n">_amd64</span><span class="p">.</span><span class="n">deb</span>
-
 <span class="cp"># 安装 code samples and the cuDNN Library User Guide</span>
 <span class="n">sudo</span> <span class="n">dpkg</span> <span class="o">-</span><span class="n">i</span> <span class="n">libcudnn7</span><span class="o">-</span><span class="n">doc_7</span><span class="mf">.0.5.15</span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="n">cuda8</span><span class="mf">.0</span><span class="n">_amd64</span><span class="p">.</span><span class="n">deb</span>
 </pre></div>
@@ -174,10 +169,11 @@ Samples: Installed in /home/jerry, but missing recommended libraries</p>
 </pre></div>
 
 
+<h1 id="gputensorflow">安装gpu版tensorflow</h1>
 <h1 id="_3">参考文献</h1>
-<p><a href="https://www.cnblogs.com/gaowengang/p/6068788.html">Ubuntu 14.04 安装 CUDA 问题及解决</a></p>
-<p><a href="http://blog.csdn.net/autocyz/article/details/52299889/">Ubuntu16.04+cuda8.0+caffe安装教程</a></p>
-<p><a href="http://developer2.download.nvidia.com/compute/machine-learning/cudnn/secure/v7.0.5/prod/Doc/cuDNN-Installation-Guide.pdf?1RL9HfeGELbC3I_J6F0c5RpXvy64oKHaWa0lZVIHWvzPbVKxDtV4_ivmxT2kIC6z1lE_h2bxuVgKEhGGW6R5n_GHnem5SFsA9jQI6LWMt68_sjV_HuOFBYO3EHzSwncT9iu1uUqar7UMgfrEOjgjE6hYCZcNNzBLgWrFa5VCRa2DsE1G8htULohvZqErOvFXRw">CUDNN Installation Guide</a></p>
+<p><a href="https://www.cnblogs.com/gaowengang/p/6068788.html">Ubuntu 14.04 安装 CUDA 问题及解决</a><br />
+<a href="http://blog.csdn.net/autocyz/article/details/52299889/">Ubuntu16.04+cuda8.0+caffe安装教程</a><br />
+<a href="http://developer2.download.nvidia.com/compute/machine-learning/cudnn/secure/v7.0.5/prod/Doc/cuDNN-Installation-Guide.pdf?1RL9HfeGELbC3I_J6F0c5RpXvy64oKHaWa0lZVIHWvzPbVKxDtV4_ivmxT2kIC6z1lE_h2bxuVgKEhGGW6R5n_GHnem5SFsA9jQI6LWMt68_sjV_HuOFBYO3EHzSwncT9iu1uUqar7UMgfrEOjgjE6hYCZcNNzBLgWrFa5VCRa2DsE1G8htULohvZqErOvFXRw">CUDNN Installation Guide</a></p>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2017-12-12 14:00 </span></div>
 <div id="comments"></div>
