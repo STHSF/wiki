@@ -127,7 +127,7 @@
 
 
 <p>最后<code>source /etc/profile</code>即可。</p>
-<h1 id="cuddn">三、安装cuddn</h1>
+<h1 id="cudnn">三、安装cudnn</h1>
 <p>在CUDA安装好之后，CUDNN安装相对比较容易，根据官网教程，首先从官网上下载四个文件，</p>
 <div class="hlcode"><pre><span class="n">cudnn</span><span class="o">-</span><span class="mf">8.0</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">x64</span><span class="o">-</span><span class="n">v7</span><span class="p">.</span><span class="n">tgz</span>
 
@@ -156,7 +156,7 @@
 </pre></div>
 
 
-<h2 id="cudnn">验证cudnn是否安装正确</h2>
+<h2 id="cudnn_1">验证cudnn是否安装正确</h2>
 <div class="hlcode"><pre><span class="mf">1.</span> <span class="err">将某一个</span> <span class="n">cuDNN</span> <span class="err">样例复制到某一可读写文件目录下</span>
 <span class="err">$</span> <span class="n">cp</span> <span class="o">-</span><span class="n">r</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">cudnn_samples_v7</span><span class="o">/</span> <span class="err">$</span><span class="n">HOME</span>
 <span class="mf">2.</span> <span class="err">进入该文件目录，</span> <span class="err">本文选择的是</span><span class="n">mnistCUDNN</span><span class="err">测试</span>
@@ -202,7 +202,7 @@
 </pre></div>
 
 
-<p>在网上查资料发现，需要进行软链接配置，主要原因依然是环境变量的问题，但是按照一些方式还是提示上面的错误，后来查看lib64下面的文件发现我安装的是.so.8.0的版本，本来是想都安装最新版本的，慢慢发现google和nvidia两家根本不同步，没办法，在nvidia官网重新下载6.0版本的cudnn按照上面的方式重新安装后，在没有重新设置环境变量的情况下，helloword程序跑通了<br />
+<p>在网上查资料发现，需要进行软链接配置，主要原因依然是环境变量的问题，但是按照一些方式还是提示上面的错误，后来查看lib64下面的文件发现我安装的是.so.8.0的版本，本来是想都安装最新版本的，慢慢发现google和nvidia两家根本不同步，版本的一致性问题很头疼。没办法，在nvidia官网重新下载6.0版本的cudnn按照上面的方式重新安装后，在没有重新设置环境变量的情况下，helloword程序跑通了<br />
 下面是执行session时输出的信息，GPU信息显示出来了。</p>
 <div class="hlcode"><pre><span class="mi">2017</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">12</span> <span class="mi">13</span><span class="o">:</span><span class="mi">36</span><span class="o">:</span><span class="mf">43.894722</span><span class="o">:</span> <span class="n">I</span> <span class="n">tensorflow</span><span class="o">/</span><span class="n">core</span><span class="o">/</span><span class="n">platform</span><span class="o">/</span><span class="n">cpu_feature_guard</span><span class="p">.</span><span class="n">cc</span><span class="o">:</span><span class="mi">137</span><span class="p">]</span> <span class="n">Your</span> <span class="n">CPU</span> <span class="n">supports</span> <span class="n">instructions</span> <span class="n">that</span> <span class="n">this</span> <span class="n">TensorFlow</span> <span class="n">binary</span> <span class="n">was</span> <span class="n">not</span> <span class="n">compiled</span> <span class="n">to</span> <span class="n">use</span><span class="o">:</span> <span class="n">SSE4</span><span class="mf">.1</span> <span class="n">SSE4</span><span class="mf">.2</span> <span class="n">AVX</span> <span class="n">AVX2</span> <span class="n">FMA</span>
 <span class="mi">2017</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">12</span> <span class="mi">13</span><span class="o">:</span><span class="mi">36</span><span class="o">:</span><span class="mf">44.024230</span><span class="o">:</span> <span class="n">I</span> <span class="n">tensorflow</span><span class="o">/</span><span class="n">stream_executor</span><span class="o">/</span><span class="n">cuda</span><span class="o">/</span><span class="n">cuda_gpu_executor</span><span class="p">.</span><span class="n">cc</span><span class="o">:</span><span class="mi">892</span><span class="p">]</span> <span class="n">successful</span> <span class="n">NUMA</span> <span class="n">node</span> <span class="n">read</span> <span class="n">from</span> <span class="n">SysFS</span> <span class="n">had</span> <span class="n">negative</span> <span class="n">value</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">but</span> <span class="n">there</span> <span class="n">must</span> <span class="n">be</span> <span class="n">at</span> <span class="n">least</span> <span class="n">one</span> <span class="n">NUMA</span> <span class="n">node</span><span class="p">,</span> <span class="n">so</span> <span class="n">returning</span> <span class="n">NUMA</span> <span class="n">node</span> <span class="n">zero</span>
@@ -216,12 +216,17 @@
 
 <p>至此，基于Ubuntu的tensorflow-gpu版本就安装配置完成，下面就可以畅快的"吃鸡"啦。</p>
 <h1 id="_4">五、一些问题</h1>
-<h2 id="cuda_1">关于cuda环境变量问题，</h2>
-<h2 id="_5">关于</h2>
+<h3 id="cuda_1">关于cuda环境变量问题，</h3>
+<h3 id="_5">关于更新软链接</h3>
+<h3 id="lib">添加lib库路径</h3>
 <h1 id="_6">六、参考文献</h1>
 <p><a href="https://www.cnblogs.com/gaowengang/p/6068788.html">Ubuntu 14.04 安装 CUDA 问题及解决</a><br />
 <a href="http://blog.csdn.net/autocyz/article/details/52299889/">Ubuntu16.04+cuda8.0+caffe安装教程</a><br />
-<a href="http://developer2.download.nvidia.com/compute/machine-learning/cudnn/secure/v7.0.5/prod/Doc/cuDNN-Installation-Guide.pdf?1RL9HfeGELbC3I_J6F0c5RpXvy64oKHaWa0lZVIHWvzPbVKxDtV4_ivmxT2kIC6z1lE_h2bxuVgKEhGGW6R5n_GHnem5SFsA9jQI6LWMt68_sjV_HuOFBYO3EHzSwncT9iu1uUqar7UMgfrEOjgjE6hYCZcNNzBLgWrFa5VCRa2DsE1G8htULohvZqErOvFXRw">CUDNN Installation Guide</a></p>
+<a href="http://developer2.download.nvidia.com/compute/machine-learning/cudnn/secure/v7.0.5/prod/Doc/cuDNN-Installation-Guide.pdf?1RL9HfeGELbC3I_J6F0c5RpXvy64oKHaWa0lZVIHWvzPbVKxDtV4_ivmxT2kIC6z1lE_h2bxuVgKEhGGW6R5n_GHnem5SFsA9jQI6LWMt68_sjV_HuOFBYO3EHzSwncT9iu1uUqar7UMgfrEOjgjE6hYCZcNNzBLgWrFa5VCRa2DsE1G8htULohvZqErOvFXRw">CUDNN Installation Guide</a><br />
+<a href="https://segmentfault.com/a/1190000008234390">Ubuntu16.04 下安装GPU版TensorFlow（包括Cuda和Cudnn）</a><br />
+<a href="http://blog.csdn.net/u014696921/article/details/60140264">"libcudnn.so.5 cannot open shared object file: No such file or directory" </a><br />
+<a href="http://blog.csdn.net/liukun321/article/details/6908635">ldconfig提示is not a symbolic link警告的去除方法 </a><br />
+<a href="http://blog.csdn.net/binglel/article/details/70230276">Ubuntu16.04.1如何安装TensorFlow1.1.0（GPU版）</a></p>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2017-12-12 14:00 </span></div>
 <div id="comments"></div>
