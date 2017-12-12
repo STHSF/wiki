@@ -19,7 +19,7 @@ date: 2017-12-12 14:00
 ## 2、nvidia官网下载对应显卡驱动安装
 待完善......
 
-# 安装cuda
+# 二、安装cuda
 
 ## 1、禁用自带的nouveau nvidia驱动
 
@@ -102,7 +102,7 @@ export LD_LIBRARY_PATH
 ```
 最后```source /etc/profile```即可。
 
-# 安装cuddn
+# 三、安装cuddn
 
 在CUDA安装好之后，CUDNN安装相对比较容易，根据官网教程，首先从官网上下载四个文件，
 ```
@@ -147,13 +147,13 @@ $ ./mnistCUDNN
 Test passed!
 ```
 
-# 安装gpu版tensorflow
+# 四、安装gpu版tensorflow
 
 
 
 
 
-# 参考文献
+# 五、参考文献
 
 [Ubuntu 14.04 安装 CUDA 问题及解决](https://www.cnblogs.com/gaowengang/p/6068788.html)
 [Ubuntu16.04+cuda8.0+caffe安装教程](http://blog.csdn.net/autocyz/article/details/52299889/)
