@@ -13,7 +13,7 @@ date: 2017-12-12 14:00
 
 打开终端，输入nvidia-smi，就会出现显卡的相关信息。
 
-<center><img src="/wiki/static/images/tensorgpu/encoder-decoder.png" alt="Encoder-Decoder展开"/></center>
+<center><img src="/wiki/static/images/tensorgpu/nvidia-driver.png" alt="nvidia-driver"/></center>
 
 
 ## 2、nvidia官网下载对应显卡驱动安装
