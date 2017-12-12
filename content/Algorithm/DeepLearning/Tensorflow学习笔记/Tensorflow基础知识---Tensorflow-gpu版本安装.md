@@ -49,11 +49,11 @@ sudo update-initramfs -u
 ```
 修改后需要重新启动系统，确认下nouveau是否已经被干掉了，```lsmod |grep nouveau```
 
-#### 2、Ctrl + Alt + F1 进入命令行模式，执行，
+#### 2、```Ctrl + Alt + F1``` 进入命令行模式，执行，
 ```
 $ sudo service lightdm stop      // 关闭桌面服务
 ```
-在安装CUDA的过程中必须得关闭桌面服务。当然，你也可以在终端中执行关闭桌面服务操作，然后使用Ctrl + Alt + F4登陆你的账号。
+在安装CUDA的过程中必须得关闭桌面服务。当然，你也可以在终端中执行关闭桌面服务操作，然后使用 ```Ctrl + Alt + F4``` 登陆你的账号。
 
 #### 3、安装CUDA.run文件
 我用的是是CUDA8.0的版本，刚开始安装的是最新9.0的版本，后来好像在某篇教程中看到tensorflow目前还不支持CUDA9.0版本的，所以重装了8.0的，也有可能我没有理解他的意思，我没有经过实测。还有就是很多教程直接使用.deb安装的CUDA，同事反应在升级的过程中直接安装没有问题，但是后面使用的时候就会出现一些问题，所以我也没有直接安装，后面遇到的问题也没办法复现。
@@ -62,7 +62,7 @@ sudo sh cuda_8.0.44_linux_ubuntu_14.04.run --no-opengl-libs
 ```
 在.run文件后面添加--no-opengl-libs的详解见[Ubuntu 14.04 安装 CUDA 问题及解决](https://www.cnblogs.com/gaowengang/p/6068788.html)，安装完成后需要将opengl的相关lib重新安装一下。
 
-运行之后会跳出readme文件，然后按住```ctr+ c```跳过。然后会依次出现以下提示：
+运行之后会跳出readme文件，然后按住```Ctrl + C```跳过。然后会依次出现以下提示：
 ```
 Do you accept the previously read EULA，  输入 accept，进入下一步。
 INSTALL NVIDIA Accelerates Graphics Driver for Linux-x86_64 375.26，  输入n，进入下一步；
