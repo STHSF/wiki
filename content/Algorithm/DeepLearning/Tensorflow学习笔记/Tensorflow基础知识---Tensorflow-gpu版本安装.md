@@ -13,7 +13,7 @@ date: 2017-12-12 14:00
 <center><img src="/wiki/static/images/tensorgpu/settings.png" alt="settings"/></center>
 
 
-打开终端，输入nvidia-smi，就会出现显卡的相关信息, 如下图所示。
+重新打开终端，输入nvidia-smi，就会出现显卡的相关信息, 如下图所示。
 
 <center><img src="/wiki/static/images/tensorgpu/nvidia-driver.png" alt="nvidia-driver"/></center>
 
@@ -42,10 +42,11 @@ sudo update-initramfs -u
 ```
 修改后需要重新启动系统，确认下nouveau是否已经被干掉了，```lsmod |grep nouveau```
 
-#### 2、重启系统，Ctrl + Alt + F1 进入命令行模式，执行，
+#### 2、Ctrl + Alt + F1 进入命令行模式，执行，
 ```
 $ sudo service lightdm stop      // 关闭桌面服务
 ```
+在安装CUDA的过程中必须得关闭桌面服务。
 
 #### 3、安装.run文件
 ```
@@ -64,6 +65,8 @@ Install the CUDA 8.0 Samples?  输入y， 进入下一步；
 Enter CUDA Samples Location 点击enter， 进入下一步；
 程序开始安装。。。
 ```
+更详细的提示见[Ubuntu16.04 下安装GPU版TensorFlow（包括Cuda和Cudnn）](https://segmentfault.com/a/1190000008234390)
+
 
 安装完成之后，会提示一个summary；大致内容如下。
 ```
@@ -108,7 +111,7 @@ export LD_LIBRARY_PATH
 
 # 三、安装cudnn
 
-在CUDA安装好之后，CUDNN安装相对比较容易，根据官网教程，首先从官网上下载四个文件，
+在CUDA安装好之后，CUDNN安装相对比较容易，根据官网教程，首先从官网上下载四个文件。
 ```
 cudnn-8.0-linux-x64-v7.tgz
 
@@ -118,8 +121,11 @@ libcudnn7-dev_7.0.5.15-1+cuda8.0_amd64.deb
 
 libcudnn7-doc_7.0.5.15-1+cuda8.0_amd64.deb
 ```
+***注意***
+在安装cudnn的时候要特别注意tensorflow目前支持的cudnn版本，我这边直接下载的是最新的，后面在安装完tensorflow-gpu 1.4.1之后调用cudnn时就出现了错误，错误提示为ImportError: libcudnn.so.6: cannot open shared object file: No such file or directory。
+我的解决方法是从官网上直接下载cudnn.6.0版本的，至于软链接等方式我试过了没有成功，后面有详细介绍，也可能是我添加环境变量错误导致。
 
-根据对应的系统和cuda版本下载，我的系统是ubuntu16.04，cuda版本为8.0.然后需要注意的是cuda的安装路径，如果在安装cuda使用的默认路径/usr/local/cuda/，则不需要修改。
+根据对应的系统和cuda版本下载，我的系统是ubuntu16.04，cuda版本为8.0.最好再注意下tensorflow支持的cudnn版本，然后需要注意的是cuda的安装路径，如果在安装cuda使用的默认路径/usr/local/cuda/，则不需要修改。
 
 在存放四个文件的下载目录下。
 ```
