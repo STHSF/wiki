@@ -1,10 +1,17 @@
 ---
-title: "Tensorflow基础知识---ubuntu下安装tensotflow-gpu版本、安装cuda、cuddn"
+title: "Tensorflow基础知识---ubuntu下安装安装CUDA、cuDNN和tensotflow-gpu版本流程和问题总结"
 layout: page
 date: 2017-12-12 14:00
 ---
 
 # 写在前面
+使用tensorflow接近一年时间，然而一直使用的是cpu版本的，而且还是在笔记本上跑程序的，所以当训练模型时，你懂的，我都心疼我的笔记本，最近公司刚刚给配了台带了块GTX 1080的台式机。嗯，终于算入门了，台式机的配置如下：
+```
+CPU: Intel(R) Core(TM) i7-7700 CPU @ 3.60GHz
+MemTotal: 16295024 kB
+GPU: GeForce GTX 1080
+```
+目前来说够用了。大佬就可以忽略这段的。下面说说我在安装配置tensorflow-gpu的时候遇到的问题
 
 # 一、N卡驱动安装
 #### 1、ubuntu自带
@@ -18,8 +25,8 @@ date: 2017-12-12 14:00
 <center><img src="/wiki/static/images/tensorgpu/nvidia-driver.png" alt="nvidia-driver"/></center>
 
 
-#### 2、nvidia官网下载对应显卡驱动安装
-待完善......
+#### 2、Nvidia官网下载对应显卡驱动安装
+待完善......，本文暂时没有使用这种方式安装，所以等用过之后再完善。
 
 # 二、安装cuda
 
