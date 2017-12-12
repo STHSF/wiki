@@ -227,10 +227,14 @@
 <center><img src="/wiki/static/images/tensorgpu/tensorflow.png" alt="tensorflow"/></center></p>
 <p>至此，基于Ubuntu的tensorflow-gpu版本就安装配置完成，下面就可以畅快的"吃鸡"啦。</p>
 <h1 id="_4">五、一些问题</h1>
+<h3 id="_5">驱动问题</h3>
+<p>我在安装过程中涉及到两个驱动问题，一个是显卡驱动，还有一个是cudnn驱动。<br />
+显卡驱动我直接先是使用<code>sudo apt-get install upgrade</code>升级安装包，然后在Ubuntu的设置里面更新的Nvidia显卡驱动。并没有从官网下载安装对应版本的显卡驱动。<br />
+cudnn驱动，xia</p>
 <h3 id="cuda_1">关于cuda环境变量问题，</h3>
-<h3 id="_5">关于更新软链接</h3>
+<h3 id="_6">关于更新软链接</h3>
 <h3 id="lib">添加lib库路径</h3>
-<h1 id="_6">六、参考文献</h1>
+<h1 id="_7">六、参考文献</h1>
 <p><a href="https://www.cnblogs.com/gaowengang/p/6068788.html">Ubuntu 14.04 安装 CUDA 问题及解决</a><br />
 <a href="http://blog.csdn.net/autocyz/article/details/52299889/">Ubuntu16.04+cuda8.0+caffe安装教程</a><br />
 <a href="http://developer2.download.nvidia.com/compute/machine-learning/cudnn/secure/v7.0.5/prod/Doc/cuDNN-Installation-Guide.pdf?1RL9HfeGELbC3I_J6F0c5RpXvy64oKHaWa0lZVIHWvzPbVKxDtV4_ivmxT2kIC6z1lE_h2bxuVgKEhGGW6R5n_GHnem5SFsA9jQI6LWMt68_sjV_HuOFBYO3EHzSwncT9iu1uUqar7UMgfrEOjgjE6hYCZcNNzBLgWrFa5VCRa2DsE1G8htULohvZqErOvFXRw">CUDNN Installation Guide</a><br />
