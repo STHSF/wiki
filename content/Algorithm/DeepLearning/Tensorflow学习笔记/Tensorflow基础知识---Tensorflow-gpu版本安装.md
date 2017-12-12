@@ -53,7 +53,7 @@ sudo update-initramfs -u
 ```
 $ sudo service lightdm stop      // 关闭桌面服务
 ```
-在安装CUDA的过程中必须得关闭桌面服务。
+在安装CUDA的过程中必须得关闭桌面服务。当然，你也可以在终端中执行关闭桌面服务操作，然后使用Ctrl + Alt + F4登陆你的账号。
 
 #### 3、安装.run文件
 ```
