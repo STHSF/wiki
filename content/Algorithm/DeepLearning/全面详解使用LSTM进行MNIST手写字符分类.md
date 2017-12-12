@@ -87,7 +87,7 @@ with tf.variable_scope("biases"):
 ## 总结
 之前在看变量共享的文档时只是说tf.get_variable()对变量的复用和作用域会有影响，主要是很多源代码都是使用tf.Variable来定义变量的。官网上也明确说明最好使用tf.get_variable来定义变量。
 但其实这里面的精髓还没有领会，model这个类共享了，而里面的参数竟然没有共享，有点想不通，或者说我的代码依然不严谨。
-文献3中有提到变量的作用域机制，讲到通过tf.get_variable()所给的名字创建或是返回一个变量.通过tf.variable_scope()为变量名指定命名空间。
+文献3中有提到变量的作用域机制，讲到通过tf.get_variable()所给的名字创建或是返回一个变量, 通过tf.variable_scope()为变量名指定命名空间。
 
 ## 参考文献
 [文中涉及到的完全代码](https://github.com/STHSF/DeepLearning/tree/master/TF/RNN)
