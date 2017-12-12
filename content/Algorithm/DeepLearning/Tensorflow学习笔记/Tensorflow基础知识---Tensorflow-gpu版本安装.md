@@ -89,4 +89,16 @@ sudo ./deviceQuery
 ```
 如果显示的是一些关于GPU的信息，则说明安装成功了。
 
+## 配置环境变量
+在CUDA安装完成之后，log日志中有提示需要声明环境变量，不然后面安装cudnn时会出现找不到.so文件。所以需要在/etc/profile中添加下面的内容。
+
+```
+PATH=/usr/local/cuda/bin:$PATH
+export PATH
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
+export LD_LIBRARY_PATH
+```
+最后```source /etc/profile```即可。
+
 # 安装cuddn
+
