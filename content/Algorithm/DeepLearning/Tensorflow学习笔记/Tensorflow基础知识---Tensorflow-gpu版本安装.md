@@ -147,3 +147,12 @@ $ ./mnistCUDNN
 Test passed!
 ```
 
+
+
+# 参考文献
+
+[Ubuntu 14.04 安装 CUDA 问题及解决](https://www.cnblogs.com/gaowengang/p/6068788.html)
+
+[Ubuntu16.04+cuda8.0+caffe安装教程](http://blog.csdn.net/autocyz/article/details/52299889/)
+
+[CUDNN Installation Guide](http://developer2.download.nvidia.com/compute/machine-learning/cudnn/secure/v7.0.5/prod/Doc/cuDNN-Installation-Guide.pdf?1RL9HfeGELbC3I_J6F0c5RpXvy64oKHaWa0lZVIHWvzPbVKxDtV4_ivmxT2kIC6z1lE_h2bxuVgKEhGGW6R5n_GHnem5SFsA9jQI6LWMt68_sjV_HuOFBYO3EHzSwncT9iu1uUqar7UMgfrEOjgjE6hYCZcNNzBLgWrFa5VCRa2DsE1G8htULohvZqErOvFXRw)
