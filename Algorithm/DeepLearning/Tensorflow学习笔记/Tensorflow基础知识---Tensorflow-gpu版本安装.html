@@ -5,7 +5,7 @@
     <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
     <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
-    <title>Tensorflow基础知识---ubuntu下安装tensotflow-gpu版本、安装cuda、cuddn - sthsf's personal knowledge wiki</title>
+    <title>Tensorflow基础知识---ubuntu下安装安装CUDA、cuDNN和tensotflow-gpu版本流程和问题总结 - sthsf's personal knowledge wiki</title>
     <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
     <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -35,12 +35,20 @@
 <div id="container">
     
 <div id="header">
-  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm">Algorithm</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning">DeepLearning</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning-Tensorflow学习笔记">Tensorflow学习笔记</a>&nbsp;»&nbsp;Tensorflow基础知识---ubuntu下安装tensotflow-gpu版本、安装cuda、cuddn</div>
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm">Algorithm</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning">DeepLearning</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning-Tensorflow学习笔记">Tensorflow学习笔记</a>&nbsp;»&nbsp;Tensorflow基础知识---ubuntu下安装安装CUDA、cuDNN和tensotflow-gpu版本流程和问题总结</div>
 </div>
 <div class="clearfix"></div>
-<div id="title">Tensorflow基础知识---ubuntu下安装tensotflow-gpu版本、安装cuda、cuddn</div>
+<div id="title">Tensorflow基础知识---ubuntu下安装安装CUDA、cuDNN和tensotflow-gpu版本流程和问题总结</div>
 <div id="content">
   <h1 id="_1">写在前面</h1>
+<p>使用tensorflow接近一年时间，然而一直使用的是cpu版本的，而且还是在笔记本上跑程序的，所以当训练模型时，你懂的，我都心疼我的笔记本，最近公司刚刚给配了台带了块GTX 1080的台式机。嗯，终于算入门了，台式机的配置如下：</p>
+<div class="hlcode"><pre><span class="n">CPU</span><span class="o">:</span> <span class="n">Intel</span><span class="o">(</span><span class="n">R</span><span class="o">)</span> <span class="n">Core</span><span class="o">(</span><span class="n">TM</span><span class="o">)</span> <span class="n">i7</span><span class="o">-</span><span class="mi">7700</span> <span class="n">CPU</span> <span class="err">@</span> <span class="mf">3.60</span><span class="n">GHz</span>
+<span class="n">MemTotal</span><span class="o">:</span> <span class="mi">16295024</span> <span class="n">kB</span>
+<span class="n">GPU</span><span class="o">:</span> <span class="n">GeForce</span> <span class="n">GTX</span> <span class="mi">1080</span>
+</pre></div>
+
+
+<p>目前来说够用了。大佬就可以忽略这段的。下面说说我在安装配置tensorflow-gpu的时候遇到的问题</p>
 <h1 id="n">一、N卡驱动安装</h1>
 <h4 id="1ubuntu">1、ubuntu自带</h4>
 <p>安装之前使用<code>sudo apt-get install upgrade</code>将系统的软件进行升级。<br />
@@ -48,8 +56,8 @@
 <center><img src="/wiki/static/images/tensorgpu/settings.png" alt="settings"/></center></p>
 <p>重新打开终端，输入nvidia-smi，就会出现显卡的相关信息, 如下图所示。</p>
 <p><center><img src="/wiki/static/images/tensorgpu/nvidia-driver.png" alt="nvidia-driver"/></center></p>
-<h4 id="2nvidia">2、nvidia官网下载对应显卡驱动安装</h4>
-<p>待完善......</p>
+<h4 id="2nvidia">2、Nvidia官网下载对应显卡驱动安装</h4>
+<p>待完善......，本文暂时没有使用这种方式安装，所以等用过之后再完善。</p>
 <h1 id="cuda">二、安装cuda</h1>
 <h4 id="1nouveau-nvidia">1、禁用自带的nouveau nvidia驱动</h4>
 <p>创建或更新blacklist-nouveau.conf</p>
@@ -248,7 +256,7 @@
 <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script type="text/javascript">
 const gitment = new Gitment({
-  title: 'Tensorflow基础知识---ubuntu下安装tensotflow-gpu版本、安装cuda、cuddn',
+  title: 'Tensorflow基础知识---ubuntu下安装安装CUDA、cuDNN和tensotflow-gpu版本流程和问题总结',
   owner: 'sthsf',
   repo: 'wiki',
   oauth: {
