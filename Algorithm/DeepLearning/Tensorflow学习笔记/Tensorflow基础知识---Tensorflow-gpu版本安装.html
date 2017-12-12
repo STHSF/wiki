@@ -46,6 +46,7 @@
 <p>在System Settings -&gt; Software&amp;Update -&gt; Additional Drivers 下，等待刷新完毕后，会出现 NVIDIA Corporation：Unknown，然后勾选第一个选项，然后点击更新。更新完成后重启电脑。</p>
 <p>打开终端，输入nvidia-smi，就会出现显卡的相关信息。</p>
 <h2 id="2nvidia">2、nvidia官网下载对应显卡驱动安装</h2>
+<p>待完善......</p>
 <h1 id="cuda">安装cuda</h1>
 <h2 id="1nouveau-nvidia">1、禁用自带的nouveau nvidia驱动</h2>
 <p>创建或更新blacklist-nouveau.conf</p>
@@ -127,6 +128,50 @@ Samples: Installed in /home/jerry, but missing recommended libraries</p>
 
 <p>最后<code>source /etc/profile</code>即可。</p>
 <h1 id="cuddn">安装cuddn</h1>
+<p>在CUDA安装好之后，CUDNN安装相对比较容易，根据官网教程，首先从官网上下载四个文件，</p>
+<div class="hlcode"><pre><span class="n">cudnn</span><span class="o">-</span><span class="mf">8.0</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">x64</span><span class="o">-</span><span class="n">v7</span><span class="p">.</span><span class="n">tgz</span>
+
+<span class="n">libcudnn7_7</span><span class="mf">.0.5.15</span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="n">cuda8</span><span class="mf">.0</span><span class="n">_amd64</span><span class="p">.</span><span class="n">deb</span>
+
+<span class="n">libcudnn7</span><span class="o">-</span><span class="n">dev_7</span><span class="mf">.0.5.15</span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="n">cuda8</span><span class="mf">.0</span><span class="n">_amd64</span><span class="p">.</span><span class="n">deb</span>
+
+<span class="n">libcudnn7</span><span class="o">-</span><span class="n">doc_7</span><span class="mf">.0.5.15</span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="n">cuda8</span><span class="mf">.0</span><span class="n">_amd64</span><span class="p">.</span><span class="n">deb</span>
+</pre></div>
+
+
+<p>根据对应的系统和cuda版本下载，我的系统是ubuntu16.04，cuda版本为8.0.然后需要注意的是cuda的安装路径，如果在安装cuda使用的默认路径/usr/local/cuda/，则不需要修改。</p>
+<p>在四个文件的下载目录下。</p>
+<div class="hlcode"><pre><span class="cp"># 解压 cuDNN package.</span>
+<span class="err">¥</span> <span class="n">tar</span> <span class="o">-</span><span class="n">xzvf</span> <span class="n">cudnn</span><span class="o">-</span><span class="mf">8.0</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">x64</span><span class="o">-</span><span class="n">v7</span><span class="p">.</span><span class="n">tgz</span>
+
+<span class="cp"># 将下面的文件复制到 CUDA Toolkit 文件目录下。</span>
+<span class="err">$</span> <span class="n">sudo</span> <span class="n">cp</span> <span class="n">cuda</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">cudnn</span><span class="p">.</span><span class="n">h</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span><span class="o">/</span><span class="n">include</span>
+<span class="err">$</span> <span class="n">sudo</span> <span class="n">cp</span> <span class="n">cuda</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libcudnn</span><span class="o">*</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span><span class="o">/</span><span class="n">lib64</span>
+<span class="err">$</span> <span class="n">sudo</span> <span class="n">chmod</span> <span class="n">a</span><span class="o">+</span><span class="n">r</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">cudnn</span><span class="p">.</span><span class="n">h</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libcudnn</span><span class="o">*</span>
+
+<span class="cp"># 安装 runtime library,</span>
+<span class="n">sudo</span> <span class="n">dpkg</span> <span class="o">-</span><span class="n">i</span> <span class="n">libcudnn7_7</span><span class="mf">.0.5.15</span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="n">cuda8</span><span class="mf">.0</span><span class="n">_amd64</span><span class="p">.</span><span class="n">deb</span>
+
+<span class="cp"># 安装 developer library,</span>
+<span class="n">sudo</span> <span class="n">dpkg</span> <span class="o">-</span><span class="n">i</span> <span class="n">libcudnn7</span><span class="o">-</span><span class="n">dev_7</span><span class="mf">.0.5.15</span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="n">cuda8</span><span class="mf">.0</span><span class="n">_amd64</span><span class="p">.</span><span class="n">deb</span>
+
+<span class="cp"># 安装 code samples and the cuDNN Library User Guide</span>
+<span class="n">sudo</span> <span class="n">dpkg</span> <span class="o">-</span><span class="n">i</span> <span class="n">libcudnn7</span><span class="o">-</span><span class="n">doc_7</span><span class="mf">.0.5.15</span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="n">cuda8</span><span class="mf">.0</span><span class="n">_amd64</span><span class="p">.</span><span class="n">deb</span>
+</pre></div>
+
+
+<h2 id="cudnn">验证cudnn是否安装正确</h2>
+<div class="hlcode"><pre><span class="mf">1.</span> <span class="err">将某一个</span> <span class="n">cuDNN</span> <span class="err">样例复制到某一可读写文件目录下</span>
+<span class="err">$</span> <span class="n">cp</span> <span class="o">-</span><span class="n">r</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">cudnn_samples_v7</span><span class="o">/</span> <span class="err">$</span><span class="n">HOME</span>
+<span class="mf">2.</span> <span class="err">进入该文件目录，</span> <span class="err">本文选择的是</span><span class="n">mnistCUDNN</span><span class="err">测试</span>
+<span class="err">$</span> <span class="n">cd</span> <span class="err">$</span><span class="n">HOME</span><span class="o">/</span><span class="n">cudnn_samples_v7</span><span class="o">/</span><span class="n">mnistCUDNN</span>
+<span class="mf">3.</span> <span class="err">编译</span> <span class="n">mnistCUDNN</span> <span class="err">样例</span><span class="p">.</span>
+<span class="err">$</span> <span class="n">make</span> <span class="n">clean</span> <span class="o">&amp;&amp;</span> <span class="n">make</span>
+<span class="mf">4.</span> <span class="err">运行</span> <span class="n">mnistCUDNN</span> <span class="err">样例</span><span class="p">.</span>
+<span class="err">$</span> <span class="p">.</span><span class="o">/</span><span class="n">mnistCUDNN</span>
+<span class="mf">5.</span> <span class="err">如果安装成功，程序的最后则会显示</span>
+<span class="n">Test</span> <span class="n">passed</span><span class="o">!</span>
+</pre></div>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2017-12-12 14:00 </span></div>
 <div id="comments"></div>
