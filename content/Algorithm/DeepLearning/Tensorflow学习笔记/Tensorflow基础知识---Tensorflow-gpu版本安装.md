@@ -89,7 +89,9 @@ make
 sudo ./deviceQuery
 ```
 
-如果显示的是一些关于GPU的信息，则说明安装成功了。
+如果显示的是一些关于GPU的信息，则说明安装成功了，详细信息见下图。
+<center><img src="/wiki/static/images/tensorgpu/devicequery.png" alt="devicequery"/></center>
+
 
 ## 配置环境变量
 在CUDA安装完成之后，log日志中有提示需要声明环境变量，不然后面安装cudnn时会出现找不到.so文件。所以需要在/etc/profile中添加下面的内容。
