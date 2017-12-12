@@ -9,7 +9,9 @@ date: 2017-12-12 14:00
 # 一、N卡驱动安装
 #### 1、ubuntu自带
 安装之前使用```sudo apt-get install upgrade```将系统的软件进行升级。
-然后在System Settings -> Software&Update -> Additional Drivers 下，等待刷新完毕后，会出现 NVIDIA Corporation：Unknown，然后勾选第一个选项，然后点击更新。更新完成后重启电脑。
+然后在System Settings -> Software&Update -> Additional Drivers 下，等待刷新完毕后，会出现 NVIDIA Corporation：Unknown，如下图所示。然后勾选第一个选项，然后点击更新。更新完成后重启电脑。
+<center><img src="/wiki/static/images/tensorgpu/settings.png" alt="settings"/></center>
+
 
 打开终端，输入nvidia-smi，就会出现显卡的相关信息, 如下图所示。
 
@@ -49,9 +51,9 @@ $ sudo service lightdm stop      // 关闭桌面服务
 ```
 sudo sh cuda_8.0.44_linux_ubuntu_14.04.run --no-opengl-libs
 ```
+在.run文件后面添加--no-opengl-libs的详解见[Ubuntu 14.04 安装 CUDA 问题及解决](https://www.cnblogs.com/gaowengang/p/6068788.html)，安装完成后需要将opengl的相关lib重新安装一下。
 
-运行之后会跳出readme文件，然后按住ctr+ c跳过。
-然后会依次出现以下提示：
+运行之后会跳出readme文件，然后按住```ctr+ c```跳过。然后会依次出现以下提示：
 ```
 Do you accept the previously read EULA，  输入 accept，进入下一步。
 INSTALL NVIDIA Accelerates Graphics Driver for Linux-x86_64 375.26，  输入n，进入下一步；
