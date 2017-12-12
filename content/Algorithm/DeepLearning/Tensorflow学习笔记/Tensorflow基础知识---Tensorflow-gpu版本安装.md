@@ -13,6 +13,9 @@ date: 2017-12-12 14:00
 
 打开终端，输入nvidia-smi，就会出现显卡的相关信息。
 
+<center><img src="/wiki/static/images/tensorgpu/encoder-decoder.png" alt="Encoder-Decoder展开"/></center>
+
+
 ## 2、nvidia官网下载对应显卡驱动安装
 待完善......
 
@@ -45,30 +48,27 @@ $ sudo service lightdm stop      // 关闭桌面服务
 ## 3、安装.run文件
 ```
 sudo sh cuda_8.0.44_linux_ubuntu_14.04.run --no-opengl-libs
-
-运行之后会跳出readme文件，然后按住ctro + c 跳过。
-
-然后会出现 Do you accept the previously read EULA 输入 accept，进入下一步。
-
-INSTALL NVIDIA Accelerates Graphics Driver for Linux-x86_64 375.26 输入n，进入下一步；
-
-Install the  CUDA 8.0 Toolkit? 输入y， 进入下一步；
-
-Enter Tookit Location 点击enter，进入下一步；
-
-Do you want to install a symbolic link at /usr/local/cuda 输入y，进入下一步；
-
-Install the CUDA 8.0 Samples? 输入y， 进入下一步；
-
-Enter CUDA Samples Location 点击enter， 进入下一步；
-
-程序开始安装。。。
-
 ```
+
+运行之后会跳出readme文件，然后按住ctr+ c跳过。
+然后会依次出现以下提示：
+```
+Do you accept the previously read EULA，  输入 accept，进入下一步。
+INSTALL NVIDIA Accelerates Graphics Driver for Linux-x86_64 375.26，  输入n，进入下一步；
+Install the  CUDA 8.0 Toolkit?，  输入y， 进入下一步；
+Enter Tookit Location 点击enter， 进入下一步；
+Do you want to install a symbolic link at /usr/local/cuda，  输入y，进入下一步；
+Install the CUDA 8.0 Samples?  输入y， 进入下一步；
+Enter CUDA Samples Location 点击enter， 进入下一步；
+程序开始安装。。。
+```
+
 安装完成之后，会提示一个summary；大致内容如下。
+```
 Driver: Not Selectd
 Toolkit: INstalled in /usr/local/cuda-8.0
 Samples: Installed in /home/jerry, but missing recommended libraries
+```
 
 ***注意***
 这时候会有一个提示，CUDA Driver没有安装，根据提示，在.run文件后面添加-silent -driver。
@@ -81,12 +81,14 @@ sudo sh cuda_8.0.44_linux_ubuntu_14.04.run -silent -driver
 ```
 $ sudo service lightdm start     // 重启桌面服务
 ```
+
 为了检查安装是否正确，从cuda的samples中选择样例进行测试。
 ```
 cd /usr/local/cuda-7.5/samples/1_Utilities/deviceQuery
 make
 sudo ./deviceQuery
 ```
+
 如果显示的是一些关于GPU的信息，则说明安装成功了。
 
 ## 配置环境变量
@@ -112,27 +114,25 @@ libcudnn7-dev_7.0.5.15-1+cuda8.0_amd64.deb
 
 libcudnn7-doc_7.0.5.15-1+cuda8.0_amd64.deb
 ```
+
 根据对应的系统和cuda版本下载，我的系统是ubuntu16.04，cuda版本为8.0.然后需要注意的是cuda的安装路径，如果在安装cuda使用的默认路径/usr/local/cuda/，则不需要修改。
 
-在四个文件的下载目录下。
+在存放四个文件的下载目录下。
 ```
 # 解压 cuDNN package.
-¥ tar -xzvf cudnn-8.0-linux-x64-v7.tgz
-
+$ tar -xzvf cudnn-8.0-linux-x64-v7.tgz
 # 将下面的文件复制到 CUDA Toolkit 文件目录下。
 $ sudo cp cuda/include/cudnn.h /usr/local/cuda/include
 $ sudo cp cuda/lib64/libcudnn* /usr/local/cuda/lib64
 $ sudo chmod a+r /usr/local/cuda/include/cudnn.h /usr/local/cuda/lib64/libcudnn*
-
 # 安装 runtime library,
 sudo dpkg -i libcudnn7_7.0.5.15-1+cuda8.0_amd64.deb
-
 # 安装 developer library,
 sudo dpkg -i libcudnn7-dev_7.0.5.15-1+cuda8.0_amd64.deb
-
 # 安装 code samples and the cuDNN Library User Guide
 sudo dpkg -i libcudnn7-doc_7.0.5.15-1+cuda8.0_amd64.deb
 ```
+
 ## 验证cudnn是否安装正确
 ```
 1. 将某一个 cuDNN 样例复制到某一可读写文件目录下
@@ -147,12 +147,14 @@ $ ./mnistCUDNN
 Test passed!
 ```
 
+# 安装gpu版tensorflow
+
+
+
 
 
 # 参考文献
 
 [Ubuntu 14.04 安装 CUDA 问题及解决](https://www.cnblogs.com/gaowengang/p/6068788.html)
-
 [Ubuntu16.04+cuda8.0+caffe安装教程](http://blog.csdn.net/autocyz/article/details/52299889/)
-
 [CUDNN Installation Guide](http://developer2.download.nvidia.com/compute/machine-learning/cudnn/secure/v7.0.5/prod/Doc/cuDNN-Installation-Guide.pdf?1RL9HfeGELbC3I_J6F0c5RpXvy64oKHaWa0lZVIHWvzPbVKxDtV4_ivmxT2kIC6z1lE_h2bxuVgKEhGGW6R5n_GHnem5SFsA9jQI6LWMt68_sjV_HuOFBYO3EHzSwncT9iu1uUqar7UMgfrEOjgjE6hYCZcNNzBLgWrFa5VCRa2DsE1G8htULohvZqErOvFXRw)
