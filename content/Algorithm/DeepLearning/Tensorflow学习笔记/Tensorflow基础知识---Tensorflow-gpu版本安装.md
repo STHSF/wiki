@@ -210,6 +210,10 @@ totalMemory: 7.92GiB freeMemory: 7.34GiB
 至此，基于Ubuntu的tensorflow-gpu版本就安装配置完成，下面就可以畅快的"吃鸡"啦。
 
 # 五、一些问题
+### 驱动问题
+我在安装过程中涉及到两个驱动问题，一个是显卡驱动，还有一个是cudnn驱动。
+显卡驱动我直接先是使用```sudo apt-get install upgrade```升级安装包，然后在Ubuntu的设置里面更新的Nvidia显卡驱动。并没有从官网下载安装对应版本的显卡驱动。
+cudnn驱动，
 ### 关于cuda环境变量问题，
 ### 关于更新软链接
 ### 添加lib库路径
