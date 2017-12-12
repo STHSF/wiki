@@ -180,7 +180,7 @@ for some common reasons and solutions.  Include the entire stack trace
 above this error message when asking for help.
 ```
 在网上查资料发现，需要进行软链接配置，主要原因依然是环境变量的问题，但是按照一些方式还是提示上面的错误，后来查看lib64下面的文件发现我安装的是.so.8.0的版本，本来是想都安装最新版本的，慢慢发现google和nvidia两家根本不同步，没办法，在nvidia官网重新下载6.0版本的cudnn按照上面的方式重新安装后，在没有重新设置环境变量的情况下，helloword程序跑通了
-下面是执行session时输出的信息。
+下面是执行session时输出的信息，GPU信息显示出来了。
 ```
 2017-12-12 13:36:43.894722: I tensorflow/core/platform/cpu_feature_guard.cc:137] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
 2017-12-12 13:36:44.024230: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:892] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
@@ -193,10 +193,12 @@ totalMemory: 7.92GiB freeMemory: 7.34GiB
 ```
 至此，基于Ubuntu的tensorflow-gpu版本就安装配置完成，下面就可以畅快的"吃鸡"啦。
 
+# 五、一些问题
+## 关于cuda环境变量问题，
+## 关于
 
 
-
-# 五、参考文献
+# 六、参考文献
 
 [Ubuntu 14.04 安装 CUDA 问题及解决](https://www.cnblogs.com/gaowengang/p/6068788.html)
 [Ubuntu16.04+cuda8.0+caffe安装教程](http://blog.csdn.net/autocyz/article/details/52299889/)
