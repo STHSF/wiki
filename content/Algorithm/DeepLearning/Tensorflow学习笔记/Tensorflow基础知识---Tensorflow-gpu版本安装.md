@@ -102,7 +102,7 @@ export LD_LIBRARY_PATH
 ```
 最后```source /etc/profile```即可。
 
-# 三、安装cuddn
+# 三、安装cudnn
 
 在CUDA安装好之后，CUDNN安装相对比较容易，根据官网教程，首先从官网上下载四个文件，
 ```
@@ -179,7 +179,7 @@ See https://www.tensorflow.org/install/install_sources#common_installation_probl
 for some common reasons and solutions.  Include the entire stack trace
 above this error message when asking for help.
 ```
-在网上查资料发现，需要进行软链接配置，主要原因依然是环境变量的问题，但是按照一些方式还是提示上面的错误，后来查看lib64下面的文件发现我安装的是.so.8.0的版本，本来是想都安装最新版本的，慢慢发现google和nvidia两家根本不同步，没办法，在nvidia官网重新下载6.0版本的cudnn按照上面的方式重新安装后，在没有重新设置环境变量的情况下，helloword程序跑通了
+在网上查资料发现，需要进行软链接配置，主要原因依然是环境变量的问题，但是按照一些方式还是提示上面的错误，后来查看lib64下面的文件发现我安装的是.so.8.0的版本，本来是想都安装最新版本的，慢慢发现google和nvidia两家根本不同步，版本的一致性问题很头疼。没办法，在nvidia官网重新下载6.0版本的cudnn按照上面的方式重新安装后，在没有重新设置环境变量的情况下，helloword程序跑通了
 下面是执行session时输出的信息，GPU信息显示出来了。
 ```
 2017-12-12 13:36:43.894722: I tensorflow/core/platform/cpu_feature_guard.cc:137] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
@@ -194,8 +194,9 @@ totalMemory: 7.92GiB freeMemory: 7.34GiB
 至此，基于Ubuntu的tensorflow-gpu版本就安装配置完成，下面就可以畅快的"吃鸡"啦。
 
 # 五、一些问题
-## 关于cuda环境变量问题，
-## 关于
+### 关于cuda环境变量问题，
+### 关于更新软链接
+### 添加lib库路径
 
 
 # 六、参考文献
@@ -203,3 +204,7 @@ totalMemory: 7.92GiB freeMemory: 7.34GiB
 [Ubuntu 14.04 安装 CUDA 问题及解决](https://www.cnblogs.com/gaowengang/p/6068788.html)
 [Ubuntu16.04+cuda8.0+caffe安装教程](http://blog.csdn.net/autocyz/article/details/52299889/)
 [CUDNN Installation Guide](http://developer2.download.nvidia.com/compute/machine-learning/cudnn/secure/v7.0.5/prod/Doc/cuDNN-Installation-Guide.pdf?1RL9HfeGELbC3I_J6F0c5RpXvy64oKHaWa0lZVIHWvzPbVKxDtV4_ivmxT2kIC6z1lE_h2bxuVgKEhGGW6R5n_GHnem5SFsA9jQI6LWMt68_sjV_HuOFBYO3EHzSwncT9iu1uUqar7UMgfrEOjgjE6hYCZcNNzBLgWrFa5VCRa2DsE1G8htULohvZqErOvFXRw)
+[Ubuntu16.04 下安装GPU版TensorFlow（包括Cuda和Cudnn）](https://segmentfault.com/a/1190000008234390)
+["libcudnn.so.5 cannot open shared object file: No such file or directory" ](http://blog.csdn.net/u014696921/article/details/60140264)
+[ldconfig提示is not a symbolic link警告的去除方法 ](http://blog.csdn.net/liukun321/article/details/6908635)
+[Ubuntu16.04.1如何安装TensorFlow1.1.0（GPU版）](http://blog.csdn.net/binglel/article/details/70230276)
