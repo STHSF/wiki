@@ -1,0 +1,167 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <title>Tensorflow基础知识---ubuntu下安装tensotflow-gpu版本、安装cuda、cuddn - sthsf's personal knowledge wiki</title>
+    <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
+    <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$(',')$'], ['\\(','\\)']]}
+        });
+        </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-78529611-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+
+<body>
+<div id="container">
+    
+<div id="header">
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm">Algorithm</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning">DeepLearning</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning-Tensorflow学习笔记">Tensorflow学习笔记</a>&nbsp;»&nbsp;Tensorflow基础知识---ubuntu下安装tensotflow-gpu版本、安装cuda、cuddn</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">Tensorflow基础知识---ubuntu下安装tensotflow-gpu版本、安装cuda、cuddn</div>
+<div id="content">
+  <h1 id="_1">写在前面</h1>
+<h1 id="n">一、N卡驱动安装</h1>
+<h2 id="1ubuntu">1、ubuntu自带</h2>
+<p>在System Settings -&gt; Software&amp;Update -&gt; Additional Drivers 下，等待刷新完毕后，会出现 NVIDIA Corporation：Unknown，然后勾选第一个选项，然后点击更新。更新完成后重启电脑。</p>
+<p>打开终端，输入nvidia-smi，就会出现显卡的相关信息。</p>
+<h2 id="2nvidia">2、nvidia官网下载对应显卡驱动安装</h2>
+<h1 id="cuda">安装cuda</h1>
+<h2 id="1nouveau-nvidia">1、禁用自带的nouveau nvidia驱动</h2>
+<p>创建或更新blacklist-nouveau.conf</p>
+<div class="hlcode"><pre><span class="n">vi</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">modprobe</span><span class="p">.</span><span class="n">d</span><span class="o">/</span><span class="n">blacklist</span><span class="o">-</span><span class="n">nouveau</span><span class="p">.</span><span class="n">conf</span>
+</pre></div>
+
+
+<p>并在文件中添加如下内容</p>
+<div class="hlcode"><pre><span class="n">blacklist</span> <span class="n">nouveau</span>
+<span class="n">options</span> <span class="n">nouveau</span> <span class="n">modeset</span><span class="o">=</span><span class="mi">0</span>
+</pre></div>
+
+
+<p>然后更新一下，重新生成 kernel initramfs</p>
+<div class="hlcode"><pre><span class="n">sudo</span> <span class="n">update</span><span class="o">-</span><span class="n">initramfs</span> <span class="o">-</span><span class="n">u</span>
+</pre></div>
+
+
+<p>修改后需要重新启动系统，确认下nouveau是否已经被干掉了，<code>lsmod |grep nouveau</code></p>
+<h2 id="2ctrl-alt-f1">2、重启系统，Ctrl + Alt + F1 进入命令行模式，执行，</h2>
+<div class="hlcode"><pre><span class="err">$</span> <span class="n">sudo</span> <span class="n">service</span> <span class="n">lightdm</span> <span class="n">stop</span>      <span class="c1">// 关闭桌面服务</span>
+</pre></div>
+
+
+<h2 id="3run">3、安装.run文件</h2>
+<div class="hlcode"><pre><span class="n">sudo</span> <span class="n">sh</span> <span class="n">cuda_8</span><span class="mf">.0.44</span><span class="n">_linux_ubuntu_14</span><span class="mf">.04</span><span class="p">.</span><span class="n">run</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">opengl</span><span class="o">-</span><span class="n">libs</span>
+
+<span class="err">运行之后会跳出</span><span class="n">readme</span><span class="err">文件，然后按住</span><span class="n">ctro</span> <span class="o">+</span> <span class="n">c</span> <span class="err">跳过。</span>
+
+<span class="err">然后会出现</span> <span class="n">Do</span> <span class="n">you</span> <span class="n">accept</span> <span class="n">the</span> <span class="n">previously</span> <span class="n">read</span> <span class="n">EULA</span> <span class="err">输入</span> <span class="n">accept</span><span class="err">，进入下一步。</span>
+
+<span class="n">INSTALL</span> <span class="n">NVIDIA</span> <span class="n">Accelerates</span> <span class="n">Graphics</span> <span class="n">Driver</span> <span class="k">for</span> <span class="n">Linux</span><span class="o">-</span><span class="n">x86_64</span> <span class="mf">375.26</span> <span class="err">输入</span><span class="n">n</span><span class="err">，进入下一步；</span>
+
+<span class="n">Install</span> <span class="n">the</span>  <span class="n">CUDA</span> <span class="mf">8.0</span> <span class="n">Toolkit</span><span class="o">?</span> <span class="err">输入</span><span class="n">y</span><span class="err">，</span> <span class="err">进入下一步；</span>
+
+<span class="n">Enter</span> <span class="n">Tookit</span> <span class="n">Location</span> <span class="err">点击</span><span class="n">enter</span><span class="err">，进入下一步；</span>
+
+<span class="n">Do</span> <span class="n">you</span> <span class="n">want</span> <span class="n">to</span> <span class="n">install</span> <span class="n">a</span> <span class="n">symbolic</span> <span class="n">link</span> <span class="n">at</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span> <span class="err">输入</span><span class="n">y</span><span class="err">，进入下一步；</span>
+
+<span class="n">Install</span> <span class="n">the</span> <span class="n">CUDA</span> <span class="mf">8.0</span> <span class="n">Samples</span><span class="o">?</span> <span class="err">输入</span><span class="n">y</span><span class="err">，</span> <span class="err">进入下一步；</span>
+
+<span class="n">Enter</span> <span class="n">CUDA</span> <span class="n">Samples</span> <span class="n">Location</span> <span class="err">点击</span><span class="n">enter</span><span class="err">，</span> <span class="err">进入下一步；</span>
+
+<span class="err">程序开始安装。。。</span>
+</pre></div>
+
+
+<p>安装完成之后，会提示一个summary；大致内容如下。<br />
+Driver: Not Selectd<br />
+Toolkit: INstalled in /usr/local/cuda-8.0<br />
+Samples: Installed in /home/jerry, but missing recommended libraries</p>
+<p><strong><em>注意</em></strong><br />
+这时候会有一个提示，CUDA Driver没有安装，根据提示，在.run文件后面添加-silent -driver。</p>
+<div class="hlcode"><pre><span class="n">sudo</span> <span class="n">sh</span> <span class="n">cuda_8</span><span class="mf">.0.44</span><span class="n">_linux_ubuntu_14</span><span class="mf">.04</span><span class="p">.</span><span class="n">run</span> <span class="o">-</span><span class="n">silent</span> <span class="o">-</span><span class="n">driver</span>
+</pre></div>
+
+
+<p>安装之后，启动x-window</p>
+<div class="hlcode"><pre><span class="err">$</span> <span class="n">sudo</span> <span class="n">service</span> <span class="n">lightdm</span> <span class="n">start</span>     <span class="c1">// 重启桌面服务</span>
+</pre></div>
+
+
+<p>为了检查安装是否正确，从cuda的samples中选择样例进行测试。</p>
+<div class="hlcode"><pre><span class="n">cd</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span><span class="o">-</span><span class="mf">7.5</span><span class="o">/</span><span class="n">samples</span><span class="o">/</span><span class="mi">1</span><span class="n">_Utilities</span><span class="o">/</span><span class="n">deviceQuery</span>
+<span class="n">make</span>
+<span class="n">sudo</span> <span class="p">.</span><span class="o">/</span><span class="n">deviceQuery</span>
+</pre></div>
+
+
+<p>如果显示的是一些关于GPU的信息，则说明安装成功了。</p>
+<h1 id="cuddn">安装cuddn</h1>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2017-12-12 14:00 </span></div>
+<div id="comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script type="text/javascript">
+const gitment = new Gitment({
+  title: 'Tensorflow基础知识---ubuntu下安装tensotflow-gpu版本、安装cuda、cuddn',
+  owner: 'sthsf',
+  repo: 'wiki',
+  oauth: {
+    client_id: '086c54c5fd95adfdc372',
+    client_secret: '2ad9ebe87b952d2c77fccf99c334881b91eaa73d',
+  },
+  // ...
+  // For more available options, check out the documentation below
+})
+gitment.render('comments')
+// or
+// gitment.render(document.getElementById('comments'))
+// or
+// document.body.appendChild(gitment.render())
+</script>
+
+</div>
+<div id="footer">
+            <span>
+                Copyright © 2017 sthsf.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+                Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
+            </span>
+</div>
+
+
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?90e1dcdd1938573c19f9ff6521188e91";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</body>
+</html>
