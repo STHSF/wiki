@@ -45,7 +45,7 @@
 <h2 id="1ubuntu">1、ubuntu自带</h2>
 <p>安装之前使用<code>sudo apt-get install upgrade</code>将系统的软件进行升级。<br />
 然后在System Settings -&gt; Software&amp;Update -&gt; Additional Drivers 下，等待刷新完毕后，会出现 NVIDIA Corporation：Unknown，然后勾选第一个选项，然后点击更新。更新完成后重启电脑。</p>
-<p>打开终端，输入nvidia-smi，就会出现显卡的相关信息。</p>
+<p>打开终端，输入nvidia-smi，就会出现显卡的相关信息, 如下图所示。</p>
 <p><center><img src="/wiki/static/images/tensorgpu/nvidia-driver.png" alt="nvidia-driver"/></center></p>
 <h2 id="2nvidia">2、nvidia官网下载对应显卡驱动安装</h2>
 <p>待完善......</p>
@@ -214,6 +214,8 @@
 </pre></div>
 
 
+<p>具体运行结果如下图所示：<br />
+<center><img src="/wiki/static/images/tensorgpu/tensorflow.png" alt="tensorflow"/></center></p>
 <p>至此，基于Ubuntu的tensorflow-gpu版本就安装配置完成，下面就可以畅快的"吃鸡"啦。</p>
 <h1 id="_4">五、一些问题</h1>
 <h3 id="cuda_1">关于cuda环境变量问题，</h3>
