@@ -48,7 +48,7 @@
 <p><center><img src="/wiki/static/images/tensorgpu/encoder-decoder.png" alt="Encoder-Decoder展开"/></center></p>
 <h2 id="2nvidia">2、nvidia官网下载对应显卡驱动安装</h2>
 <p>待完善......</p>
-<h1 id="cuda">安装cuda</h1>
+<h1 id="cuda">二、安装cuda</h1>
 <h2 id="1nouveau-nvidia">1、禁用自带的nouveau nvidia驱动</h2>
 <p>创建或更新blacklist-nouveau.conf</p>
 <div class="hlcode"><pre><span class="n">vi</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">modprobe</span><span class="p">.</span><span class="n">d</span><span class="o">/</span><span class="n">blacklist</span><span class="o">-</span><span class="n">nouveau</span><span class="p">.</span><span class="n">conf</span>
@@ -126,7 +126,7 @@
 
 
 <p>最后<code>source /etc/profile</code>即可。</p>
-<h1 id="cuddn">安装cuddn</h1>
+<h1 id="cuddn">三、安装cuddn</h1>
 <p>在CUDA安装好之后，CUDNN安装相对比较容易，根据官网教程，首先从官网上下载四个文件，</p>
 <div class="hlcode"><pre><span class="n">cudnn</span><span class="o">-</span><span class="mf">8.0</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">x64</span><span class="o">-</span><span class="n">v7</span><span class="p">.</span><span class="n">tgz</span>
 
@@ -169,8 +169,8 @@
 </pre></div>
 
 
-<h1 id="gputensorflow">安装gpu版tensorflow</h1>
-<h1 id="_3">参考文献</h1>
+<h1 id="gputensorflow">四、安装gpu版tensorflow</h1>
+<h1 id="_3">五、参考文献</h1>
 <p><a href="https://www.cnblogs.com/gaowengang/p/6068788.html">Ubuntu 14.04 安装 CUDA 问题及解决</a><br />
 <a href="http://blog.csdn.net/autocyz/article/details/52299889/">Ubuntu16.04+cuda8.0+caffe安装教程</a><br />
 <a href="http://developer2.download.nvidia.com/compute/machine-learning/cudnn/secure/v7.0.5/prod/Doc/cuDNN-Installation-Guide.pdf?1RL9HfeGELbC3I_J6F0c5RpXvy64oKHaWa0lZVIHWvzPbVKxDtV4_ivmxT2kIC6z1lE_h2bxuVgKEhGGW6R5n_GHnem5SFsA9jQI6LWMt68_sjV_HuOFBYO3EHzSwncT9iu1uUqar7UMgfrEOjgjE6hYCZcNNzBLgWrFa5VCRa2DsE1G8htULohvZqErOvFXRw">CUDNN Installation Guide</a></p>
