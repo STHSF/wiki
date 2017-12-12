@@ -237,7 +237,7 @@
 <p>至此，基于Ubuntu的tensorflow-gpu版本就安装配置完成，下面就可以畅快的"吃鸡"啦。</p>
 <h1 id="_4">五、一些问题</h1>
 <h3 id="1">1、驱动问题</h3>
-<p>我在安装过程中涉及到两个驱动问题，一个是显卡驱动，还有一个是CUDA驱动。<strong><em>显卡驱动</em></strong>我直接先是使用<code>sudo apt-get install upgrade</code>升级安装包，然后在Ubuntu的设置里面更新的Nvidia显卡驱动。并没有从官网下载安装对应版本的显卡驱动。<strong><em>CUDA驱动</em></strong>，我最初在安装CUDA的时候选项全部选择的是yes，导致最后的Driver、Toolkit和Samples都没有安装成功，后来所有教程中都加第二步是否安装图形显卡驱动时选择No，按照教程设置后Toolkit和Samples都安装成功了，但是Driver先是没有选择，安装结束后又一个warning，CUDA的驱动没有安装，更具提示在.run文件后面添加<code>-silent -driver</code>之后,对应的log文件中会先是<code>Driver: Installed</code>.</p>
+<p>我在安装过程中涉及到两个驱动问题，一个是显卡驱动，还有一个是CUDA驱动。<strong><em>显卡驱动</em></strong>我直接先是使用<code>sudo apt-get install upgrade</code>升级安装包，然后在Ubuntu的设置里面更新的Nvidia显卡驱动。并没有从官网下载安装对应版本的显卡驱动。<strong><em>CUDA驱动</em></strong>，我最初在安装CUDA的时候选项全部选择的是yes，导致最后的Driver、Toolkit和Samples都没有安装成功，后来所有教程中都加第二步是否安装图形显卡驱动时选择No，按照教程设置后Toolkit和Samples都安装成功了，但是Driver先是没有选择，安装结束后又一个warning，CUDA的驱动没有安装，根据提示在CUDA.run文件后面添加<code>-silent -driver</code>之后,对应的log文件中会先是<code>Driver: Installed</code>.</p>
 <h3 id="2cuda">2、关于cuda环境变量和更新软链接问题</h3>
 <h3 id="3lib">3、添加lib库路径</h3>
 <h1 id="_5">六、参考文献</h1>
