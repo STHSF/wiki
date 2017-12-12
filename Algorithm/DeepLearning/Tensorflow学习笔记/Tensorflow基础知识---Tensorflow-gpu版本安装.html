@@ -116,7 +116,8 @@
 </pre></div>
 
 
-<p>如果显示的是一些关于GPU的信息，则说明安装成功了。</p>
+<p>如果显示的是一些关于GPU的信息，则说明安装成功了，详细信息见下图。<br />
+<center><img src="/wiki/static/images/tensorgpu/devicequery.png" alt="devicequery"/></center></p>
 <h2 id="_2">配置环境变量</h2>
 <p>在CUDA安装完成之后，log日志中有提示需要声明环境变量，不然后面安装cudnn时会出现找不到.so文件。所以需要在/etc/profile中添加下面的内容。</p>
 <div class="hlcode"><pre><span class="n">PATH</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span><span class="o">/</span><span class="n">bin</span><span class="o">:</span><span class="err">$</span><span class="n">PATH</span>
