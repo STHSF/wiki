@@ -7,7 +7,7 @@ date: 2017-12-12 14:00
 # 写在前面
 
 # 一、N卡驱动安装
-## 1、ubuntu自带
+#### 1、ubuntu自带
 安装之前使用```sudo apt-get install upgrade```将系统的软件进行升级。
 然后在System Settings -> Software&Update -> Additional Drivers 下，等待刷新完毕后，会出现 NVIDIA Corporation：Unknown，然后勾选第一个选项，然后点击更新。更新完成后重启电脑。
 
@@ -16,12 +16,12 @@ date: 2017-12-12 14:00
 <center><img src="/wiki/static/images/tensorgpu/nvidia-driver.png" alt="nvidia-driver"/></center>
 
 
-## 2、nvidia官网下载对应显卡驱动安装
+#### 2、nvidia官网下载对应显卡驱动安装
 待完善......
 
 # 二、安装cuda
 
-## 1、禁用自带的nouveau nvidia驱动
+#### 1、禁用自带的nouveau nvidia驱动
 
 创建或更新blacklist-nouveau.conf
 ```
@@ -40,12 +40,12 @@ sudo update-initramfs -u
 ```
 修改后需要重新启动系统，确认下nouveau是否已经被干掉了，```lsmod |grep nouveau```
 
-## 2、重启系统，Ctrl + Alt + F1 进入命令行模式，执行，
+#### 2、重启系统，Ctrl + Alt + F1 进入命令行模式，执行，
 ```
 $ sudo service lightdm stop      // 关闭桌面服务
 ```
 
-## 3、安装.run文件
+#### 3、安装.run文件
 ```
 sudo sh cuda_8.0.44_linux_ubuntu_14.04.run --no-opengl-libs
 ```
