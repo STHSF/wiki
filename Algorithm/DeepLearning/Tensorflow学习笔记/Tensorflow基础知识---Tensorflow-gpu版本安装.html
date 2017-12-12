@@ -76,7 +76,7 @@
 </pre></div>
 
 
-<p>修改后需要重新启动系统，确认下nouveau是否已经被干掉了，<code>lsmod |grep nouveau</code></p>
+<p>修改后需要重新启动系统，确认下nouveau是否已经被干掉了，<code>lsmod | grep nouveau</code></p>
 <h4 id="2ctrl-alt-f1">2、<code>Ctrl + Alt + F1</code> 进入命令行模式，执行，</h4>
 <div class="hlcode"><pre><span class="err">$</span> <span class="n">sudo</span> <span class="n">service</span> <span class="n">lightdm</span> <span class="n">stop</span>      <span class="c1">// 关闭桌面服务</span>
 </pre></div>
@@ -123,7 +123,7 @@
 
 <p>为了检查安装是否正确，从cuda的samples中选择样例进行测试。</p>
 <div class="hlcode"><pre><span class="n">cd</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span><span class="o">-</span><span class="mf">7.5</span><span class="o">/</span><span class="n">samples</span><span class="o">/</span><span class="mi">1</span><span class="n">_Utilities</span><span class="o">/</span><span class="n">deviceQuery</span>
-<span class="n">make</span>
+<span class="n">sudo</span> <span class="n">make</span> <span class="n">clean</span> <span class="o">&amp;&amp;</span> <span class="n">make</span>
 <span class="n">sudo</span> <span class="p">.</span><span class="o">/</span><span class="n">deviceQuery</span>
 </pre></div>
 
