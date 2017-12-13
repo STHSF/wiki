@@ -58,7 +58,7 @@ $ sudo service lightdm stop      // 关闭桌面服务
 #### 3、安装CUDA.run文件
 我用的是是CUDA8.0的版本，刚开始安装的是最新9.0的版本，后来好像在某篇教程中看到tensorflow目前还不支持CUDA9.0版本的，所以重装了8.0的，也有可能我没有理解他的意思，我没有经过实测。还有就是很多教程直接使用.deb安装的CUDA，同事反应在升级的过程中直接安装没有问题，但是后面使用的时候就会出现一些问题，所以我也没有直接安装，后面遇到的问题也没办法复现。
 ```
-sudo sh cuda_8.0.44_linux_ubuntu_14.04.run --no-opengl-libs
+sudo sh cuda_8.0.61_375.26_linux.run --no-opengl-libs
 ```
 在.run文件后面添加--no-opengl-libs的详解见[Ubuntu 14.04 安装 CUDA 问题及解决](https://www.cnblogs.com/gaowengang/p/6068788.html)，安装完成后需要将opengl的相关lib重新安装一下。
 
@@ -89,7 +89,7 @@ Samples: Installed in /home/jerry, but missing recommended libraries
 
 根据提示，在.run文件后面添加-silent -driver，有提示的图片忘记保存了。以后遇到在加上。
 ```
-sudo sh cuda_8.0.44_linux_ubuntu_14.04.run -silent -driver
+sudo sh cuda_8.0.61_375.26_linux.run -silent -driver
 ```
 
 安装之后，启动x-window
