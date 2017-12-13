@@ -86,8 +86,14 @@ Samples: Installed in /home/jerry, but missing recommended libraries
 ***注意***
 这时候会有一个提示，类似于下图，fail的原因是CUDA Driver没有安装。也有人说是因为双显卡(独立显卡和集成显卡)的原因。
 <center><img src="/wiki/static/images/tensorgpu/devicequeryerror.png" alt="devicequeryerror"/></center>
+程序下面又一个warning：
+```
+***WARNING: Incomplete installation! This installation did not install the CUDA Driver. A driver of version at least 361.00 is required for CUDA 8.0 functionality to work.
+To install the driver using this installer, run the following command, replacing <CudaInstaller> with the name of this run file:
+    sudo <CudaInstaller>.run -silent -driver
+```
 
-根据提示，在.run文件后面添加-silent -driver，有提示的图片忘记保存了。以后遇到在加上。
+根据warning提示，在.run文件后面添加-silent -driver，有提示的图片忘记保存了。以后遇到在加上。
 ```
 sudo sh cuda_8.0.61_375.26_linux.run -silent -driver
 ```
