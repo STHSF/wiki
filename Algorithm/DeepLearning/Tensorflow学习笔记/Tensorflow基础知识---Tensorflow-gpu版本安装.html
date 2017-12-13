@@ -245,7 +245,7 @@
 <center><img src="/wiki/static/images/tensorgpu/CUDA_ERROR_UNKNOWN.jpeg" alt="CUDA_ERROR_UNKNOWN"/></center><br />
 解决方法：<br />
 第一种解决方法是 <code>sudo apt-get install nvidia-modprobe</code><br />
-第二种解决方法是 直接使用<code>sudo</code>来运行你的程序。</p>
+第二种解决方法是 直接使用<code>sudo</code>来运行你的程序。具体可以参考<a href="https://github.com/tensorflow/tensorflow/issues/394">failed call to cuInit: CUDA_ERROR_UNKNOWN in python programs using Ubuntu bumblebee</a>。</p>
 <h3 id="3lib">3、添加lib库路径</h3>
 <h1 id="_5">六、参考文献</h1>
 <p><a href="https://www.cnblogs.com/gaowengang/p/6068788.html">Ubuntu 14.04 安装 CUDA 问题及解决</a><br />
@@ -254,7 +254,8 @@
 <a href="https://segmentfault.com/a/1190000008234390">Ubuntu16.04 下安装GPU版TensorFlow（包括Cuda和Cudnn）</a><br />
 <a href="http://blog.csdn.net/u014696921/article/details/60140264">"libcudnn.so.5 cannot open shared object file: No such file or directory" </a><br />
 <a href="http://blog.csdn.net/liukun321/article/details/6908635">ldconfig提示is not a symbolic link警告的去除方法 </a><br />
-<a href="http://blog.csdn.net/binglel/article/details/70230276">Ubuntu16.04.1如何安装TensorFlow1.1.0（GPU版）</a></p>
+<a href="http://blog.csdn.net/binglel/article/details/70230276">Ubuntu16.04.1如何安装TensorFlow1.1.0（GPU版）</a><br />
+<a href="https://github.com/tensorflow/tensorflow/issues/394">failed call to cuInit: CUDA_ERROR_UNKNOWN in python programs using Ubuntu bumblebee</a></p>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2017-12-12 14:00 </span></div>
 <div id="comments"></div>
