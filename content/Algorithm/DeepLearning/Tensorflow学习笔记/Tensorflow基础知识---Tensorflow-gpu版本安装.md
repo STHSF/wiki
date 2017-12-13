@@ -229,7 +229,9 @@ totalMemory: 7.92GiB freeMemory: 7.34GiB
 网上的解决方法：
 第一种解决方法是 ```sudo apt-get install nvidia-modprobe```，我尝试了，好像没有用。还是会报同样的错误。
 第二种解决方法是 直接使用```sudo```来运行你的程序。具体可以参考[failed call to cuInit: CUDA_ERROR_UNKNOWN in python programs using Ubuntu bumblebee](https://github.com/tensorflow/tensorflow/issues/394)。
-我的解决办法，重装cuda。
+内核版本不对了我的解决办法，重装cuda。
+重装之后运行程序,问题解决
+<center><img src="/wiki/static/images/tensorgpu/cuda_right.jpg" alt="CUDA_right"/></center>
 
 
 
