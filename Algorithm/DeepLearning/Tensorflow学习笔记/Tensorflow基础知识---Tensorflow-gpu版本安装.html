@@ -111,7 +111,9 @@
 
 
 <p><strong><em>注意</em></strong><br />
-这时候会有一个提示，CUDA Driver没有安装，根据提示，在.run文件后面添加-silent -driver。</p>
+这时候会有一个提示，类似于下图，fail的原因是CUDA Driver没有安装。也有人说是因为双显卡(独立显卡和集成显卡)的原因。<br />
+<center><img src="/wiki/static/images/tensorgpu/devicequeryerror.png" alt="devicequeryerror"/></center></p>
+<p>根据提示，在.run文件后面添加-silent -driver，有提示的图片忘记保存了。以后遇到在加上。</p>
 <div class="hlcode"><pre><span class="n">sudo</span> <span class="n">sh</span> <span class="n">cuda_8</span><span class="mf">.0.44</span><span class="n">_linux_ubuntu_14</span><span class="mf">.04</span><span class="p">.</span><span class="n">run</span> <span class="o">-</span><span class="n">silent</span> <span class="o">-</span><span class="n">driver</span>
 </pre></div>
 
