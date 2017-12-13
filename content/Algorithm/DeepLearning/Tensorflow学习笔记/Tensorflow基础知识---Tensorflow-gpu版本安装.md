@@ -98,7 +98,7 @@ To install the driver using this installer, run the following command, replacing
 sudo sh cuda_8.0.61_375.26_linux.run -silent -driver
 ```
 
-安装之后，启动x-window
+安装完成之后，启动桌面
 ```
 $ sudo service lightdm start     // 重启桌面服务
 ```
@@ -229,19 +229,31 @@ totalMemory: 7.92GiB freeMemory: 7.34GiB
 ### 1、驱动问题
 我在安装过程中涉及到两个驱动问题，一个是显卡驱动，还有一个是CUDA驱动。***显卡驱动***我直接先是使用```sudo apt-get install upgrade```升级安装包，然后在Ubuntu的设置里面更新的Nvidia显卡驱动。并没有从官网下载安装对应版本的显卡驱动。***CUDA驱动***，我最初在安装CUDA的时候选项全部选择的是yes，导致最后的Driver、Toolkit和Samples都没有安装成功，后来所有教程中都加第二步是否安装图形显卡驱动时选择No，按照教程设置后Toolkit和Samples都安装成功了，但是Driver先是没有选择，安装结束后又一个warning，CUDA的驱动没有安装，根据提示在CUDA.run文件后面添加```-silent -driver```之后,对应的log文件中会先是```Driver: Installed```.
 ### 2、关于cuda环境变量和更新软链接问题
+最终在我的/etc/profile下面添加的内容如下：
+```
+PATH=/usr/local/cuda/bin:$PATH
+export PATH
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/cuda-8.0/lib64:/usr/local/cuda-8.0/extras/CUPTI/lib64"
+export CUDA_HOME=/usr/local/cuda-8.0
+```
+我也没用到软链接之类的。
+
+### 3、failed call to cuInit: CUDA_ERROR_UNKNOWN
+
 在系统能够正常运行的情况下，轻易不要去更新显卡驱动，Nvidia动不动就会出新的驱动更新，我建议是不是大版本更新，能不更新尽量不更新，我就遇到了问题，每次登录系统的时候系统都会提示例如几个packages can be update，我觉得碍眼就直接使用```sudo apt-get upgrade```升级安装包，突然发现她在帮我更新显卡驱动，虎躯一震，感觉要出问题。等更新完成之后我立刻运行我的tensorflow程序，问题真的来了。
 问题提示""failed call to cuInit: CUDA_ERROR_UNKNOWN""
 <center><img src="/wiki/static/images/tensorgpu/cuda_error.png" alt="CUDA_ERROR_UNKNOWN"/></center>
 网上的解决方法：
 第一种解决方法是 ```sudo apt-get install nvidia-modprobe```，我尝试了，好像没有用。还是会报同样的错误。
-第二种解决方法是 直接使用```sudo```来运行你的程序。具体可以参考[failed call to cuInit: CUDA_ERROR_UNKNOWN in python programs using Ubuntu bumblebee](https://github.com/tensorflow/tensorflow/issues/394)。
+第二种解决方法是 直接使用```sudo```来运行程序。具体可以参考[failed call to cuInit: CUDA_ERROR_UNKNOWN in python programs using Ubuntu bumblebee](https://github.com/tensorflow/tensorflow/issues/394)。
+
 内核版本不匹配，那我就按照上面的方式重装cuda。
 重装之后运行程序,问题解决
 <center><img src="/wiki/static/images/tensorgpu/cuda_right.jpg" alt="CUDA_right"/></center>
 
 
 
-### 3、添加lib库路径
+### 4、添加lib库路径
 
 
 # 六、参考文献
