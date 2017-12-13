@@ -225,7 +225,7 @@ totalMemory: 7.92GiB freeMemory: 7.34GiB
 ### 2、关于cuda环境变量和更新软链接问题
 在系统能够正常运行的情况下，轻易不要去更新显卡驱动，Nvidia动不动就会出新的驱动更新，我建议是不是大版本更新，能不更新尽量不更新，我就遇到了问题，每次登录系统的时候系统都会提示例如几个packages can be update，我觉得碍眼就直接使用```sudo apt-get upgrade```升级安装包，突然发现她在帮我更新显卡驱动，虎躯一震，感觉要出问题。等更新完成之后我立刻运行我的tensorflow程序，问题真的来了。
 问题提示""failed call to cuInit: CUDA_ERROR_UNKNOWN""
-<center><img src="/wiki/static/images/tensorgpu/cuda_error.jpeg" alt="CUDA_ERROR_UNKNOWN"/></center>
+<center><img src="/wiki/static/images/tensorgpu/cuda_error.png" alt="CUDA_ERROR_UNKNOWN"/></center>
 网上的解决方法：
 第一种解决方法是 ```sudo apt-get install nvidia-modprobe```，我尝试了，好像没有用。还是会报同样的错误。
 第二种解决方法是 直接使用```sudo```来运行你的程序。具体可以参考[failed call to cuInit: CUDA_ERROR_UNKNOWN in python programs using Ubuntu bumblebee](https://github.com/tensorflow/tensorflow/issues/394)。
