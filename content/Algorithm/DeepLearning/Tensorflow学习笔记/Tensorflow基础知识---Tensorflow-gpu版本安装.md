@@ -223,6 +223,10 @@ totalMemory: 7.92GiB freeMemory: 7.34GiB
 ### 1、驱动问题
 我在安装过程中涉及到两个驱动问题，一个是显卡驱动，还有一个是CUDA驱动。***显卡驱动***我直接先是使用```sudo apt-get install upgrade```升级安装包，然后在Ubuntu的设置里面更新的Nvidia显卡驱动。并没有从官网下载安装对应版本的显卡驱动。***CUDA驱动***，我最初在安装CUDA的时候选项全部选择的是yes，导致最后的Driver、Toolkit和Samples都没有安装成功，后来所有教程中都加第二步是否安装图形显卡驱动时选择No，按照教程设置后Toolkit和Samples都安装成功了，但是Driver先是没有选择，安装结束后又一个warning，CUDA的驱动没有安装，根据提示在CUDA.run文件后面添加```-silent -driver```之后,对应的log文件中会先是```Driver: Installed```.
 ### 2、关于cuda环境变量和更新软链接问题
+问题提示""failed call to cuInit: CUDA_ERROR_UNKNOWN""
+<center><img src="/wiki/static/images/tensorgpu/CUDA_ERROR_UNKNOWN.jpeg" alt="CUDA_ERROR_UNKNOWN"/></center>
+解决方法```sudo apt-get install nvidia-modprobe```
+
 ### 3、添加lib库路径
 
 
