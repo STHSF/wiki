@@ -84,8 +84,10 @@ Samples: Installed in /home/jerry, but missing recommended libraries
 ```
 
 ***注意***
-这时候会有一个提示，CUDA Driver没有安装，根据提示，在.run文件后面添加-silent -driver。
+这时候会有一个提示，类似于下图，fail的原因是CUDA Driver没有安装。也有人说是因为双显卡(独立显卡和集成显卡)的原因。
+<center><img src="/wiki/static/images/tensorgpu/devicequeryerror.png" alt="devicequeryerror"/></center>
 
+根据提示，在.run文件后面添加-silent -driver，有提示的图片忘记保存了。以后遇到在加上。
 ```
 sudo sh cuda_8.0.44_linux_ubuntu_14.04.run -silent -driver
 ```
