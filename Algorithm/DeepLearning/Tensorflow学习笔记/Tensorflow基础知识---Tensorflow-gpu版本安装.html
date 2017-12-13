@@ -112,8 +112,15 @@
 
 <p><strong><em>注意</em></strong><br />
 这时候会有一个提示，类似于下图，fail的原因是CUDA Driver没有安装。也有人说是因为双显卡(独立显卡和集成显卡)的原因。<br />
-<center><img src="/wiki/static/images/tensorgpu/devicequeryerror.png" alt="devicequeryerror"/></center></p>
-<p>根据提示，在.run文件后面添加-silent -driver，有提示的图片忘记保存了。以后遇到在加上。</p>
+<center><img src="/wiki/static/images/tensorgpu/devicequeryerror.png" alt="devicequeryerror"/></center><br />
+程序下面又一个warning：</p>
+<div class="hlcode"><pre><span class="o">***</span><span class="nx">WARNING</span><span class="p">:</span> <span class="nx">Incomplete</span> <span class="nx">installation</span><span class="o">!</span> <span class="nx">This</span> <span class="nx">installation</span> <span class="nx">did</span> <span class="ow">not</span> <span class="nb">install</span> <span class="nx">the</span> <span class="nx">CUDA</span> <span class="nx">Driver.</span> <span class="nx">A</span> <span class="nx">driver</span> <span class="nx">of</span> <span class="nb">version</span> <span class="nx">at</span> <span class="nx">least</span> <span class="mf">361.00</span> <span class="nx">is</span> <span class="nx">required</span> <span class="nb">for</span> <span class="nx">CUDA</span> <span class="mf">8.0</span> <span class="nx">functionality</span> <span class="k">to</span> <span class="nx">work.</span>
+<span class="k">To</span> <span class="nb">install</span> <span class="nx">the</span> <span class="nx">driver</span> <span class="nx">using</span> <span class="nx">this</span> <span class="nx">installer</span><span class="p">,</span> <span class="nb">run</span> <span class="nx">the</span> <span class="nx">following</span> <span class="nb">command</span><span class="p">,</span> <span class="nx">replacing</span> <span class="o">&lt;</span><span class="nx">CudaInstaller</span><span class="o">&gt;</span> <span class="k">with</span> <span class="nx">the</span> <span class="nb">name</span> <span class="nx">of</span> <span class="nx">this</span> <span class="nb">run</span> <span class="nb">file</span><span class="p">:</span>
+    <span class="nx">sudo</span> <span class="o">&lt;</span><span class="nx">CudaInstaller</span><span class="o">&gt;</span><span class="bp">.</span><span class="nb">run</span> <span class="na">-silent</span> <span class="na">-driver</span>
+</pre></div>
+
+
+<p>根据warning提示，在.run文件后面添加-silent -driver，有提示的图片忘记保存了。以后遇到在加上。</p>
 <div class="hlcode"><pre><span class="n">sudo</span> <span class="n">sh</span> <span class="n">cuda_8</span><span class="mf">.0.61</span><span class="n">_375</span><span class="mf">.26</span><span class="n">_linux</span><span class="p">.</span><span class="n">run</span> <span class="o">-</span><span class="n">silent</span> <span class="o">-</span><span class="n">driver</span>
 </pre></div>
 
