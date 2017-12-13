@@ -225,7 +225,12 @@ totalMemory: 7.92GiB freeMemory: 7.34GiB
 ### 2、关于cuda环境变量和更新软链接问题
 问题提示""failed call to cuInit: CUDA_ERROR_UNKNOWN""
 <center><img src="/wiki/static/images/tensorgpu/CUDA_ERROR_UNKNOWN.jpeg" alt="CUDA_ERROR_UNKNOWN"/></center>
-解决方法```sudo apt-get install nvidia-modprobe```
+解决方法：
+第一种解决方法是 ```sudo apt-get install nvidia-modprobe```
+第二种解决方法是 直接使用```sudo```来运行你的程序。
+
+
+
 
 ### 3、添加lib库路径
 
