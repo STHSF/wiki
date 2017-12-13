@@ -247,7 +247,7 @@
 网上的解决方法：<br />
 第一种解决方法是 <code>sudo apt-get install nvidia-modprobe</code>，我尝试了，好像没有用。还是会报同样的错误。<br />
 第二种解决方法是 直接使用<code>sudo</code>来运行你的程序。具体可以参考<a href="https://github.com/tensorflow/tensorflow/issues/394">failed call to cuInit: CUDA_ERROR_UNKNOWN in python programs using Ubuntu bumblebee</a>。<br />
-内核版本不对了我的解决办法，重装cuda。<br />
+内核版本不匹配，那我就按照上面的方式重装cuda。<br />
 重装之后运行程序,问题解决<br />
 <center><img src="/wiki/static/images/tensorgpu/cuda_right.jpg" alt="CUDA_right"/></center></p>
 <h3 id="3lib">3、添加lib库路径</h3>
