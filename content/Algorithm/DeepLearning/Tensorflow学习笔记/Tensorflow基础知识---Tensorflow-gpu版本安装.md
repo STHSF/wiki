@@ -227,7 +227,7 @@ totalMemory: 7.92GiB freeMemory: 7.34GiB
 <center><img src="/wiki/static/images/tensorgpu/CUDA_ERROR_UNKNOWN.jpeg" alt="CUDA_ERROR_UNKNOWN"/></center>
 解决方法：
 第一种解决方法是 ```sudo apt-get install nvidia-modprobe```
-第二种解决方法是 直接使用```sudo```来运行你的程序。
+第二种解决方法是 直接使用```sudo```来运行你的程序。具体可以参考[failed call to cuInit: CUDA_ERROR_UNKNOWN in python programs using Ubuntu bumblebee](https://github.com/tensorflow/tensorflow/issues/394)。
 
 
 
@@ -244,3 +244,4 @@ totalMemory: 7.92GiB freeMemory: 7.34GiB
 ["libcudnn.so.5 cannot open shared object file: No such file or directory" ](http://blog.csdn.net/u014696921/article/details/60140264)
 [ldconfig提示is not a symbolic link警告的去除方法 ](http://blog.csdn.net/liukun321/article/details/6908635)
 [Ubuntu16.04.1如何安装TensorFlow1.1.0（GPU版）](http://blog.csdn.net/binglel/article/details/70230276)
+[failed call to cuInit: CUDA_ERROR_UNKNOWN in python programs using Ubuntu bumblebee](https://github.com/tensorflow/tensorflow/issues/394)
