@@ -7,6 +7,7 @@ date: 2017-12-12 14:00
 # 写在前面
 使用tensorflow接近一年时间，然而一直使用的是cpu版本的，而且还是在笔记本上跑程序的，所以当训练模型时，你懂的，我都心疼我的笔记本，最近公司刚刚给配了台带了块GTX 1080的台式机。嗯，终于算入门了，台式机的配置如下：
 ```
+System：Ubuntu 16.04 LTS
 CPU: Intel(R) Core(TM) i7-7700 CPU @ 3.60GHz
 MemTotal: 16295024 kB
 GPU: GeForce GTX 1080
