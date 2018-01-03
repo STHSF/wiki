@@ -57,3 +57,10 @@ jupyter notebook
 然后在其他机器上，输入 https://192.168.1.1:8888 (这里的ip是根据你自己的环境和在jupyter_notebook_config.py 文件配置的ip)
 
 再输入密码即可访问上面设置的文件目录下面的文件。
+
+# 以服务方式运行jupyter
+上面的所有的过程配置完成后每次使用jupyter的时候都需要设置手动在配置机器上启动jupyter服务，但是我们可以使用服务方式开机就启动
+
+
+
+[jupyter 服务器部署及后台运行](http://www.yaozihao.cn/2017/04/25/jupyter-服务器部署及后台运行/)
