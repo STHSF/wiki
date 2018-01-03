@@ -64,3 +64,5 @@ jupyter notebook
 
 
 [jupyter 服务器部署及后台运行](http://www.yaozihao.cn/2017/04/25/jupyter-服务器部署及后台运行/)
+[Ubuntu部署Jupyter](http://www.linuxidc.com/Linux/2017-03/142296.htm)
+[Ubuntu 16.04 LTS 配置 Jupyter notebook 为服务器](https://www.cnblogs.com/McKean/p/6391380.html)
