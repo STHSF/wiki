@@ -47,7 +47,7 @@ $$
 |alpha |$(A)$|A|$(\alpha)$|\alpha|
 |beta|$(B)$|B|$(\beta)$|\beta|
 |gamma|$(\Gamma)$|\Gamma|$(\gamma)$|\gamma|
-|gamma|$(\varGamma)$|\varGamma|$(\gamma)$|\gamma|
+|gamma|$(\varGamma)$|\varGamma|$(\vargamma)$|\vargamma|
 |delta|$(\Delta)$|\Delta|$(\delta)$|\delta|
 |epsilon|$(E)$|E|$(\epsilon)$|\epsilon|
 ||||$(\varepsilon)$|\varepsilon|
