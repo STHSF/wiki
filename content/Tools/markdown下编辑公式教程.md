@@ -47,7 +47,7 @@ $$
 |alpha |$(A)$|A|$(\alpha)$|\alpha|
 |beta|$(B)$|B|$(\beta)$|\beta|
 |gamma|$(\Gamma)$|\Gamma|$(\gamma)$|\gamma|
-|gamma|$(\varGamma)$|\varGamma|$(\vargamma)$|\vargamma|
+||$(\varGamma)$|\varGamma|||
 |delta|$(\Delta)$|\Delta|$(\delta)$|\delta|
 |epsilon|$(E)$|E|$(\epsilon)$|\epsilon|
 ||||$(\varepsilon)$|\varepsilon|
@@ -67,7 +67,7 @@ $$
 |tau|$(T)$|T|$(\tau)$|\tau|
 |upsilon|$(\Upsilon)$|\Upsilon|$(\upsilon)$|\upsilon|
 |phi|$(\Phi)$|\Phi|$(\phi)$|\phi|
-|phi|$(\varPhi)$|\varPhi|$(\varphi)$|\varphi|
+||$(\varPhi)$|\varPhi|$(\varphi)$|\varphi|
 |chi|$(X)$|X|$(\chi)$|\chi|
 |psi|$(\Psi)$|\Psi|$(\psi)$|\psi|
 
