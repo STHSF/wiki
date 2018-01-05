@@ -68,7 +68,7 @@ $$
 |tau|$(T)$|T|$(\tau)$|\tau|
 |upsilon|$(\Upsilon)$|\Upsilon|$(\upsilon)$|\upsilon|
 |phi|$(\Phi)$|\Phi|$(\phi)$|\phi|
-||||$(\varphi)$|\varphi|
+|phi|$(\varPhi)$|\varPhi|$(\varphi)$|\varphi|
 |chi|$(X)$|X|$(\chi)$|\chi|
 |psi|$(\Psi)$|\Psi|$(\psi)$|\psi|
 
