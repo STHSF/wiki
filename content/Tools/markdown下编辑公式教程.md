@@ -46,7 +46,6 @@ $$
 | :-------: |:---:| :--------:|:----:| :-------:|
 |alpha |$(A)$|A|$(\alpha)$|\alpha|
 |beta|$(B)$|B|$(\beta)$|\beta|
-|beta|$(varB)$|B|$(\beta)$|\beta|
 |gamma|$(\Gamma)$|\Gamma|$(\gamma)$|\gamma|
 |gamma|$(\varGamma)$|\varGamma|$(\gamma)$|\gamma|
 |delta|$(\Delta)$|\Delta|$(\delta)$|\delta|
