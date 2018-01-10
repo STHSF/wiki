@@ -5,7 +5,7 @@
     <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
     <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
-    <title>枚举型类的用法 - sthsf's personal knowledge wiki</title>
+    <title>python基础知识--python普通继承方式和super继承方式对比 - sthsf's personal knowledge wiki</title>
     <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
     <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -35,100 +35,15 @@
 <div id="container">
     
 <div id="header">
-  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Python">Python</a>&nbsp;»&nbsp;枚举型类的用法</div>
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Python">Python</a>&nbsp;»&nbsp;python基础知识--python普通继承方式和super继承方式对比</div>
 </div>
 <div class="clearfix"></div>
-<div id="title">枚举型类的用法</div>
+<div id="title">python基础知识--python普通继承方式和super继承方式对比</div>
 <div id="content">
-  <h1 id="python">python 中的枚举</h1>
-<p>python中定义枚举是使用类的方式来定义的，需要继承enum类模块。</p>
-<div class="hlcode"><pre><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">unique</span>
-<span class="nd">@unique</span>
-<span class="k">class</span> <span class="nc">Color</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-    <span class="n">red</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">bollo</span> <span class="o">=</span> <span class="mi">2</span>
-    <span class="n">yellow</span> <span class="o">=</span> <span class="mi">3</span>
-
-<span class="n">reds</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">red</span>
-<span class="k">print</span> <span class="n">reds</span>
-</pre></div>
-
-
-<h1 id="super">类的一般继承和super(), 两者的对比</h1>
-<div class="hlcode"><pre><span class="cp"># super()继承</span>
-<span class="n">class</span> <span class="n">Base</span><span class="p">(</span><span class="n">object</span><span class="p">)</span><span class="o">:</span>
-    <span class="n">def</span> <span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
-        <span class="n">self</span><span class="p">.</span><span class="n">_a</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">self</span><span class="p">.</span><span class="n">_b</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">print</span> <span class="err">&#39;</span><span class="n">enter</span> <span class="n">base</span><span class="err">&#39;</span>
-        <span class="n">print</span> <span class="err">&#39;</span><span class="n">leave</span> <span class="n">base</span><span class="err">&#39;</span>
-
-    <span class="n">def</span> <span class="n">a</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
-        <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="n">_a</span>
-
-    <span class="n">def</span> <span class="n">b</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
-        <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="n">_b</span>
-
-    <span class="n">def</span> <span class="n">aa</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
-        <span class="n">c</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">a</span><span class="p">()</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">b</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">c</span>
-
-
-<span class="n">class</span> <span class="n">childA</span><span class="p">(</span><span class="n">Base</span><span class="p">)</span><span class="o">:</span>
-    <span class="n">def</span> <span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
-        <span class="n">self</span><span class="p">.</span><span class="n">_c</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="n">print</span> <span class="err">&#39;</span><span class="n">enter</span> <span class="n">childA</span><span class="err">&#39;</span>
-        <span class="n">super</span><span class="p">(</span><span class="n">childA</span><span class="p">,</span> <span class="n">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
-        <span class="n">print</span> <span class="err">&#39;</span><span class="n">leave</span> <span class="n">childA</span><span class="err">&#39;</span>
-
-    <span class="n">def</span> <span class="n">c</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
-        <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="n">_c</span>
-
-    <span class="n">def</span> <span class="n">aa</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
-        <span class="n">d</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">a</span><span class="p">()</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">b</span><span class="p">()</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">c</span><span class="p">()</span> <span class="o">+</span> <span class="n">b</span>
-        <span class="k">return</span> <span class="n">d</span>
-
-
-<span class="n">class</span> <span class="n">childB</span><span class="p">(</span><span class="n">Base</span><span class="p">)</span><span class="o">:</span>
-    <span class="n">def</span> <span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
-        <span class="n">print</span> <span class="err">&#39;</span><span class="n">enter</span> <span class="n">childB</span><span class="err">&#39;</span>
-        <span class="n">super</span><span class="p">(</span><span class="n">childB</span><span class="p">,</span> <span class="n">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
-        <span class="n">print</span> <span class="err">&#39;</span><span class="n">leave</span> <span class="n">childB</span><span class="err">&#39;</span>
-
-
-<span class="n">class</span> <span class="n">childC</span><span class="p">(</span><span class="n">Base</span><span class="p">)</span><span class="o">:</span>
-    <span class="n">def</span> <span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
-        <span class="n">print</span> <span class="err">&#39;</span><span class="n">enter</span> <span class="n">childC</span><span class="err">&#39;</span>
-        <span class="n">super</span><span class="p">(</span><span class="n">childC</span><span class="p">,</span> <span class="n">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
-        <span class="n">print</span> <span class="err">&#39;</span><span class="n">leave</span> <span class="n">childC</span><span class="err">&#39;</span>
-
-
-<span class="n">class</span> <span class="n">childD</span><span class="p">(</span><span class="n">childB</span><span class="p">,</span> <span class="n">childC</span><span class="p">,</span> <span class="n">childA</span><span class="p">)</span><span class="o">:</span>
-    <span class="n">def</span> <span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
-        <span class="n">print</span> <span class="err">&#39;</span><span class="n">enter</span> <span class="n">childD</span><span class="err">&#39;</span>
-        <span class="n">super</span><span class="p">(</span><span class="n">childD</span><span class="p">,</span> <span class="n">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
-        <span class="n">print</span> <span class="err">&#39;</span><span class="n">leave</span> <span class="n">childD</span><span class="err">&#39;</span>
-
-<span class="n">childD</span><span class="p">()</span>
-</pre></div>
-
-
-<p>输出：</p>
-<div class="hlcode"><pre><span class="n">enter</span> <span class="n">childD</span>
-<span class="n">enter</span> <span class="n">childB</span>
-<span class="n">enter</span> <span class="n">childC</span>
-<span class="n">enter</span> <span class="n">childA</span>
-<span class="n">enter</span> <span class="n">base</span>
-<span class="n">leave</span> <span class="n">base</span>
-<span class="n">leave</span> <span class="n">childA</span>
-<span class="n">leave</span> <span class="n">childC</span>
-<span class="n">leave</span> <span class="n">childB</span>
-<span class="n">leave</span> <span class="n">childD</span>
-</pre></div>
-
-
-<div class="hlcode"><pre><span class="cp"># 一般继承</span>
-<span class="n">class</span> <span class="n">Base</span><span class="p">(</span><span class="n">object</span><span class="p">)</span><span class="o">:</span>
+  <h1 id="_1">写在前面</h1>
+<p>本节总结了python中类的继承。类的一般继承和super(), 两者的对比。</p>
+<h1 id="_2">一般继承</h1>
+<div class="hlcode"><pre><span class="n">class</span> <span class="n">Base</span><span class="p">(</span><span class="n">object</span><span class="p">)</span><span class="o">:</span>
     <span class="n">def</span> <span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
         <span class="n">self</span><span class="p">.</span><span class="n">_a</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">self</span><span class="p">.</span><span class="n">_b</span> <span class="o">=</span> <span class="mi">0</span>
@@ -206,7 +121,82 @@
 </pre></div>
 
 
-<p>对比两者的输出，发现基类Base()调用的次数不一样。</p>
+<h1 id="super">super()继承</h1>
+<div class="hlcode"><pre><span class="n">class</span> <span class="n">Base</span><span class="p">(</span><span class="n">object</span><span class="p">)</span><span class="o">:</span>
+    <span class="n">def</span> <span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">_a</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">_b</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">print</span> <span class="err">&#39;</span><span class="n">enter</span> <span class="n">base</span><span class="err">&#39;</span>
+        <span class="n">print</span> <span class="err">&#39;</span><span class="n">leave</span> <span class="n">base</span><span class="err">&#39;</span>
+
+    <span class="n">def</span> <span class="n">a</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
+        <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="n">_a</span>
+
+    <span class="n">def</span> <span class="n">b</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
+        <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="n">_b</span>
+
+    <span class="n">def</span> <span class="n">aa</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">a</span><span class="p">()</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">b</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">c</span>
+
+
+<span class="n">class</span> <span class="n">childA</span><span class="p">(</span><span class="n">Base</span><span class="p">)</span><span class="o">:</span>
+    <span class="n">def</span> <span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">_c</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">print</span> <span class="err">&#39;</span><span class="n">enter</span> <span class="n">childA</span><span class="err">&#39;</span>
+        <span class="n">super</span><span class="p">(</span><span class="n">childA</span><span class="p">,</span> <span class="n">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="n">print</span> <span class="err">&#39;</span><span class="n">leave</span> <span class="n">childA</span><span class="err">&#39;</span>
+
+    <span class="n">def</span> <span class="n">c</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
+        <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="n">_c</span>
+
+    <span class="n">def</span> <span class="n">aa</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">a</span><span class="p">()</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">b</span><span class="p">()</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">c</span><span class="p">()</span> <span class="o">+</span> <span class="n">b</span>
+        <span class="k">return</span> <span class="n">d</span>
+
+
+<span class="n">class</span> <span class="n">childB</span><span class="p">(</span><span class="n">Base</span><span class="p">)</span><span class="o">:</span>
+    <span class="n">def</span> <span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
+        <span class="n">print</span> <span class="err">&#39;</span><span class="n">enter</span> <span class="n">childB</span><span class="err">&#39;</span>
+        <span class="n">super</span><span class="p">(</span><span class="n">childB</span><span class="p">,</span> <span class="n">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="n">print</span> <span class="err">&#39;</span><span class="n">leave</span> <span class="n">childB</span><span class="err">&#39;</span>
+
+
+<span class="n">class</span> <span class="n">childC</span><span class="p">(</span><span class="n">Base</span><span class="p">)</span><span class="o">:</span>
+    <span class="n">def</span> <span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
+        <span class="n">print</span> <span class="err">&#39;</span><span class="n">enter</span> <span class="n">childC</span><span class="err">&#39;</span>
+        <span class="n">super</span><span class="p">(</span><span class="n">childC</span><span class="p">,</span> <span class="n">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="n">print</span> <span class="err">&#39;</span><span class="n">leave</span> <span class="n">childC</span><span class="err">&#39;</span>
+
+
+<span class="n">class</span> <span class="n">childD</span><span class="p">(</span><span class="n">childB</span><span class="p">,</span> <span class="n">childC</span><span class="p">,</span> <span class="n">childA</span><span class="p">)</span><span class="o">:</span>
+    <span class="n">def</span> <span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
+        <span class="n">print</span> <span class="err">&#39;</span><span class="n">enter</span> <span class="n">childD</span><span class="err">&#39;</span>
+        <span class="n">super</span><span class="p">(</span><span class="n">childD</span><span class="p">,</span> <span class="n">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="n">print</span> <span class="err">&#39;</span><span class="n">leave</span> <span class="n">childD</span><span class="err">&#39;</span>
+
+<span class="n">childD</span><span class="p">()</span>
+</pre></div>
+
+
+<p>输出：</p>
+<div class="hlcode"><pre><span class="n">enter</span> <span class="n">childD</span>
+<span class="n">enter</span> <span class="n">childB</span>
+<span class="n">enter</span> <span class="n">childC</span>
+<span class="n">enter</span> <span class="n">childA</span>
+<span class="n">enter</span> <span class="n">base</span>
+<span class="n">leave</span> <span class="n">base</span>
+<span class="n">leave</span> <span class="n">childA</span>
+<span class="n">leave</span> <span class="n">childC</span>
+<span class="n">leave</span> <span class="n">childB</span>
+<span class="n">leave</span> <span class="n">childD</span>
+</pre></div>
+
+
+<p>首先对比两者的代码，当我需要修改基类的名字的时候，普通的继承方式中则需要修改很多地方，无疑增加了代码量。另外，python在使用多继承的时候要多次重复的写继承方式，显得很累赘。</p>
+<p>因此，python提供了一种方法super(). 尤其在多继承情况下，对比上面两段代码的输出，发现基类Base()调用的次数不一样。具体机制见参考文献。</p>
+<h1 id="_3">参考文献</h1>
+<p><a href="https://www.cnblogs.com/junneyang/p/5993034.html">1</a></p>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2018-01-09 00:00 </span></div>
 <div id="comments"></div>
@@ -214,7 +204,7 @@
 <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script type="text/javascript">
 const gitment = new Gitment({
-  title: '枚举型类的用法',
+  title: 'python基础知识--python普通继承方式和super继承方式对比',
   owner: 'sthsf',
   repo: 'wiki',
   oauth: {

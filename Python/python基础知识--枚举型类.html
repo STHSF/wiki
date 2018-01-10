@@ -5,7 +5,7 @@
     <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
     <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
-    <title>enumerate用法 - sthsf's personal knowledge wiki</title>
+    <title>python基础知识--枚举型类的用法 - sthsf's personal knowledge wiki</title>
     <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
     <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -35,36 +35,31 @@
 <div id="container">
     
 <div id="header">
-  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Python">Python</a>&nbsp;»&nbsp;enumerate用法</div>
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Python">Python</a>&nbsp;»&nbsp;python基础知识--枚举型类的用法</div>
 </div>
 <div class="clearfix"></div>
-<div id="title">enumerate用法</div>
+<div id="title">python基础知识--枚举型类的用法</div>
 <div id="content">
-  <h1 id="enumerate">enumerate</h1>
-<ul>
-<li>enumerate()是python的内置函数</li>
-<li>enumerate在字典上是枚举、列举的意思</li>
-<li>对于一个可迭代的（iterable）/可遍历的对象（如列表、字符串），enumerate将其组成一个索引序列，利用它可以同时获得索引和值</li>
-<li>enumerate多用于在for循环中得到计数</li>
-</ul>
-<h1 id="_1">使用方法</h1>
-<div class="hlcode"><pre><span class="n">list1</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;这&quot;</span><span class="p">,</span> <span class="s">&quot;是&quot;</span><span class="p">,</span> <span class="s">&quot;一个&quot;</span><span class="p">,</span> <span class="s">&quot;测试&quot;</span><span class="p">]</span>
-<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">item</span> <span class="n">in</span> <span class="n">enumerate</span><span class="p">(</span><span class="n">list1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">:</span>
-    <span class="n">print</span> <span class="n">index</span><span class="p">,</span> <span class="n">item</span>
-<span class="o">&gt;&gt;&gt;</span>
-<span class="mi">1</span> <span class="err">这</span>
-<span class="mi">2</span> <span class="err">是</span>
-<span class="mi">3</span> <span class="err">一个</span>
-<span class="mi">4</span> <span class="err">测试</span>
+  <h1 id="python">python 中的枚举</h1>
+<p>python中定义枚举是使用类的方式来定义的，需要继承enum类模块。</p>
+<div class="hlcode"><pre><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">unique</span>
+<span class="nd">@unique</span>
+<span class="k">class</span> <span class="nc">Color</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">red</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">bollo</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">yellow</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="n">reds</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">red</span>
+<span class="k">print</span> <span class="n">reds</span>
 </pre></div>
 </div>
-<div id="content-footer">created in <span class="create-date date"> 2099-06-02 00:00 </span></div>
+<div id="content-footer">created in <span class="create-date date"> 2018-01-09 00:00 </span></div>
 <div id="comments"></div>
 <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
 <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script type="text/javascript">
 const gitment = new Gitment({
-  title: 'enumerate用法',
+  title: 'python基础知识--枚举型类的用法',
   owner: 'sthsf',
   repo: 'wiki',
   oauth: {
