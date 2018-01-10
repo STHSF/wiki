@@ -1,13 +1,15 @@
 ---
-title: "python普通继承方式和super继承方式对比"
+title: "python基础知识--python普通继承方式和super继承方式对比"
 layout: page
 date: 2018-01-09 00:00
 ---
 
-# 类的一般继承和super(), 两者的对比
+# 写在前面
+本节总结了python中类的继承。类的一般继承和super(), 两者的对比。
+
+# 一般继承
 
 ```
-# 一般继承
 class Base(object):
     def __init__(self):
         self._a = 0
