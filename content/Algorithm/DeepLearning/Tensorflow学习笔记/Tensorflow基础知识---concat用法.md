@@ -1,5 +1,5 @@
 ---
-title: "tensorflow concat用法"
+title: "Tensorflow基础知识---concat用法"
 layout: page
 date: 2018-01-17 00:00
 ---
