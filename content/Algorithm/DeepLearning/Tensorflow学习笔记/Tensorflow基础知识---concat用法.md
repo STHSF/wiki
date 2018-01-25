@@ -4,7 +4,7 @@ layout: page
 date: 2018-01-17 00:00
 ---
 
-# tensorflow concat用法
+# 写在前面
 主要注意参数中的维度选择
 
 
