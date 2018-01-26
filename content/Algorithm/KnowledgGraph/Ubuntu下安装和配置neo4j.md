@@ -7,7 +7,8 @@ date: 2018-01-26 00:00
 # 写在前面
 
 # 安装环境
-ubuntu 
+Ubuntu 16.04.3 LTS
+
 # 安装准备
 ## 1、下载、配置java jdk
 安装配置neo4j需要jdk的版本必须是1.8以上的，不然会报错。所以本文下载的是jdk的版本是(java SE Development Kit 8u161)
@@ -47,6 +48,6 @@ source ~/.bashrc 或者 source ~/.zshrc
 
 # 问题总结
 ## 1、neo4j启动之后，本机通过localhost可以访问。但是局域网中访问不了。
-这需要修改{neo4j_path}/conf/neo4j.conf文件，在文件中找到Network connector configuration这块，大概在49-83行左右。然后将```dbms.connectors.default_listen_address=0.0.0.0```前面的注释去掉，保存。然后重新运行，你就可以在局域网中使用本机的ip和7474端口来访问neo4j了。
+这需要修改$NEO4J_HOME}/conf/neo4j.conf文件，在文件中找到Network connector configuration这块，大概在49-83行左右。然后将```dbms.connectors.default_listen_address=0.0.0.0```前面的注释#符号去掉，保存。然后重新运行，你就可以在局域网中使用本机的ip和7474端口来访问neo4j了。
 
 
