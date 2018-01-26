@@ -4,7 +4,7 @@ layout: page
 date: 2018-01-26 00:00
 ---
 
-[loc]
+[TOC]
 
 # 写在前面
 ## Neo4j的优点
