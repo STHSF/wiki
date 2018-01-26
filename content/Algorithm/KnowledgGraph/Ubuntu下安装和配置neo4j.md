@@ -29,7 +29,9 @@ export JRE_HOME=${JAVA_HOME}/jre
 export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib 
 export PATH=${JAVA_HOME}/bin:$PATH 
 ```
+
 添加完成之后，保存退出。然后使用source来使修改的文件生效。
+
 ```
 source ~/.bashrc 或者 source ~/.zshrc
 ```
