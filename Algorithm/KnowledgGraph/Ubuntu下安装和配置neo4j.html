@@ -42,7 +42,7 @@
 <div id="content">
   <h1 id="_1">写在前面</h1>
 <h1 id="_2">安装环境</h1>
-<p>ubuntu </p>
+<p>Ubuntu 16.04.3 LTS</p>
 <h1 id="_3">安装准备</h1>
 <h2 id="1java-jdk">1、下载、配置java jdk</h2>
 <p>安装配置neo4j需要jdk的版本必须是1.8以上的，不然会报错。所以本文下载的是jdk的版本是(java SE Development Kit 8u161)</p>
@@ -73,7 +73,7 @@ export PATH=<span class="cp">${</span><span class="n">JAVA_HOME</span><span clas
 <p>登陆neo4j的初始用户名和密码都是neo4j，初次登陆之后他会提示让你修改密码。至此，Neo4j就已经安装完毕，你可以在上面创建你的图数据库了。</p>
 <h1 id="_4">问题总结</h1>
 <h2 id="1neo4jlocalhost">1、neo4j启动之后，本机通过localhost可以访问。但是局域网中访问不了。</h2>
-<p>这需要修改{neo4j_path}/conf/neo4j.conf文件，在文件中找到Network connector configuration这块，大概在49-83行左右。然后将<code>dbms.connectors.default_listen_address=0.0.0.0</code>前面的注释去掉，保存。然后重新运行，你就可以在局域网中使用本机的ip和7474端口来访问neo4j了。</p>
+<p>这需要修改$NEO4J_HOME}/conf/neo4j.conf文件，在文件中找到Network connector configuration这块，大概在49-83行左右。然后将<code>dbms.connectors.default_listen_address=0.0.0.0</code>前面的注释#符号去掉，保存。然后重新运行，你就可以在局域网中使用本机的ip和7474端口来访问neo4j了。</p>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2018-01-26 00:00 </span></div>
 <div id="comments"></div>
