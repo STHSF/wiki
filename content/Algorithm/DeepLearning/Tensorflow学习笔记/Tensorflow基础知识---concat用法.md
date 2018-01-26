@@ -13,7 +13,6 @@ import tensorflow as tf
 import numpy as np
 ```
 
-
 ```python
 t1 = [[1,2,3], [4,5,6]]
 t2 = [[7,8,9], [3,4,5]]
@@ -21,7 +20,6 @@ t2 = [[7,8,9], [3,4,5]]
 t3 = tf.concat([t1, t2], 0)
 t4 = tf.concat([t1, t2], 1)
 ```
-
 
 ```python
 sess = tf.InteractiveSession()
