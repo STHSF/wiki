@@ -3,6 +3,7 @@ title: "Ubuntu下搭建PySpark"
 layout: page
 date: 2018-06-02 00:00
 ---
+[TOC]
 
 # 写在前面
 之前在公司做机器学习算法开发的时候使用的是scala编写spark代码，后来在接触了深度学习之后则更多的使用python来进行代码编写，但是spark是处理大数据的分布式集群，再大数据处理方面有很多优势。而且spark也支持python开发语言，所以就在公司的服务器上搭建了一个单机的pysaprk运行环境。
