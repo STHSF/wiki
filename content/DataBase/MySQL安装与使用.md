@@ -68,3 +68,5 @@ conn.close()
 
 
 
+## 参考文献
+[聊聊mysql hbase es的特点和区别](http://www.360doc.com/content/17/0703/08/44827304_668358202.shtml)
