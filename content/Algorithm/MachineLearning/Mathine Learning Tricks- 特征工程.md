@@ -1,5 +1,5 @@
 ---
-title: "Mathine Learning Tricks"
+title: "Mathine Learning Tricks - 特征工程"
 layout: page
 date: 2017-07-18 14:00
 ---

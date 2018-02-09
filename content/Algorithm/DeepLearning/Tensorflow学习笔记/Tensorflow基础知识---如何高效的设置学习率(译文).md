@@ -20,8 +20,19 @@ date: 2018-02-08 00:00
 本文的大部分内容都是参考之前发表在fast.ai上面的东西[1][2][3][5], 这些是一个简略的版本，方便大家能够快速的掌握其精髓所在。更详细的内容可以参考参考文献。
 
 # 首先，什么是学习速率
-学习速率是一个超参数(hyper-patameter), 他是用来调整在网络中剃度的权重，学习速率的值越小，
+学习速率是一个超参数(hyper-patameter), 他是用来调整在网络中计算权重的梯度，学习速率的值越小，梯度下降的速度越慢。为了确保我们不会错过任何一个局部最小值，使用比较小的学习速率是一个比较好的方法。但是这意味着我们需要消耗很长的时间来使得函数收敛，特别是当困在比较高的地方。
+下面的公式显示了他们之间的关系：
+```
+new_weight = existing_weight - learning_rate * gradient
+```
+<img src="/wiki/static/images/deeplearning/learningrate/01.png" alt="learningrate01"/>
+使用大数值(上)和小数值(下)的学习速率的梯度下降示意图，来源于Andrew Ng的机器学习教程
 
+一般情况下，学习速率是由使用者随机的设定的。很多情况下使用者会根据之前的经验或者一些学习资料来设置最佳的学习速率值。
+
+因此，通常情况下很难一下子就选择正确。下面这张图显示了设置不同的学习速率对loss的影响。
+
+而且
 
 # 参考文献
 [Understanding Learning Rates and How It Improves Performance in Deep Learning](https://towardsdatascience.com/understanding-learning-rates-and-how-it-improves-performance-in-deep-learning-d0d4059c1c10)
