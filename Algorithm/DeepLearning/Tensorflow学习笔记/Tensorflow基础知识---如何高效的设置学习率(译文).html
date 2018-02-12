@@ -46,7 +46,10 @@
 <li><a href="#_3">首先，什么是学习速率</a></li>
 <li><a href="#_4">有确定学习速率的方法么？</a></li>
 <li><a href="#_5">上面的方法似乎是有用的，那应该如何实现呢？</a></li>
-<li><a href="#_6">参考文献</a></li>
+<li><a href="#_6">让他更好</a></li>
+<li><a href="#_7">传统的知识</a></li>
+<li><a href="#_8">那我们应该如何避免这个问题？</a></li>
+<li><a href="#_9">参考文献</a></li>
 </ul>
 </div>
 <h1 id="_1">写在前面</h1>
@@ -80,7 +83,23 @@
 <p>在文章“训练神经网络的周期性学习速率”的第3.3节，Leslie N. Smith建议我们可以在最初训练模型的时候使用比较小的学习速率，在每次迭代的过程中线性的或者呈几何级数的增加学习速率的大小这样的方式来估算一个比较好的学习速率，如下图所示</p>
 <p>如果记录在训练过程中每一次迭代的训练速率(取对数)和loss，并把他们画出来，我们可以观察到随着学习速率的不断增长，loss会出现一个停止下降并且开始上升的转折点，在实践中，学习速率的理想的位置应该是最低点左边的位置(如下图展示的)，在这张图中，最佳取值再0.001-0.01的位置。</p>
 <h1 id="_5">上面的方法似乎是有用的，那应该如何实现呢？</h1>
-<h1 id="_6">参考文献</h1>
+<p>fast.ai python包已经作为一个函数支持调用，由jeremy Howard开发，是基于pytorch的高级包（就像Keras至于Tensorflow）。</p>
+<p>使用者只需通过下面的代码就可以在训练一个神经网络之前寻找最优的学习速率。</p>
+<div class="hlcode"><pre><span class="n">learn</span><span class="err">是</span><span class="n">Learner</span><span class="err">类的一个实例，是类似于</span><span class="n">ConvLearner</span><span class="err">类的一个衍生类</span>
+<span class="n">learn</span><span class="p">.</span><span class="n">lr_find</span><span class="p">()</span>
+<span class="n">learn</span><span class="p">.</span><span class="n">sched</span><span class="p">.</span><span class="n">plot_lr</span><span class="p">()</span>
+</pre></div>
+
+
+<h1 id="_6">让他更好</h1>
+<p>此时此刻，我们大致的了解到什么是学习速率，这个参数非常重要，我们如何再我们开始训练我们的模型的时候有条理的获得最优值。 </p>
+<p>下面我们将继续了解学习速率是如何使用来提高模型的表现。</p>
+<h1 id="_7">传统的知识</h1>
+<p>一般情况下，当一个人设置好学习速率，并且开始训练模型时，他只要等待学习速率随着时间逐渐减小，模型最终收敛。</p>
+<p>但是，随着梯度到达一个平稳的地方，模型的训练loss会变得很难提高。在文献[3]中，Dauphin et al等讨论了最小化loss的难度来自于鞍点而不是局部最小值。</p>
+<h1 id="_8">那我们应该如何避免这个问题？</h1>
+<p>有一些观点我们可以考虑下，总的来说，引用文献[1]中的原文：而不是使用一个固定的学习速率值然后让他一直减少，如果训练过程中不能够再提高loss，我们就开始在每一次迭代中根据某一个循环函数f调整学习速率，每一个循环都有一个根据迭代的次数而定的一个固定的长度。</p>
+<h1 id="_9">参考文献</h1>
 <p><a href="https://towardsdatascience.com/understanding-learning-rates-and-how-it-improves-performance-in-deep-learning-d0d4059c1c10">Understanding Learning Rates and How It Improves Performance in Deep Learning</a></p>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2018-02-08 00:00 </span></div>
