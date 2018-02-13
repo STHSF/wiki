@@ -1,8 +1,9 @@
 ---
-title: "Exception in thread 'main' java.lang.NoClassDefFoundError: javax/script/Compilable"
+title: "Exception in thread main java.lang.NoClassDefFoundError: javax/script/Compilable"
 layout: page
 date: 2018-02-13 10:00
 ---
+[TOC]
 
 # 写在前面
 Mac 下安装配置scala时出现的问题，scala安装比较简单，从官网上下载scala的源码，然后在```~/.bash_profile```中配置一下scala的路径即可。
@@ -56,7 +57,7 @@ java.lang.InterruptedException
 
 ```
 # 错误原因和解决方法
-在检查完安装路径的问题之后，错误依然存在，错误提示依然存在，去官网看了下，只是提示java的版本必须是1.8，我本来以为1.8以上的都可以，而本机安装的是java 1.9，估计原因出现在这里，于是下载java 1.8版本，安装配置完java 1.8之后，重新运行scala，问题解决。
+在检查完安装路径的问题之后，错误提示依然存在，去官网看了下，只是提示java的版本必须是1.8，我本来以为1.8以上的都可以，而本机安装的是java 1.9，估计原因出现在这里，于是下载java 1.8版本，安装配置完java 1.8之后，重新运行scala，问题解决。
 
 ```
 Welcome to Scala 2.11.12 (Java HotSpot(TM) 64-Bit Server VM, Java 1.8.0_161).
