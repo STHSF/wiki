@@ -1,5 +1,5 @@
 ---
-title: "Exception in thread "main" java.lang.NoClassDefFoundError: javax/script/Compilable"
+title: "Exception in thread 'main' java.lang.NoClassDefFoundError: javax/script/Compilable"
 layout: page
 date: 2018-02-13 10:00
 ---
