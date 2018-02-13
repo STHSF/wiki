@@ -1,0 +1,227 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <title>ValueError: Variable lstm_cell/rnn/multi_rnn_cell/cell_0/basic_lstm_cell/kernel already exists. - LiYu's personal knowledge wiki</title>
+    <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
+    <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$(',')$'], ['\\(','\\)']]}
+        });
+        </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-78529611-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+
+<body>
+<div id="container">
+    
+<div id="header">
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm">Algorithm</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning">DeepLearning</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning-使用Tensorflow爬过的坑">使用Tensorflow爬过的坑</a>&nbsp;»&nbsp;ValueError: Variable lstm_cell/rnn/multi_rnn_cell/cell_0/basic_lstm_cell/kernel already exists.</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">ValueError: Variable lstm_cell/rnn/multi_rnn_cell/cell_0/basic_lstm_cell/kernel already exists.</div>
+<div id="content">
+  <div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#_1">写在前面</a></li>
+<li><a href="#_2">错误提示</a></li>
+<li><a href="#_3">解决方法</a></li>
+<li><a href="#_4">参考文献</a></li>
+</ul>
+</div>
+<h1 id="_1">写在前面</h1>
+<p>最近在学习使用tensorflow构建language model，遇到关于模型重用的问题，我将模型的训练和预测放在同一个文件中时出现的问题,提示lstm_cell kernal已经存在.</p>
+<h1 id="_2">错误提示</h1>
+<div class="hlcode"><pre><span class="mi">48</span> <span class="nx">Traceback</span> <span class="p">(</span><span class="nx">most</span> <span class="nx">recent</span> <span class="nb">call</span> <span class="nb">last</span><span class="p">):</span> 
+<span class="mi">49</span> <span class="nb">File</span> <span class="s2">&quot;anna_writer.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">274</span><span class="p">,</span> <span class="k">in</span> <span class="o">&lt;</span><span class="nx">module</span><span class="o">&gt;</span> 
+<span class="mi">50</span> <span class="n">samp</span> <span class="o">=</span> <span class="nx">generate_samples</span><span class="p">(</span><span class="nx">checkpoint</span><span class="p">,</span> <span class="mi">20000</span><span class="p">,</span> <span class="n">prime</span><span class="o">=</span><span class="s2">&quot;The &quot;</span><span class="p">)</span> 
+<span class="mi">51</span> <span class="nb">File</span> <span class="s2">&quot;anna_writer.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">234</span><span class="p">,</span> <span class="k">in</span> <span class="nx">generate_samples</span> 
+<span class="mi">52</span> <span class="nx">conf.lstm_size</span><span class="p">,</span> <span class="nx">conf.keep_prob</span><span class="p">,</span> <span class="nx">conf.grad_clip</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> 
+<span class="mi">53</span> <span class="nb">File</span> <span class="s2">&quot;anna_writer.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">74</span><span class="p">,</span> <span class="k">in</span> <span class="nx">__init__</span> 
+<span class="mi">54</span> <span class="bp">self.</span><span class="nx">add_lstm_cell</span><span class="p">()</span> 
+<span class="mi">55</span> <span class="nb">File</span> <span class="s2">&quot;anna_writer.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">110</span><span class="p">,</span> <span class="k">in</span> <span class="nx">add_lstm_cell</span> 
+<span class="mi">56</span> <span class="n">initial_state</span><span class="o">=</span><span class="bp">self.</span><span class="nx">initial_state</span><span class="p">)</span> 
+<span class="mi">57</span> <span class="nb">File</span> <span class="s2">&quot;/home/tf1.0/local/lib/python2.7/site-packages/tensorflow/python/ops/rnn.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">574</span><span class="p">,</span> <span class="nx">ii</span> <span class="nb">n</span> <span class="nx">dynamic_rnn</span> 
+<span class="mi">58</span> <span class="n">dtype</span><span class="o">=</span><span class="nx">dtype</span><span class="p">)</span> 
+<span class="mi">59</span> <span class="nb">File</span> <span class="s2">&quot;/home/tf1.0/local/lib/python2.7/site-packages/tensorflow/python/ops/rnn.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">737</span><span class="p">,</span> <span class="nx">ii</span> <span class="nb">n</span> <span class="nx">_dynamic_rnn_loop</span> 
+<span class="mi">60</span> <span class="n">swap_memory</span><span class="o">=</span><span class="nx">swap_memory</span><span class="p">)</span> 
+<span class="mi">61</span> <span class="nb">File</span> <span class="s2">&quot;/home/tf1.0/local/lib/python2.7/site-packages/tensorflow/python/ops/control_flow_ops.py&quot;&quot; , line 2770, in while_loop </span>
+<span class="s2">62 result = context.BuildLoop(cond, body, loop_vars, shape_invariants) </span>
+<span class="s2">63 File &quot;</span><span class="p">/</span><span class="nb">home</span><span class="p">/</span><span class="nx">tf1.0</span><span class="p">/</span><span class="nb">local</span><span class="p">/</span><span class="nx">lib</span><span class="p">/</span><span class="nx">python2.7</span><span class="p">/</span><span class="nx">site</span><span class="na">-packages</span><span class="p">/</span><span class="nx">tensorflow</span><span class="p">/</span><span class="nx">python</span><span class="p">/</span><span class="nx">ops</span><span class="p">/</span><span class="nx">control_flow_ops.py</span><span class="s2">&quot;&quot;</span> <span class="p">,</span> <span class="nb">line</span> <span class="mi">2599</span><span class="p">,</span> <span class="k">in</span> <span class="nx">BuildLoop</span> 
+<span class="mi">64</span> <span class="nx">pred</span><span class="p">,</span> <span class="nb">body</span><span class="p">,</span> <span class="nx">original_loop_vars</span><span class="p">,</span> <span class="nx">loop_vars</span><span class="p">,</span> <span class="nx">shape_invariants</span><span class="p">)</span> 
+<span class="mi">65</span> <span class="nb">File</span> <span class="s2">&quot;/home/tf1.0/local/lib/python2.7/site-packages/tensorflow/python/ops/control_flow_ops.py&quot;&quot; , line 2549, in _BuildLoop </span>
+<span class="s2">66 body_result = body(*packed_vars_for_body) </span>
+<span class="s2">67 File &quot;</span><span class="p">/</span><span class="nb">home</span><span class="p">/</span><span class="nx">tf1.0</span><span class="p">/</span><span class="nb">local</span><span class="p">/</span><span class="nx">lib</span><span class="p">/</span><span class="nx">python2.7</span><span class="p">/</span><span class="nx">site</span><span class="na">-packages</span><span class="p">/</span><span class="nx">tensorflow</span><span class="p">/</span><span class="nx">python</span><span class="p">/</span><span class="nx">ops</span><span class="p">/</span><span class="nx">rnn.py</span><span class="s2">&quot;, line 722, ii n _time_step </span>
+<span class="s2">68 (output, new_state) = call_cell() </span>
+<span class="s2">69 File &quot;</span><span class="p">/</span><span class="nb">home</span><span class="p">/</span><span class="nx">tf1.0</span><span class="p">/</span><span class="nb">local</span><span class="p">/</span><span class="nx">lib</span><span class="p">/</span><span class="nx">python2.7</span><span class="p">/</span><span class="nx">site</span><span class="na">-packages</span><span class="p">/</span><span class="nx">tensorflow</span><span class="p">/</span><span class="nx">python</span><span class="p">/</span><span class="nx">ops</span><span class="p">/</span><span class="nx">rnn.py</span><span class="s2">&quot;, line 708, ii n &lt;lambda&gt; </span>
+<span class="s2">70 call_cell = lambda: cell(input_t, state) </span>
+<span class="s2">71 File &quot;</span><span class="p">/</span><span class="nb">home</span><span class="p">/</span><span class="nx">tf1.0</span><span class="p">/</span><span class="nb">local</span><span class="p">/</span><span class="nx">lib</span><span class="p">/</span><span class="nx">python2.7</span><span class="p">/</span><span class="nx">site</span><span class="na">-packages</span><span class="p">/</span><span class="nx">tensorflow</span><span class="p">/</span><span class="nx">python</span><span class="p">/</span><span class="nx">ops</span><span class="p">/</span><span class="nx">rnn_cell_impl.py</span><span class="s2">&quot;, ll ine 180, in __call__ </span>
+<span class="s2">72 return super(RNNCell, self).__call__(inputs, state) </span>
+<span class="s2">73 File &quot;</span><span class="p">/</span><span class="nb">home</span><span class="p">/</span><span class="nx">tf1.0</span><span class="p">/</span><span class="nb">local</span><span class="p">/</span><span class="nx">lib</span><span class="p">/</span><span class="nx">python2.7</span><span class="p">/</span><span class="nx">site</span><span class="na">-packages</span><span class="p">/</span><span class="nx">tensorflow</span><span class="p">/</span><span class="nx">python</span><span class="p">/</span><span class="nx">layers</span><span class="p">/</span><span class="nx">base.py</span><span class="s2">&quot;, line 444 1, in __call__ </span>
+<span class="s2">74 outputs = self.call(inputs, *args, **kwargs) </span>
+<span class="s2">75 File &quot;</span><span class="p">/</span><span class="nb">home</span><span class="p">/</span><span class="nx">tf1.0</span><span class="p">/</span><span class="nb">local</span><span class="p">/</span><span class="nx">lib</span><span class="p">/</span><span class="nx">python2.7</span><span class="p">/</span><span class="nx">site</span><span class="na">-packages</span><span class="p">/</span><span class="nx">tensorflow</span><span class="p">/</span><span class="nx">python</span><span class="p">/</span><span class="nx">ops</span><span class="p">/</span><span class="nx">rnn_cell_impl.py</span><span class="s2">&quot;, l ine 916, in call </span>
+<span class="s2">76 cur_inp, new_state = cell(cur_inp, cur_state) </span>
+<span class="s2">77 File &quot;</span><span class="p">/</span><span class="nb">home</span><span class="p">/</span><span class="nx">tf1.0</span><span class="p">/</span><span class="nb">local</span><span class="p">/</span><span class="nx">lib</span><span class="p">/</span><span class="nx">python2.7</span><span class="p">/</span><span class="nx">site</span><span class="na">-packages</span><span class="p">/</span><span class="nx">tensorflow</span><span class="p">/</span><span class="nx">python</span><span class="p">/</span><span class="nx">ops</span><span class="p">/</span><span class="nx">rnn_cell_impl.py</span><span class="s2">&quot;, l ine 752, in __call__ </span>
+<span class="s2">78 output, new_state = self._cell(inputs, state, scope) </span>
+<span class="s2">79 File &quot;</span><span class="p">/</span><span class="nb">home</span><span class="p">/</span><span class="nx">tf1.0</span><span class="p">/</span><span class="nb">local</span><span class="p">/</span><span class="nx">lib</span><span class="p">/</span><span class="nx">python2.7</span><span class="p">/</span><span class="nx">site</span><span class="na">-packages</span><span class="p">/</span><span class="nx">tensorflow</span><span class="p">/</span><span class="nx">python</span><span class="p">/</span><span class="nx">ops</span><span class="p">/</span><span class="nx">rnn_cell_impl.py</span><span class="s2">&quot;, l ine 180, in __call__ </span>
+<span class="s2">80 return super(RNNCell, self).__call__(inputs, state) </span>
+<span class="s2">81 File &quot;</span><span class="p">/</span><span class="nb">home</span><span class="p">/</span><span class="nx">tf1.0</span><span class="p">/</span><span class="nb">local</span><span class="p">/</span><span class="nx">lib</span><span class="p">/</span><span class="nx">python2.7</span><span class="p">/</span><span class="nx">site</span><span class="na">-packages</span><span class="p">/</span><span class="nx">tensorflow</span><span class="p">/</span><span class="nx">python</span><span class="p">/</span><span class="nx">layers</span><span class="p">/</span><span class="nx">base.py</span><span class="s2">&quot;, line 44 1, in __call__ </span>
+<span class="s2">82 outputs = self.call(inputs, *args, **kwargs) </span>
+<span class="s2">83 File &quot;</span><span class="p">/</span><span class="nb">home</span><span class="p">/</span><span class="nx">tf1.0</span><span class="p">/</span><span class="nb">local</span><span class="p">/</span><span class="nx">lib</span><span class="p">/</span><span class="nx">python2.7</span><span class="p">/</span><span class="nx">site</span><span class="na">-packages</span><span class="p">/</span><span class="nx">tensorflow</span><span class="p">/</span><span class="nx">python</span><span class="p">/</span><span class="nx">ops</span><span class="p">/</span><span class="nx">rnn_cell_impl.py</span><span class="s2">&quot;, l ine 383, in call </span>
+<span class="s2">84 concat = _linear([inputs, h], 4 * self._num_units, True) </span>
+<span class="s2">85 File &quot;</span><span class="p">/</span><span class="nb">home</span><span class="p">/</span><span class="nx">tf1.0</span><span class="p">/</span><span class="nb">local</span><span class="p">/</span><span class="nx">lib</span><span class="p">/</span><span class="nx">python2.7</span><span class="p">/</span><span class="nx">site</span><span class="na">-packages</span><span class="p">/</span><span class="nx">tensorflow</span><span class="p">/</span><span class="nx">python</span><span class="p">/</span><span class="nx">ops</span><span class="p">/</span><span class="nx">rnn_cell_impl.py</span><span class="s2">&quot;, l ine 1017, in _linear </span>
+<span class="s2">86 initializer=kernel_initializer) </span>
+<span class="s2">87 File &quot;</span><span class="p">/</span><span class="nb">home</span><span class="p">/</span><span class="nx">tf1.0</span><span class="p">/</span><span class="nb">local</span><span class="p">/</span><span class="nx">lib</span><span class="p">/</span><span class="nx">python2.7</span><span class="p">/</span><span class="nx">site</span><span class="na">-packages</span><span class="p">/</span><span class="nx">tensorflow</span><span class="p">/</span><span class="nx">python</span><span class="p">/</span><span class="nx">ops</span><span class="p">/</span><span class="nx">variable_scope.py</span><span class="s2">&quot;, line 1065, in get_variable </span>
+<span class="s2">88 use_resource=use_resource, custom_getter=custom_getter) </span>
+<span class="s2">89 File &quot;</span><span class="p">/</span><span class="nb">home</span><span class="p">/</span><span class="nx">tf1.0</span><span class="p">/</span><span class="nb">local</span><span class="p">/</span><span class="nx">lib</span><span class="p">/</span><span class="nx">python2.7</span><span class="p">/</span><span class="nx">site</span><span class="na">-packages</span><span class="p">/</span><span class="nx">tensorflow</span><span class="p">/</span><span class="nx">python</span><span class="p">/</span><span class="nx">ops</span><span class="p">/</span><span class="nx">variable_scope.py</span><span class="s2">&quot;, line 962, in get_variable </span>
+<span class="s2">90 use_resource=use_resource, custom_getter=custom_getter) </span>
+<span class="s2">91 File &quot;</span><span class="p">/</span><span class="nb">home</span><span class="p">/</span><span class="nx">tf1.0</span><span class="p">/</span><span class="nb">local</span><span class="p">/</span><span class="nx">lib</span><span class="p">/</span><span class="nx">python2.7</span><span class="p">/</span><span class="nx">site</span><span class="na">-packages</span><span class="p">/</span><span class="nx">tensorflow</span><span class="p">/</span><span class="nx">python</span><span class="p">/</span><span class="nx">ops</span><span class="p">/</span><span class="nx">variable_scope.py</span><span class="s2">&quot;, line 360, in get_variable </span>
+<span class="s2">92 validate_shape=validate_shape, use_resource=use_resource) </span>
+<span class="s2">93 File &quot;</span><span class="p">/</span><span class="nb">home</span><span class="p">/</span><span class="nx">tf1.0</span><span class="p">/</span><span class="nb">local</span><span class="p">/</span><span class="nx">lib</span><span class="p">/</span><span class="nx">python2.7</span><span class="p">/</span><span class="nx">site</span><span class="na">-packages</span><span class="p">/</span><span class="nx">tensorflow</span><span class="p">/</span><span class="nx">python</span><span class="p">/</span><span class="nx">ops</span><span class="p">/</span><span class="nx">variable_scope.py</span><span class="s2">&quot;, line 1405, in wrapped_custom_getter </span>
+<span class="s2">94 *args, **kwargs) </span>
+<span class="s2">95 File &quot;</span><span class="p">/</span><span class="nb">home</span><span class="p">/</span><span class="nx">tf1.0</span><span class="p">/</span><span class="nb">local</span><span class="p">/</span><span class="nx">lib</span><span class="p">/</span><span class="nx">python2.7</span><span class="p">/</span><span class="nx">site</span><span class="na">-packages</span><span class="p">/</span><span class="nx">tensorflow</span><span class="p">/</span><span class="nx">python</span><span class="p">/</span><span class="nx">ops</span><span class="p">/</span><span class="nx">rnn_cell_impl.py</span><span class="s2">&quot;, l ine 183, in _rnn_get_variable </span>
+<span class="s2">96 variable = getter(*args, **kwargs) </span>
+<span class="s2">97 File &quot;</span><span class="p">/</span><span class="nb">home</span><span class="p">/</span><span class="nx">tf1.0</span><span class="p">/</span><span class="nb">local</span><span class="p">/</span><span class="nx">lib</span><span class="p">/</span><span class="nx">python2.7</span><span class="p">/</span><span class="nx">site</span><span class="na">-packages</span><span class="p">/</span><span class="nx">tensorflow</span><span class="p">/</span><span class="nx">python</span><span class="p">/</span><span class="nx">ops</span><span class="p">/</span><span class="nx">rnn_cell_impl.py</span><span class="s2">&quot;, l ine 183, in _rnn_get_variable </span>
+<span class="s2">98 variable = getter(*args, **kwargs) </span>
+<span class="s2">99 File &quot;</span><span class="p">/</span><span class="nb">home</span><span class="p">/</span><span class="nx">tf1.0</span><span class="p">/</span><span class="nb">local</span><span class="p">/</span><span class="nx">lib</span><span class="p">/</span><span class="nx">python2.7</span><span class="p">/</span><span class="nx">site</span><span class="na">-packages</span><span class="p">/</span><span class="nx">tensorflow</span><span class="p">/</span><span class="nx">python</span><span class="p">/</span><span class="nx">ops</span><span class="p">/</span><span class="nx">variable_scope.py</span><span class="s2">&quot;, line 352, in _true_getter </span>
+<span class="s2">100 use_resource=use_resource) </span>
+<span class="s2">101 File &quot;</span><span class="p">/</span><span class="nb">home</span><span class="p">/</span><span class="nx">tf1.0</span><span class="p">/</span><span class="nb">local</span><span class="p">/</span><span class="nx">lib</span><span class="p">/</span><span class="nx">python2.7</span><span class="p">/</span><span class="nx">site</span><span class="na">-packages</span><span class="p">/</span><span class="nx">tensorflow</span><span class="p">/</span><span class="nx">python</span><span class="p">/</span><span class="nx">ops</span><span class="p">/</span><span class="nx">variable_scope.py</span><span class="s2">&quot;, line 664, in _get_single_variable </span>
+<span class="s2">102 name, &quot;&quot;.join(traceback.format_list(tb)))) </span>
+<span class="s2">103 ValueError: Variable lstm_cell/rnn/multi_rnn_cell/cell_0/basic_lstm_cell/kernel already exists, disallowed. Did you mean to set reuse=True in VarScope? Originally defined at:</span>
+<span class="s2">104 105 File &quot;</span><span class="nx">anna_writer.py</span><span class="s2">&quot;, line 110, in add_lstm_cell </span>
+<span class="s2">106 initial_state=self.initial_state) </span>
+<span class="s2">107 File &quot;</span><span class="nx">anna_writer.py</span><span class="s2">&quot;, line 74, in __init__ </span>
+<span class="s2">108 self.add_lstm_cell() </span>
+<span class="s2">109 File &quot;</span><span class="nx">anna_writer.py</span><span class="s2">&quot;, line 172, in train 110 conf.grad_clip, is_training=True)</span>
+</pre></div>
+
+
+<h1 id="_3">解决方法</h1>
+<p>这个问题困扰了我两天，始终找不到解决方案，当我的训练模型和预测模型分开运行时程序没有报错，但是两个程序放在一起运行时就会出现问题，网上搜索的结果大都是关于<a href="https://stackoverflow.com/questions/43957967/tensorflow-v1-1-0-multi-rnn-basiclstmcell-error-reuse-parameter-python-3-5">共享权重的问题</a>，错误提示是<code>ValueError: Variable hello/rnn/basic_lstm_cell/weights already exists, disallowed. Did you mean to set reuse=True in VarScope?</code><br />
+，这个error跟我的错误还是有一定的区别的。这些问题主要原因在于使用多层lstm_cell或者双向lstm的时候忽略了定义变量的variable_scope，导致lstm_cell的作用域不一样，但是程序加载的时候并不知道，所以当声明的cell不是同一个的时候，需要用</p>
+<div class="hlcode"><pre><span class="n">with</span> <span class="n">tf</span><span class="p">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">:</span>
+</pre></div>
+
+
+<p>来定义不同的作用范围就可以了，具体还要根据实际情况。</p>
+<p>而我的问题好像网上还没有这样的解释，我仔细看错误的提示，分析我的代码，当train和predict放在一起的时候，会调用两次class language_model：这时候就会出现系统里应该存在两个不同的lstm_cell模型，但是系统无法辨别出来，所以会提示<strong>kernel already exists</strong>，而不是<strong>weights already exists</strong>。</p>
+<p>而tensorflow有一个reset_default_graph()函数，我对python多线程不是很清楚，贴下源码，</p>
+<div class="hlcode"><pre><span class="k">def</span> <span class="nf">reset_default_graph</span><span class="p">():</span>
+  <span class="sd">&quot;&quot;&quot;Clears the default graph stack and resets the global default graph.</span>
+
+<span class="sd">  NOTE: The default graph is a property of the current thread. This</span>
+<span class="sd">  function applies only to the current thread.  Calling this function while</span>
+<span class="sd">  a `tf.Session` or `tf.InteractiveSession` is active will result in undefined</span>
+<span class="sd">  behavior. Using any previously created `tf.Operation` or `tf.Tensor` objects</span>
+<span class="sd">  after calling this function will result in undefined behavior.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+</pre></div>
+
+
+<p>然后在我定义的language_model类中添加这个函数之后之前的问题就解决了。</p>
+<div class="hlcode"><pre><span class="k">class</span> <span class="nc">language_model</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">seq_length</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">hidden_units</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+                 <span class="n">keep_prob</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">grad_clip</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">is_training</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="c"># 模型的训练和预测放在同一个文件下时如果没有这个函数会报错。</span>
+        <span class="n">tf</span><span class="o">.</span><span class="n">reset_default_graph</span><span class="p">()</span>  
+        <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span> <span class="o">=</span> <span class="n">learning_rate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_layers</span> <span class="o">=</span> <span class="n">num_layers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hidden_units</span> <span class="o">=</span> <span class="n">hidden_units</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_training</span> <span class="o">=</span> <span class="n">is_training</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keep_prob</span> <span class="o">=</span> <span class="n">keep_prob</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grad_clip</span> <span class="o">=</span> <span class="n">grad_clip</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_classes</span> <span class="o">=</span> <span class="n">num_classes</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_training</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch_size</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">seq_length</span> <span class="o">=</span> <span class="n">seq_length</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">seq_length</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">name_scope</span><span class="p">(</span><span class="s">&#39;add_input_layer&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_input_layer</span><span class="p">()</span>
+        <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s">&#39;lstm_cell&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_multi_cells</span><span class="p">()</span>
+        <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">name_scope</span><span class="p">(</span><span class="s">&#39;build_output&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">build_output</span><span class="p">()</span>
+        <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">name_scope</span><span class="p">(</span><span class="s">&#39;cost&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">compute_cost</span><span class="p">()</span>
+        <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">name_scope</span><span class="p">(</span><span class="s">&#39;train_op&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">train_op</span><span class="p">()</span>
+</pre></div>
+
+
+<p><strong>题外话</strong> ：tensorflow1.2版本之后，定义多层lstm(<code>MultiRNNCell</code>)与原来的版本改变比较大，可以看考<a href="https://www.tensorflow.org/tutorials/recurrent#recurrent-neural-networks">PTB tutorials---Stacking multiple LSTMs</a>.</p>
+<p><strong><em>文中涉及到的代码见：<a href="https://github.com/STHSF/DeepNaturalLanguageProcessing/tree/master/language_model/anna">github--anna</a></em></strong></p>
+<h1 id="_4">参考文献</h1>
+<p><a href="http://blog.csdn.net/u014283248/article/details/64440268">1、tensorflow1.x版本rnn生成cell 报错解决方案</a></p>
+<p><a href="http://www.cnblogs.com/max-hu/p/7101164.html">2、ValueError: Attempt to reuse RNNCell</a></p>
+<p><a href="https://stackoverflow.com/questions/43935609/how-to-reuse-weights-in-multirnncell">3、How to reuse weights in MultiRNNCell?</a></p>
+<p><a href="https://github.com/tensorflow/tensorflow/issues/8191">4、ValueError: Attempt to reuse RNNCell with a different variable scope than its first use.</a></p>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2017-07-10 09:00 </span></div>
+<div id="comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script type="text/javascript">
+const gitment = new Gitment({
+  title: 'ValueError: Variable lstm_cell/rnn/multi_rnn_cell/cell_0/basic_lstm_cell/kernel already exists.',
+  owner: 'sthsf',
+  repo: 'wiki',
+  oauth: {
+    client_id: '086c54c5fd95adfdc372',
+    client_secret: '2ad9ebe87b952d2c77fccf99c334881b91eaa73d',
+  },
+  // ...
+  // For more available options, check out the documentation below
+})
+gitment.render('comments')
+// or
+// gitment.render(document.getElementById('comments'))
+// or
+// document.body.appendChild(gitment.render())
+</script>
+
+</div>
+<div id="footer">
+            <span>
+                Copyright © 2018 LiYu.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+                Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
+            </span>
+</div>
+
+
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?90e1dcdd1938573c19f9ff6521188e91";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</body>
+</html>

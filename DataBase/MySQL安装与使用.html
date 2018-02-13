@@ -1,0 +1,160 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <title>Linux下MySQL安装配置与使用 - LiYu's personal knowledge wiki</title>
+    <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
+    <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$(',')$'], ['\\(','\\)']]}
+        });
+        </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-78529611-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+
+<body>
+<div id="container">
+    
+<div id="header">
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#DataBase">DataBase</a>&nbsp;»&nbsp;Linux下MySQL安装配置与使用</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">Linux下MySQL安装配置与使用</div>
+<div id="content">
+  <h1 id="mysql">MySQL安装</h1>
+<div class="hlcode"><pre><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">mysql</span><span class="o">-</span><span class="n">server</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">mysql</span><span class="o">-</span><span class="n">client</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">libmysqlclient</span><span class="o">-</span><span class="n">dev</span>
+</pre></div>
+
+
+<p>在第一步安装的过程中会弹出窗口要求输入root用户的密码，需要记住这个密码。</p>
+<h3 id="_1">检查是否安装成功</h3>
+<ul>
+<li>输入命令：</li>
+</ul>
+<div class="hlcode"><pre><span class="n">netstat</span> <span class="o">-</span><span class="n">tap</span> <span class="o">|</span> <span class="n">grep</span> <span class="n">mysql</span>
+</pre></div>
+
+
+<ul>
+<li>输出的正确结果为：</li>
+</ul>
+<div class="hlcode"><pre><span class="n">tcp</span>        <span class="mi">0</span>      <span class="mi">0</span> <span class="n">localhost</span><span class="o">:</span><span class="n">mysql</span>         <span class="o">*:*</span>                     <span class="n">LISTEN</span>      <span class="mi">23368</span><span class="o">/</span><span class="n">mysqld</span>
+</pre></div>
+
+
+<p>出现以上结果就代表安装成功了。</p>
+<h3 id="mysql_1">MySQL的一些简单管理：</h3>
+<ul>
+<li>启动MySQL服务：<code>sudo start mysql</code></li>
+<li>停止MySQL服务：<code>sudo stop mysql</code></li>
+<li>修改 MySQL 的管理员密码：<code>sudo mysqladmin -u root password "newpassword"</code></li>
+<li>设置远程访问(正常情况下，mysql占用的3306端口只是在IP 127.0.0.1上监听，拒绝了其他IP的访问（通过netstat可以查看到）。取消本地监听需要修改 my.cnf 文件：)：<br />
+<code>sudo vi /etc/mysql/my.cnf</code><br />
+<code>bind-address = 127.0.0.1 //找到此内容并且注释</code></li>
+</ul>
+<h3 id="mysqlapt-get-install">MySQL安装后的目录结构分析(此结构只针对于使用apt-get install 在线安装情况)：</h3>
+<ul>
+<li>数据库存放目录：<code>/var/lib/mysql/</code></li>
+<li>相关配置文件存放目录：<code>/usr/share/mysql</code></li>
+<li>相关命令存放目录：<code>/usr/bin(mysqladmin mysqldump等命令)</code></li>
+<li>启动脚步存放目录：<code>/etc/rc.d/init.d/</code></li>
+</ul>
+<h3 id="_2">常用命令</h3>
+<ul>
+<li>查看database列表：<code>show databases;</code></li>
+<li>操作数据库：<code>use "database_name";</code></li>
+<li>查看表名：<code>show tables;</code></li>
+<li>显示表的结构：<code>show columns from "table_name";</code></li>
+<li>显示表的结构：<code>describe "table_name";</code></li>
+<li>显示数据表的详细索引信息，包括PRIMARY KEY（主键）: <code>show index from "table_name";</code></li>
+<li>创建数据库：<code>create database "database_name"</code></li>
+<li>删除数据库： <code>drop database "database_name"</code></li>
+</ul>
+<h2 id="python-mysql">python 操作mysql</h2>
+<div class="hlcode"><pre><span class="kn">import</span> <span class="nn">MySQLdb</span>
+
+<span class="n">conn</span> <span class="o">=</span> <span class="n">MySQLdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s">&#39;localhost&#39;</span><span class="p">,</span><span class="n">port</span><span class="o">=</span><span class="mi">3306</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="s">&#39;root&#39;</span><span class="p">,</span> <span class="n">passwd</span><span class="o">=</span><span class="s">&#39;1234567890&#39;</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="s">&#39;compet&#39;</span><span class="p">,)</span>
+
+<span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> 
+<span class="c"># 创建数据库</span>
+<span class="c"># sql = &quot;CREATE TABLE pricedetial (security_id varchar(10), data_date varchar(20), d0_wd varchar(20), d0_open varchar(20), d1_wd varchar(20), d1_open varchar(20), d2_wd varchar(20), d2_open varchar(20), d3_wd varchar(20), d3_open varchar(20), tag varchar(10))&quot;</span>
+<span class="c"># 插入数据</span>
+<span class="n">sql</span> <span class="o">=</span> <span class="s">&quot;INSERT INTO pricedetial (security_id, data_date, d0_wd, d0_open, d1_wd, d1_open, d2_wd, d2_open, d3_wd, d3_open, tag) VALUES (&#39;</span><span class="si">%s</span><span class="s">&#39;,&#39;</span><span class="si">%s</span><span class="s">&#39;,&#39;</span><span class="si">%s</span><span class="s">&#39;,&#39;</span><span class="si">%s</span><span class="s">&#39;,&#39;</span><span class="si">%s</span><span class="s">&#39;,&#39;</span><span class="si">%s</span><span class="s">&#39;    ,&#39;</span><span class="si">%s</span><span class="s">&#39;,&#39;</span><span class="si">%s</span><span class="s">&#39;,&#39;</span><span class="si">%s</span><span class="s">&#39;,&#39;</span><span class="si">%s</span><span class="s">&#39;,&#39;</span><span class="si">%s</span><span class="s">&#39;)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;l&#39;</span><span class="p">,</span> <span class="s">&#39;yu&#39;</span><span class="p">,</span> <span class="s">&#39;12&#39;</span><span class="p">,</span> <span class="s">&#39;13&#39;</span><span class="p">,</span> <span class="s">&#39;14&#39;</span><span class="p">,</span> <span class="s">&#39;15&#39;</span><span class="p">,</span> <span class="s">&#39;16&#39;</span><span class="p">,</span> <span class="s">&#39;17&#39;</span><span class="p">,</span> <span class="s">&#39;18&#39;</span><span class="p">,</span> <span class="s">&#39;19&#39;</span><span class="p">,</span> <span class="s">&#39;train&#39;</span><span class="p">)</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+<span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+
+
+<h2 id="_3">参考文献</h2>
+<p><a href="http://www.360doc.com/content/17/0703/08/44827304_668358202.shtml">聊聊mysql hbase es的特点和区别</a></p>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2017-08-17 10:00 </span></div>
+<div id="comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script type="text/javascript">
+const gitment = new Gitment({
+  title: 'Linux下MySQL安装配置与使用',
+  owner: 'sthsf',
+  repo: 'wiki',
+  oauth: {
+    client_id: '086c54c5fd95adfdc372',
+    client_secret: '2ad9ebe87b952d2c77fccf99c334881b91eaa73d',
+  },
+  // ...
+  // For more available options, check out the documentation below
+})
+gitment.render('comments')
+// or
+// gitment.render(document.getElementById('comments'))
+// or
+// document.body.appendChild(gitment.render())
+</script>
+
+</div>
+<div id="footer">
+            <span>
+                Copyright © 2018 LiYu.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+                Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
+            </span>
+</div>
+
+
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?90e1dcdd1938573c19f9ff6521188e91";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</body>
+</html>

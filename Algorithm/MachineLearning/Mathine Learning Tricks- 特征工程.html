@@ -1,0 +1,148 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <title>Mathine Learning Tricks - 特征工程 - LiYu's personal knowledge wiki</title>
+    <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
+    <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$(',')$'], ['\\(','\\)']]}
+        });
+        </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-78529611-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+
+<body>
+<div id="container">
+    
+<div id="header">
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm">Algorithm</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-MachineLearning">MachineLearning</a>&nbsp;»&nbsp;Mathine Learning Tricks - 特征工程</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">Mathine Learning Tricks - 特征工程</div>
+<div id="content">
+  <h1 id="_1">特征工程</h1>
+<h2 id="1feature-scalingnormalization">1、Feature Scaling（normalization）</h2>
+<p>让不同的输入特征数据具有相同的分布，这样在梯度下降中更新参数时效率更高。</p>
+<h3 id="_2">方法</h3>
+<p>scaling的方法很多种，其中之一就是求特征向量每个维度的均值和方差。<br />
+假设对于样本数据集$(X=[X^1, X^2, X^3, ....,X^r])$, 其中$(X^r=[x_1^r, x_2^r, x_3^r, ..., x_i^r])$<br />
+分别求每一个维度$(i)$的均值和方差。<br />
+- mean: $(m_i)$<br />
+- standard deviation: $(\sigma_i)$<br />
+则，每个特征元素可重新表示为：<br />
+$$<br />
+x_i^r=\frac{x_i^r-m_i}{\sigma_i}<br />
+$$<br />
+修改后是的每个维度数据的均值为0，方差为1。</p>
+<h2 id="_3"></h2>
+<p>最小冗余最大关联特征选择</p>
+<p>将所有的想法整合起来就能得出我们的算法，即 mRMR 特征选择。算法背后的考虑是，同时最小化特征的冗余并最大化特征的关联。因此，我们需要计算冗余和关联的方程：</p>
+<p>冗余:</p>
+<p>$$<br />
+Relevance = \frac{ \sum_{i=1}^{n}c_ix_i}{\sum_{i=1}^nx_i}<br />
+$$</p>
+<p>关联:</p>
+<p>$$<br />
+Redundancy = \frac{\sum_{i,j=1}^na_{ij}x_ix_j}{(\sum_{i=1}^nx_i)^2}<br />
+$$</p>
+<p>让我们用虚构的数据写一个快速脚本来实现 mRMR：</p>
+<div class="hlcode"><pre><span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">minimize</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="n">matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">12</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">20</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">15</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">25</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">20</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">23</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">18</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">20</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">16</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">12</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">8</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+
+<span class="p">])</span>
+
+<span class="n">corrcoef</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span>
+<span class="n">relevancy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">corrcoef</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span>
+
+<span class="c"># set initial to all dimensions on</span>
+<span class="n">x0</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c"># minimize the redundancy minus relevancy</span>
+<span class="n">fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">sum</span><span class="p">([</span><span class="n">corrcoef</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))])</span> <span class="o">/</span> <span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">relevancy</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+<span class="n">res</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)))</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2017-07-18 14:00 </span></div>
+<div id="comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script type="text/javascript">
+const gitment = new Gitment({
+  title: 'Mathine Learning Tricks - 特征工程',
+  owner: 'sthsf',
+  repo: 'wiki',
+  oauth: {
+    client_id: '086c54c5fd95adfdc372',
+    client_secret: '2ad9ebe87b952d2c77fccf99c334881b91eaa73d',
+  },
+  // ...
+  // For more available options, check out the documentation below
+})
+gitment.render('comments')
+// or
+// gitment.render(document.getElementById('comments'))
+// or
+// document.body.appendChild(gitment.render())
+</script>
+
+</div>
+<div id="footer">
+            <span>
+                Copyright © 2018 LiYu.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+                Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
+            </span>
+</div>
+
+
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?90e1dcdd1938573c19f9ff6521188e91";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</body>
+</html>
