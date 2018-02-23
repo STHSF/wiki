@@ -100,7 +100,7 @@
 <h1 id="_8">那我们应该如何避免这个问题？</h1>
 <p>有一些观点我们可以考虑下，总的来说，引用文献[1]中的原文：而不是使用一个固定的学习速率值然后让他一直减少，如果训练过程中不能够再提高loss，我们就开始在每一次迭代中根据某一个循环函数f调整学习速率，每一个循环都有一个根据迭代的次数而定的一个固定的长度。这种方法是的学习速率周期的在一些的合理的边界值之间变化。这很有用，因为如果我们在鞍点处卡住了，增加学习速率能够迅速的穿过鞍点。</p>
 <p>文献[2]中，Leslie 提出了一种三角形方法，学习速率在每一些迭代之后会重置。</p>
-<p>另外一种比较流行的方法叫做热重启的随机梯度下降</p>
+<p>另外一种比较流行的方法叫做热重启的随机梯度下降，由Loshchilov &amp; Hutter[6]提出。这种方法本质上是使用cosine函数作为中期函数，在每个周期的学习速率最大的地方重新启动。</p>
 <h1 id="_9">参考文献</h1>
 <p><a href="https://towardsdatascience.com/understanding-learning-rates-and-how-it-improves-performance-in-deep-learning-d0d4059c1c10">Understanding Learning Rates and How It Improves Performance in Deep Learning</a></p>
 </div>
