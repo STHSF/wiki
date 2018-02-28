@@ -3,14 +3,17 @@ title: "Tensorflow基础知识---Senquence-to-Senquence详解"
 layout: page
 date: 2017-07-06 00:00
 ---
+[TOC]
 
 # 写在前面
 Seq2Seq是基于tensorflow的一种通用编码器&解码器框架，可用于机器翻译，文本摘要，会话模型，图像描述等。经典的RNN结构的输入和输出序列必须是要等长的，他的应用场景比较有限，而seq2seq模型则突破了这个限制，他实现了从一个序列到另一个序列的转换。
 
 # Sequence_to_Sequence Model
 常见的语言模型的研究对象是单一序列，例如（文本生成），而Sequence_to_Sequence Model同时研究两个序列之间的关系。Encoder-Decoder的基本结构如下：
-<img src="/wiki/static/images/seq2seq/Encoder-Decoder基本结构.jpg" alt="Encoder-Decoder基本结构"/>
-上图是一个已经在时间维度上展开的Encoder-Decoder模型，结构图表述的是编码和解码的过程，基本思想就是利用两个RNN， 一个RNN作为encoder， 另一个RNN作为decoder，编码过程就是负责将输入序列压缩成指定长度的向量。上图中，编码的输入为序列$([A,B,C])$,在编码过程中，我们不需要考虑编码的输出结果，仅仅考虑编码过程中累计的隐藏状态，当输入序列编码结束后，编码器将最终的状态传递给解码器，解码器接受的输入为$([<EOS>, W, X, Y, Z])$,而解码器输出的结果为$([W, X, Y, Z, <EOS>])$, 其中$(<EOS>)$是一个序列的结束符。
+<center><img src="/wiki/static/images/seq2seq/Encoder-Decoder基本结构.jpg" alt="Encoder-Decoder基本结构"/></center>
+上图是一个已经在时间维度上展开的Encoder-Decoder模型，结构图表述的是编码和解码的过程，基本思想就是利用两个RNN， 一个RNN作为encoder， 另一个RNN作为decoder，编码过程就是负责将输入序列压缩成指定长度的向量, 这个向量可以理解为这个序列的语义。上图中，编码的输入为序列$([A,B,C])$,在编码过程中，我们不需要考虑编码的输出结果，仅仅考虑编码过程中累计的隐藏状态。获取语义向量最简单的方式就是直接将最后一个输入的隐藏状态作为语义向量，也可以对最后一个隐含状态做一个变换得到语义向量，还可以将输入序列的所有隐含状态做一个变换得到语义向量。
+
+当输入序列编码结束后，编码器将最终的状态传递给解码器，解码器则负责根据语义向量生成指定的序列。上图中，解码器接受的输入为$([<EOS>, W, X, Y, Z])$,，同时会将编码器得到的语义向量作为解码器的RNN的初始状态。上图中，最终解码器输出的结果为$([W, X, Y, Z, <EOS>])$, 其中$(<EOS>)$是一个序列的结束符。
 
 总结起来就是典型的Sequence_to_Sequence Model通常是由两个RNN网络构成，一个被称为编码器，另一个被称为译码器，encoder负责把variable-length的序列编码成一个固定大小的语义表示向量(fixed-length vector representation)，我们可以理解为把一段文本进行语义表示。decoder则负责把encoder得到的fixed-length的语义向量解码成另一个variable-length的token序列，这个token序列就是另一个sequence，并且每个时刻t输出词的概率都与前t-1时刻的输出有关。优化时采用极大似然估计，让encoder前的序列A被encoder后在decoder得到的序列B的概率最大。在这里序列A和B的长度是可以不一样的。
 
