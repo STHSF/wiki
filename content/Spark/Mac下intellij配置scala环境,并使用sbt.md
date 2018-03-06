@@ -1,5 +1,5 @@
 ---
-title: "Mac下intellij 配置scala环境，并使用sbt.md"
+title: "Mac下intellij配置scala环境，并使用sbt.md"
 layout: page
 date: 2018-03-02 00:00
 ---
