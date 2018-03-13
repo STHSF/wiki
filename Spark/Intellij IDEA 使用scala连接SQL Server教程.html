@@ -57,12 +57,12 @@
 <h1 id="microsoft-sql-server-jdbc">下载Microsoft SQL Server JDBC 驱动程序</h1>
 <p>在微软的官网上我们可以找到Microsoft SQL Server JDBC 驱动程序 6.0的镜像文件。<a href="https://www.microsoft.com/zh-CN/download/details.aspx?id=11774">下载地址</a>，本文是在Mac下搭建的环境，所以后面的操作都是UNIX版本的操作。</p>
 <p>下载完成后，解压。会得到下面的文件。<br />
-<center><img src="/wiki/static/images/spark/sqljdbc.jpg" alt="jdbc" height="400" width="300"/></center></p>
+<center><img src="/wiki/static/images/spark/sqljdbc.jpg" alt="jdbc"/></center></p>
 <h1 id="jdbcjar">在工程中导入jdbc.jar文件</h1>
 <p>点击File &gt; Project Structure, 然后依次点击Modules，以及有面的Dependencies，你会看到下面类似的图片。<br />
-<center><img src="/wiki/static/images/spark/projectstructure.jpg" alt="jdbc" height="400" width="400"/></center></p>
+<center><img src="/wiki/static/images/spark/projectstructure.jpg" alt="jdbc"/></center></p>
 <p>然后点击左下角的加号，选择<code>JARS or directions</code>, 跳转到第一步下载的驱动目录下, 根据工程中java的版本选择不同的jar包。本文选择的是jre8下面的jar包，如下图。<br />
-<center><img src="/wiki/static/images/spark/jar.jpg" alt="jdbc" height="400" width="400"/></center></p>
+<center><img src="/wiki/static/images/spark/jar.jpg" alt="jdbc"/></center></p>
 <p>添加完成之后，点击右下角的Apply和OK按钮。这样驱动包就导入完毕。下面编写数据库连接代码。</p>
 <h1 id="_2">数据库连接</h1>
 <p>sqljdbc的驱动程序导入完成之后，我们写一个测试文件测试一下数据库连接。</p>
