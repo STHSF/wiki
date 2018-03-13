@@ -26,8 +26,38 @@ date: 2018-03-13 10:00
 
 
 # 数据库连接
+sqljdbc的驱动程序导入完成之后，我们写一个测试文件测试一下数据库连接。
 
+## 创建连接
+设置url 用户名，密码等参数
+```
+val url = "jdbc:microsoft:sqlserver://localhost:1433;DatabaseName=dbname"
+val userName = "username"
+val password = "password"
 
+try 
+{
+	Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver")
+	val conn = DriverManager.getConnection(url, userName, password)
+	val statement = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE)
+	println( "Connection Successful! "); //如果连接成功 控制台输出Connection Successful!
+} catch (Exception e)
+{
+	e.printStackTrace()
+}
+```
+## 注意点
+在使用URL的时候，不同的sqlserver版本url的格式不一样。
+
+```
+连接SqlServer2000 
+URL = "jdbc:microsoft:sqlserver://localhost:1433;DatabaseName=dbname"; 
+
+连接SqlServer2005 
+URL = "jdbc:sqlserver://localhost:1433;DatabaseName=dbname"; 
+```
 
 
 # 参考文献
+[1](https://www.cnblogs.com/doudou618/p/6051852.html)
+[2](http://blog.csdn.net/u013371163/article/details/60469138)
