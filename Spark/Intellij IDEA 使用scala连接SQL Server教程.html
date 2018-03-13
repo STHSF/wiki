@@ -44,8 +44,12 @@
 <li><a href="#_1">写在前面</a></li>
 <li><a href="#microsoft-sql-server-jdbc">下载Microsoft SQL Server JDBC 驱动程序</a></li>
 <li><a href="#jdbcjar">在工程中导入jdbc.jar文件</a></li>
-<li><a href="#_2">数据库连接</a></li>
-<li><a href="#_3">参考文献</a></li>
+<li><a href="#_2">数据库连接</a><ul>
+<li><a href="#_3">创建连接</a></li>
+<li><a href="#_4">注意点</a></li>
+</ul>
+</li>
+<li><a href="#_5">参考文献</a></li>
 </ul>
 </div>
 <h1 id="_1">写在前面</h1>
@@ -61,7 +65,39 @@
 <center><img src="/wiki/static/images/spark/jar.jpg" alt="jdbc" height="400" width="400"/></center></p>
 <p>添加完成之后，点击右下角的Apply和OK按钮。这样驱动包就导入完毕。下面编写数据库连接代码。</p>
 <h1 id="_2">数据库连接</h1>
-<h1 id="_3">参考文献</h1>
+<p>sqljdbc的驱动程序导入完成之后，我们写一个测试文件测试一下数据库连接。</p>
+<h2 id="_3">创建连接</h2>
+<p>设置url 用户名，密码等参数</p>
+<div class="hlcode"><pre><span class="n">val</span> <span class="n">url</span> <span class="o">=</span> <span class="s">&quot;jdbc:microsoft:sqlserver://localhost:1433;DatabaseName=dbname&quot;</span>
+<span class="n">val</span> <span class="n">userName</span> <span class="o">=</span> <span class="s">&quot;username&quot;</span>
+<span class="n">val</span> <span class="n">password</span> <span class="o">=</span> <span class="s">&quot;password&quot;</span>
+
+<span class="n">try</span> 
+<span class="p">{</span>
+    <span class="n">Class</span><span class="p">.</span><span class="n">forName</span><span class="p">(</span><span class="s">&quot;com.microsoft.sqlserver.jdbc.SQLServerDriver&quot;</span><span class="p">)</span>
+    <span class="n">val</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">DriverManager</span><span class="p">.</span><span class="n">getConnection</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">userName</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+    <span class="n">val</span> <span class="n">statement</span> <span class="o">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">createStatement</span><span class="p">(</span><span class="n">ResultSet</span><span class="p">.</span><span class="n">TYPE_FORWARD_ONLY</span><span class="p">,</span> <span class="n">ResultSet</span><span class="p">.</span><span class="n">CONCUR_UPDATABLE</span><span class="p">)</span>
+    <span class="n">println</span><span class="p">(</span> <span class="s">&quot;Connection Successful! &quot;</span><span class="p">);</span> <span class="c1">//如果连接成功 控制台输出Connection Successful!</span>
+<span class="p">}</span> <span class="n">catch</span> <span class="p">(</span><span class="n">Exception</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">e</span><span class="p">.</span><span class="n">printStackTrace</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h2 id="_4">注意点</h2>
+<p>在使用URL的时候，不同的sqlserver版本url的格式不一样。</p>
+<div class="hlcode"><pre><span class="err">连接</span><span class="n">SqlServer2000</span> 
+<span class="n">URL</span> <span class="o">=</span> <span class="s">&quot;jdbc:microsoft:sqlserver://localhost:1433;DatabaseName=dbname&quot;</span><span class="p">;</span> 
+
+<span class="err">连接</span><span class="n">SqlServer2005</span> 
+<span class="n">URL</span> <span class="o">=</span> <span class="s">&quot;jdbc:sqlserver://localhost:1433;DatabaseName=dbname&quot;</span><span class="p">;</span> 
+</pre></div>
+
+
+<h1 id="_5">参考文献</h1>
+<p><a href="https://www.cnblogs.com/doudou618/p/6051852.html">1</a><br />
+<a href="http://blog.csdn.net/u013371163/article/details/60469138">2</a></p>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2018-03-13 10:00 </span></div>
 <div id="comments"></div>
