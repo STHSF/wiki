@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <title>Intellij IDEA 使用scala连接SQL Server教程 - LiYu's personal knowledge wiki</title>
+    <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
+    <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$(',')$'], ['\\(','\\)']]}
+        });
+        </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-78529611-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+
+<body>
+<div id="container">
+    
+<div id="header">
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Spark">Spark</a>&nbsp;»&nbsp;Intellij IDEA 使用scala连接SQL Server教程</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">Intellij IDEA 使用scala连接SQL Server教程</div>
+<div id="content">
+  <div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#_1">写在前面</a></li>
+<li><a href="#microsoft-sql-server-jdbc">下载Microsoft SQL Server JDBC 驱动程序</a></li>
+<li><a href="#jdbcjar">在工程中导入jdbc.jar文件</a></li>
+<li><a href="#_2">错误原因和解决方法</a></li>
+</ul>
+</div>
+<h1 id="_1">写在前面</h1>
+<p>在数据处理过程中免不了会对数据库进行操作，本文主要介绍在intellij下使用scala连接sqlServer数据库。之前我在介绍<a href="http://blog.csdn.net/u013041398/article/details/50968602">scala 使用JDBC方式访问Mysql</a>时，java是有关于mysql驱动的依赖包的，但是SQLServer好像没有相关的依赖包。需要从外部添加相关的jar包。</p>
+<h1 id="microsoft-sql-server-jdbc">下载Microsoft SQL Server JDBC 驱动程序</h1>
+<p>在微软的官网上我们可以找到Microsoft SQL Server JDBC 驱动程序 6.0的镜像文件。<a href="https://www.microsoft.com/zh-CN/download/details.aspx?id=11774">下载地址</a>，本文是在Mac下搭建的环境，所以后面的操作都是UNIX版本的操作。</p>
+<p>下载完成后，解压。会得到下面的文件。<br />
+<center><img src="/wiki/static/images/spark/sqljdbc.jpg" alt="jdbc" height="600" width="600"/></center></p>
+<h1 id="jdbcjar">在工程中导入jdbc.jar文件</h1>
+<p>点击File &gt; Project Structure, 然后依次点击Modules，以及有面的Dependencies，你会看到下面类似的图片。<br />
+<center><img src="/wiki/static/images/spark/projectstructure.jpg" alt="jdbc" height="600" width="600"/></center></p>
+<p>然后点击左下角的加号，选择<code>JARS or directions</code>, 跳转到第一步下载的驱动目录下, 根据工程中java的版本选择不同的jar包。本文选择的是jre8下面的jar包，如下图。<br />
+<center><img src="/wiki/static/images/spark/projectstructure.jpg" alt="jdbc" height="600" width="600"/></center></p>
+<h1 id="_2">错误原因和解决方法</h1>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2018-03-13 10:00 </span></div>
+<div id="comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script type="text/javascript">
+const gitment = new Gitment({
+  title: 'Intellij IDEA 使用scala连接SQL Server教程',
+  owner: 'sthsf',
+  repo: 'wiki',
+  oauth: {
+    client_id: '086c54c5fd95adfdc372',
+    client_secret: '2ad9ebe87b952d2c77fccf99c334881b91eaa73d',
+  },
+  // ...
+  // For more available options, check out the documentation below
+})
+gitment.render('comments')
+// or
+// gitment.render(document.getElementById('comments'))
+// or
+// document.body.appendChild(gitment.render())
+</script>
+
+</div>
+<div id="footer">
+            <span>
+                Copyright © 2018 LiYu.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+                Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
+            </span>
+</div>
+
+
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?90e1dcdd1938573c19f9ff6521188e91";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</body>
+</html>
