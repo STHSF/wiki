@@ -57,6 +57,16 @@ URL = "jdbc:microsoft:sqlserver://localhost:1433;DatabaseName=dbname";
 URL = "jdbc:sqlserver://localhost:1433;DatabaseName=dbname"; 
 ```
 
+# spark服务器中指定外部jar包
+上面介绍的是在idea中添加sqlserver的jar包，然后在idea里面运行是没有问题的，但是如果将工程打包到集群上运行，则依然会提示驱动找不到。
+
+所以需要在运行脚本中添加下面一行：
+
+```
+--jars /home/....../sqljdbc42.jar \
+```
+将之前下载的驱动jar包一并上传到集群上，然后在```--jars```后面添加该jar包的路径即可。
+
 
 # 参考文献
 [1](https://www.cnblogs.com/doudou618/p/6051852.html)
