@@ -44,6 +44,13 @@
 <li><a href="#_1">写在前面</a><ul>
 <li><a href="#dataframe">一、DataFrame的创建</a><ul>
 <li><a href="#1-list">例1： 通过list创建</a></li>
+<li><a href="#2">例2: 创建例子</a></li>
+</ul>
+</li>
+<li><a href="#dataframe_1">二、DataFrame的一些基本操作</a><ul>
+<li><a href="#1">1、获取数据行数</a></li>
+<li><a href="#2numpy">2、显示索引、列和底层的numpy数据</a></li>
+<li><a href="#3">3、显示数据</a></li>
 </ul>
 </li>
 </ul>
@@ -67,6 +74,91 @@
 </pre></div>
 
 
+<p>上面代表，创建了一个2行3列的表格，创建时只指定了表格的内容（通过一个嵌套的list），没有指定列名和索引。这时列名就自动为 0,1,2 ；索引自动为数值0,1.</p>
+<p>我们可以指定列表和索引，如：</p>
+<div class="hlcode"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]],</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="err">&#39;</span><span class="n">r1</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="n">r2</span><span class="err">&#39;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="err">&#39;</span><span class="n">c1</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="n">c2</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="n">c3</span><span class="err">&#39;</span><span class="p">])</span>
+
+      <span class="n">c1</span>  <span class="n">c2</span>  <span class="n">c3</span>
+<span class="n">r1</span>   <span class="mi">1</span>   <span class="mi">2</span>   <span class="mi">3</span>
+<span class="n">r2</span>   <span class="mi">4</span>   <span class="mi">5</span>   <span class="mi">6</span>
+
+<span class="p">[</span><span class="mi">2</span> <span class="n">rows</span> <span class="n">x</span> <span class="mi">3</span> <span class="n">columns</span><span class="p">]</span>
+</pre></div>
+
+
+<p>可以看出，上面的代码通过index和columns参数指定了索引和列名。</p>
+<h3 id="2">例2: 创建例子</h3>
+<div class="hlcode"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">import</span> <span class="n">numpy</span> <span class="n">as</span> <span class="n">np</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">dates</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">date_range</span><span class="p">(</span><span class="err">&#39;</span><span class="mi">20121001</span><span class="err">&#39;</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">dates</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">list</span><span class="p">(</span><span class="err">&#39;</span><span class="n">abcd</span><span class="err">&#39;</span><span class="p">))</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">df</span>
+
+                   <span class="n">a</span>         <span class="n">b</span>         <span class="n">c</span>         <span class="n">d</span>
+<span class="mi">2012</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mo">01</span> <span class="o">-</span><span class="mf">0.236220</span>  <span class="mf">0.586985</span>  <span class="mf">0.784953</span> <span class="o">-</span><span class="mf">0.507129</span>
+<span class="mi">2012</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mo">02</span> <span class="o">-</span><span class="mf">1.020807</span> <span class="o">-</span><span class="mf">1.316997</span> <span class="o">-</span><span class="mf">0.747997</span>  <span class="mf">1.909333</span>
+<span class="mi">2012</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mo">03</span>  <span class="mf">0.085208</span> <span class="o">-</span><span class="mf">0.281736</span>  <span class="mf">1.112287</span>  <span class="mf">1.572577</span>
+<span class="mi">2012</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mo">04</span>  <span class="mf">0.008708</span> <span class="o">-</span><span class="mf">0.925711</span> <span class="o">-</span><span class="mf">0.615752</span> <span class="o">-</span><span class="mf">1.183397</span>
+<span class="mi">2012</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mo">05</span>  <span class="mf">1.158198</span> <span class="o">-</span><span class="mf">1.393678</span>  <span class="mf">0.586624</span>  <span class="mf">0.202499</span>
+<span class="mi">2012</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mo">06</span>  <span class="mf">1.149878</span> <span class="o">-</span><span class="mf">2.383863</span>  <span class="mf">1.646403</span>  <span class="mf">1.647935</span>
+
+<span class="p">[</span><span class="mi">6</span> <span class="n">rows</span> <span class="n">x</span> <span class="mi">4</span> <span class="n">columns</span><span class="p">]</span>
+</pre></div>
+
+
+<p>上面代码创建的dates是个时间索引，np.random.randn方法创建一个6行4列的随机数矩阵。</p>
+<p>最后的df使用dates作为索引，使用np.random.randn方法创建的矩阵作为内容，使用list('abcd')作为列名。</p>
+<h2 id="dataframe_1">二、DataFrame的一些基本操作</h2>
+<h3 id="1">1、获取数据行数</h3>
+<div class="hlcode"><pre><span class="n">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="n">or</span> <span class="n">len</span><span class="p">(</span><span class="n">df</span><span class="p">.</span><span class="n">index</span><span class="p">)</span>
+</pre></div>
+
+
+<h3 id="2numpy">2、显示索引、列和底层的numpy数据</h3>
+<div class="hlcode"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">df</span><span class="p">.</span><span class="n">index</span>
+<span class="o">&lt;</span><span class="n">class</span> <span class="err">&#39;</span><span class="n">pandas</span><span class="p">.</span><span class="n">tseries</span><span class="p">.</span><span class="n">index</span><span class="p">.</span><span class="n">DatetimeIndex</span><span class="err">&#39;</span><span class="o">&gt;</span>
+<span class="p">[</span><span class="mi">2012</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mo">01</span><span class="p">,</span> <span class="p">...,</span> <span class="mi">2012</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mo">06</span><span class="p">]</span>
+<span class="nl">Length:</span> <span class="mi">6</span><span class="p">,</span> <span class="n">Freq</span><span class="o">:</span> <span class="n">D</span><span class="p">,</span> <span class="n">Timezone</span><span class="o">:</span> <span class="n">None</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">df</span><span class="p">.</span><span class="n">columns</span>
+<span class="n">Index</span><span class="p">([</span><span class="n">u</span><span class="sc">&#39;a&#39;</span><span class="p">,</span> <span class="n">u</span><span class="sc">&#39;b&#39;</span><span class="p">,</span> <span class="n">u</span><span class="sc">&#39;c&#39;</span><span class="p">,</span> <span class="n">u</span><span class="sc">&#39;d&#39;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="err">&#39;</span><span class="n">object</span><span class="err">&#39;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">df</span><span class="p">.</span><span class="n">values</span>
+<span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mf">0.2362202</span> <span class="p">,</span>  <span class="mf">0.58698529</span><span class="p">,</span>  <span class="mf">0.78495289</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.50712897</span><span class="p">],</span>
+       <span class="p">[</span><span class="o">-</span><span class="mf">1.02080723</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.31699704</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.74799734</span><span class="p">,</span>  <span class="mf">1.90933343</span><span class="p">],</span>
+       <span class="p">[</span> <span class="mf">0.08520807</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.28173589</span><span class="p">,</span>  <span class="mf">1.11228743</span><span class="p">,</span>  <span class="mf">1.57257716</span><span class="p">],</span>
+       <span class="p">[</span> <span class="mf">0.00870768</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.92571109</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.6157519</span> <span class="p">,</span> <span class="o">-</span><span class="mf">1.18339719</span><span class="p">],</span>
+       <span class="p">[</span> <span class="mf">1.15819829</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.39367835</span><span class="p">,</span>  <span class="mf">0.586624</span>  <span class="p">,</span>  <span class="mf">0.20249899</span><span class="p">],</span>
+       <span class="p">[</span> <span class="mf">1.14987847</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.38386297</span><span class="p">,</span>  <span class="mf">1.64640287</span><span class="p">,</span>  <span class="mf">1.64793523</span><span class="p">]])</span>
+</pre></div>
+
+
+<p>说明，这个例子中的df使用的是上面创建的 DataFrame对象</p>
+<h3 id="3">3、显示数据</h3>
+<div class="hlcode"><pre><span class="err"></span><span class="n">df</span><span class="p">.</span><span class="n">head</span><span class="p">([</span><span class="n">n</span><span class="p">])</span>  <span class="err">#</span> <span class="err">获取</span><span class="n">df</span><span class="err">中的前</span><span class="n">n</span><span class="err">行数据。</span><span class="n">n</span><span class="err">不指定默认为</span><span class="mi">5</span>
+<span class="n">df</span><span class="p">.</span><span class="n">tail</span><span class="p">([</span><span class="n">n</span><span class="p">])</span>  <span class="err">#</span> <span class="err">获取</span><span class="n">df</span><span class="err">中的后</span><span class="n">n</span><span class="err">行数据，</span><span class="n">n</span><span class="err">不指定默认为</span><span class="mi">5</span>
+</pre></div>
+
+
+<div class="hlcode"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">dates</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">date_range</span><span class="p">(</span><span class="err">&#39;</span><span class="mi">20121001</span><span class="err">&#39;</span><span class="p">,</span><span class="n">periods</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span> <span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">dates</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="n">list</span><span class="p">(</span><span class="err">&#39;</span><span class="n">abcd</span><span class="err">&#39;</span> <span class="p">))</span>  
+<span class="o">&gt;&gt;&gt;</span> <span class="n">df</span><span class="p">.</span><span class="n">head</span><span class="p">()</span>
+                   <span class="n">a</span>         <span class="n">b</span>         <span class="n">c</span>         <span class="n">d</span>
+<span class="mi">2012</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mo">01</span> <span class="o">-</span><span class="mf">1.010746</span>  <span class="mf">0.176277</span> <span class="o">-</span><span class="mf">0.838870</span>  <span class="mf">0.742626</span>
+<span class="mi">2012</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mo">02</span>  <span class="mf">0.111174</span>  <span class="mf">0.182840</span>  <span class="mf">0.193215</span>  <span class="mf">1.517350</span>
+<span class="mi">2012</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mo">03</span> <span class="o">-</span><span class="mf">0.757385</span>  <span class="mf">1.137521</span> <span class="o">-</span><span class="mf">0.247181</span>  <span class="mf">0.659187</span>
+<span class="mi">2012</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mo">04</span> <span class="o">-</span><span class="mf">1.157838</span>  <span class="mf">1.464957</span> <span class="o">-</span><span class="mf">2.106226</span>  <span class="mf">1.160796</span>
+<span class="mi">2012</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mo">05</span>  <span class="mf">0.141747</span>  <span class="mf">0.032917</span>  <span class="mf">0.647210</span> <span class="o">-</span><span class="mf">0.861413</span>
+
+<span class="p">[</span><span class="mi">5</span> <span class="n">rows</span> <span class="n">x</span> <span class="mi">4</span> <span class="n">columns</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">df</span><span class="p">.</span><span class="n">tail</span><span class="p">()</span>
+                   <span class="n">a</span>         <span class="n">b</span>         <span class="n">c</span>         <span class="n">d</span>
+<span class="mi">2013</span><span class="o">-</span><span class="mo">01</span><span class="o">-</span><span class="mo">04</span> <span class="o">-</span><span class="mf">0.225416</span> <span class="o">-</span><span class="mf">1.436526</span> <span class="o">-</span><span class="mf">0.349813</span> <span class="o">-</span><span class="mf">0.130948</span>
+<span class="mi">2013</span><span class="o">-</span><span class="mo">01</span><span class="o">-</span><span class="mo">05</span> <span class="o">-</span><span class="mf">1.544653</span> <span class="o">-</span><span class="mf">0.214760</span>  <span class="mf">1.455662</span>  <span class="mf">0.050591</span>
+<span class="mi">2013</span><span class="o">-</span><span class="mo">01</span><span class="o">-</span><span class="mo">06</span>  <span class="mf">0.582737</span> <span class="o">-</span><span class="mf">0.646163</span> <span class="o">-</span><span class="mf">1.763772</span> <span class="o">-</span><span class="mf">1.463706</span>
+<span class="mi">2013</span><span class="o">-</span><span class="mo">01</span><span class="o">-</span><span class="mo">07</span> <span class="o">-</span><span class="mf">0.694467</span>  <span class="mf">0.710954</span> <span class="o">-</span><span class="mf">2.227337</span> <span class="o">-</span><span class="mf">0.257376</span>
+<span class="mi">2013</span><span class="o">-</span><span class="mo">01</span><span class="o">-</span><span class="mi">08</span>  <span class="mf">0.282839</span> <span class="o">-</span><span class="mf">1.100346</span>  <span class="mf">1.526374</span>  <span class="mf">1.658781</span>
+</pre></div>
+
+
+<p>主意，head和tail返回的是一个新的dattaframe，与原来的无关</p>
 <h1 id="_2">参考文献</h1>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2018-03-02 00:00 </span></div>
