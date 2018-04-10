@@ -41,11 +41,36 @@
 <div id="title">pandas DataFrame的创建和基本操作</div>
 <div id="content">
   <div class="toc"><span class="toctitle">Table of Contents</span><ul>
-<li><a href="#_1">写在前面</a></li>
+<li><a href="#_1">写在前面</a><ul>
+<li><a href="#dataframe">一、DataFrame的创建</a><ul>
+<li><a href="#1-list">例1： 通过list创建</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a href="#_2">参考文献</a></li>
 </ul>
 </div>
 <h1 id="_1">写在前面</h1>
+<p>DataFrame是Pandas中的一个表结构的数据结构，包括三部分信息，表头（列的名称），表的内容（二维矩阵），索引（每行一个唯一的标记）。</p>
+<h2 id="dataframe">一、DataFrame的创建</h2>
+<p>有多种方式可以创建DataFrame，下面举例介绍。</p>
+<h3 id="1-list">例1： 通过list创建</h3>
+<p>'''</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>import pandas as pd<br />
+df = pd.DataFrame([[1,2,3],[4,5,6]])<br />
+df<br />
+   0  1  2<br />
+0  1  2  3<br />
+1  4  5  6</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>[2 rows x 3 columns]<br />
+'''</p>
 <h1 id="_2">参考文献</h1>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2018-03-02 00:00 </span></div>
