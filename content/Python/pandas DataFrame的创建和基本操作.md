@@ -13,7 +13,7 @@ DataFrame是Pandas中的一个表结构的数据结构，包括三部分信息�
 有多种方式可以创建DataFrame，下面举例介绍。
 
 ### 例1： 通过list创建
-'''
+```
 >>> import pandas as pd
 >>> df = pd.DataFrame([[1,2,3],[4,5,6]])
 >>> df
@@ -22,6 +22,7 @@ DataFrame是Pandas中的一个表结构的数据结构，包括三部分信息�
 1  4  5  6
 
 [2 rows x 3 columns]
-'''
+```
+
 
 # 参考文献
