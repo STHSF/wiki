@@ -115,7 +115,151 @@ df.tail([n])  # 获取df中的后n行数据，n不指定默认为5
 ```
 主意，head和tail返回的是一个新的dattaframe，与原来的无关
 
+### 4、按照索引排序
+
+```
+newdf = df.sort_index(asccending=False, inpalce=True)
+ascending=False 参数指定按照索引值以降序方式排序，默认的是以升序排序。
+inplace=True 指定为True时，表示会直接对df中的数据进行排序，函数返回的值为None，newdf的指为None；
+如果不设置为True，默认为false，则不会对df中的数据直接进行修改，会返回一个新的df，这时，newdf就有内容，是一个新的排序后的df。
+````
+### 5、添加数据（append方法）
+append方法可以添加数据到一个DataFrame中，主意append方法不会影响原来的DataFrame，会自动返回一个新的DataFrame。
+
+语法：
+```
+DataFrame.append(otherData, ignore_index=False, verify_integrity=False)
+```
+其中otherData参数是要添加的新数据，支持多种格式。
+
+ignore_index参数默认值为False，如果为True，会对新生成的DataFrame使用新的索引（自动产生），忽略原来的数据索引。
+
+verify——integrity参数默认为False，如果为True，当ignore_index为False时，会检查添加的数据索引是否冲突，如果冲突，则会添加失败。
+#### 举例说明1：
+```
+dates = pd.date_range('20121001',periods=10)
+df = pd.DataFrame(np.random.randn(10,4) , index = dates,columns=list('abcd')) 
+
+dates1 = pd.date_range('20121001',periods=2)
+df1 = pd.DataFrame(np.random.randn(2,4) , index = dates1,columns=list('abcd')) 
+
+df.append(df1) # df1中的2行数据会加到df中，且新产生的df的各行的索引就是原来数据的索引
+df.append(df1,ignore_index=True) # df1中的2行数据会加到df中，且新产生的df的索引会重新自动建立
+df.append(df1,verify_integrity=True) #会报错，因为df1的索引和df2的索引冲突了
+```
+说明，df1的列名必须和df一致，否则不是简单的添加行。而是会添加列，再添加行。
+
+#### 举例2:
+```
+>>> df.append({'a':10,'b':11,'c':12,'d':13},ignore_index=True)
+
+            a          b          c          d
+  -0.471061  -0.937725  -1.444073   0.640439
+  -0.732039  -1.617755   0.281875   1.179076
+   1.115559   0.136407  -2.225551   0.119433
+   0.695137   0.380088  -0.318689  -0.048248
+   1.483151  -0.124202  -0.722126   0.035601
+   0.326048  -0.139576  -0.172726   0.931670
+   0.858305   0.857661  -0.279078   0.583740
+  -0.041902   0.408085  -1.019313   0.005968
+   0.626730   0.143332  -0.404894   0.377950
+  -1.850168   0.430794  -0.534981  -0.738701
+ 10.000000  11.000000  12.000000  13.000000
+```
+上面代码是新产生的df会添加一行。这种操作，ignore_index参数值必须设置为True，否则会报错。
+
+举例3
+```
+>>> df.append({'e':10},ignore_index=True)
+           a         b         c         d   e
+ -0.471061 -0.937725 -1.444073  0.640439 NaN
+ -0.732039 -1.617755  0.281875  1.179076 NaN
+  1.115559  0.136407 -2.225551  0.119433 NaN
+  0.695137  0.380088 -0.318689 -0.048248 NaN
+  1.483151 -0.124202 -0.722126  0.035601 NaN
+  0.326048 -0.139576 -0.172726  0.931670 NaN
+  0.858305  0.857661 -0.279078  0.583740 NaN
+ -0.041902  0.408085 -1.019313  0.005968 NaN
+  0.626730  0.143332 -0.404894  0.377950 NaN
+ -1.850168  0.430794 -0.534981 -0.738701 NaN
+      NaN       NaN       NaN       NaN  10
+```
+可以看出，如果插入的数据，指定的列名不存在，新产生的df不仅会增加行，还会增加列。
+
+### 6、遍历数据
+示例代码：
+```
+for index,row in df.iterrows():
+    print index #获取行的索引
+    print row.a #根据列名获取字段
+    print row[0]#根据列的序号（从0开始）获取字段
+```
+### 7、查找数据
+
+创建如下的dataframe
+```
+dates = pd.date_range('20121001',periods=10)
+df = pd.DataFrame(np.random.randn(10,4) , index = dates,columns=list('abcd'))
+```
+可以有各种方式获取df中的全部或部分数据
+
+df['a']  #按照列名获取指定的列，返回的是一个Series，其中key是索引，value是该列对应的字段值
+
+df[:2] #获取前2行数据，效果等同 df[0:2]，返回的是一个新的dataframe
+
+df[2:5] #获取第3行~5行 这3条记录，返回的是一个新的dataframe
+
+df.loc['20121009'] #获取指定索引的行，等同于  df.loc['2012-10-09']，返回的是一个Series，其中key是列名，value是该列对应的字段值
+
+df.iloc[3]  #获取指定序号的行，这里是第4行
+
+
+### 8、删除数据
+
+```
+del df['a']  #删除dataframe中指定的列，这个是直接影响当前的dataframe，注意 del不是函数，是python中的内置语句，没有返回值
+
+df.drop(['a'],axis=1)  #删除指定的列，与上面的区别是不会影响原来的dataframe，dop方法会返回一个删除了指定列的新的dataframe
+```
+说明，dop方法既可以删除列，也可以删除行，但上面创建的df无法被删除行（?），下面这个例子可以删除行
+
+data = pd.DataFrame(np.arange(16).reshape((4, 4)),index=['Ohio', 'Colorado', 'Utah', 'New York'],columns=['one', 'two', 'three', 'four'])
+
+data.drop(['Colorado', 'Ohio'])
+上面代码中的dop方法删除了指定索引的两行，注意同删除列一样，drop方法不会影响原来的dataframe，会返回一个删除后的新的dataframe
+
+ 
+
+### 9、增加列
+
+例子代码如下
+```
+dates = pd.date_range('20121001',periods=10)
+df = pd.DataFrame(np.random.randn(10,3) , index = dates,columns=list('abc')) 
+
+df['d'] = pd.Series(np.random.randn(10),index=df.index)
+上面代码先是创建了一个dataframe，然后通过df['d'] 插入了一个新的列。如果指定的列名存在，会修改列的内容。
+```
+ 
+
+### 10、修改指定行或单元格数据
+
+df.values[i][j]= xxx  #其中i是行号，j是列号，都是从0开始
+
+df.values[1]=12  # 会把一行中的所有列中的数据设置为同一个值，这里的参数1是序号，这里为第2行数据
+
+df['a'] = 12  #这样会把指定列的所有数据都设置为同一个值，如这里的12。注意，如果指定的列名不存在，会新增列
+
+ 
+
+### 11、插入行
+
+前面介绍的append方法是产生一个新的 dataframe，不会改变原来的dataframe。
+
+那有没有办法直接在当前的frame中插入一行数据呢？  上面介绍的 df[列名] = xxx 是用来插入或修改列的信息。
 
 
 
 # 参考文献
+
+[1](http://www.cnblogs.com/51kata/p/5406355.html)
