@@ -51,6 +51,9 @@
 <li><a href="#1">1、获取数据行数</a></li>
 <li><a href="#2numpy">2、显示索引、列和底层的numpy数据</a></li>
 <li><a href="#3">3、显示数据</a></li>
+<li><a href="#4">4、按照索引排序</a></li>
+<li><a href="#10">10、修改指定行或单元格数据</a></li>
+<li><a href="#11">11、插入行</a></li>
 </ul>
 </li>
 </ul>
@@ -159,7 +162,156 @@
 
 
 <p>主意，head和tail返回的是一个新的dattaframe，与原来的无关</p>
+<h3 id="4">4、按照索引排序</h3>
+<div class="hlcode"><pre><span class="n">newdf</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">sort_index</span><span class="p">(</span><span class="n">asccending</span><span class="o">=</span><span class="n">False</span><span class="p">,</span> <span class="n">inpalce</span><span class="o">=</span><span class="n">True</span><span class="p">)</span>
+<span class="n">ascending</span><span class="o">=</span><span class="n">False</span> <span class="err">参数指定按照索引值以降序方式排序，默认的是以升序排序。</span>
+<span class="n">inplace</span><span class="o">=</span><span class="n">True</span> <span class="err">指定为</span><span class="n">True</span><span class="err">时，表示会直接对</span><span class="n">df</span><span class="err">中的数据进行排序，函数返回的值为</span><span class="n">None</span><span class="err">，</span><span class="n">newdf</span><span class="err">的指为</span><span class="n">None</span><span class="err">；</span>
+<span class="err">如果不设置为</span><span class="n">True</span><span class="err">，默认为</span><span class="nb">false</span><span class="err">，则不会对</span><span class="n">df</span><span class="err">中的数据直接进行修改，会返回一个新的</span><span class="n">df</span><span class="err">，这时，</span><span class="n">newdf</span><span class="err">就有内容，是一个新的排序后的</span><span class="n">df</span><span class="err">。</span>
+<span class="err">````</span>
+<span class="cp">### 5、添加数据（append方法）</span>
+<span class="n">append</span><span class="err">方法可以添加数据到一个</span><span class="n">DataFrame</span><span class="err">中，主意</span><span class="n">append</span><span class="err">方法不会影响原来的</span><span class="n">DataFrame</span><span class="err">，会自动返回一个新的</span><span class="n">DataFrame</span><span class="err">。</span>
+
+<span class="err">语法：</span>
+</pre></div>
+
+
+<p>DataFrame.append(otherData, ignore_index=False, verify_integrity=False)</p>
+<div class="hlcode"><pre><span class="err">其中</span><span class="n">otherData</span><span class="err">参数是要添加的新数据，支持多种格式。</span>
+
+<span class="n">ignore_index</span><span class="err">参数默认值为</span><span class="n">False</span><span class="err">，如果为</span><span class="n">True</span><span class="err">，会对新生成的</span><span class="n">DataFrame</span><span class="err">使用新的索引（自动产生），忽略原来的数据索引。</span>
+
+<span class="n">verify</span><span class="err">——</span><span class="n">integrity</span><span class="err">参数默认为</span><span class="n">False</span><span class="err">，如果为</span><span class="n">True</span><span class="err">，当</span><span class="n">ignore_index</span><span class="err">为</span><span class="n">False</span><span class="err">时，会检查添加的数据索引是否冲突，如果冲突，则会添加失败。</span>
+<span class="cp">#### 举例说明1：</span>
+</pre></div>
+
+
+<p>dates = pd.date_range('20121001',periods=10)<br />
+df = pd.DataFrame(np.random.randn(10,4) , index = dates,columns=list('abcd')) </p>
+<p>dates1 = pd.date_range('20121001',periods=2)<br />
+df1 = pd.DataFrame(np.random.randn(2,4) , index = dates1,columns=list('abcd')) </p>
+<p>df.append(df1) # df1中的2行数据会加到df中，且新产生的df的各行的索引就是原来数据的索引<br />
+df.append(df1,ignore_index=True) # df1中的2行数据会加到df中，且新产生的df的索引会重新自动建立<br />
+df.append(df1,verify_integrity=True) #会报错，因为df1的索引和df2的索引冲突了</p>
+<div class="hlcode"><pre><span class="err">说明，</span><span class="n">df1</span><span class="err">的列名必须和</span><span class="n">df</span><span class="err">一致，否则不是简单的添加行。而是会添加列，再添加行。</span>
+
+<span class="cp">#### 举例2:</span>
+</pre></div>
+
+
+<blockquote>
+<blockquote>
+<blockquote>
+<p>df.append({'a':10,'b':11,'c':12,'d':13},ignore_index=True)</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<div class="hlcode"><pre>        <span class="n">a</span>          <span class="n">b</span>          <span class="n">c</span>          <span class="n">d</span>
+</pre></div>
+
+
+<p>-0.471061  -0.937725  -1.444073   0.640439<br />
+  -0.732039  -1.617755   0.281875   1.179076<br />
+   1.115559   0.136407  -2.225551   0.119433<br />
+   0.695137   0.380088  -0.318689  -0.048248<br />
+   1.483151  -0.124202  -0.722126   0.035601<br />
+   0.326048  -0.139576  -0.172726   0.931670<br />
+   0.858305   0.857661  -0.279078   0.583740<br />
+  -0.041902   0.408085  -1.019313   0.005968<br />
+   0.626730   0.143332  -0.404894   0.377950<br />
+  -1.850168   0.430794  -0.534981  -0.738701<br />
+ 10.000000  11.000000  12.000000  13.000000</p>
+<div class="hlcode"><pre><span class="err">上面代码是新产生的</span><span class="n">df</span><span class="err">会添加一行。这种操作，</span><span class="n">ignore_index</span><span class="err">参数值必须设置为</span><span class="n">True</span><span class="err">，否则会报错。</span>
+
+<span class="err">举例</span><span class="mi">3</span>
+</pre></div>
+
+
+<blockquote>
+<blockquote>
+<blockquote>
+<p>df.append({'e':10},ignore_index=True)<br />
+           a         b         c         d   e<br />
+ -0.471061 -0.937725 -1.444073  0.640439 NaN<br />
+ -0.732039 -1.617755  0.281875  1.179076 NaN<br />
+  1.115559  0.136407 -2.225551  0.119433 NaN<br />
+  0.695137  0.380088 -0.318689 -0.048248 NaN<br />
+  1.483151 -0.124202 -0.722126  0.035601 NaN<br />
+  0.326048 -0.139576 -0.172726  0.931670 NaN<br />
+  0.858305  0.857661 -0.279078  0.583740 NaN<br />
+ -0.041902  0.408085 -1.019313  0.005968 NaN<br />
+  0.626730  0.143332 -0.404894  0.377950 NaN<br />
+ -1.850168  0.430794 -0.534981 -0.738701 NaN<br />
+      NaN       NaN       NaN       NaN  10</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<div class="hlcode"><pre><span class="err">可以看出，如果插入的数据，指定的列名不存在，新产生的</span><span class="n">df</span><span class="err">不仅会增加行，还会增加列。</span>
+
+<span class="cp">### 6、遍历数据</span>
+<span class="err">示例代码：</span>
+</pre></div>
+
+
+<p>for index,row in df.iterrows():<br />
+    print index #获取行的索引<br />
+    print row.a #根据列名获取字段<br />
+    print row[0]#根据列的序号（从0开始）获取字段</p>
+<div class="hlcode"><pre><span class="cp">### 7、查找数据</span>
+
+<span class="err">创建如下的</span><span class="n">dataframe</span>
+</pre></div>
+
+
+<p>dates = pd.date_range('20121001',periods=10)<br />
+df = pd.DataFrame(np.random.randn(10,4) , index = dates,columns=list('abcd'))</p>
+<div class="hlcode"><pre><span class="err">可以有各种方式获取</span><span class="n">df</span><span class="err">中的全部或部分数据</span>
+
+<span class="n">df</span><span class="p">[</span><span class="sc">&#39;a&#39;</span><span class="p">]</span>  <span class="err">#按照列名获取指定的列，返回的是一个</span><span class="n">Series</span><span class="err">，其中</span><span class="n">key</span><span class="err">是索引，</span><span class="n">value</span><span class="err">是该列对应的字段值</span>
+
+<span class="n">df</span><span class="p">[</span><span class="o">:</span><span class="mi">2</span><span class="p">]</span> <span class="err">#获取前</span><span class="mi">2</span><span class="err">行数据，效果等同</span> <span class="n">df</span><span class="p">[</span><span class="mi">0</span><span class="o">:</span><span class="mi">2</span><span class="p">]</span><span class="err">，返回的是一个新的</span><span class="n">dataframe</span>
+
+<span class="n">df</span><span class="p">[</span><span class="mi">2</span><span class="o">:</span><span class="mi">5</span><span class="p">]</span> <span class="err">#获取第</span><span class="mi">3</span><span class="err">行</span><span class="o">~</span><span class="mi">5</span><span class="err">行</span> <span class="err">这</span><span class="mi">3</span><span class="err">条记录，返回的是一个新的</span><span class="n">dataframe</span>
+
+<span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="err">&#39;</span><span class="mi">20121009</span><span class="err">&#39;</span><span class="p">]</span> <span class="err">#获取指定索引的行，等同于</span>  <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="err">&#39;</span><span class="mi">2012</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">09</span><span class="err">&#39;</span><span class="p">]</span><span class="err">，返回的是一个</span><span class="n">Series</span><span class="err">，其中</span><span class="n">key</span><span class="err">是列名，</span><span class="n">value</span><span class="err">是该列对应的字段值</span>
+
+<span class="n">df</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>  <span class="err">#获取指定序号的行，这里是第</span><span class="mi">4</span><span class="err">行</span>
+
+
+<span class="cp">### 8、删除数据</span>
+</pre></div>
+
+
+<p>del df['a']  #删除dataframe中指定的列，这个是直接影响当前的dataframe，注意 del不是函数，是python中的内置语句，没有返回值</p>
+<p>df.drop(['a'],axis=1)  #删除指定的列，与上面的区别是不会影响原来的dataframe，dop方法会返回一个删除了指定列的新的dataframe</p>
+<div class="hlcode"><pre><span class="err">说明，</span><span class="n">dop</span><span class="err">方法既可以删除列，也可以删除行，但上面创建的</span><span class="n">df</span><span class="err">无法被删除行（</span><span class="o">?</span><span class="err">），下面这个例子可以删除行</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">16</span><span class="p">).</span><span class="n">reshape</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)),</span><span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="err">&#39;</span><span class="n">Ohio</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="n">Colorado</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="n">Utah</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="n">New</span> <span class="n">York</span><span class="err">&#39;</span><span class="p">],</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="err">&#39;</span><span class="n">one</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="n">two</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="n">three</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="n">four</span><span class="err">&#39;</span><span class="p">])</span>
+
+<span class="n">data</span><span class="p">.</span><span class="n">drop</span><span class="p">([</span><span class="err">&#39;</span><span class="n">Colorado</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="n">Ohio</span><span class="err">&#39;</span><span class="p">])</span>
+<span class="err">上面代码中的</span><span class="n">dop</span><span class="err">方法删除了指定索引的两行，注意同删除列一样，</span><span class="n">drop</span><span class="err">方法不会影响原来的</span><span class="n">dataframe</span><span class="err">，会返回一个删除后的新的</span><span class="n">dataframe</span>
+
+
+
+<span class="cp">### 9、增加列</span>
+
+<span class="err">例子代码如下</span>
+</pre></div>
+
+
+<p>dates = pd.date_range('20121001',periods=10)<br />
+df = pd.DataFrame(np.random.randn(10,3) , index = dates,columns=list('abc')) </p>
+<p>df['d'] = pd.Series(np.random.randn(10),index=df.index)<br />
+上面代码先是创建了一个dataframe，然后通过df['d'] 插入了一个新的列。如果指定的列名存在，会修改列的内容。<br />
+```</p>
+<h3 id="10">10、修改指定行或单元格数据</h3>
+<p>df.values[i][j]= xxx  #其中i是行号，j是列号，都是从0开始</p>
+<p>df.values[1]=12  # 会把一行中的所有列中的数据设置为同一个值，这里的参数1是序号，这里为第2行数据</p>
+<p>df['a'] = 12  #这样会把指定列的所有数据都设置为同一个值，如这里的12。注意，如果指定的列名不存在，会新增列</p>
+<h3 id="11">11、插入行</h3>
+<p>前面介绍的append方法是产生一个新的 dataframe，不会改变原来的dataframe。</p>
+<p>那有没有办法直接在当前的frame中插入一行数据呢？  上面介绍的 df[列名] = xxx 是用来插入或修改列的信息。</p>
 <h1 id="_2">参考文献</h1>
+<p><a href="http://www.cnblogs.com/51kata/p/5406355.html">1</a></p>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2018-03-02 00:00 </span></div>
 <div id="comments"></div>
