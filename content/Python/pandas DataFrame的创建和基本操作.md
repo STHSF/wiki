@@ -127,7 +127,7 @@ inplace=True 指定为True时，表示会直接对df中的数据进行排序，�
 append方法可以添加数据到一个DataFrame中，主意append方法不会影响原来的DataFrame，会自动返回一个新的DataFrame。
 
 语法：
-```
+```python
 DataFrame.append(otherData, ignore_index=False, verify_integrity=False)
 ```
 其中otherData参数是要添加的新数据，支持多种格式。
@@ -151,7 +151,7 @@ df.append(df1,verify_integrity=True) #会报错，因为df1的索引和df2的索
 
 #### 举例2:
 
-```
+```python
 >>> df.append({'a':10,'b':11,'c':12,'d':13},ignore_index=True)
 
             a          b          c          d
@@ -170,7 +170,7 @@ df.append(df1,verify_integrity=True) #会报错，因为df1的索引和df2的索
 上面代码是新产生的df会添加一行。这种操作，ignore_index参数值必须设置为True，否则会报错。
 
 举例3
-```
+```python
 >>> df.append({'e':10},ignore_index=True)
 
            a         b         c       d   e
