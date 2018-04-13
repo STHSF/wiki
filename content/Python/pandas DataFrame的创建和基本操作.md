@@ -298,3 +298,4 @@ DataFrame["columns1"].isin(testlist) # 返回的是一个True/False的Series
 # 参考文献
 
 [1](http://www.cnblogs.com/51kata/p/5406355.html)
+[Pandas 数据框增、删、改、查、去重、抽样基本操作](https://blog.csdn.net/claroja/article/details/65661826)
