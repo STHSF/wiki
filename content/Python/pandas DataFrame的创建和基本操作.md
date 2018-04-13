@@ -13,7 +13,7 @@ DataFrame是Pandas中的一个表结构的数据结构，包括三部分信息�
 有多种方式可以创建DataFrame，下面举例介绍。
 
 ### 例1: 通过list创建
-```
+```python
 >>> import pandas as pd
 >>> df = pd.DataFrame([[1,2,3],[4,5,6]])
 >>> df
@@ -27,7 +27,7 @@ DataFrame是Pandas中的一个表结构的数据结构，包括三部分信息�
 
 我们可以指定列表和索引，如：
 
-```
+```python
 >>> df = pd.DataFrame([[1,2,3], [4,5,6]], index=['r1', 'r2'], columns=['c1', 'c2', 'c3'])
 
       c1  c2  c3
@@ -41,7 +41,7 @@ r2   4   5   6
 
 ### 例2: 创建例子
 
-```
+```python
 >>> import numpy as np
 >>> dates = pd.date_range('20121001', periods=6)
 >>> df = pd.DataFrame(np.random.randn(6, 4), index=dates, columns=list('abcd'))
@@ -64,12 +64,12 @@ r2   4   5   6
 ## 二、DataFrame的一些基本操作
 
 ### 1、获取数据行数
-```
+```python
 len(df) or len(df.index)
 ```
 ### 2、显示索引、列和底层的numpy数据
 
-```
+```python
 >>> df.index
 <class 'pandas.tseries.index.DatetimeIndex'>
 [2012-10-01, ..., 2012-10-06]
@@ -88,12 +88,12 @@ array([[-0.2362202 ,  0.58698529,  0.78495289, -0.50712897],
 
 ### 3、显示数据
 
-```
+```python
 df.head([n])  # 获取df中的前n行数据。n不指定默认为5
 df.tail([n])  # 获取df中的后n行数据，n不指定默认为5
 ```
 
-```
+```python
 >>> dates = pd.date_range('20121001',periods=100)
 >>>df = pd.DataFrame(np.random.randn(100,4) , index = dates,columns=list('abcd' ))  
 >>> df.head()
