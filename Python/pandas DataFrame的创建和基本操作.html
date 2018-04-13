@@ -52,14 +52,6 @@
 <li><a href="#2numpy">2、显示索引、列和底层的numpy数据</a></li>
 <li><a href="#3">3、显示数据</a></li>
 <li><a href="#4">4、按照索引排序</a></li>
-<li><a href="#6">6、遍历数据</a></li>
-<li><a href="#7">7、查找数据</a></li>
-<li><a href="#8">8、删除数据</a></li>
-<li><a href="#9">9、增加列</a></li>
-<li><a href="#10">10、修改指定行或单元格数据</a></li>
-<li><a href="#11">11、插入行</a></li>
-<li><a href="#12">12、去重函数</a></li>
-<li><a href="#13">13、数据筛选</a></li>
 </ul>
 </li>
 </ul>
@@ -201,131 +193,164 @@ df.append(df1,verify_integrity=True) #会报错，因为df1的索引和df2的索
 <div class="hlcode"><pre><span class="err">说明，</span><span class="n">df1</span><span class="err">的列名必须和</span><span class="n">df</span><span class="err">一致，否则不是简单的添加行。而是会添加列，再添加行。</span>
 
 <span class="cp">#### 举例2:</span>
-
-<span class="err">``````</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">df</span><span class="p">.</span><span class="n">append</span><span class="p">({</span><span class="sc">&#39;a&#39;</span><span class="o">:</span><span class="mi">10</span><span class="p">,</span><span class="sc">&#39;b&#39;</span><span class="o">:</span><span class="mi">11</span><span class="p">,</span><span class="sc">&#39;c&#39;</span><span class="o">:</span><span class="mi">12</span><span class="p">,</span><span class="sc">&#39;d&#39;</span><span class="o">:</span><span class="mi">13</span><span class="p">},</span><span class="n">ignore_index</span><span class="o">=</span><span class="n">True</span><span class="p">)</span>
-
-            <span class="n">a</span>          <span class="n">b</span>          <span class="n">c</span>          <span class="n">d</span>
-  <span class="o">-</span><span class="mf">0.471061</span>  <span class="o">-</span><span class="mf">0.937725</span>  <span class="o">-</span><span class="mf">1.444073</span>   <span class="mf">0.640439</span>
-  <span class="o">-</span><span class="mf">0.732039</span>  <span class="o">-</span><span class="mf">1.617755</span>   <span class="mf">0.281875</span>   <span class="mf">1.179076</span>
-   <span class="mf">1.115559</span>   <span class="mf">0.136407</span>  <span class="o">-</span><span class="mf">2.225551</span>   <span class="mf">0.119433</span>
-   <span class="mf">0.695137</span>   <span class="mf">0.380088</span>  <span class="o">-</span><span class="mf">0.318689</span>  <span class="o">-</span><span class="mf">0.048248</span>
-   <span class="mf">1.483151</span>  <span class="o">-</span><span class="mf">0.124202</span>  <span class="o">-</span><span class="mf">0.722126</span>   <span class="mf">0.035601</span>
-   <span class="mf">0.326048</span>  <span class="o">-</span><span class="mf">0.139576</span>  <span class="o">-</span><span class="mf">0.172726</span>   <span class="mf">0.931670</span>
-   <span class="mf">0.858305</span>   <span class="mf">0.857661</span>  <span class="o">-</span><span class="mf">0.279078</span>   <span class="mf">0.583740</span>
-  <span class="o">-</span><span class="mf">0.041902</span>   <span class="mf">0.408085</span>  <span class="o">-</span><span class="mf">1.019313</span>   <span class="mf">0.005968</span>
-   <span class="mf">0.626730</span>   <span class="mf">0.143332</span>  <span class="o">-</span><span class="mf">0.404894</span>   <span class="mf">0.377950</span>
-  <span class="o">-</span><span class="mf">1.850168</span>   <span class="mf">0.430794</span>  <span class="o">-</span><span class="mf">0.534981</span>  <span class="o">-</span><span class="mf">0.738701</span>
- <span class="mf">10.000000</span>  <span class="mf">11.000000</span>  <span class="mf">12.000000</span>  <span class="mf">13.000000</span>
 </pre></div>
 
 
-<p>上面代码是新产生的df会添加一行。这种操作，ignore_index参数值必须设置为True，否则会报错。</p>
-<p>举例3</p>
-<div class="hlcode"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">df</span><span class="p">.</span><span class="n">append</span><span class="p">({</span><span class="sc">&#39;e&#39;</span><span class="o">:</span><span class="mi">10</span><span class="p">},</span><span class="n">ignore_index</span><span class="o">=</span><span class="n">True</span><span class="p">)</span>
-
-           <span class="n">a</span>         <span class="n">b</span>         <span class="n">c</span>       <span class="n">d</span>   <span class="n">e</span>
- <span class="o">-</span><span class="mf">0.471061</span> <span class="o">-</span><span class="mf">0.937725</span> <span class="o">-</span><span class="mf">1.444073</span>  <span class="mf">0.640439</span> <span class="n">NaN</span>
- <span class="o">-</span><span class="mf">0.732039</span> <span class="o">-</span><span class="mf">1.617755</span>  <span class="mf">0.281875</span>  <span class="mf">1.179076</span> <span class="n">NaN</span>
-  <span class="mf">1.115559</span>  <span class="mf">0.136407</span> <span class="o">-</span><span class="mf">2.225551</span>  <span class="mf">0.119433</span> <span class="n">NaN</span>
-  <span class="mf">0.695137</span>  <span class="mf">0.380088</span> <span class="o">-</span><span class="mf">0.318689</span> <span class="o">-</span><span class="mf">0.048248</span> <span class="n">NaN</span>
-  <span class="mf">1.483151</span> <span class="o">-</span><span class="mf">0.124202</span> <span class="o">-</span><span class="mf">0.722126</span>  <span class="mf">0.035601</span> <span class="n">NaN</span>
-  <span class="mf">0.326048</span> <span class="o">-</span><span class="mf">0.139576</span> <span class="o">-</span><span class="mf">0.172726</span>  <span class="mf">0.931670</span> <span class="n">NaN</span>
-  <span class="mf">0.858305</span>  <span class="mf">0.857661</span> <span class="o">-</span><span class="mf">0.279078</span>  <span class="mf">0.583740</span> <span class="n">NaN</span>
- <span class="o">-</span><span class="mf">0.041902</span>  <span class="mf">0.408085</span> <span class="o">-</span><span class="mf">1.019313</span>  <span class="mf">0.005968</span> <span class="n">NaN</span>
-  <span class="mf">0.626730</span>  <span class="mf">0.143332</span> <span class="o">-</span><span class="mf">0.404894</span>  <span class="mf">0.377950</span> <span class="n">NaN</span>
- <span class="o">-</span><span class="mf">1.850168</span>  <span class="mf">0.430794</span> <span class="o">-</span><span class="mf">0.534981</span> <span class="o">-</span><span class="mf">0.738701</span> <span class="n">NaN</span>
-      <span class="n">NaN</span>       <span class="n">NaN</span>       <span class="n">NaN</span>       <span class="n">NaN</span>  <span class="mi">10</span>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>df.append({'a':10,'b':11,'c':12,'d':13},ignore_index=True)</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<div class="hlcode"><pre>        <span class="n">a</span>          <span class="n">b</span>          <span class="n">c</span>          <span class="n">d</span>
 </pre></div>
 
 
-<p>可以看出，如果插入的数据，指定的列名不存在，新产生的df不仅会增加行，还会增加列。</p>
-<h3 id="6">6、遍历数据</h3>
-<p>示例代码：</p>
-<div class="hlcode"><pre><span class="k">for</span> <span class="n">index</span><span class="p">,</span><span class="n">row</span> <span class="n">in</span> <span class="n">df</span><span class="p">.</span><span class="n">iterrows</span><span class="p">()</span><span class="o">:</span>
-    <span class="n">print</span> <span class="n">index</span> <span class="err">#获取行的索引</span>
-    <span class="n">print</span> <span class="n">row</span><span class="p">.</span><span class="n">a</span> <span class="err">#根据列名获取字段</span>
-    <span class="n">print</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="err">#根据列的序号（从</span><span class="mi">0</span><span class="err">开始）获取字段</span>
+<p>-0.471061  -0.937725  -1.444073   0.640439<br />
+  -0.732039  -1.617755   0.281875   1.179076<br />
+   1.115559   0.136407  -2.225551   0.119433<br />
+   0.695137   0.380088  -0.318689  -0.048248<br />
+   1.483151  -0.124202  -0.722126   0.035601<br />
+   0.326048  -0.139576  -0.172726   0.931670<br />
+   0.858305   0.857661  -0.279078   0.583740<br />
+  -0.041902   0.408085  -1.019313   0.005968<br />
+   0.626730   0.143332  -0.404894   0.377950<br />
+  -1.850168   0.430794  -0.534981  -0.738701<br />
+ 10.000000  11.000000  12.000000  13.000000</p>
+<div class="hlcode"><pre><span class="err">上面代码是新产生的</span><span class="n">df</span><span class="err">会添加一行。这种操作，</span><span class="n">ignore_index</span><span class="err">参数值必须设置为</span><span class="n">True</span><span class="err">，否则会报错。</span>
+
+<span class="err">举例</span><span class="mi">3</span>
 </pre></div>
 
 
-<h3 id="7">7、查找数据</h3>
-<p>创建如下的dataframe</p>
-<div class="hlcode"><pre><span class="n">dates</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">date_range</span><span class="p">(</span><span class="err">&#39;</span><span class="mi">20121001</span><span class="err">&#39;</span><span class="p">,</span><span class="n">periods</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span> <span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">dates</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="n">list</span><span class="p">(</span><span class="err">&#39;</span><span class="n">abcd</span><span class="err">&#39;</span><span class="p">))</span>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>df.append({'e':10},ignore_index=True)</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<div class="hlcode"><pre>       <span class="n">a</span>         <span class="n">b</span>         <span class="n">c</span>       <span class="n">d</span>   <span class="n">e</span>
 </pre></div>
 
 
-<p>可以有各种方式获取df中的全部或部分数据</p>
-<p>df['a']  #按照列名获取指定的列，返回的是一个Series，其中key是索引，value是该列对应的字段值</p>
-<p>df[:2] #获取前2行数据，效果等同 df[0:2]，返回的是一个新的dataframe</p>
-<p>df[2:5] #获取第3行~5行 这3条记录，返回的是一个新的dataframe</p>
-<p>df.loc['20121009'] #获取指定索引的行，等同于  df.loc['2012-10-09']，返回的是一个Series，其中key是列名，value是该列对应的字段值</p>
-<p>df.iloc[3]  #获取指定序号的行，这里是第4行</p>
-<h3 id="8">8、删除数据</h3>
-<div class="hlcode"><pre><span class="n">del</span> <span class="n">df</span><span class="p">[</span><span class="sc">&#39;a&#39;</span><span class="p">]</span>  <span class="err">#删除</span><span class="n">dataframe</span><span class="err">中指定的列，这个是直接影响当前的</span><span class="n">dataframe</span><span class="err">，注意</span> <span class="n">del</span><span class="err">不是函数，是</span><span class="n">python</span><span class="err">中的内置语句，没有返回值</span>
+<p>-0.471061 -0.937725 -1.444073  0.640439 NaN<br />
+ -0.732039 -1.617755  0.281875  1.179076 NaN<br />
+  1.115559  0.136407 -2.225551  0.119433 NaN<br />
+  0.695137  0.380088 -0.318689 -0.048248 NaN<br />
+  1.483151 -0.124202 -0.722126  0.035601 NaN<br />
+  0.326048 -0.139576 -0.172726  0.931670 NaN<br />
+  0.858305  0.857661 -0.279078  0.583740 NaN<br />
+ -0.041902  0.408085 -1.019313  0.005968 NaN<br />
+  0.626730  0.143332 -0.404894  0.377950 NaN<br />
+ -1.850168  0.430794 -0.534981 -0.738701 NaN<br />
+      NaN       NaN       NaN       NaN  10</p>
+<div class="hlcode"><pre><span class="err">可以看出，如果插入的数据，指定的列名不存在，新产生的</span><span class="n">df</span><span class="err">不仅会增加行，还会增加列。</span>
 
-<span class="n">df</span><span class="p">.</span><span class="n">drop</span><span class="p">([</span><span class="sc">&#39;a&#39;</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="err">#删除指定的列，与上面的区别是不会影响原来的</span><span class="n">dataframe</span><span class="err">，</span><span class="n">dop</span><span class="err">方法会返回一个删除了指定列的新的</span><span class="n">dataframe</span>
+<span class="cp">### 6、遍历数据</span>
+<span class="err">示例代码：</span>
 </pre></div>
 
 
-<p>说明，dop方法既可以删除列，也可以删除行，但上面创建的df无法被删除行（?），下面这个例子可以删除行</p>
-<div class="hlcode"><pre><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">16</span><span class="p">).</span><span class="n">reshape</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)),</span><span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="err">&#39;</span><span class="n">Ohio</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="n">Colorado</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="n">Utah</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="n">New</span> <span class="n">York</span><span class="err">&#39;</span><span class="p">],</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="err">&#39;</span><span class="n">one</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="n">two</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="n">three</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="n">four</span><span class="err">&#39;</span><span class="p">])</span>
+<p>for index,row in df.iterrows():<br />
+    print index #获取行的索引<br />
+    print row.a #根据列名获取字段<br />
+    print row[0]#根据列的序号（从0开始）获取字段</p>
+<div class="hlcode"><pre><span class="cp">### 7、查找数据</span>
 
-<span class="n">data</span><span class="p">.</span><span class="n">drop</span><span class="p">([</span><span class="err">&#39;</span><span class="n">Colorado</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="n">Ohio</span><span class="err">&#39;</span><span class="p">])</span>
+<span class="err">创建如下的</span><span class="n">dataframe</span>
 </pre></div>
 
 
-<p>上面代码中的dop方法删除了指定索引的两行，注意同删除列一样，drop方法不会影响原来的dataframe，会返回一个删除后的新的dataframe</p>
-<h3 id="9">9、增加列</h3>
-<p>例子代码如下</p>
-<div class="hlcode"><pre><span class="n">dates</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">date_range</span><span class="p">(</span><span class="err">&#39;</span><span class="mi">20121001</span><span class="err">&#39;</span><span class="p">,</span><span class="n">periods</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">dates</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="n">list</span><span class="p">(</span><span class="err">&#39;</span><span class="n">abc</span><span class="err">&#39;</span><span class="p">))</span> 
+<p>dates = pd.date_range('20121001',periods=10)<br />
+df = pd.DataFrame(np.random.randn(10,4) , index = dates,columns=list('abcd'))</p>
+<div class="hlcode"><pre><span class="err">可以有各种方式获取</span><span class="n">df</span><span class="err">中的全部或部分数据</span>
 
-<span class="n">df</span><span class="p">[</span><span class="sc">&#39;d&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">index</span><span class="o">=</span><span class="n">df</span><span class="p">.</span><span class="n">index</span><span class="p">)</span>
-<span class="err">上面代码先是创建了一个</span><span class="n">dataframe</span><span class="err">，然后通过</span><span class="n">df</span><span class="p">[</span><span class="sc">&#39;d&#39;</span><span class="p">]</span> <span class="err">插入了一个新的列。如果指定的列名存在，会修改列的内容。</span>
+<span class="n">df</span><span class="p">[</span><span class="sc">&#39;a&#39;</span><span class="p">]</span>  <span class="err">#按照列名获取指定的列，返回的是一个</span><span class="n">Series</span><span class="err">，其中</span><span class="n">key</span><span class="err">是索引，</span><span class="n">value</span><span class="err">是该列对应的字段值</span>
+
+<span class="n">df</span><span class="p">[</span><span class="o">:</span><span class="mi">2</span><span class="p">]</span> <span class="err">#获取前</span><span class="mi">2</span><span class="err">行数据，效果等同</span> <span class="n">df</span><span class="p">[</span><span class="mi">0</span><span class="o">:</span><span class="mi">2</span><span class="p">]</span><span class="err">，返回的是一个新的</span><span class="n">dataframe</span>
+
+<span class="n">df</span><span class="p">[</span><span class="mi">2</span><span class="o">:</span><span class="mi">5</span><span class="p">]</span> <span class="err">#获取第</span><span class="mi">3</span><span class="err">行</span><span class="o">~</span><span class="mi">5</span><span class="err">行</span> <span class="err">这</span><span class="mi">3</span><span class="err">条记录，返回的是一个新的</span><span class="n">dataframe</span>
+
+<span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="err">&#39;</span><span class="mi">20121009</span><span class="err">&#39;</span><span class="p">]</span> <span class="err">#获取指定索引的行，等同于</span>  <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="err">&#39;</span><span class="mi">2012</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">09</span><span class="err">&#39;</span><span class="p">]</span><span class="err">，返回的是一个</span><span class="n">Series</span><span class="err">，其中</span><span class="n">key</span><span class="err">是列名，</span><span class="n">value</span><span class="err">是该列对应的字段值</span>
+
+<span class="n">df</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>  <span class="err">#获取指定序号的行，这里是第</span><span class="mi">4</span><span class="err">行</span>
+
+
+<span class="cp">### 8、删除数据</span>
 </pre></div>
 
 
-<h3 id="10">10、修改指定行或单元格数据</h3>
-<p>df.values[i][j]= xxx  #其中i是行号，j是列号，都是从0开始</p>
-<p>df.values[1]=12  # 会把一行中的所有列中的数据设置为同一个值，这里的参数1是序号，这里为第2行数据</p>
-<p>df['a'] = 12  #这样会把指定列的所有数据都设置为同一个值，如这里的12。注意，如果指定的列名不存在，会新增列</p>
-<h3 id="11">11、插入行</h3>
-<p>前面介绍的append方法是产生一个新的 dataframe，不会改变原来的dataframe。</p>
-<p>那有没有办法直接在当前的frame中插入一行数据呢？  上面介绍的 df[列名] = xxx 是用来插入或修改列的信息。</p>
-<h3 id="12">12、去重函数</h3>
-<p>如果我们想要对DataFrame中的行进行去重操作，比如说按照某一个columns进行去重，pandas有两个函数：</p>
-<div class="hlcode"><pre><span class="n">DataFrame</span><span class="p">.</span><span class="n">duplicated</span><span class="p">()</span>  <span class="err">#</span> <span class="err">返回的是一个布尔型的</span><span class="n">Series</span><span class="err">，表示各行是否是重复行。</span>
-
-<span class="n">DataFrame</span><span class="p">.</span><span class="n">drop_duplicates</span><span class="p">()</span> <span class="err">#</span> <span class="err">返回一个移除重复行的</span><span class="n">DataFrame</span><span class="err">，如果要对某一列进行去重，只需在参数重添加列名即可，如</span><span class="n">DataFrame</span><span class="p">.</span><span class="n">drop_duplicates</span><span class="p">([</span><span class="err">&#39;</span><span class="n">columns_name</span><span class="err">&#39;</span><span class="p">])</span>
+<p>del df['a']  #删除dataframe中指定的列，这个是直接影响当前的dataframe，注意 del不是函数，是python中的内置语句，没有返回值</p>
+<p>df.drop(['a'],axis=1)  #删除指定的列，与上面的区别是不会影响原来的dataframe，dop方法会返回一个删除了指定列的新的dataframe</p>
+<div class="hlcode"><pre><span class="err">说明，</span><span class="n">dop</span><span class="err">方法既可以删除列，也可以删除行，但上面创建的</span><span class="n">df</span><span class="err">无法被删除行（</span><span class="o">?</span><span class="err">），下面这个例子可以删除行</span>
 </pre></div>
 
 
-<h3 id="13">13、数据筛选</h3>
-<p>可以对某一列进行特定的筛选：</p>
-<div class="hlcode"><pre><span class="n">DataFrame</span><span class="p">[</span><span class="n">DataFrame</span><span class="p">[</span><span class="s">&quot;columns&quot;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">100</span><span class="p">]</span> <span class="err">#</span> <span class="err">筛选出</span><span class="n">columns</span><span class="err">列大于</span><span class="mi">100</span><span class="err">的行</span>
+<p>data = pd.DataFrame(np.arange(16).reshape((4, 4)),index=['Ohio', 'Colorado', 'Utah', 'New York'],columns=['one', 'two', 'three', 'four'])</p>
+<p>data.drop(['Colorado', 'Ohio'])</p>
+<div class="hlcode"><pre><span class="err">上面代码中的</span><span class="n">dop</span><span class="err">方法删除了指定索引的两行，注意同删除列一样，</span><span class="n">drop</span><span class="err">方法不会影响原来的</span><span class="n">dataframe</span><span class="err">，会返回一个删除后的新的</span><span class="n">dataframe</span>
+
+
+
+<span class="cp">### 9、增加列</span>
+
+<span class="err">例子代码如下</span>
 </pre></div>
 
 
-<p>可以使用&amp;(并) 与 |(或)实现多条件筛选</p>
-<div class="hlcode"><pre><span class="n">DataFrame</span><span class="p">[(</span><span class="n">DataFrame</span><span class="p">[</span><span class="s">&quot;columns1&quot;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">100</span><span class="p">)</span> <span class="o">&amp;</span><span class="p">(</span><span class="n">DataFrame</span><span class="p">[</span><span class="s">&quot;columns2&quot;</span><span class="p">]</span><span class="o">&gt;=</span><span class="mi">1000</span><span class="p">)]</span> <span class="err">#</span> <span class="err">筛选出</span><span class="n">columns1</span><span class="err">列大于</span><span class="mi">100</span><span class="err">且</span><span class="n">columns2</span><span class="err">列小于</span><span class="mi">1000</span><span class="err">的行</span>
+<p>dates = pd.date_range('20121001',periods=10)<br />
+df = pd.DataFrame(np.random.randn(10,3) , index = dates,columns=list('abc')) </p>
+<p>df['d'] = pd.Series(np.random.randn(10),index=df.index)<br />
+上面代码先是创建了一个dataframe，然后通过df['d'] 插入了一个新的列。如果指定的列名存在，会修改列的内容。</p>
+<div class="hlcode"><pre><span class="cp">### 10、修改指定行或单元格数据</span>
 
-<span class="n">DataFrame</span><span class="p">[(</span><span class="n">DataFrame</span><span class="p">.</span><span class="n">columns1</span><span class="o">&gt;</span><span class="mi">100</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">DataFrame</span><span class="p">.</span><span class="n">columns1</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">)]</span>  <span class="err">#</span> <span class="err">筛选出</span><span class="n">columns1</span><span class="err">列大于</span><span class="mi">100</span><span class="err">或者</span><span class="n">columns1</span><span class="err">列小于</span><span class="mi">10</span><span class="err">的行</span>
+<span class="n">df</span><span class="p">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">=</span> <span class="n">xxx</span>  <span class="err">#其中</span><span class="n">i</span><span class="err">是行号，</span><span class="n">j</span><span class="err">是列号，都是从</span><span class="mi">0</span><span class="err">开始</span>
+
+<span class="n">df</span><span class="p">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mi">12</span>  <span class="err">#</span> <span class="err">会把一行中的所有列中的数据设置为同一个值，这里的参数</span><span class="mi">1</span><span class="err">是序号，这里为第</span><span class="mi">2</span><span class="err">行数据</span>
+
+<span class="n">df</span><span class="p">[</span><span class="sc">&#39;a&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">12</span>  <span class="err">#这样会把指定列的所有数据都设置为同一个值，如这里的</span><span class="mi">12</span><span class="err">。注意，如果指定的列名不存在，会新增列</span>
+
+
+
+<span class="cp">### 11、插入行</span>
+
+<span class="err">前面介绍的</span><span class="n">append</span><span class="err">方法是产生一个新的</span> <span class="n">dataframe</span><span class="err">，不会改变原来的</span><span class="n">dataframe</span><span class="err">。</span>
+
+<span class="err">那有没有办法直接在当前的</span><span class="n">frame</span><span class="err">中插入一行数据呢？</span>  <span class="err">上面介绍的</span> <span class="n">df</span><span class="p">[</span><span class="err">列名</span><span class="p">]</span> <span class="o">=</span> <span class="n">xxx</span> <span class="err">是用来插入或修改列的信息。</span>
+
+<span class="cp">### 12、去重函数</span>
+<span class="err">如果我们想要对</span><span class="n">DataFrame</span><span class="err">中的行进行去重操作，比如说按照某一个</span><span class="n">columns</span><span class="err">进行去重，</span><span class="n">pandas</span><span class="err">有两个函数：</span>
 </pre></div>
 
 
-<p>也可以挑选出DataFrame中的某几列。</p>
-<div class="hlcode"><pre><span class="n">DataFrame</span><span class="p">[[</span><span class="s">&quot;columns3&quot;</span><span class="p">,</span> <span class="s">&quot;columns4&quot;</span><span class="p">]][(</span><span class="n">DataFrame</span><span class="p">[</span><span class="s">&quot;columns1&quot;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">100</span><span class="p">)</span> <span class="o">&amp;</span><span class="p">(</span><span class="n">DataFrame</span><span class="p">[</span><span class="s">&quot;columns2&quot;</span><span class="p">]</span><span class="o">&gt;=</span><span class="mi">1000</span><span class="p">)]</span> <span class="err">#</span> <span class="err">筛选出</span><span class="n">columns1</span><span class="err">列大于</span><span class="mi">100</span><span class="err">的行且</span><span class="n">columns2</span><span class="err">列小于</span><span class="mi">1000</span><span class="err">的行</span><span class="p">,</span><span class="err">但只挑选</span><span class="n">columns3</span><span class="err">和</span><span class="n">columns4</span><span class="err">两列。</span>
+<p>DataFrame.duplicated()  # 返回的是一个布尔型的Series，表示各行是否是重复行。</p>
+<p>DataFrame.drop_duplicates() # 返回一个移除重复行的DataFrame，如果要对某一列进行去重，只需在参数重添加列名即可，如DataFrame.drop_duplicates(['columns_name'])</p>
+<div class="hlcode"><pre><span class="cp">### 13、数据筛选</span>
+<span class="err">可以对某一列进行特定的筛选：</span>
 </pre></div>
 
 
-<p>也可以使用isin方法筛选一些特定值：</p>
-<div class="hlcode"><pre><span class="n">testlist</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">DataFrame</span><span class="p">[</span><span class="s">&quot;columns1&quot;</span><span class="p">].</span><span class="n">isin</span><span class="p">(</span><span class="n">testlist</span><span class="p">)</span> <span class="err">#</span> <span class="err">返回的是一个</span><span class="n">True</span><span class="err"></span><span class="o">/</span><span class="n">False</span><span class="err">的</span><span class="n">Series</span>
+<p>DataFrame[DataFrame["columns"]&gt;100] # 筛选出columns列大于100的行</p>
+<div class="hlcode"><pre><span class="err">可以使用</span><span class="o">&amp;</span><span class="p">(</span><span class="err">并</span><span class="p">)</span> <span class="err">与</span> <span class="o">|</span><span class="p">(</span><span class="err">或</span><span class="p">)</span><span class="err">实现多条件筛选</span>
 </pre></div>
 
 
+<p>DataFrame[(DataFrame["columns1"]&gt;100) &amp;(DataFrame["columns2"]&gt;=1000)] # 筛选出columns1列大于100且columns2列小于1000的行</p>
+<p>DataFrame[(DataFrame.columns1&gt;100) | (DataFrame.columns1 &lt; 10)]  # 筛选出columns1列大于100或者columns1列小于10的行</p>
+<div class="hlcode"><pre><span class="err">也可以挑选出</span><span class="n">DataFrame</span><span class="err">中的某几列。</span>
+</pre></div>
+
+
+<p>DataFrame[["columns3", "columns4"]][(DataFrame["columns1"]&gt;100) &amp;(DataFrame["columns2"]&gt;=1000)] # 筛选出columns1列大于100的行且columns2列小于1000的行,但只挑选columns3和columns4两列。</p>
+<div class="hlcode"><pre><span class="err">也可以使用</span><span class="n">isin</span><span class="err">方法筛选一些特定值：</span>
+</pre></div>
+
+
+<p>testlist = []<br />
+DataFrame["columns1"].isin(testlist) # 返回的是一个True/False的Series<br />
+```</p>
 <h1 id="_2">参考文献</h1>
 <p><a href="http://www.cnblogs.com/51kata/p/5406355.html">1</a></p>
 </div>
