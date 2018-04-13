@@ -151,7 +151,7 @@ df.append(df1,verify_integrity=True) #会报错，因为df1的索引和df2的索
 
 #### 举例2:
 
-``````
+```
 >>> df.append({'a':10,'b':11,'c':12,'d':13},ignore_index=True)
 
             a          b          c          d
@@ -289,6 +289,7 @@ DataFrame[(DataFrame.columns1>100) | (DataFrame.columns1 < 10)]  # 筛选出colu
 DataFrame[["columns3", "columns4"]][(DataFrame["columns1"]>100) &(DataFrame["columns2"]>=1000)] # 筛选出columns1列大于100的行且columns2列小于1000的行,但只挑选columns3和columns4两列。
 ```
 也可以使用isin方法筛选一些特定值：
+
 ```
 testlist = []
 DataFrame["columns1"].isin(testlist) # 返回的是一个True/False的Series
