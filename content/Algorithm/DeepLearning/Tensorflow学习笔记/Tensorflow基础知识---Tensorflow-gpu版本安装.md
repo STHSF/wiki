@@ -256,6 +256,57 @@ export CUDA_HOME=/usr/local/cuda-8.0
 
 ### 4、添加lib库路径
 
+## 后续
+tensorflow升级至1.7版本后，如果继续使用cuda 8.0则会报下面的错误：
+
+```
+---------------------------------------------------------------------------
+ImportError                               Traceback (most recent call last)
+<ipython-input-1-64156d691fe5> in <module>()
+----> 1 import tensorflow as tf
+
+/home/jerry/workshop/virtualenv/tensor_jupyer/local/lib/python2.7/site-packages/tensorflow/__init__.py in <module>()
+     22 
+     23 # pylint: disable=wildcard-import
+---> 24 from tensorflow.python import *  # pylint: disable=redefined-builtin
+     25 # pylint: enable=wildcard-import
+     26 
+
+/home/jerry/workshop/virtualenv/tensor_jupyer/local/lib/python2.7/site-packages/tensorflow/python/__init__.py in <module>()
+     47 import numpy as np
+     48 
+---> 49 from tensorflow.python import pywrap_tensorflow
+     50 
+     51 # Protocol buffers
+
+/home/jerry/workshop/virtualenv/tensor_jupyer/local/lib/python2.7/site-packages/tensorflow/python/pywrap_tensorflow.py in <module>()
+     72 for some common reasons and solutions.  Include the entire stack trace
+     73 above this error message when asking for help.""" % traceback.format_exc()
+---> 74   raise ImportError(msg)
+     75 
+     76 # pylint: enable=wildcard-import,g-import-not-at-top,unused-import,line-too-long
+
+ImportError: Traceback (most recent call last):
+  File "/home/jerry/workshop/virtualenv/tensor_jupyer/local/lib/python2.7/site-packages/tensorflow/python/pywrap_tensorflow.py", line 58, in <module>
+    from tensorflow.python.pywrap_tensorflow_internal import *
+  File "/home/jerry/workshop/virtualenv/tensor_jupyer/local/lib/python2.7/site-packages/tensorflow/python/pywrap_tensorflow_internal.py", line 28, in <module>
+    _pywrap_tensorflow_internal = swig_import_helper()
+  File "/home/jerry/workshop/virtualenv/tensor_jupyer/local/lib/python2.7/site-packages/tensorflow/python/pywrap_tensorflow_internal.py", line 24, in swig_import_helper
+    _mod = imp.load_module('_pywrap_tensorflow_internal', fp, pathname, description)
+ImportError: libcublas.so.9.0: cannot open shared object file: No such file or directory
+
+
+Failed to load the native TensorFlow runtime.
+
+See https://www.tensorflow.org/install/install_sources#common_installation_problems
+
+for some common reasons and solutions.  Include the entire stack trace
+above this error message when asking for help.
+```
+也就是说 tensorflow兼容的cuda也已经升级至9.0了，下面介绍下在ubuntu 16.04下升级安装cuda 9.0
+
+### cuda 9.1下载
+
 
 # 六、参考文献
 
