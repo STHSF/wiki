@@ -269,7 +269,56 @@
 重装之后运行程序,问题解决<br />
 <center><img src="/wiki/static/images/tensorgpu/cuda_right.jpg" alt="CUDA_right"/></center></p>
 <h3 id="4lib">4、添加lib库路径</h3>
-<h1 id="_5">六、参考文献</h1>
+<h2 id="_5">后续</h2>
+<p>tensorflow升级至1.7版本后，如果继续使用cuda 8.0则会报下面的错误：</p>
+<div class="hlcode"><pre><span class="o">---------------------------------------------------------------------------</span>
+<span class="nx">ImportError</span>                               <span class="nx">Traceback</span> <span class="p">(</span><span class="nx">most</span> <span class="nx">recent</span> <span class="nb">call</span> <span class="nb">last</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="nx">ipython</span><span class="na">-input</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">64156</span><span class="nx">d691fe5</span><span class="o">&gt;</span> <span class="k">in</span> <span class="o">&lt;</span><span class="nx">module</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="o">----&gt;</span> <span class="mi">1</span> <span class="k">import</span> <span class="nx">tensorflow</span> <span class="nx">as</span> <span class="nx">tf</span>
+
+<span class="p">/</span><span class="nb">home</span><span class="p">/</span><span class="nx">jerry</span><span class="p">/</span><span class="nx">workshop</span><span class="p">/</span><span class="nx">virtualenv</span><span class="p">/</span><span class="nx">tensor_jupyer</span><span class="p">/</span><span class="nb">local</span><span class="p">/</span><span class="nx">lib</span><span class="p">/</span><span class="nx">python2.7</span><span class="p">/</span><span class="nx">site</span><span class="na">-packages</span><span class="p">/</span><span class="nx">tensorflow</span><span class="p">/</span><span class="nx">__init__.py</span> <span class="k">in</span> <span class="o">&lt;</span><span class="nx">module</span><span class="o">&gt;</span><span class="p">()</span>
+     <span class="mi">22</span> 
+     <span class="mi">23</span> <span class="err">#</span> <span class="nx">pylint</span><span class="p">:</span> <span class="n">disable</span><span class="o">=</span><span class="nx">wildcard</span><span class="na">-import</span>
+<span class="o">---&gt;</span> <span class="mi">24</span> <span class="nb">from</span> <span class="nx">tensorflow.python</span> <span class="k">import</span> <span class="o">*</span>  <span class="err">#</span> <span class="nx">pylint</span><span class="p">:</span> <span class="n">disable</span><span class="o">=</span><span class="nx">redefined</span><span class="na">-builtin</span>
+     <span class="mi">25</span> <span class="err">#</span> <span class="nx">pylint</span><span class="p">:</span> <span class="n">enable</span><span class="o">=</span><span class="nx">wildcard</span><span class="na">-import</span>
+     <span class="mi">26</span> 
+
+<span class="p">/</span><span class="nb">home</span><span class="p">/</span><span class="nx">jerry</span><span class="p">/</span><span class="nx">workshop</span><span class="p">/</span><span class="nx">virtualenv</span><span class="p">/</span><span class="nx">tensor_jupyer</span><span class="p">/</span><span class="nb">local</span><span class="p">/</span><span class="nx">lib</span><span class="p">/</span><span class="nx">python2.7</span><span class="p">/</span><span class="nx">site</span><span class="na">-packages</span><span class="p">/</span><span class="nx">tensorflow</span><span class="p">/</span><span class="nx">python</span><span class="p">/</span><span class="nx">__init__.py</span> <span class="k">in</span> <span class="o">&lt;</span><span class="nx">module</span><span class="o">&gt;</span><span class="p">()</span>
+     <span class="mi">47</span> <span class="k">import</span> <span class="nx">numpy</span> <span class="nx">as</span> <span class="nx">np</span>
+     <span class="mi">48</span> 
+<span class="o">---&gt;</span> <span class="mi">49</span> <span class="nb">from</span> <span class="nx">tensorflow.python</span> <span class="k">import</span> <span class="nx">pywrap_tensorflow</span>
+     <span class="mi">50</span> 
+     <span class="mi">51</span> <span class="err">#</span> <span class="nx">Protocol</span> <span class="nx">buffers</span>
+
+<span class="p">/</span><span class="nb">home</span><span class="p">/</span><span class="nx">jerry</span><span class="p">/</span><span class="nx">workshop</span><span class="p">/</span><span class="nx">virtualenv</span><span class="p">/</span><span class="nx">tensor_jupyer</span><span class="p">/</span><span class="nb">local</span><span class="p">/</span><span class="nx">lib</span><span class="p">/</span><span class="nx">python2.7</span><span class="p">/</span><span class="nx">site</span><span class="na">-packages</span><span class="p">/</span><span class="nx">tensorflow</span><span class="p">/</span><span class="nx">python</span><span class="p">/</span><span class="nx">pywrap_tensorflow.py</span> <span class="k">in</span> <span class="o">&lt;</span><span class="nx">module</span><span class="o">&gt;</span><span class="p">()</span>
+     <span class="mi">72</span> <span class="nb">for</span> <span class="nx">some</span> <span class="nx">common</span> <span class="nx">reasons</span> <span class="ow">and</span> <span class="nx">solutions.</span>  <span class="nb">Include</span> <span class="nx">the</span> <span class="nx">entire</span> <span class="nb">stack</span> <span class="nb">trace</span>
+     <span class="mi">73</span> <span class="nx">above</span> <span class="nx">this</span> <span class="nb">error</span> <span class="nx">message</span> <span class="nx">when</span> <span class="nx">asking</span> <span class="nb">for</span> <span class="nx">help.</span><span class="s2">&quot;&quot;&quot; % traceback.format_exc()</span>
+<span class="s2">---&gt; 74   raise ImportError(msg)</span>
+<span class="s2">     75 </span>
+<span class="s2">     76 # pylint: enable=wildcard-import,g-import-not-at-top,unused-import,line-too-long</span>
+
+<span class="s2">ImportError: Traceback (most recent call last):</span>
+<span class="s2">  File &quot;</span><span class="p">/</span><span class="nb">home</span><span class="p">/</span><span class="nx">jerry</span><span class="p">/</span><span class="nx">workshop</span><span class="p">/</span><span class="nx">virtualenv</span><span class="p">/</span><span class="nx">tensor_jupyer</span><span class="p">/</span><span class="nb">local</span><span class="p">/</span><span class="nx">lib</span><span class="p">/</span><span class="nx">python2.7</span><span class="p">/</span><span class="nx">site</span><span class="na">-packages</span><span class="p">/</span><span class="nx">tensorflow</span><span class="p">/</span><span class="nx">python</span><span class="p">/</span><span class="nx">pywrap_tensorflow.py</span><span class="s2">&quot;, line 58, in &lt;module&gt;</span>
+<span class="s2">    from tensorflow.python.pywrap_tensorflow_internal import *</span>
+<span class="s2">  File &quot;</span><span class="p">/</span><span class="nb">home</span><span class="p">/</span><span class="nx">jerry</span><span class="p">/</span><span class="nx">workshop</span><span class="p">/</span><span class="nx">virtualenv</span><span class="p">/</span><span class="nx">tensor_jupyer</span><span class="p">/</span><span class="nb">local</span><span class="p">/</span><span class="nx">lib</span><span class="p">/</span><span class="nx">python2.7</span><span class="p">/</span><span class="nx">site</span><span class="na">-packages</span><span class="p">/</span><span class="nx">tensorflow</span><span class="p">/</span><span class="nx">python</span><span class="p">/</span><span class="nx">pywrap_tensorflow_internal.py</span><span class="s2">&quot;, line 28, in &lt;module&gt;</span>
+<span class="s2">    _pywrap_tensorflow_internal = swig_import_helper()</span>
+<span class="s2">  File &quot;</span><span class="p">/</span><span class="nb">home</span><span class="p">/</span><span class="nx">jerry</span><span class="p">/</span><span class="nx">workshop</span><span class="p">/</span><span class="nx">virtualenv</span><span class="p">/</span><span class="nx">tensor_jupyer</span><span class="p">/</span><span class="nb">local</span><span class="p">/</span><span class="nx">lib</span><span class="p">/</span><span class="nx">python2.7</span><span class="p">/</span><span class="nx">site</span><span class="na">-packages</span><span class="p">/</span><span class="nx">tensorflow</span><span class="p">/</span><span class="nx">python</span><span class="p">/</span><span class="nx">pywrap_tensorflow_internal.py</span><span class="s2">&quot;, line 24, in swig_import_helper</span>
+<span class="s2">    _mod = imp.load_module(&#39;_pywrap_tensorflow_internal&#39;, fp, pathname, description)</span>
+<span class="s2">ImportError: libcublas.so.9.0: cannot open shared object file: No such file or directory</span>
+
+
+<span class="s2">Failed to load the native TensorFlow runtime.</span>
+
+<span class="s2">See https://www.tensorflow.org/install/install_sources#common_installation_problems</span>
+
+<span class="s2">for some common reasons and solutions.  Include the entire stack trace</span>
+<span class="s2">above this error message when asking for help.</span>
+</pre></div>
+
+
+<p>也就是说 tensorflow兼容的cuda也已经升级至9.0了，下面介绍下在ubuntu 16.04下升级安装cuda 9.0</p>
+<h3 id="cuda-91">cuda 9.1下载</h3>
+<h1 id="_6">六、参考文献</h1>
 <p><a href="https://www.cnblogs.com/gaowengang/p/6068788.html">Ubuntu 14.04 安装 CUDA 问题及解决</a><br />
 <a href="http://blog.csdn.net/autocyz/article/details/52299889/">Ubuntu16.04+cuda8.0+caffe安装教程</a><br />
 <a href="http://developer2.download.nvidia.com/compute/machine-learning/cudnn/secure/v7.0.5/prod/Doc/cuDNN-Installation-Guide.pdf?1RL9HfeGELbC3I_J6F0c5RpXvy64oKHaWa0lZVIHWvzPbVKxDtV4_ivmxT2kIC6z1lE_h2bxuVgKEhGGW6R5n_GHnem5SFsA9jQI6LWMt68_sjV_HuOFBYO3EHzSwncT9iu1uUqar7UMgfrEOjgjE6hYCZcNNzBLgWrFa5VCRa2DsE1G8htULohvZqErOvFXRw">CUDNN Installation Guide</a><br />
