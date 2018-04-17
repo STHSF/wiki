@@ -60,7 +60,7 @@
  #### 主意；用这种方法在安装cuda9.1的时候会出现状况。在运行测试用例的时候，系统会提示cuda驱动版本不一致，我查看了下官方此时已经更新到390.48了。</p>
 <h4 id="2nvidia">2、Nvidia官网下载对应显卡驱动安装</h4>
 <p>1、去<a href="http://www.nvidia.cn/Download/index.aspx?lang=cn">nvidia官网</a>下载对应的驱动，根据自己的显卡型号和操作系统手动查找对应的驱动文件，我的显卡是GTX1080，所以下载的驱动文件名为<strong>NVIDIA-Linux-x86_64-390.48.run</strong>。如下图所示。<br />
-<center><img src="/wiki/static/images/tensorgpu/nvidia_driver.png" alt="nvidia-driver"/></center></p>
+<center><img src="/wiki/static/images/tensorgpu/nvidia_driver.jpg" alt="nvidia-driver"/></center></p>
 <p>2、1. 先卸载原有N卡驱动</p>
 <div class="hlcode"><pre><span class="cp">#for case1: original driver installed by apt-get:</span>
 <span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">remove</span> <span class="o">--</span><span class="n">purge</span> <span class="n">nvidia</span><span class="o">*</span>
