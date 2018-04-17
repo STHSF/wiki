@@ -24,10 +24,66 @@ GPU: GeForce GTX 1080
 重新打开终端，输入nvidia-smi，就会出现显卡的相关信息, 如下图所示。
 
 <center><img src="/wiki/static/images/tensorgpu/nvidia-driver.png" alt="nvidia-driver"/></center>
+ #### 主意；用这种方法在安装cuda9.1的时候会出现状况。在运行测试用例的时候，系统会提示cuda驱动版本不一致，我查看了下官方此时已经更新到390.48了。
 
 
 #### 2、Nvidia官网下载对应显卡驱动安装
-待完善......，本文暂时没有使用这种方式安装，所以等用过之后再完善。
+1、去[nvidia官网](http://www.nvidia.cn/Download/index.aspx?lang=cn)下载对应的驱动，根据自己的显卡型号和操作系统手动查找对应的驱动文件，我的显卡是GTX1080，所以下载的驱动文件名为**NVIDIA-Linux-x86_64-390.48.run**。如下图所示。
+<center><img src="/wiki/static/images/tensorgpu/nvidia_driver.png" alt="nvidia-driver"/></center>
+
+2、1. 先卸载原有N卡驱动
+```
+#for case1: original driver installed by apt-get:
+sudo apt-get remove --purge nvidia*
+
+#for case2: original driver installed by runfile:
+sudo chmod +x *.run
+sudo ./NVIDIA-Linux-x86_64-384.59.run --uninstall
+```
+
+如果原驱动是用apt-get安装的，就用第1种方法卸载。 
+如果原驱动是用runfile安装的，就用–uninstall命令卸载。其实，用runfile安装的时候也会卸载掉之前的驱动，所以不手动卸载亦可。
+
+2. 禁用nouveau驱动
+```
+sudo gedit /etc/modprobe.d/blacklist.conf
+```
+在文本最后添加：（禁用nouveau第三方驱动，之后也不需要改回来）
+```
+blacklist nouveau
+options nouveau modeset=0
+```
+然后执行：sudo update-initramfs -u
+
+重启后，执行：lsmod | grep nouveau。如果没有屏幕输出，说明禁用nouveau成功。
+
+3. 禁用X-Window服务
+```
+sudo service lightdm stop #这会关闭图形界面，但不用紧张
+```
+按Ctrl-Alt+F1进入命令行界面，输入用户名和密码登录即可。
+
+**小提示**：在命令行输入：sudo service lightdm start ，然后按Ctrl-Alt+F7即可恢复到图形界面。
+4. 命令行安装驱动
+```
+#给驱动run文件赋予执行权限：
+sudo chmod +x NVIDIA-Linux-x86_64-384.59.run
+#后面的参数非常重要，不可省略：
+sudo ./NVIDIA-Linux-x86_64-384.59.run –no-opengl-files
+```
+- –no-x-check：表示安装驱动时不检查X服务，非必需。
+- –no-nouveau-check：表示安装驱动时不检查nouveau，非必需。
+- -Z, --disable-nouveau：禁用nouveau。此参数非必需，因为之前已经手动禁用了nouveau。
+- -A：查看更多高级选项。
+
+必选参数解释：因为NVIDIA的驱动默认会安装OpenGL，而Ubuntu的内核本身也有OpenGL、且与GUI显示息息相关，一旦NVIDIA的驱动覆写了OpenGL，在GUI需要动态链接OpenGL库的时候就引起问题。之后，按照提示安装，成功后重启即可。 
+如果提示安装失败，不要急着重启电脑，重复以上步骤，多安装几次即可。
+
+Driver测试：
+```
+nvidia-smi #若列出GPU的信息列表，表示驱动安装成功
+nvidia-settings #若弹出设置对话框，亦表示驱动安装成功
+```
 
 # 二、安装cuda
 
