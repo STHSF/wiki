@@ -29,7 +29,7 @@ GPU: GeForce GTX 1080
 
 #### 2、Nvidia官网下载对应显卡驱动安装
 1、去[nvidia官网](http://www.nvidia.cn/Download/index.aspx?lang=cn)下载对应的驱动，根据自己的显卡型号和操作系统手动查找对应的驱动文件，我的显卡是GTX1080，所以下载的驱动文件名为**NVIDIA-Linux-x86_64-390.48.run**。如下图所示。
-<center><img src="/wiki/static/images/tensorgpu/nvidia_driver.png" alt="nvidia-driver"/></center>
+<center><img src="/wiki/static/images/tensorgpu/nvidia_driver.jpg" alt="nvidia-driver"/></center>
 
 2、1. 先卸载原有N卡驱动
 ```
