@@ -31,7 +31,7 @@ GPU: GeForce GTX 1080
 1、去[nvidia官网](http://www.nvidia.cn/Download/index.aspx?lang=cn)下载对应的驱动，根据自己的显卡型号和操作系统手动查找对应的驱动文件，我的显卡是GTX1080，所以下载的驱动文件名为**NVIDIA-Linux-x86_64-390.48.run**。如下图所示。
 <center><img src="/wiki/static/images/tensorgpu/nvidia_driver.jpg" alt="nvidia-driver"/></center>
 
-2、1. 先卸载原有N卡驱动
+2、先卸载原有N卡驱动
 ```
 #for case1: original driver installed by apt-get:
 sudo apt-get remove --purge nvidia*
@@ -44,27 +44,32 @@ sudo ./NVIDIA-Linux-x86_64-384.59.run --uninstall
 如果原驱动是用apt-get安装的，就用第1种方法卸载。 
 如果原驱动是用runfile安装的，就用–uninstall命令卸载。其实，用runfile安装的时候也会卸载掉之前的驱动，所以不手动卸载亦可。
 
-2. 禁用nouveau驱动
+3、禁用nouveau驱动
+
+创建或更新blacklist-nouveau.conf，有的教程中会更新blacklist.conf
+
 ```
-sudo gedit /etc/modprobe.d/blacklist.conf
+sudo vi /etc/modprobe.d/blacklist-nouveau.conf
+or
+sudo vi /etc/modprobe.d/blacklist.conf
 ```
 在文本最后添加：（禁用nouveau第三方驱动，之后也不需要改回来）
 ```
 blacklist nouveau
 options nouveau modeset=0
 ```
-然后执行：sudo update-initramfs -u
+然后执行：```sudo update-initramfs -u```, 重新生成 kernel initramfs
 
 重启后，执行：lsmod | grep nouveau。如果没有屏幕输出，说明禁用nouveau成功。
 
-3. 禁用X-Window服务
+4、禁用X-Window服务
 ```
 sudo service lightdm stop #这会关闭图形界面，但不用紧张
 ```
 按Ctrl-Alt+F1进入命令行界面，输入用户名和密码登录即可。
 
 **小提示**：在命令行输入：sudo service lightdm start ，然后按Ctrl-Alt+F7即可恢复到图形界面。
-4. 命令行安装驱动
+5、命令行安装驱动
 ```
 #给驱动run文件赋予执行权限：
 sudo chmod +x NVIDIA-Linux-x86_64-384.59.run
@@ -87,30 +92,18 @@ nvidia-settings #若弹出设置对话框，亦表示驱动安装成功
 
 # 二、安装cuda
 
-#### 1、禁用自带的nouveau nvidia驱动
-
-创建或更新blacklist-nouveau.conf
-```
-vi /etc/modprobe.d/blacklist-nouveau.conf
-```
-
-并在文件中添加如下内容
-```
-blacklist nouveau
-options nouveau modeset=0
-```
-
-然后更新一下，重新生成 kernel initramfs
-```
-sudo update-initramfs -u
-```
-修改后需要重新启动系统，确认下nouveau是否已经被干掉了，```lsmod | grep nouveau```
+#### 1、检查自带的nouveau nvidia驱动是否禁用。
+如果安装cuda和安装显卡驱动没有同时进行，则需要检查这一步，同样安装cuda和显卡驱动都需要禁用nouveau驱动。
 
 #### 2、```Ctrl + Alt + F1``` 进入命令行模式，执行，
 ```
 $ sudo service lightdm stop      // 关闭桌面服务
 ```
-在安装CUDA的过程中必须得关闭桌面服务。当然，你也可以在终端中执行关闭桌面服务操作，然后使用 ```Ctrl + Alt + F4``` 登陆你的账号。
+在安装CUDA的过程中必须得关闭桌面服务。
+
+当然，你也可以在终端中执行关闭桌面服务操作，然后使用 ```Ctrl + Alt + F1``` 登陆你的账号。我在安装的过程中是先关闭桌面服务然后使用```Ctrl + Alt + F1```进入终端然后重新登陆账号密码的。
+
+**注，在安装nvidia显卡驱动和cuda的时候都需要关闭桌面服务，或者可以在安装完显卡驱动之后不恢复图形界面，直接安装cuda。**
 
 #### 3、安装CUDA.run文件
 我用的是是CUDA8.0的版本，刚开始安装的是最新9.0的版本，后来好像在某篇教程中看到tensorflow目前还不支持CUDA9.0版本的，所以重装了8.0的，也有可能我没有理解他的意思，我没有经过实测。还有就是很多教程直接使用.deb安装的CUDA，同事反应在升级的过程中直接安装没有问题，但是后面使用的时候就会出现一些问题，所以我也没有直接安装，后面遇到的问题也没办法复现。
@@ -166,6 +159,7 @@ cd /usr/local/cuda-7.5/samples/1_Utilities/deviceQuery
 sudo make clean && make
 sudo ./deviceQuery
 ```
+**注意，我在升级tensorflow至1.7后，此时cuda需要升级到cuda9.0,在安装cuda9.0的过程中，Driver显示的是Not Selectd，但是使用```sudo <CudaInstaller>.run -silent -driver```的方式并没有能够安装成功。但是我在使用samples中的样例测试也是可以的，没有出问题。所以这边Driver有没有select好像没有什么区别。对后面安装cudnn和tensorflow-gpu都没有什么影响。后面没有出现问题，所以也就没有去解决。(更新时间4月18日)**
 
 如果显示的是一些关于GPU的信息，则说明安装成功了，详细信息见下图。
 <center><img src="/wiki/static/images/tensorgpu/devicequery.png" alt="devicequery"/></center>
@@ -350,7 +344,6 @@ ImportError: Traceback (most recent call last):
   File "/home/jerry/workshop/virtualenv/tensor_jupyer/local/lib/python2.7/site-packages/tensorflow/python/pywrap_tensorflow_internal.py", line 24, in swig_import_helper
     _mod = imp.load_module('_pywrap_tensorflow_internal', fp, pathname, description)
 ImportError: libcublas.so.9.0: cannot open shared object file: No such file or directory
-
 
 Failed to load the native TensorFlow runtime.
 
