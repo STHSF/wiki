@@ -355,7 +355,7 @@ above this error message when asking for help.
 也就是说 tensorflow兼容的cuda也已经升级至9.0了，下面介绍下在ubuntu 16.04下升级安装cuda 9.0，这里本来想在cuda8.0的基础上直接覆盖安装cuda9.0的，结果没有成功，编译cuda实例源码的时候使用提示没有找到driver。在这之前一直是使用ubuntu系统本身的升级系统来更新nvidia驱动的，并没有使用源码安装显卡驱动。后来不停的重装cuda的过程中反而把系统给弄坏了，最后实在没办法重装系统。
 
 **在这里我又跳到坑里了，tensorflow 1.7目前暂时不支持cudnn9.1，所以我又得重新安装cudnn了（4月17号更新）**
-**注意，在安装cuda和dudnn的时候版本一定要一致。**
+**注意，在安装cuda和dudnn的时候版本一定要一致。重装系统后，我装了cuda_9.0.176_384.81_linux和cudnn-9.0-linux-x64-v7.1，tensorflow的版本为1.7.0，安装过程中没有出现什么太大的问题，基本跟cuda8.0安装过程差不多。**
 
 
 # 六、参考文献
