@@ -1,5 +1,5 @@
 ---
-title: "Tensorflow---tf.summary使用的坑"
+title: "'ValueError: List argument 'inputs' to 'MergeSummary' Op with length 0 shorter than minimum length 1' and 'Fetch argument None has invalid type <type 'NoneType'>' "
 layout: page
 date: 2018-05-30 00:00
 ---
