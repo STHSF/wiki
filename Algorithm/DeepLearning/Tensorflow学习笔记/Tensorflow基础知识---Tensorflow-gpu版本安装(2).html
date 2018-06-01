@@ -5,7 +5,7 @@
     <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
     <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
-    <title>Tensorflow基础知识---ubuntu下安装安装CUDA9.0、cuDNN9.0和tensotflow-gpu 1.8.0版本流程和问题总结 - LiYu's personal knowledge wiki</title>
+    <title>Tensorflow基础知识---Ubuntu16.04下安装安装CUDA9.0、cuDNN9.0和tensotflow-gpu 1.8.0版本流程和问题总结 - LiYu's personal knowledge wiki</title>
     <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
     <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -35,13 +35,13 @@
 <div id="container">
     
 <div id="header">
-  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm">Algorithm</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning">DeepLearning</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning-Tensorflow学习笔记">Tensorflow学习笔记</a>&nbsp;»&nbsp;Tensorflow基础知识---ubuntu下安装安装CUDA9.0、cuDNN9.0和tensotflow-gpu 1.8.0版本流程和问题总结</div>
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm">Algorithm</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning">DeepLearning</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning-Tensorflow学习笔记">Tensorflow学习笔记</a>&nbsp;»&nbsp;Tensorflow基础知识---Ubuntu16.04下安装安装CUDA9.0、cuDNN9.0和tensotflow-gpu 1.8.0版本流程和问题总结</div>
 </div>
 <div class="clearfix"></div>
-<div id="title">Tensorflow基础知识---ubuntu下安装安装CUDA9.0、cuDNN9.0和tensotflow-gpu 1.8.0版本流程和问题总结</div>
+<div id="title">Tensorflow基础知识---Ubuntu16.04下安装安装CUDA9.0、cuDNN9.0和tensotflow-gpu 1.8.0版本流程和问题总结</div>
 <div id="content">
   <h1 id="_1">写在前面</h1>
-<p>使用tensorflow接近一年时间，然而一直使用的是cpu版本的，而且还是在笔记本上跑程序的，所以当训练模型时，你懂的，我都心疼我的笔记本，最近公司刚刚给配了台带了块GTX 1080的台式机。嗯，终于算入门了，台式机的配置如下：</p>
+<p>Tensorflow版本更新太快了，最新版已经更新到1.8.0了，Tensorflow在1.7的时候就已经对cuda和cudnn的版本有所要求，所以下面介绍安装cuda9.0和cudnn9.0的安装。台式机的配置如下：</p>
 <div class="hlcode"><pre><span class="n">System</span><span class="err">：</span><span class="n">Ubuntu</span> <span class="mf">16.04</span> <span class="n">LTS</span>
 <span class="nl">CPU:</span> <span class="n">Intel</span><span class="p">(</span><span class="n">R</span><span class="p">)</span> <span class="n">Core</span><span class="p">(</span><span class="n">TM</span><span class="p">)</span> <span class="n">i7</span><span class="o">-</span><span class="mi">7700</span> <span class="n">CPU</span> <span class="err">@</span> <span class="mf">3.60</span><span class="n">GHz</span>
 <span class="nl">MemTotal:</span> <span class="mi">16295024</span> <span class="n">kB</span>
@@ -49,11 +49,10 @@
 </pre></div>
 
 
-<p>目前来说够用了。大佬就可以忽略这段的。下面说说我在安装配置tensorflow-gpu的时候遇到的问题</p>
 <h1 id="n">一、N卡驱动安装</h1>
 <h2 id="nvidia">Nvidia官网下载对应显卡驱动安装</h2>
 <h3 id="1">1、驱动下载</h3>
-<p>去<a href="http://www.nvidia.cn/Download/index.aspx?lang=cn">nvidia官网</a>下载对应的驱动，根据自己的显卡型号和操作系统手动查找对应的驱动文件，我的显卡是GTX1080，所以下载的驱动文件名为<strong>NVIDIA-Linux-x86_64-390.48.run</strong>。如下图所示。<br />
+<p>去<a href="http://www.nvidia.cn/Download/index.aspx?lang=cn">nvidia官网</a>下载对应的驱动，根据自己的显卡型号和操作系统手动查找对应的驱动文件，我的显卡型号是GTX1080，所以下载的驱动文件名为<strong>NVIDIA-Linux-x86_64-390.48.run</strong>。如下图所示。<br />
 <center><img src="/wiki/static/images/tensorgpu/nvidia_driver.jpg" alt="nvidia-driver"/></center></p>
 <h3 id="2n">2、先卸载原有N卡驱动</h3>
 <div class="hlcode"><pre><span class="cp">#for case1: original driver installed by apt-get:</span>
@@ -107,15 +106,15 @@
 <p>必选参数解释：因为NVIDIA的驱动默认会安装OpenGL，而Ubuntu的内核本身也有OpenGL、且与GUI显示息息相关，一旦NVIDIA的驱动覆写了OpenGL，在GUI需要动态链接OpenGL库的时候就引起问题。之后，按照提示安装，成功后重启即可。 <br />
 如果提示安装失败，不要急着重启电脑，重复以上步骤，多安装几次即可。</p>
 <h3 id="6driver">6、Driver测试：</h3>
-<div class="hlcode"><pre><span class="n">nvidia</span><span class="o">-</span><span class="n">smi</span> <span class="err">#若列出</span><span class="n">GPU</span><span class="err">的信息列表，表示驱动安装成功</span>
-<span class="n">nvidia</span><span class="o">-</span><span class="n">settings</span> <span class="err">#若弹出设置对话框，亦表示驱动安装成功</span>
+<div class="hlcode"><pre><span class="n">nvidia</span><span class="o">-</span><span class="n">smi</span> <span class="err">#</span> <span class="err">若列出</span><span class="n">GPU</span><span class="err">的信息列表，表示驱动安装成功</span>
+<span class="n">nvidia</span><span class="o">-</span><span class="n">settings</span> <span class="err">#</span> <span class="err">若弹出设置对话框，亦表示驱动安装成功</span><span class="p">(</span><span class="err">该命令只能在</span><span class="n">GUI</span><span class="err">下才能使用，关闭图形界面是无法弹出什么对话框的</span><span class="p">)</span>
 </pre></div>
 
 
 <h1 id="cuda">二、安装cuda</h1>
-<h4 id="1nouveau-nvidia">1、检查自带的nouveau nvidia驱动是否禁用。</h4>
+<h2 id="1nouveau-nvidia">1、检查自带的nouveau nvidia驱动是否禁用。</h2>
 <p>如果安装cuda和安装显卡驱动没有同时进行，则需要检查这一步，同样安装cuda和显卡驱动都需要禁用nouveau驱动。</p>
-<h4 id="2ctrl-alt-f1">2、<code>Ctrl + Alt + F1</code> 进入命令行模式，执行，</h4>
+<h2 id="2ctrl-alt-f1">2、<code>Ctrl + Alt + F1</code> 进入命令行模式，执行，</h2>
 <div class="hlcode"><pre><span class="err">$</span> <span class="n">sudo</span> <span class="n">service</span> <span class="n">lightdm</span> <span class="n">stop</span>      <span class="c1">// 关闭桌面服务</span>
 </pre></div>
 
@@ -123,8 +122,10 @@
 <p>在安装CUDA的过程中必须得关闭桌面服务。</p>
 <p>当然，你也可以在终端中执行关闭桌面服务操作，然后使用 <code>Ctrl + Alt + F1</code> 登陆你的账号。我在安装的过程中是先关闭桌面服务然后使用<code>Ctrl + Alt + F1</code>进入终端然后重新登陆账号密码的。</p>
 <p><strong>注，在安装nvidia显卡驱动和cuda的时候都需要关闭桌面服务，或者可以在安装完显卡驱动之后不恢复图形界面，直接安装cuda。</strong></p>
-<h4 id="3cudarun">3、安装CUDA.run文件</h4>
-<p>我用的是是CUDA8.0的版本，刚开始安装的是最新9.0的版本，后来好像在某篇教程中看到tensorflow目前还不支持CUDA9.0版本的，所以重装了8.0的，也有可能我没有理解他的意思，我没有经过实测。还有就是很多教程直接使用.deb安装的CUDA，同事反应在升级的过程中直接安装没有问题，但是后面使用的时候就会出现一些问题，所以我也没有直接安装，后面遇到的问题也没办法复现。</p>
+<h2 id="3cudarun">3、安装CUDA.run文件</h2>
+<p>我安装的是CUDA9.0的版本，到<a href="https://developer.nvidia.com/cuda-downloads?target_os=Linux&amp;target_arch=x86_64&amp;target_distro=Ubuntu&amp;target_version=1604&amp;target_type=runfilelocal">nvidia开发者社区</a>根据选项挑选对应的安装版本，如下图所示。<br />
+<center><img src="/wiki/static/images/tensorgpu/CUDA Toolkit 9.0 Downloads.png" alt="nvidia-driver"/></center><br />
+本文下载的cuda.run文件版本为: <strong>cuda_9.0.176_384.81_linux.run</strong></p>
 <div class="hlcode"><pre><span class="n">sudo</span> <span class="n">sh</span> <span class="n">cuda_8</span><span class="mf">.0.61</span><span class="n">_375</span><span class="mf">.26</span><span class="n">_linux</span><span class="p">.</span><span class="n">run</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">opengl</span><span class="o">-</span><span class="n">libs</span>
 </pre></div>
 
@@ -368,13 +369,13 @@
 <a href="http://blog.csdn.net/binglel/article/details/70230276">Ubuntu16.04.1如何安装TensorFlow1.1.0（GPU版）</a><br />
 <a href="https://github.com/tensorflow/tensorflow/issues/394">failed call to cuInit: CUDA_ERROR_UNKNOWN in python programs using Ubuntu bumblebee</a></p>
 </div>
-<div id="content-footer">created in <span class="create-date date"> 2017-12-12 14:00 </span></div>
+<div id="content-footer">created in <span class="create-date date"> 2018-06-01 03:00 </span></div>
 <div id="comments"></div>
 <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
 <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script type="text/javascript">
 const gitment = new Gitment({
-  title: 'Tensorflow基础知识---ubuntu下安装安装CUDA9.0、cuDNN9.0和tensotflow-gpu 1.8.0版本流程和问题总结',
+  title: 'Tensorflow基础知识---Ubuntu16.04下安装安装CUDA9.0、cuDNN9.0和tensotflow-gpu 1.8.0版本流程和问题总结',
   owner: 'sthsf',
   repo: 'wiki',
   oauth: {
