@@ -97,7 +97,7 @@ $ sudo service lightdm stop      // 关闭桌面服务
 <center><img src="/wiki/static/images/tensorgpu/CUDA Toolkit 9.0 Downloads.png" alt="nvidia-driver"/></center>
 本文下载的cuda.run文件版本为: **cuda_9.0.176_384.81_linux.run**
 ```
-sudo sh cuda_8.0.61_375.26_linux.run --no-opengl-libs
+sudo sh cuda_9.0.176_384.81_linux.run --no-opengl-libs
 ```
 在.run文件后面添加--no-opengl-libs的详解见[Ubuntu 14.04 安装 CUDA 问题及解决](https://www.cnblogs.com/gaowengang/p/6068788.html)，安装完成后需要将opengl的相关lib重新安装一下。
 
@@ -105,20 +105,19 @@ sudo sh cuda_8.0.61_375.26_linux.run --no-opengl-libs
 ```
 Do you accept the previously read EULA，  输入 accept，进入下一步。
 INSTALL NVIDIA Accelerates Graphics Driver for Linux-x86_64 375.26，  输入n，进入下一步；
-Install the  CUDA 8.0 Toolkit?，  输入y， 进入下一步；
+Install the  CUDA 9.0 Toolkit?，  输入y， 进入下一步；
 Enter Tookit Location 点击enter， 进入下一步；
 Do you want to install a symbolic link at /usr/local/cuda，  输入y，进入下一步；
-Install the CUDA 8.0 Samples?  输入y， 进入下一步；
+Install the CUDA 9.0 Samples?  输入y， 进入下一步；
 Enter CUDA Samples Location 点击enter， 进入下一步；
 程序开始安装。。。
 ```
 更详细的提示见[Ubuntu16.04 下安装GPU版TensorFlow（包括Cuda和Cudnn）](https://segmentfault.com/a/1190000008234390)
 
-
 安装完成之后，会提示一个summary；大致内容如下。
 ```
 Driver: Not Selectd
-Toolkit: INstalled in /usr/local/cuda-8.0
+Toolkit: INstalled in /usr/local/cuda-9.0
 Samples: Installed in /home/jerry, but missing recommended libraries
 ```
 
@@ -134,7 +133,7 @@ To install the driver using this installer, run the following command, replacing
 
 根据warning提示，在.run文件后面添加-silent -driver，有提示的图片忘记保存了。以后遇到在加上。
 ```
-sudo sh cuda_8.0.61_375.26_linux.run -silent -driver
+sudo sh cuda_9.0.176_384.81_linux.run -silent -driver
 ```
 
 安装完成之后，启动桌面
