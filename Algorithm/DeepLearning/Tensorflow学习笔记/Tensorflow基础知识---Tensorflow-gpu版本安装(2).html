@@ -126,7 +126,7 @@
 <p>我安装的是CUDA9.0的版本，到<a href="https://developer.nvidia.com/cuda-downloads?target_os=Linux&amp;target_arch=x86_64&amp;target_distro=Ubuntu&amp;target_version=1604&amp;target_type=runfilelocal">nvidia开发者社区</a>根据选项挑选对应的安装版本，如下图所示。<br />
 <center><img src="/wiki/static/images/tensorgpu/CUDA Toolkit 9.0 Downloads.png" alt="nvidia-driver"/></center><br />
 本文下载的cuda.run文件版本为: <strong>cuda_9.0.176_384.81_linux.run</strong></p>
-<div class="hlcode"><pre><span class="n">sudo</span> <span class="n">sh</span> <span class="n">cuda_8</span><span class="mf">.0.61</span><span class="n">_375</span><span class="mf">.26</span><span class="n">_linux</span><span class="p">.</span><span class="n">run</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">opengl</span><span class="o">-</span><span class="n">libs</span>
+<div class="hlcode"><pre><span class="n">sudo</span> <span class="n">sh</span> <span class="n">cuda_9</span><span class="mf">.0.176</span><span class="n">_384</span><span class="mf">.81</span><span class="n">_linux</span><span class="p">.</span><span class="n">run</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">opengl</span><span class="o">-</span><span class="n">libs</span>
 </pre></div>
 
 
@@ -134,10 +134,10 @@
 <p>运行之后会跳出readme文件，然后按住<code>Ctrl + C</code>跳过。然后会依次出现以下提示：</p>
 <div class="hlcode"><pre><span class="n">Do</span> <span class="n">you</span> <span class="n">accept</span> <span class="n">the</span> <span class="n">previously</span> <span class="n">read</span> <span class="n">EULA</span><span class="err">，</span>  <span class="err">输入</span> <span class="n">accept</span><span class="err">，进入下一步。</span>
 <span class="n">INSTALL</span> <span class="n">NVIDIA</span> <span class="n">Accelerates</span> <span class="n">Graphics</span> <span class="n">Driver</span> <span class="k">for</span> <span class="n">Linux</span><span class="o">-</span><span class="n">x86_64</span> <span class="mf">375.26</span><span class="err">，</span>  <span class="err">输入</span><span class="n">n</span><span class="err">，进入下一步；</span>
-<span class="n">Install</span> <span class="n">the</span>  <span class="n">CUDA</span> <span class="mf">8.0</span> <span class="n">Toolkit</span><span class="o">?</span><span class="err">，</span>  <span class="err">输入</span><span class="n">y</span><span class="err">，</span> <span class="err">进入下一步；</span>
+<span class="n">Install</span> <span class="n">the</span>  <span class="n">CUDA</span> <span class="mf">9.0</span> <span class="n">Toolkit</span><span class="o">?</span><span class="err">，</span>  <span class="err">输入</span><span class="n">y</span><span class="err">，</span> <span class="err">进入下一步；</span>
 <span class="n">Enter</span> <span class="n">Tookit</span> <span class="n">Location</span> <span class="err">点击</span><span class="n">enter</span><span class="err">，</span> <span class="err">进入下一步；</span>
 <span class="n">Do</span> <span class="n">you</span> <span class="n">want</span> <span class="n">to</span> <span class="n">install</span> <span class="n">a</span> <span class="n">symbolic</span> <span class="n">link</span> <span class="n">at</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span><span class="err">，</span>  <span class="err">输入</span><span class="n">y</span><span class="err">，进入下一步；</span>
-<span class="n">Install</span> <span class="n">the</span> <span class="n">CUDA</span> <span class="mf">8.0</span> <span class="n">Samples</span><span class="o">?</span>  <span class="err">输入</span><span class="n">y</span><span class="err">，</span> <span class="err">进入下一步；</span>
+<span class="n">Install</span> <span class="n">the</span> <span class="n">CUDA</span> <span class="mf">9.0</span> <span class="n">Samples</span><span class="o">?</span>  <span class="err">输入</span><span class="n">y</span><span class="err">，</span> <span class="err">进入下一步；</span>
 <span class="n">Enter</span> <span class="n">CUDA</span> <span class="n">Samples</span> <span class="n">Location</span> <span class="err">点击</span><span class="n">enter</span><span class="err">，</span> <span class="err">进入下一步；</span>
 <span class="err">程序开始安装。。。</span>
 </pre></div>
@@ -146,7 +146,7 @@
 <p>更详细的提示见<a href="https://segmentfault.com/a/1190000008234390">Ubuntu16.04 下安装GPU版TensorFlow（包括Cuda和Cudnn）</a></p>
 <p>安装完成之后，会提示一个summary；大致内容如下。</p>
 <div class="hlcode"><pre><span class="n">Driver</span><span class="o">:</span> <span class="n">Not</span> <span class="n">Selectd</span>
-<span class="n">Toolkit</span><span class="o">:</span> <span class="n">INstalled</span> <span class="k">in</span> <span class="sr">/usr/local/</span><span class="n">cuda</span><span class="o">-</span><span class="mf">8.0</span>
+<span class="n">Toolkit</span><span class="o">:</span> <span class="n">INstalled</span> <span class="k">in</span> <span class="sr">/usr/local/</span><span class="n">cuda</span><span class="o">-</span><span class="mf">9.0</span>
 <span class="n">Samples</span><span class="o">:</span> <span class="n">Installed</span> <span class="k">in</span> <span class="sr">/home/</span><span class="n">jerry</span><span class="o">,</span> <span class="n">but</span> <span class="n">missing</span> <span class="n">recommended</span> <span class="n">libraries</span>
 </pre></div>
 
@@ -162,7 +162,7 @@
 
 
 <p>根据warning提示，在.run文件后面添加-silent -driver，有提示的图片忘记保存了。以后遇到在加上。</p>
-<div class="hlcode"><pre><span class="n">sudo</span> <span class="n">sh</span> <span class="n">cuda_8</span><span class="mf">.0.61</span><span class="n">_375</span><span class="mf">.26</span><span class="n">_linux</span><span class="p">.</span><span class="n">run</span> <span class="o">-</span><span class="n">silent</span> <span class="o">-</span><span class="n">driver</span>
+<div class="hlcode"><pre><span class="n">sudo</span> <span class="n">sh</span> <span class="n">cuda_9</span><span class="mf">.0.176</span><span class="n">_384</span><span class="mf">.81</span><span class="n">_linux</span><span class="p">.</span><span class="n">run</span> <span class="o">-</span><span class="n">silent</span> <span class="o">-</span><span class="n">driver</span>
 </pre></div>
 
 
