@@ -170,7 +170,7 @@ export LD_LIBRARY_PATH
 cudnn的下载需要注册之后才能下载。
 
 在CUDA安装好之后，CUDNN安装相对比较容易，根据官网教程，首先从官网上下载四个文件。如下图所示：
-<center><img src="/wiki/static/images/tensorgpu/cudnn.png" alt="cudnn"/></center>
+<center><img src="/wiki/static/images/tensorgpu/cudnndownload.png" alt="cudnn"/></center>
 
 ```
 cudnn-9.0-linux-x64-v7.1.tar
