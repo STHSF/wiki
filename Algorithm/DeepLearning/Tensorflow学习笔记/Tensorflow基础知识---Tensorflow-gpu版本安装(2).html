@@ -242,75 +242,9 @@
 <h1 id="gputensorflow">四、安装gpu版tensorflow</h1>
 <p>本文使用的是virtualenv安装的tensorflow。<br />
 现在tensorflow越来越成熟了，所以在虚拟环境下直接可以用<code>pip install --upgrade tensorflow-gpu</code>即可安装成功。<br />
-安装完成后，进入python环境测试一下，问题来了。</p>
-<h3 id="_2">错误提示</h3>
-<div class="hlcode"><pre><span class="nx">Traceback</span> <span class="p">(</span><span class="nx">most</span> <span class="nx">recent</span> <span class="nb">call</span> <span class="nb">last</span><span class="p">):</span>
-  <span class="nb">File</span> <span class="s2">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">1</span><span class="p">,</span> <span class="k">in</span> <span class="o">&lt;</span><span class="nx">module</span><span class="o">&gt;</span>
-  <span class="nb">File</span> <span class="s2">&quot;/home/jerry/workshop/virtualenv/tensor/local/lib/python2.7/site-packages/tensorflow/__init__.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">24</span><span class="p">,</span> <span class="k">in</span> <span class="o">&lt;</span><span class="nx">module</span><span class="o">&gt;</span>
-    <span class="nb">from</span> <span class="nx">tensorflow.python</span> <span class="k">import</span> <span class="o">*</span>
-  <span class="nb">File</span> <span class="s2">&quot;/home/jerry/workshop/virtualenv/tensor/local/lib/python2.7/site-packages/tensorflow/python/__init__.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">49</span><span class="p">,</span> <span class="k">in</span> <span class="o">&lt;</span><span class="nx">module</span><span class="o">&gt;</span>
-    <span class="nb">from</span> <span class="nx">tensorflow.python</span> <span class="k">import</span> <span class="nx">pywrap_tensorflow</span>
-  <span class="nb">File</span> <span class="s2">&quot;/home/jerry/workshop/virtualenv/tensor/local/lib/python2.7/site-packages/tensorflow/python/pywrap_tensorflow.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">59</span><span class="p">,</span> <span class="k">in</span> <span class="o">&lt;</span><span class="nx">module</span><span class="o">&gt;</span>
-    <span class="nx">raise</span> <span class="nx">ImportError</span><span class="p">(</span><span class="nb">msg</span><span class="p">)</span>
-<span class="nx">ImportError</span><span class="p">:</span> <span class="nx">Traceback</span> <span class="p">(</span><span class="nx">most</span> <span class="nx">recent</span> <span class="nb">call</span> <span class="nb">last</span><span class="p">):</span>
-  <span class="nb">File</span> <span class="s2">&quot;/home/jerry/workshop/virtualenv/tensor/local/lib/python2.7/site-packages/tensorflow/python/pywrap_tensorflow.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">48</span><span class="p">,</span> <span class="k">in</span> <span class="o">&lt;</span><span class="nx">module</span><span class="o">&gt;</span>
-    <span class="nb">from</span> <span class="nx">tensorflow.python.pywrap_tensorflow_internal</span> <span class="k">import</span> <span class="o">*</span>
-  <span class="nb">File</span> <span class="s2">&quot;/home/jerry/workshop/virtualenv/tensor/local/lib/python2.7/site-packages/tensorflow/python/pywrap_tensorflow_internal.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">28</span><span class="p">,</span> <span class="k">in</span> <span class="o">&lt;</span><span class="nx">module</span><span class="o">&gt;</span>
-    <span class="n">_pywrap_tensorflow_internal</span> <span class="o">=</span> <span class="nx">swig_import_helper</span><span class="p">()</span>
-  <span class="nb">File</span> <span class="s2">&quot;/home/jerry/workshop/virtualenv/tensor/local/lib/python2.7/site-packages/tensorflow/python/pywrap_tensorflow_internal.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">24</span><span class="p">,</span> <span class="k">in</span> <span class="nx">swig_import_helper</span>
-    <span class="n">_mod</span> <span class="o">=</span> <span class="nx">imp.load_module</span><span class="p">(</span><span class="s1">&#39;_pywrap_tensorflow_internal&#39;</span><span class="p">,</span> <span class="nx">fp</span><span class="p">,</span> <span class="nx">pathname</span><span class="p">,</span> <span class="nb">description</span><span class="p">)</span>
-<span class="nx">ImportError</span><span class="p">:</span> <span class="nx">libcudnn.so.6</span><span class="p">:</span> <span class="nx">cannot</span> <span class="nb">open</span> <span class="nx">shared</span> <span class="nb">object</span> <span class="nb">file</span><span class="p">:</span> <span class="nx">No</span> <span class="nx">such</span> <span class="nb">file</span> <span class="ow">or</span> <span class="nx">directory</span>
-
-
-<span class="nx">Failed</span> <span class="k">to</span> <span class="nx">load</span> <span class="nx">the</span> <span class="nx">native</span> <span class="nx">TensorFlow</span> <span class="nx">runtime.</span>
-
-<span class="nx">See</span> <span class="nx">https</span><span class="p">:</span><span class="c1">//www.tensorflow.org/install/install_sources#common_installation_problems</span>
-
-<span class="nb">for</span> <span class="nx">some</span> <span class="nx">common</span> <span class="nx">reasons</span> <span class="ow">and</span> <span class="nx">solutions.</span>  <span class="nb">Include</span> <span class="nx">the</span> <span class="nx">entire</span> <span class="nb">stack</span> <span class="nb">trace</span>
-<span class="nx">above</span> <span class="nx">this</span> <span class="nb">error</span> <span class="nx">message</span> <span class="nx">when</span> <span class="nx">asking</span> <span class="nb">for</span> <span class="nx">help.</span>
-</pre></div>
-
-
-<p>在网上查资料发现，需要进行软链接配置，主要原因依然是环境变量的问题，但是按照一些方式还是提示上面的错误，后来查看lib64下面的文件发现我安装的是.so.8.0的版本，本来是想都安装最新版本的，慢慢发现google和nvidia两家根本不同步，版本的一致性问题很头疼。没办法，在nvidia官网重新下载6.0版本的cudnn按照上面的方式重新安装后，在没有重新设置环境变量的情况下，helloword程序跑通了<br />
-下面是执行session时输出的信息，GPU信息显示出来了。</p>
-<div class="hlcode"><pre><span class="mi">2017</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">12</span> <span class="mi">13</span><span class="o">:</span><span class="mi">36</span><span class="o">:</span><span class="mf">43.894722</span><span class="o">:</span> <span class="n">I</span> <span class="n">tensorflow</span><span class="o">/</span><span class="n">core</span><span class="o">/</span><span class="n">platform</span><span class="o">/</span><span class="n">cpu_feature_guard</span><span class="p">.</span><span class="n">cc</span><span class="o">:</span><span class="mi">137</span><span class="p">]</span> <span class="n">Your</span> <span class="n">CPU</span> <span class="n">supports</span> <span class="n">instructions</span> <span class="n">that</span> <span class="n">this</span> <span class="n">TensorFlow</span> <span class="n">binary</span> <span class="n">was</span> <span class="n">not</span> <span class="n">compiled</span> <span class="n">to</span> <span class="n">use</span><span class="o">:</span> <span class="n">SSE4</span><span class="mf">.1</span> <span class="n">SSE4</span><span class="mf">.2</span> <span class="n">AVX</span> <span class="n">AVX2</span> <span class="n">FMA</span>
-<span class="mi">2017</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">12</span> <span class="mi">13</span><span class="o">:</span><span class="mi">36</span><span class="o">:</span><span class="mf">44.024230</span><span class="o">:</span> <span class="n">I</span> <span class="n">tensorflow</span><span class="o">/</span><span class="n">stream_executor</span><span class="o">/</span><span class="n">cuda</span><span class="o">/</span><span class="n">cuda_gpu_executor</span><span class="p">.</span><span class="n">cc</span><span class="o">:</span><span class="mi">892</span><span class="p">]</span> <span class="n">successful</span> <span class="n">NUMA</span> <span class="n">node</span> <span class="n">read</span> <span class="n">from</span> <span class="n">SysFS</span> <span class="n">had</span> <span class="n">negative</span> <span class="n">value</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">but</span> <span class="n">there</span> <span class="n">must</span> <span class="n">be</span> <span class="n">at</span> <span class="n">least</span> <span class="n">one</span> <span class="n">NUMA</span> <span class="n">node</span><span class="p">,</span> <span class="n">so</span> <span class="n">returning</span> <span class="n">NUMA</span> <span class="n">node</span> <span class="n">zero</span>
-<span class="mi">2017</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">12</span> <span class="mi">13</span><span class="o">:</span><span class="mi">36</span><span class="o">:</span><span class="mf">44.024467</span><span class="o">:</span> <span class="n">I</span> <span class="n">tensorflow</span><span class="o">/</span><span class="n">core</span><span class="o">/</span><span class="n">common_runtime</span><span class="o">/</span><span class="n">gpu</span><span class="o">/</span><span class="n">gpu_device</span><span class="p">.</span><span class="n">cc</span><span class="o">:</span><span class="mi">1030</span><span class="p">]</span> <span class="n">Found</span> <span class="n">device</span> <span class="mi">0</span> <span class="n">with</span> <span class="n">properties</span><span class="o">:</span>
-<span class="nl">name:</span> <span class="n">GeForce</span> <span class="n">GTX</span> <span class="mi">1080</span> <span class="n">major</span><span class="o">:</span> <span class="mi">6</span> <span class="n">minor</span><span class="o">:</span> <span class="mi">1</span> <span class="n">memoryClockRate</span><span class="p">(</span><span class="n">GHz</span><span class="p">)</span><span class="o">:</span> <span class="mf">1.7335</span>
-<span class="nl">pciBusID:</span> <span class="mo">0000</span><span class="o">:</span><span class="mo">01</span><span class="o">:</span><span class="mf">00.0</span>
-<span class="nl">totalMemory:</span> <span class="mf">7.92</span><span class="n">GiB</span> <span class="n">freeMemory</span><span class="o">:</span> <span class="mf">7.34</span><span class="n">GiB</span>
-<span class="mi">2017</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">12</span> <span class="mi">13</span><span class="o">:</span><span class="mi">36</span><span class="o">:</span><span class="mf">44.024480</span><span class="o">:</span> <span class="n">I</span> <span class="n">tensorflow</span><span class="o">/</span><span class="n">core</span><span class="o">/</span><span class="n">common_runtime</span><span class="o">/</span><span class="n">gpu</span><span class="o">/</span><span class="n">gpu_device</span><span class="p">.</span><span class="n">cc</span><span class="o">:</span><span class="mi">1120</span><span class="p">]</span> <span class="n">Creating</span> <span class="n">TensorFlow</span> <span class="n">device</span> <span class="p">(</span><span class="o">/</span><span class="n">device</span><span class="o">:</span><span class="n">GPU</span><span class="o">:</span><span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">device</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span> <span class="n">name</span><span class="o">:</span> <span class="n">GeForce</span> <span class="n">GTX</span> <span class="mi">1080</span><span class="p">,</span> <span class="n">pci</span> <span class="n">bus</span> <span class="n">id</span><span class="o">:</span> <span class="mo">0000</span><span class="o">:</span><span class="mo">01</span><span class="o">:</span><span class="mf">00.0</span><span class="p">,</span> <span class="n">compute</span> <span class="n">capability</span><span class="o">:</span> <span class="mf">6.1</span><span class="p">)</span>
-</pre></div>
-
-
-<p>具体运行结果如下图所示：<br />
-<center><img src="/wiki/static/images/tensorgpu/tensorflow.png" alt="tensorflow"/></center></p>
+安装完成后，进入python环境测试一下.</p>
 <p>至此，基于Ubuntu的tensorflow-gpu版本就安装配置完成，下面就可以畅快的"吃鸡"啦。</p>
-<h1 id="_3">五、一些问题</h1>
-<h3 id="1_1">1、驱动问题</h3>
-<p>我在安装过程中涉及到两个驱动问题，一个是显卡驱动，还有一个是CUDA驱动。<strong><em>显卡驱动</em></strong>我直接先是使用<code>sudo apt-get install upgrade</code>升级安装包，然后在Ubuntu的设置里面更新的Nvidia显卡驱动。并没有从官网下载安装对应版本的显卡驱动。<strong><em>CUDA驱动</em></strong>，我最初在安装CUDA的时候选项全部选择的是yes，导致最后的Driver、Toolkit和Samples都没有安装成功，后来所有教程中都加第二步是否安装图形显卡驱动时选择No，按照教程设置后Toolkit和Samples都安装成功了，但是Driver先是没有选择，安装结束后有一个warning，CUDA的驱动没有安装，根据提示在CUDA.run文件后面添加<code>-silent -driver</code>之后,对应的log文件中会先是<code>Driver: Installed</code>.</p>
-<h3 id="2cuda">2、关于cuda环境变量和更新软链接问题</h3>
-<p>最终在我的/etc/profile下面添加的内容如下：</p>
-<div class="hlcode"><pre><span class="n">PATH</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span><span class="o">/</span><span class="n">bin</span><span class="o">:</span><span class="err">$</span><span class="n">PATH</span>
-<span class="n">export</span> <span class="n">PATH</span>
-<span class="n">export</span> <span class="n">LD_LIBRARY_PATH</span><span class="o">=</span><span class="s">&quot;$LD_LIBRARY_PATH:/usr/local/cuda-8.0/lib64:/usr/local/cuda-8.0/extras/CUPTI/lib64&quot;</span>
-<span class="n">export</span> <span class="n">CUDA_HOME</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span><span class="o">-</span><span class="mf">8.0</span>
-</pre></div>
-
-
-<p>我也没用到软链接之类的。</p>
-<h3 id="3failed-call-to-cuinit-cuda_error_unknown">3、failed call to cuInit: CUDA_ERROR_UNKNOWN</h3>
-<p>在系统能够正常运行的情况下，轻易不要去更新显卡驱动，Nvidia动不动就会出新的驱动更新，我建议是不是大版本更新，能不更新尽量不更新，我就遇到了问题，每次登录系统的时候系统都会提示例如几个packages can be update，我觉得碍眼就直接使用<code>sudo apt-get upgrade</code>升级安装包，突然发现她在帮我更新显卡驱动，虎躯一震，感觉要出问题。等更新完成之后我立刻运行我的tensorflow程序，问题真的来了。<br />
-问题提示""failed call to cuInit: CUDA_ERROR_UNKNOWN""<br />
-<center><img src="/wiki/static/images/tensorgpu/cuda_error.png" alt="CUDA_ERROR_UNKNOWN"/></center><br />
-网上的解决方法：<br />
-第一种解决方法是 <code>sudo apt-get install nvidia-modprobe</code>，我尝试了，好像没有用。还是会报同样的错误。<br />
-第二种解决方法是 直接使用<code>sudo</code>来运行程序。具体可以参考<a href="https://github.com/tensorflow/tensorflow/issues/394">failed call to cuInit: CUDA_ERROR_UNKNOWN in python programs using Ubuntu bumblebee</a>。</p>
-<p>内核版本不匹配，那我就按照上面的方式重装cuda。<br />
-重装之后运行程序,问题解决<br />
-<center><img src="/wiki/static/images/tensorgpu/cuda_right.jpg" alt="CUDA_right"/></center></p>
-<h3 id="4lib">4、添加lib库路径</h3>
-<h2 id="_4">后续</h2>
+<h2 id="_2">后续</h2>
 <p>tensorflow升级至1.7版本后，如果继续使用cuda 8.0则会报下面的错误：</p>
 <div class="hlcode"><pre><span class="o">---------------------------------------------------------------------------</span>
 <span class="nx">ImportError</span>                               <span class="nx">Traceback</span> <span class="p">(</span><span class="nx">most</span> <span class="nx">recent</span> <span class="nb">call</span> <span class="nb">last</span><span class="p">)</span>
@@ -359,7 +293,7 @@
 <p>也就是说 tensorflow兼容的cuda也已经升级至9.0了，下面介绍下在ubuntu 16.04下升级安装cuda 9.0，这里本来想在cuda8.0的基础上直接覆盖安装cuda9.0的，结果没有成功，编译cuda实例源码的时候使用提示没有找到driver。在这之前一直是使用ubuntu系统本身的升级系统来更新nvidia驱动的，并没有使用源码安装显卡驱动。后来不停的重装cuda的过程中反而把系统给弄坏了，最后实在没办法重装系统。</p>
 <p><strong>在这里我又跳到坑里了，tensorflow 1.7目前暂时不支持cudnn9.1，所以我又得重新安装cudnn了（4月17号更新）</strong><br />
 <strong>注意，在安装cuda和dudnn的时候版本一定要一致。重装系统后，我装了cuda_9.0.176_384.81_linux和cudnn-9.0-linux-x64-v7.1，tensorflow的版本为1.7.0，安装过程中没有出现什么太大的问题，基本跟cuda8.0安装过程差不多。</strong></p>
-<h1 id="_5">六、参考文献</h1>
+<h1 id="_3">六、参考文献</h1>
 <p><a href="https://www.cnblogs.com/gaowengang/p/6068788.html">Ubuntu 14.04 安装 CUDA 问题及解决</a><br />
 <a href="http://blog.csdn.net/autocyz/article/details/52299889/">Ubuntu16.04+cuda8.0+caffe安装教程</a><br />
 <a href="http://developer2.download.nvidia.com/compute/machine-learning/cudnn/secure/v7.0.5/prod/Doc/cuDNN-Installation-Guide.pdf?1RL9HfeGELbC3I_J6F0c5RpXvy64oKHaWa0lZVIHWvzPbVKxDtV4_ivmxT2kIC6z1lE_h2bxuVgKEhGGW6R5n_GHnem5SFsA9jQI6LWMt68_sjV_HuOFBYO3EHzSwncT9iu1uUqar7UMgfrEOjgjE6hYCZcNNzBLgWrFa5VCRa2DsE1G8htULohvZqErOvFXRw">CUDNN Installation Guide</a><br />
