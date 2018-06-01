@@ -171,7 +171,7 @@ cudnn的下载需要注册之后才能下载。
 
 在CUDA安装好之后，CUDNN安装相对比较容易，根据官网教程，首先从官网上下载四个文件。如下图所示：
 <center><img src="/wiki/static/images/tensorgpu/cudnndownload.png" alt="cudnn"/></center>
-
+**上面的图片是后面更新文档的时候添加上的，跟我下面的安装列表有所区别，我之后在官网上没有找到对应的版本。但是直接在搜索框中输入下面的文件名是可以搜到的。**
 ```
 cudnn-9.0-linux-x64-v7.1.tar
 
