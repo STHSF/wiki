@@ -180,7 +180,7 @@
 
 <p><strong>注意，我在升级tensorflow至1.7后，此时cuda需要升级到cuda9.0,在安装cuda9.0的过程中，Driver显示的是Not Selectd，但是使用<code>sudo &lt;CudaInstaller&gt;.run -silent -driver</code>的方式并没有能够安装成功。但是我在使用samples中的样例测试也是可以的，没有出问题。所以这边Driver有没有select好像没有什么区别。对后面安装cudnn和tensorflow-gpu都没有什么影响。后面没有出现问题，所以也就没有去解决。(更新时间4月18日)</strong></p>
 <p>如果显示的是一些关于GPU的信息，则说明安装成功了，详细信息见下图。<br />
-<center><img src="/wiki/static/images/tensorgpu/devicequery.png" alt="devicequery"/></center></p>
+<center><img src="/wiki/static/images/tensorgpu/devicequery9.0.png" alt="devicequery"/></center></p>
 <h2 id="_2">配置环境变量</h2>
 <p>在CUDA安装完成之后，log日志中有提示需要声明环境变量，不然后面安装cudnn时会出现找不到.so文件。所以需要在/etc/profile中添加下面的内容。</p>
 <div class="hlcode"><pre><span class="n">PATH</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span><span class="o">/</span><span class="n">bin</span><span class="o">:</span><span class="err">$</span><span class="n">PATH</span>
@@ -193,23 +193,23 @@
 <p>最后<code>source /etc/profile</code>即可。</p>
 <h1 id="cudnn">三、安装cudnn</h1>
 <p>在CUDA安装好之后，CUDNN安装相对比较容易，根据官网教程，首先从官网上下载四个文件。</p>
-<div class="hlcode"><pre><span class="n">cudnn</span><span class="o">-</span><span class="mf">8.0</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">x64</span><span class="o">-</span><span class="n">v7</span><span class="p">.</span><span class="n">tgz</span>
+<div class="hlcode"><pre><span class="n">cudnn</span><span class="o">-</span><span class="mf">9.0</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">x64</span><span class="o">-</span><span class="n">v7</span><span class="mf">.1</span><span class="p">.</span><span class="n">tar</span>
 
-<span class="n">libcudnn7_7</span><span class="mf">.0.5.15</span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="n">cuda8</span><span class="mf">.0</span><span class="n">_amd64</span><span class="p">.</span><span class="n">deb</span>
+<span class="n">libcudnn7_7</span><span class="mf">.1.3.16</span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="n">cuda9</span><span class="mf">.0</span><span class="n">_amd64</span><span class="o">-</span><span class="mf">2.</span><span class="n">deb</span>
 
-<span class="n">libcudnn7</span><span class="o">-</span><span class="n">dev_7</span><span class="mf">.0.5.15</span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="n">cuda8</span><span class="mf">.0</span><span class="n">_amd64</span><span class="p">.</span><span class="n">deb</span>
+<span class="n">libcudnn7</span><span class="o">-</span><span class="n">dev_7</span><span class="mf">.1.3.16</span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="n">cuda9</span><span class="mf">.0</span><span class="n">_amd64</span><span class="o">-</span><span class="mf">2.</span><span class="n">deb</span>
 
-<span class="n">libcudnn7</span><span class="o">-</span><span class="n">doc_7</span><span class="mf">.0.5.15</span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="n">cuda8</span><span class="mf">.0</span><span class="n">_amd64</span><span class="p">.</span><span class="n">deb</span>
+<span class="n">libcudnn7</span><span class="o">-</span><span class="n">doc_7</span><span class="mf">.1.3.16</span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="n">cuda9</span><span class="mf">.0</span><span class="n">_amd64</span><span class="p">.</span><span class="n">deb</span>
 </pre></div>
 
 
 <p><strong><em>注意</em></strong><br />
 在安装cudnn的时候要特别注意tensorflow目前支持的cudnn版本，我这边直接下载的是最新的，后面在安装完tensorflow-gpu 1.4.1之后调用cudnn时就出现了错误，错误提示为ImportError: libcudnn.so.6: cannot open shared object file: No such file or directory。<br />
 我的解决方法是从官网上直接下载cudnn.6.0版本的，至于软链接等方式我试过了没有成功，后面有详细介绍，也可能是我添加环境变量错误导致。</p>
-<p>根据对应的系统和cuda版本下载，我的系统是ubuntu16.04，cuda版本为8.0.最好再注意下tensorflow支持的cudnn版本，然后需要注意的是cuda的安装路径，如果在安装cuda使用的默认路径/usr/local/cuda/，则不需要修改。</p>
+<p>根据对应的系统和cuda版本下载，我的系统是ubuntu16.04，cuda版本为9.0.最好再注意下tensorflow支持的cudnn版本，然后需要注意的是cuda的安装路径，如果在安装cuda使用的默认路径/usr/local/cuda/，则不需要修改。</p>
 <p>在存放四个文件的下载目录下。</p>
 <div class="hlcode"><pre><span class="cp"># 解压 cuDNN package.</span>
-<span class="err">$</span> <span class="n">tar</span> <span class="o">-</span><span class="n">xzvf</span> <span class="n">cudnn</span><span class="o">-</span><span class="mf">8.0</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">x64</span><span class="o">-</span><span class="n">v7</span><span class="p">.</span><span class="n">tgz</span>
+<span class="err">$</span> <span class="n">tar</span> <span class="o">-</span><span class="n">xzvf</span> <span class="n">cudnn</span><span class="o">-</span><span class="mf">9.0</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">x64</span><span class="o">-</span><span class="n">v7</span><span class="mf">.1</span><span class="p">.</span><span class="n">tgz</span>
 <span class="cp"># 将下面的文件复制到 CUDA Toolkit 文件目录下。</span>
 <span class="err">$</span> <span class="n">sudo</span> <span class="n">cp</span> <span class="n">cuda</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">cudnn</span><span class="p">.</span><span class="n">h</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span><span class="o">/</span><span class="n">include</span>
 <span class="err">$</span> <span class="n">sudo</span> <span class="n">cp</span> <span class="n">cuda</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span><span class="n">libcudnn</span><span class="o">*</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span><span class="o">/</span><span class="n">lib64</span>
