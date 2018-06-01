@@ -150,7 +150,7 @@ sudo ./deviceQuery
 **注意，我在升级tensorflow至1.7后，此时cuda需要升级到cuda9.0,在安装cuda9.0的过程中，Driver显示的是Not Selectd，但是使用```sudo <CudaInstaller>.run -silent -driver```的方式并没有能够安装成功。但是我在使用samples中的样例测试也是可以的，没有出问题。所以这边Driver有没有select好像没有什么区别。对后面安装cudnn和tensorflow-gpu都没有什么影响。后面没有出现问题，所以也就没有去解决。(更新时间4月18日)**
 
 如果显示的是一些关于GPU的信息，则说明安装成功了，详细信息见下图。
-<center><img src="/wiki/static/images/tensorgpu/devicequery.png" alt="devicequery"/></center>
+<center><img src="/wiki/static/images/tensorgpu/devicequery9.0.png" alt="devicequery"/></center>
 
 
 ## 配置环境变量
@@ -168,24 +168,25 @@ export LD_LIBRARY_PATH
 
 在CUDA安装好之后，CUDNN安装相对比较容易，根据官网教程，首先从官网上下载四个文件。
 ```
-cudnn-8.0-linux-x64-v7.tgz
+cudnn-9.0-linux-x64-v7.1.tar
 
-libcudnn7_7.0.5.15-1+cuda8.0_amd64.deb
+libcudnn7_7.1.3.16-1+cuda9.0_amd64-2.deb
 
-libcudnn7-dev_7.0.5.15-1+cuda8.0_amd64.deb
+libcudnn7-dev_7.1.3.16-1+cuda9.0_amd64-2.deb
 
-libcudnn7-doc_7.0.5.15-1+cuda8.0_amd64.deb
+libcudnn7-doc_7.1.3.16-1+cuda9.0_amd64.deb
+
 ```
 ***注意***
 在安装cudnn的时候要特别注意tensorflow目前支持的cudnn版本，我这边直接下载的是最新的，后面在安装完tensorflow-gpu 1.4.1之后调用cudnn时就出现了错误，错误提示为ImportError: libcudnn.so.6: cannot open shared object file: No such file or directory。
 我的解决方法是从官网上直接下载cudnn.6.0版本的，至于软链接等方式我试过了没有成功，后面有详细介绍，也可能是我添加环境变量错误导致。
 
-根据对应的系统和cuda版本下载，我的系统是ubuntu16.04，cuda版本为8.0.最好再注意下tensorflow支持的cudnn版本，然后需要注意的是cuda的安装路径，如果在安装cuda使用的默认路径/usr/local/cuda/，则不需要修改。
+根据对应的系统和cuda版本下载，我的系统是ubuntu16.04，cuda版本为9.0.最好再注意下tensorflow支持的cudnn版本，然后需要注意的是cuda的安装路径，如果在安装cuda使用的默认路径/usr/local/cuda/，则不需要修改。
 
 在存放四个文件的下载目录下。
 ```
 # 解压 cuDNN package.
-$ tar -xzvf cudnn-8.0-linux-x64-v7.tgz
+$ tar -xzvf cudnn-9.0-linux-x64-v7.1.tgz
 # 将下面的文件复制到 CUDA Toolkit 文件目录下。
 $ sudo cp cuda/include/cudnn.h /usr/local/cuda/include
 $ sudo cp cuda/lib64/libcudnn* /usr/local/cuda/lib64
