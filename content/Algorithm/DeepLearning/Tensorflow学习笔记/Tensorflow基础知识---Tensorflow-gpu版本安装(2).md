@@ -1,23 +1,21 @@
 ---
-title: "Tensorflow基础知识---ubuntu下安装安装CUDA9.0、cuDNN9.0和tensotflow-gpu 1.8.0版本流程和问题总结"
+title: "Tensorflow基础知识---Ubuntu16.04下安装安装CUDA9.0、cuDNN9.0和tensotflow-gpu 1.8.0版本流程和问题总结"
 layout: page
-date: 2017-12-12 14:00
+date: 2018-06-01 03:00
 ---
 
 # 写在前面
-使用tensorflow接近一年时间，然而一直使用的是cpu版本的，而且还是在笔记本上跑程序的，所以当训练模型时，你懂的，我都心疼我的笔记本，最近公司刚刚给配了台带了块GTX 1080的台式机。嗯，终于算入门了，台式机的配置如下：
+Tensorflow版本更新太快了，最新版已经更新到1.8.0了，Tensorflow在1.7的时候就已经对cuda和cudnn的版本有所要求，所以下面介绍安装cuda9.0和cudnn9.0的安装。台式机的配置如下：
 ```
 System：Ubuntu 16.04 LTS
 CPU: Intel(R) Core(TM) i7-7700 CPU @ 3.60GHz
 MemTotal: 16295024 kB
 GPU: GeForce GTX 1080
 ```
-目前来说够用了。大佬就可以忽略这段的。下面说说我在安装配置tensorflow-gpu的时候遇到的问题
-
 # 一、N卡驱动安装
 ## Nvidia官网下载对应显卡驱动安装
 ### 1、驱动下载
-去[nvidia官网](http://www.nvidia.cn/Download/index.aspx?lang=cn)下载对应的驱动，根据自己的显卡型号和操作系统手动查找对应的驱动文件，我的显卡是GTX1080，所以下载的驱动文件名为**NVIDIA-Linux-x86_64-390.48.run**。如下图所示。
+去[nvidia官网](http://www.nvidia.cn/Download/index.aspx?lang=cn)下载对应的驱动，根据自己的显卡型号和操作系统手动查找对应的驱动文件，我的显卡型号是GTX1080，所以下载的驱动文件名为**NVIDIA-Linux-x86_64-390.48.run**。如下图所示。
 <center><img src="/wiki/static/images/tensorgpu/nvidia_driver.jpg" alt="nvidia-driver"/></center>
 
 ### 2、先卸载原有N卡驱动
@@ -75,16 +73,16 @@ sudo ./NVIDIA-Linux-x86_64-384.59.run –no-opengl-files
 
 ### 6、Driver测试：
 ```
-nvidia-smi #若列出GPU的信息列表，表示驱动安装成功
-nvidia-settings #若弹出设置对话框，亦表示驱动安装成功
+nvidia-smi # 若列出GPU的信息列表，表示驱动安装成功
+nvidia-settings # 若弹出设置对话框，亦表示驱动安装成功(该命令只能在GUI下才能使用，关闭图形界面是无法弹出什么对话框的)
 ```
 
 # 二、安装cuda
 
-#### 1、检查自带的nouveau nvidia驱动是否禁用。
+## 1、检查自带的nouveau nvidia驱动是否禁用。
 如果安装cuda和安装显卡驱动没有同时进行，则需要检查这一步，同样安装cuda和显卡驱动都需要禁用nouveau驱动。
 
-#### 2、```Ctrl + Alt + F1``` 进入命令行模式，执行，
+## 2、```Ctrl + Alt + F1``` 进入命令行模式，执行，
 ```
 $ sudo service lightdm stop      // 关闭桌面服务
 ```
@@ -94,8 +92,10 @@ $ sudo service lightdm stop      // 关闭桌面服务
 
 **注，在安装nvidia显卡驱动和cuda的时候都需要关闭桌面服务，或者可以在安装完显卡驱动之后不恢复图形界面，直接安装cuda。**
 
-#### 3、安装CUDA.run文件
-我用的是是CUDA8.0的版本，刚开始安装的是最新9.0的版本，后来好像在某篇教程中看到tensorflow目前还不支持CUDA9.0版本的，所以重装了8.0的，也有可能我没有理解他的意思，我没有经过实测。还有就是很多教程直接使用.deb安装的CUDA，同事反应在升级的过程中直接安装没有问题，但是后面使用的时候就会出现一些问题，所以我也没有直接安装，后面遇到的问题也没办法复现。
+## 3、安装CUDA.run文件
+我安装的是CUDA9.0的版本，到[nvidia开发者社区](https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&target_distro=Ubuntu&target_version=1604&target_type=runfilelocal)根据选项挑选对应的安装版本，如下图所示。
+<center><img src="/wiki/static/images/tensorgpu/CUDA Toolkit 9.0 Downloads.png" alt="nvidia-driver"/></center>
+本文下载的cuda.run文件版本为: **cuda_9.0.176_384.81_linux.run**
 ```
 sudo sh cuda_8.0.61_375.26_linux.run --no-opengl-libs
 ```
