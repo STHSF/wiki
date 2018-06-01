@@ -143,7 +143,7 @@ $ sudo service lightdm start     // 重启桌面服务
 
 为了检查安装是否正确，从cuda的samples中选择样例进行测试。
 ```
-cd /usr/local/cuda-7.5/samples/1_Utilities/deviceQuery
+cd /usr/local/cuda-9.0/samples/1_Utilities/deviceQuery
 sudo make clean && make
 sudo ./deviceQuery
 ```
@@ -153,7 +153,7 @@ sudo ./deviceQuery
 <center><img src="/wiki/static/images/tensorgpu/devicequery9.0.png" alt="devicequery"/></center>
 
 
-## 配置环境变量
+## CUDA配置环境变量
 在CUDA安装完成之后，log日志中有提示需要声明环境变量，不然后面安装cudnn时会出现找不到.so文件。所以需要在/etc/profile中添加下面的内容。
 
 ```
@@ -192,11 +192,11 @@ $ sudo cp cuda/include/cudnn.h /usr/local/cuda/include
 $ sudo cp cuda/lib64/libcudnn* /usr/local/cuda/lib64
 $ sudo chmod a+r /usr/local/cuda/include/cudnn.h /usr/local/cuda/lib64/libcudnn*
 # 安装 runtime library,
-sudo dpkg -i libcudnn7_7.0.5.15-1+cuda8.0_amd64.deb
+sudo dpkg -i libcudnn7_7.1.3.16-1+cuda9.0_amd64-2.deb
 # 安装 developer library,
-sudo dpkg -i libcudnn7-dev_7.0.5.15-1+cuda8.0_amd64.deb
+sudo dpkg -i libcudnn7-dev_7.1.3.16-1+cuda9.0_amd64-2.deb
 # 安装 code samples and the cuDNN Library User Guide
-sudo dpkg -i libcudnn7-doc_7.0.5.15-1+cuda8.0_amd64.deb
+sudo dpkg -i libcudnn7-doc_7.1.3.16-1+cuda9.0_amd64.deb
 ```
 
 ## 验证cudnn是否安装正确
@@ -213,7 +213,7 @@ $ ./mnistCUDNN
 Test passed!
 ```
 详细运行结果如下图所示：
-<center><img src="/wiki/static/images/tensorgpu/mnist.png" alt="mnist"/></center>
+<center><img src="/wiki/static/images/tensorgpu/mnistdnn.png" alt="mnist"/></center>
 
 
 # 四、安装gpu版tensorflow
