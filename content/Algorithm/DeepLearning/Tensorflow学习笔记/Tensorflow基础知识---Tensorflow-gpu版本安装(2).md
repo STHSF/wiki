@@ -173,14 +173,13 @@ cudnn的下载需要注册之后才能下载。
 <center><img src="/wiki/static/images/tensorgpu/cudnndownload.png" alt="cudnn"/></center>
 **上面的图片是后面更新文档的时候添加上的，跟我下面的安装列表有所区别，我之后在官网上没有找到对应的版本。但是直接在搜索框中输入下面的文件名是可以搜到的。**
 ```
-cudnn-9.0-linux-x64-v7.1.tar
+cudnn-9.0-linux-x64-v7.1.tar   # the cuDNN package
 
-libcudnn7_7.1.3.16-1+cuda9.0_amd64-2.deb
+libcudnn7_7.1.3.16-1+cuda9.0_amd64-2.deb   # runtime library
 
-libcudnn7-dev_7.1.3.16-1+cuda9.0_amd64-2.deb
+libcudnn7-dev_7.1.3.16-1+cuda9.0_amd64-2.deb   # runtime library
 
-libcudnn7-doc_7.1.3.16-1+cuda9.0_amd64.deb
-
+libcudnn7-doc_7.1.3.16-1+cuda9.0_amd64.deb   # the code samples and the cuDNN Library User Guide 
 ```
 ***注意***
 在安装cudnn的时候要特别注意tensorflow目前支持的cudnn版本，我这边直接下载的是最新的，后面在安装完tensorflow-gpu 1.4.1之后调用cudnn时就出现了错误，错误提示为ImportError: libcudnn.so.6: cannot open shared object file: No such file or directory。
@@ -203,6 +202,7 @@ sudo dpkg -i libcudnn7-dev_7.1.3.16-1+cuda9.0_amd64-2.deb
 # 安装 code samples and the cuDNN Library User Guide
 sudo dpkg -i libcudnn7-doc_7.1.3.16-1+cuda9.0_amd64.deb
 ```
+**注** [cuDNN官方的安装和验证教程](https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html#install-linux)
 
 ## 验证cudnn是否安装正确
 ```
