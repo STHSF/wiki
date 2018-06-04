@@ -1,5 +1,5 @@
 ---
-title: "Tensorflow基础知识---Ubuntu16.04下安装安装CUDA9.0、cuDNN9.0和tensotflow-gpu 1.8.0版本流程和问题总结"
+title: "Tensorflow基础知识---Ubuntu16.04下安装安装CUDA9.0、cuDNN7.0和tensotflow-gpu 1.8.0版本流程和问题总结"
 layout: page
 date: 2018-06-01 03:00
 ---
