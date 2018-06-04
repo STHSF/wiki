@@ -179,6 +179,7 @@
 
 
 <p><strong>注意，我在升级tensorflow至1.7后，此时cuda需要升级到cuda9.0,在安装cuda9.0的过程中，Driver显示的是Not Selectd，但是使用<code>sudo &lt;CudaInstaller&gt;.run -silent -driver</code>的方式并没有能够安装成功。但是我在使用samples中的样例测试也是可以的，没有出问题。所以这边Driver有没有select好像没有什么区别。对后面安装cudnn和tensorflow-gpu都没有什么影响。后面没有出现问题，所以也就没有去解决。(更新时间4月18日)</strong></p>
+<p><strong>附</strong><a href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html">CUDA官方安装教程</a></p>
 <p>如果显示的是一些关于GPU的信息，则说明安装成功了，详细信息见下图。<br />
 <center><img src="/wiki/static/images/tensorgpu/devicequery9.0.png" alt="devicequery"/></center></p>
 <h2 id="cuda_1">CUDA配置环境变量</h2>
@@ -227,7 +228,7 @@
 </pre></div>
 
 
-<p><strong>注</strong> <a href="https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html#install-linux">cuDNN官方的安装和验证教程</a></p>
+<p><strong>附</strong> <a href="https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html#install-linux">cuDNN官方的安装和验证教程</a></p>
 <h2 id="cudnn_1">验证cudnn是否安装正确</h2>
 <div class="hlcode"><pre><span class="mf">1.</span> <span class="err">将某一个</span> <span class="n">cuDNN</span> <span class="err">样例复制到某一可读写文件目录下</span>
 <span class="err">$</span> <span class="n">cp</span> <span class="o">-</span><span class="n">r</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">cudnn_samples_v7</span><span class="o">/</span> <span class="err">$</span><span class="n">HOME</span>
@@ -299,7 +300,9 @@
 <p><strong>在这里我又跳到坑里了，tensorflow 1.7目前暂时不支持cudnn9.1，所以我又得重新安装cudnn了（4月17号更新）</strong><br />
 <strong>注意，在安装cuda和dudnn的时候版本一定要一致。重装系统后，我装了cuda_9.0.176_384.81_linux和cudnn-9.0-linux-x64-v7.1，tensorflow的版本为1.7.0，安装过程中没有出现什么太大的问题，基本跟cuda8.0安装过程差不多。</strong></p>
 <h1 id="_3">六、参考文献</h1>
-<p><a href="https://sthsf.github.io/wiki/Algorithm/DeepLearning/Tensorflow学习笔记/Tensorflow基础知识---Tensorflow-gpu版本安装.html">ubuntu下安装安装CUDA、cuDNN和tensotflow-gpu版本流程和问题总结</a><br />
+<p><a href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html">CUDA官方安装教程</a><br />
+<a href="https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html#install-linux">cuDNN官方的安装和验证教程</a><br />
+<a href="https://sthsf.github.io/wiki/Algorithm/DeepLearning/Tensorflow学习笔记/Tensorflow基础知识---Tensorflow-gpu版本安装.html">ubuntu下安装安装CUDA、cuDNN和tensotflow-gpu版本流程和问题总结</a><br />
 <a href="https://www.cnblogs.com/gaowengang/p/6068788.html">Ubuntu 14.04 安装 CUDA 问题及解决</a><br />
 <a href="http://blog.csdn.net/autocyz/article/details/52299889/">Ubuntu16.04+cuda8.0+caffe安装教程</a><br />
 <a href="http://developer2.download.nvidia.com/compute/machine-learning/cudnn/secure/v7.0.5/prod/Doc/cuDNN-Installation-Guide.pdf?1RL9HfeGELbC3I_J6F0c5RpXvy64oKHaWa0lZVIHWvzPbVKxDtV4_ivmxT2kIC6z1lE_h2bxuVgKEhGGW6R5n_GHnem5SFsA9jQI6LWMt68_sjV_HuOFBYO3EHzSwncT9iu1uUqar7UMgfrEOjgjE6hYCZcNNzBLgWrFa5VCRa2DsE1G8htULohvZqErOvFXRw">CUDNN Installation Guide</a><br />
