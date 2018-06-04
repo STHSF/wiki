@@ -149,6 +149,8 @@ sudo ./deviceQuery
 ```
 **注意，我在升级tensorflow至1.7后，此时cuda需要升级到cuda9.0,在安装cuda9.0的过程中，Driver显示的是Not Selectd，但是使用```sudo <CudaInstaller>.run -silent -driver```的方式并没有能够安装成功。但是我在使用samples中的样例测试也是可以的，没有出问题。所以这边Driver有没有select好像没有什么区别。对后面安装cudnn和tensorflow-gpu都没有什么影响。后面没有出现问题，所以也就没有去解决。(更新时间4月18日)**
 
+**附**[CUDA官方安装教程](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html)
+
 如果显示的是一些关于GPU的信息，则说明安装成功了，详细信息见下图。
 <center><img src="/wiki/static/images/tensorgpu/devicequery9.0.png" alt="devicequery"/></center>
 
@@ -202,7 +204,7 @@ sudo dpkg -i libcudnn7-dev_7.1.3.16-1+cuda9.0_amd64-2.deb
 # 安装 code samples and the cuDNN Library User Guide
 sudo dpkg -i libcudnn7-doc_7.1.3.16-1+cuda9.0_amd64.deb
 ```
-**注** [cuDNN官方的安装和验证教程](https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html#install-linux)
+**附** [cuDNN官方的安装和验证教程](https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html#install-linux)
 
 ## 验证cudnn是否安装正确
 ```
@@ -283,7 +285,8 @@ above this error message when asking for help.
 
 
 # 六、参考文献
-
+[CUDA官方安装教程](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html)
+[cuDNN官方的安装和验证教程](https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html#install-linux)
 [ubuntu下安装安装CUDA、cuDNN和tensotflow-gpu版本流程和问题总结](https://sthsf.github.io/wiki/Algorithm/DeepLearning/Tensorflow学习笔记/Tensorflow基础知识---Tensorflow-gpu版本安装.html)
 [Ubuntu 14.04 安装 CUDA 问题及解决](https://www.cnblogs.com/gaowengang/p/6068788.html)
 [Ubuntu16.04+cuda8.0+caffe安装教程](http://blog.csdn.net/autocyz/article/details/52299889/)
