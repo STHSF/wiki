@@ -94,10 +94,88 @@ ValueError: Variable var3 already exists, disallowed. Did you mean to set reuse=
 ```
 **代码1中可以看出，如果变量名不重复的情况下，两种variabe的op是没有问题的，但是如果在同样的变量名重复使用的情况下，tf.Varibale()操作会自动的创建新的对象，并以一定的命名方式保存（代码2），就是说在使用tf.Variable()定义变量时，如果系统检测到命名冲突，系统会自己处理，但是在使用tf.get_variable()时，系统不会自动处理，而是会报错(代码2)，这里面涉及到Tensorflow的变量共享的问题。**
 
-**在深度学习的一些结构中比如RNN，需要用到共享变量，这时候就需要使用tf.get_variable()来让变量得到共享，在其他情况下，两种方法的用法是一样的**
+**在深度学习的一些结构中比如RNN，需要用到共享变量，这时候就需要使用tf.get_variable()来让变量得到共享，该函数就是为了共享变量而准备的，在其他情况下，两种方法的用法是一样的**
 
 # tf.name_scope() & tf.variable_scope()
+那么如何使用共享变量呢，Tensorflow给出了两个作用域函数，tf.name_scope()和tf.variable_scope()函数，同样我们先看一组对比。
 
+```
+import tensorflow as tf
+# 1
+var1 = tf.Variable(name='var1', initial_value=[1], dtype=tf.float32)
+var2 = tf.Variable(name='var1', initial_value=[2], dtype=tf.float32)
+# 2
+with tf.variable_scope('var_scope1'):
+    var3 = tf.Variable(name='var1', initial_value=[1], dtype=tf.float32)
+    var4 = tf.Variable(name='var1', initial_value=[2], dtype=tf.float32)
+# 3    
+with tf.name_scope('name_scope1'):
+    var5 = tf.Variable(name='var1', initial_value=[1], dtype=tf.float32)
+    var6 = tf.Variable(name='var1', initial_value=[2], dtype=tf.float32)    
+# 4
+initializer = tf.constant_initializer(value=1)
+with tf.variable_scope('var_scope2', reuse=tf.AUTO_REUSE):
+    var7 = tf.get_variable(name='var', initializer=initializer, shape=[1], dtype=tf.float32)
+    var8 = tf.get_variable(name='var', initializer=initializer, shape=[1], dtype=tf.float32)
+# 5    
+with tf.name_scope('name_scope2'):
+    var9 = tf.get_variable(name='var1', initializer=initializer, shape=[1], dtype=tf.float32)
+    var10 = tf.get_variable(name='var', initializer=initializer, shape=[1], dtype=tf.float32)
+
+with tf.Session() as sess:
+    sess.run(tf.global_variables_initializer())
+    print(var1.name)
+    print(sess.run(var1))
+    print(var2.name)
+    print(sess.run(var2))
+    
+    print(var3.name)
+    print(sess.run(var3))
+    print(var4.name)
+    print(sess.run(var4))
+    
+    print(var5.name)
+    print(sess.run(var5))
+    print(var6.name)
+    print(sess.run(var6))
+
+    print(var7.name)
+    print(sess.run(var7))
+    print(var8.name)
+    print(sess.run(var8))
+    
+    print(var9.name)
+    print(sess.run(var9))
+    print(var10.name)
+    print(sess.run(var10))
+```
+输出结果
+```
+var1:0
+[1.]
+var1_1:0
+[2.]
+
+var_scope1/var1:0
+[1.]
+var_scope1/var1_1:0
+[2.]
+
+name_scope1/var1:0
+[1.]
+name_scope1/var1_1:0
+[2.]
+
+var_scope2/var:0
+[1.]
+var_scope2/var:0
+[1.]
+
+var1_2:0
+[1.]
+var:0
+[1.]
+```
 
 # 参考文献
 [ tensorflow学习笔记（二十三）：variable与get_variable](http://blog.csdn.net/u012436149/article/details/53696970)
