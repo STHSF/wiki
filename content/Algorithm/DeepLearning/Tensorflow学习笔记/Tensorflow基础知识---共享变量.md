@@ -111,16 +111,22 @@ with tf.variable_scope('var_scope1'):
 # 3    
 with tf.name_scope('name_scope1'):
     var5 = tf.Variable(name='var1', initial_value=[1], dtype=tf.float32)
-    var6 = tf.Variable(name='var1', initial_value=[2], dtype=tf.float32)    
+    var6 = tf.Variable(name='var1', initial_value=[2], dtype=tf.float32)
 # 4
-initializer = tf.constant_initializer(value=1)
-with tf.variable_scope('var_scope2', reuse=tf.AUTO_REUSE):
-    var7 = tf.get_variable(name='var', initializer=initializer, shape=[1], dtype=tf.float32)
-    var8 = tf.get_variable(name='var', initializer=initializer, shape=[1], dtype=tf.float32)
-# 5    
+with tf.variab_scope('var_scope2'):
+    var7 = tf.Variable(name='var1', initial_value=[1], dtype=tf.float32)
+# 5
 with tf.name_scope('name_scope2'):
-    var9 = tf.get_variable(name='var1', initializer=initializer, shape=[1], dtype=tf.float32)
+    var8 = tf.Variable(name='var1', initial_value=[1], dtype=tf.float32)
+# 6
+initializer = tf.constant_initializer(value=1)
+with tf.variable_scope('var_scope3', reuse=tf.AUTO_REUSE):
+    var9 = tf.get_variable(name='var', initializer=initializer, shape=[1], dtype=tf.float32)
     var10 = tf.get_variable(name='var', initializer=initializer, shape=[1], dtype=tf.float32)
+# 7    
+with tf.name_scope('name_scope3'):
+    var11 = tf.get_variable(name='var1', initializer=initializer, shape=[1], dtype=tf.float32)
+    var12 = tf.get_variable(name='var', initializer=initializer, shape=[1], dtype=tf.float32)
 
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
@@ -148,6 +154,11 @@ with tf.Session() as sess:
     print(sess.run(var9))
     print(var10.name)
     print(sess.run(var10))
+
+    print(var11.name)
+    print(sess.run(var11))
+    print(var12.name)
+    print(sess.run(var12))
 ```
 输出结果
 ```
@@ -166,9 +177,15 @@ name_scope1/var1:0
 name_scope1/var1_1:0
 [2.]
 
-var_scope2/var:0
+var_scope2/var1:0
 [1.]
-var_scope2/var:0
+
+name_scope2/var1:0
+[1.]
+
+var_scope3/var:0
+[1.]
+var_scope3/var:0
 [1.]
 
 var1_2:0
@@ -176,6 +193,15 @@ var1_2:0
 var:0
 [1.]
 ```
+**观察代码块2和代码块3，同一个Variable_scope或者name_scope下的tf.Variable()同名变量会被自动设置别名，而tf.get_variable()则会报错**
+**对比代码块2，3，4，5，不同Variable_scope或者name_scope下的tf.Variable()同名变量，其完整变量名不同，(因为Variable_scope或者name_scope不同)，所以他们不是同一个变量**
+**代码块6，要设置tf.get_variable()同名变量，需要在tf.Variable_scope()下申明共享。variable_scope下声明共享后，tf.Variable()同名变量指向两个不同变量实体，而tf.get_variable ()同名变量则指向同一个变量实体。**
+**对比代码块1,代码块2和代码块3的结果,当使用tf.Variable定义变量的时候，tf.name_scope和tf.variable_scope的作用相同，都受到了层级控制。其他没有变化**
+**对比代码块1和代码块5的结果，tf.Variable()所创建的变量受name_scope的层级控制，而tf.get_variable()则不受name_scope的层级控制。所以使用tf.name_scope和tf.get_variable()联合使用没有效果。**
+** tf.Variable()的变量名称是可选参数，而tf.get_variable()的变量名称是必填参数。**
+****
+****
+
 
 # 参考文献
 [ tensorflow学习笔记（二十三）：variable与get_variable](http://blog.csdn.net/u012436149/article/details/53696970)
