@@ -1,5 +1,5 @@
 ---
-title: "Tensorflow基础知识---共享变量"
+title: "Tensorflow基础知识---共享变量(name_scope()和variable_scope()的区别)"
 layout: page
 date: 2017-07-25 23:00
 ---
@@ -8,7 +8,93 @@ date: 2017-07-25 23:00
 工作之余，学习tensorflow已经有一段时间了，时间总是零零碎碎，期间也用tensorflow搭建过一些框架，但是代码都是在参考别人的基础上实现的，随着对模型的深入，开始自己写代码框架，在写的过程中发现自己的基础不是很扎实，特别是对Tensorflow的一些基础的api并不是完全领会，当初只是知道别人是这么用的，所以我也跟着用了。现在自己的定义的时候发现他们之间的差别不是很清楚，所以还是得静下心来把这些基础知识弄清楚。
 
 # tf.Variable() & tf.get_variable()
+在了解tf.name_scope() & tf.variable_scope()的之间的区别的时候，我们的先需要了解Tensorflow中的变量的定义。
 
+### 代码1
+```
+import tensorflow as tf
+
+var1 = tf.Variable(name='var1', initial_value=[1], dtype=tf.float32)
+var2 = tf.Variable(name='var2', initial_value=[2], dtype=tf.float32)
+
+initializer = tf.constant_initializer(value=1)
+var3 = tf.get_variable(name='var3', initializer=initializer, shape=[1], dtype=tf.float32)
+var4 = tf.get_variable(name='var4', initializer=initializer, shape=[1], dtype=tf.float32)
+
+with tf.Session() as sess:
+    sess.run(tf.global_variables_initializer())
+    print(var1.name)
+    print(sess.run(var1))
+    print(var2.name)
+    print(sess.run(var2))
+    
+    print(var3.name)
+    print(sess.run(var3))
+    print(var4.name)
+    print(sess.run(var4))
+```
+运行结果：
+```
+var1:0
+[1.]
+var2:0
+[2.]
+var3:0
+[1.]
+var4:0
+[1.]
+```
+在保持其他代码不变的情况下，我们把name修改成相同的之后，运行代码
+### 代码2
+```
+import tensorflow as tf
+
+var1 = tf.Variable(name='var1', initial_value=[1], dtype=tf.float32)
+var2 = tf.Variable(name='var1', initial_value=[2], dtype=tf.float32)
+
+with tf.Session() as sess:
+    sess.run(tf.global_variables_initializer())
+    print(var1.name)
+    print(sess.run(var1))
+    print(var2.name)
+    print(sess.run(var2))
+```
+输出结果
+```
+var1:0
+[1.]
+var1_1:0
+[2.]
+```
+### 代码3
+```
+import tensorflow as tf
+
+initializer = tf.constant_initializer(value=1)
+var3 = tf.get_variable(name='var3', initializer=initializer, shape=[1], dtype=tf.float32)
+var4 = tf.get_variable(name='var3', initializer=initializer, shape=[1], dtype=tf.float32)
+
+with tf.Session() as sess:
+    sess.run(tf.global_variables_initializer())
+    print(var3.name)
+    print(sess.run(var3))
+    print(var4.name)
+    print(sess.run(var4))
+```
+输出结果
+```
+ValueError: Variable var3 already exists, disallowed. Did you mean to set reuse=True or reuse=tf.AUTO_REUSE in VarScope? Originally defined at:
+
+  File "<ipython-input-2-02038677e4f2>", line 7, in <module>
+    var3 = tf.get_variable(name='var3', initializer=initializer, shape=[1], dtype=tf.float32)
+  File "/home/jerry/workshop/virtualenv/tensor_jupyer/local/lib/python2.7/site-packages/IPython/core/interactiveshell.py", line 2878, in run_code
+    exec(code_obj, self.user_global_ns, self.user_ns)
+  File "/home/jerry/workshop/virtualenv/tensor_jupyer/local/lib/python2.7/site-packages/IPython/core/interactiveshell.py", line 2818, in run_ast_nodes
+    if self.run_code(code, result):
+```
+**代码1中可以看出，如果变量名不重复的情况下，两种variabe的op是没有问题的，但是如果在同样的变量名重复使用的情况下，tf.Varibale()操作会自动的创建新的对象，并以一定的命名方式保存（代码2），就是说在使用tf.Variable()定义变量时，如果系统检测到命名冲突，系统会自己处理，但是在使用tf.get_variable()时，系统不会自动处理，而是会报错(代码2)，这里面涉及到Tensorflow的变量共享的问题。**
+
+**在深度学习的一些结构中比如RNN，需要用到共享变量，这时候就需要使用tf.get_variable()来让变量得到共享，在其他情况下，两种方法的用法是一样的**
 
 # tf.name_scope() & tf.variable_scope()
 
