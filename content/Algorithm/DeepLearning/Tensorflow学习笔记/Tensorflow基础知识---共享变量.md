@@ -197,8 +197,8 @@ var:0
 **对比代码块2，3，4，5，不同Variable_scope或者name_scope下的tf.Variable()同名变量，其完整变量名不同，(因为Variable_scope或者name_scope不同)，所以他们不是同一个变量**
 **代码块6，要设置tf.get_variable()同名变量，需要在tf.Variable_scope()下申明共享。variable_scope下声明共享后，tf.Variable()同名变量指向两个不同变量实体，而tf.get_variable ()同名变量则指向同一个变量实体。**
 **对比代码块1,代码块2和代码块3的结果,当使用tf.Variable定义变量的时候，tf.name_scope和tf.variable_scope的作用相同，都受到了层级控制。其他没有变化**
-**对比代码块1和代码块5的结果，tf.Variable()所创建的变量受name_scope的层级控制，而tf.get_variable()则不受name_scope的层级控制。所以使用tf.name_scope和tf.get_variable()联合使用没有效果。**
-** tf.Variable()的变量名称是可选参数，而tf.get_variable()的变量名称是必填参数。**
+**对比代码块1和代码块7的结果，tf.Variable()所创建的变量受name_scope的层级控制，而tf.get_variable()则不受name_scope的层级控制。所以使用tf.name_scope和tf.get_variable()联合使用没有效果，get_variable完全无视name_scope。**
+**tf.Variable()的变量名称是可选参数，而tf.get_variable()的变量名称是必填参数。**
 ****
 ****
 
