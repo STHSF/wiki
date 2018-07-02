@@ -92,9 +92,9 @@ ValueError: Variable var3 already exists, disallowed. Did you mean to set reuse=
   File "/home/jerry/workshop/virtualenv/tensor_jupyer/local/lib/python2.7/site-packages/IPython/core/interactiveshell.py", line 2818, in run_ast_nodes
     if self.run_code(code, result):
 ```
-**代码1中可以看出，如果变量名不重复的情况下，两种variabe的op是没有问题的，但是如果在同样的变量名重复使用的情况下，tf.Varibale()操作会自动的创建新的对象，并以一定的命名方式保存（代码2），就是说在使用tf.Variable()定义变量时，如果系统检测到命名冲突，系统会自己处理，但是在使用tf.get_variable()时，系统不会自动处理，而是会报错(代码2)，这里面涉及到Tensorflow的变量共享的问题。**
+- **代码1中可以看出，如果变量名不重复的情况下，两种variabe的op是没有问题的，但是如果在同样的变量名重复使用的情况下，tf.Varibale()操作会自动的创建新的对象，并以一定的命名方式保存（代码2），就是说在使用tf.Variable()定义变量时，如果系统检测到命名冲突，系统会自己处理，但是在使用tf.get_variable()时，系统不会自动处理，而是会报错(代码2)，这里面涉及到Tensorflow的变量共享的问题。**
 
-**在深度学习的一些结构中比如RNN，需要用到共享变量，这时候就需要使用tf.get_variable()来让变量得到共享，该函数就是为了共享变量而准备的，在其他情况下，两种方法的用法是一样的**
+- **在深度学习的一些结构中比如RNN，需要用到共享变量，这时候就需要使用tf.get_variable()来让变量得到共享，该函数就是为了共享变量而准备的，在其他情况下，两种方法的用法是一样的**
 
 # tf.name_scope() & tf.variable_scope()
 那么如何使用共享变量呢，Tensorflow给出了两个作用域函数，tf.name_scope()和tf.variable_scope()函数，同样我们先看一组对比。
