@@ -1,5 +1,5 @@
 ---
-title: "Tensorflow基础知识---共享变量(name_scope()和variable_scope()的区别)"
+title: "Tensorflow基础知识---共享管理(name_scope()和variable_scope()的区别)"
 layout: page
 date: 2017-07-25 23:00
 ---
@@ -95,6 +95,8 @@ ValueError: Variable var3 already exists, disallowed. Did you mean to set reuse=
 - **代码1中可以看出，如果变量名不重复的情况下，两种variabe的op是没有问题的，但是如果在同样的变量名重复使用的情况下，tf.Varibale()操作会自动的创建新的对象，并以一定的命名方式保存（代码2），就是说在使用tf.Variable()定义变量时，如果系统检测到命名冲突，系统会自己处理，但是在使用tf.get_variable()时，系统不会自动处理，而是会报错(代码2)，这里面涉及到Tensorflow的变量共享的问题。**
 
 - **在深度学习的一些结构中比如RNN，需要用到共享变量，这时候就需要使用tf.get_variable()来让变量得到共享，该函数就是为了共享变量而准备的，在其他情况下，两种方法的用法是一样的**
+
+- **tf.get_variable和tf.Variable的最大区别在于指定变量名称的参数，对于tf.Variable，变量名称是一个可选的参数，通常以name=''的形式给出。 但是对于tf.get_variable而言，变量名称是一个必填参数。 tf.get_variable函数会根据这个名字去创建或者获取变量。**
 
 # tf.name_scope() & tf.variable_scope()
 那么如何使用共享变量呢，Tensorflow给出了两个作用域函数，tf.name_scope()和tf.variable_scope()函数，同样我们先看一组对比。
@@ -207,9 +209,13 @@ var:0
 ****
 ****
 
+## 关于Tensorflow的命名机制
+
+
 
 # 参考文献
 [ tensorflow学习笔记（二十三）：variable与get_variable](http://blog.csdn.net/u012436149/article/details/53696970)
 [tensorflow学习笔记(十五): variable scope](http://www.2cto.com/kf/201611/562404.html)
 [tf.variable_scope和tf.name_scope的用法](http://blog.csdn.net/uestc_c2_403/article/details/72328815)
 [TF Boys (TensorFlow Boys ) 养成记（三）： TensorFlow 变量共享](http://www.cnblogs.com/Charles-Wan/p/6200446.html)
+[tensorflow变量管理](https://blog.csdn.net/qq_32458499/article/details/78789486)
