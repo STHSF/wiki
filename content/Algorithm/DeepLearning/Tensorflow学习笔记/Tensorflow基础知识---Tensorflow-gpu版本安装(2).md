@@ -59,9 +59,9 @@ sudo service lightdm stop #这会关闭图形界面，但不用紧张
 ### 5、命令行安装驱动
 ```
 #给驱动run文件赋予执行权限：
-sudo chmod +x NVIDIA-Linux-x86_64-384.59.run
+sudo chmod +x NVIDIA-Linux-x86_64-390.48.run
 #后面的参数非常重要，不可省略：
-sudo ./NVIDIA-Linux-x86_64-384.59.run –no-opengl-files
+sudo ./NVIDIA-Linux-x86_64-390.48.run –no-opengl-files
 ```
 - –no-x-check：表示安装驱动时不检查X服务，非必需。
 - –no-nouveau-check：表示安装驱动时不检查nouveau，非必需。
@@ -70,6 +70,8 @@ sudo ./NVIDIA-Linux-x86_64-384.59.run –no-opengl-files
 
 必选参数解释：因为NVIDIA的驱动默认会安装OpenGL，而Ubuntu的内核本身也有OpenGL、且与GUI显示息息相关，一旦NVIDIA的驱动覆写了OpenGL，在GUI需要动态链接OpenGL库的时候就引起问题。之后，按照提示安装，成功后重启即可。 
 如果提示安装失败，不要急着重启电脑，重复以上步骤，多安装几次即可。
+
+**PS: Ubuntu系统会自动更新linux内核，服务器重启之后会出现nvidia Driver找不到的情况，重新安装驱动之后问题解决。所以建议关闭Linux内核自动更新。**
 
 ### 6、Driver测试：
 ```
