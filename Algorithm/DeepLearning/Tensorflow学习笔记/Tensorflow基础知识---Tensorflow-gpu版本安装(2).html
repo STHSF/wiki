@@ -91,9 +91,9 @@
 <p><strong>小提示</strong>：在命令行输入：sudo service lightdm start ，然后按Ctrl-Alt+F7即可恢复到图形界面。</p>
 <h3 id="5">5、命令行安装驱动</h3>
 <div class="hlcode"><pre><span class="cp">#给驱动run文件赋予执行权限：</span>
-<span class="n">sudo</span> <span class="n">chmod</span> <span class="o">+</span><span class="n">x</span> <span class="n">NVIDIA</span><span class="o">-</span><span class="n">Linux</span><span class="o">-</span><span class="n">x86_64</span><span class="o">-</span><span class="mf">384.59</span><span class="p">.</span><span class="n">run</span>
+<span class="n">sudo</span> <span class="n">chmod</span> <span class="o">+</span><span class="n">x</span> <span class="n">NVIDIA</span><span class="o">-</span><span class="n">Linux</span><span class="o">-</span><span class="n">x86_64</span><span class="o">-</span><span class="mf">390.48</span><span class="p">.</span><span class="n">run</span>
 <span class="cp">#后面的参数非常重要，不可省略：</span>
-<span class="n">sudo</span> <span class="p">.</span><span class="o">/</span><span class="n">NVIDIA</span><span class="o">-</span><span class="n">Linux</span><span class="o">-</span><span class="n">x86_64</span><span class="o">-</span><span class="mf">384.59</span><span class="p">.</span><span class="n">run</span> <span class="err">–</span><span class="n">no</span><span class="o">-</span><span class="n">opengl</span><span class="o">-</span><span class="n">files</span>
+<span class="n">sudo</span> <span class="p">.</span><span class="o">/</span><span class="n">NVIDIA</span><span class="o">-</span><span class="n">Linux</span><span class="o">-</span><span class="n">x86_64</span><span class="o">-</span><span class="mf">390.48</span><span class="p">.</span><span class="n">run</span> <span class="err">–</span><span class="n">no</span><span class="o">-</span><span class="n">opengl</span><span class="o">-</span><span class="n">files</span>
 </pre></div>
 
 
@@ -105,6 +105,7 @@
 </ul>
 <p>必选参数解释：因为NVIDIA的驱动默认会安装OpenGL，而Ubuntu的内核本身也有OpenGL、且与GUI显示息息相关，一旦NVIDIA的驱动覆写了OpenGL，在GUI需要动态链接OpenGL库的时候就引起问题。之后，按照提示安装，成功后重启即可。 <br />
 如果提示安装失败，不要急着重启电脑，重复以上步骤，多安装几次即可。</p>
+<p><strong>PS: Ubuntu系统会自动更新linux内核，服务器重启之后会出现nvidia Driver找不到的情况，重新安装驱动之后问题解决。所以建议关闭Linux内核自动更新。</strong></p>
 <h3 id="6driver">6、Driver测试：</h3>
 <div class="hlcode"><pre><span class="n">nvidia</span><span class="o">-</span><span class="n">smi</span> <span class="err">#</span> <span class="err">若列出</span><span class="n">GPU</span><span class="err">的信息列表，表示驱动安装成功</span>
 <span class="n">nvidia</span><span class="o">-</span><span class="n">settings</span> <span class="err">#</span> <span class="err">若弹出设置对话框，亦表示驱动安装成功</span><span class="p">(</span><span class="err">该命令只能在</span><span class="n">GUI</span><span class="err">下才能使用，关闭图形界面是无法弹出什么对话框的</span><span class="p">)</span>
