@@ -219,3 +219,5 @@ var:0
 [tf.variable_scope和tf.name_scope的用法](http://blog.csdn.net/uestc_c2_403/article/details/72328815)
 [TF Boys (TensorFlow Boys ) 养成记（三）： TensorFlow 变量共享](http://www.cnblogs.com/Charles-Wan/p/6200446.html)
 [tensorflow变量管理](https://blog.csdn.net/qq_32458499/article/details/78789486)
+[tensorflow学习笔记(十七):name&variable scope](https://blog.csdn.net/u012436149/article/details/53081454)
+[tensorflow里面name_scope, variable_scope等如何理解？](https://www.zhihu.com/question/54513728)

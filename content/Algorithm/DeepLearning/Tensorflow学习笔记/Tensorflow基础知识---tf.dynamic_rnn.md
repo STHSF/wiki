@@ -30,3 +30,10 @@ dynamic_rnn中主要的参数包括cell, inputs, initial_state=None, time_major=
 [解读tensorflow之rnn](http://blog.csdn.net/mydear_11000/article/details/52414342)
 
 [tensorflow高阶教程:tf.dynamic_rnn](http://blog.csdn.net/u010223750/article/details/71079036#reply)
+
+[tf.dynamic_rnn](https://blog.csdn.net/zhangyilg/article/details/80520005)
+
+[tensorflow使用tf.dynamic_rnn技巧](https://blog.csdn.net/lyg5623/article/details/73924506)
+
+[static_rnn 和dynamic_rnn的区别](https://blog.csdn.net/luoyexuge/article/details/78097772)
+
