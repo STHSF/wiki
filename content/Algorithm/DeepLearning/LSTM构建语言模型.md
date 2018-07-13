@@ -19,3 +19,7 @@ date: 2017-06-30 10:03
 [2](http://tracholar.github.io/wiki/machine-learning/keras.html)
 [ 使用TensorFlow实现RNN模型入门篇2--char-rnn语言建模模型](http://blog.csdn.net/liuchonge/article/details/71424432)
 [基于Embedding的RNN生成混搭歌词](https://github.com/NELSONZHAO/zhihu/blob/master/generate_lyrics/generate_lyrics.ipynb)
+[tensorflow学习笔记（六）：LSTM 与 GRU](https://blog.csdn.net/u012436149/article/details/52887091)
+[简单明了的LSTM/GRU应用实例（Tensorflow版）](https://blog.csdn.net/baimafujinji/article/details/78279744?locationNum=3&fps=1)
+[解读tensorflow之rnn](https://blog.csdn.net/mydear_11000/article/details/52414342)
+[tensorflow学习笔记（三十七）：如何自定义LSTM的initial state](https://blog.csdn.net/u012436149/article/details/64444601)
