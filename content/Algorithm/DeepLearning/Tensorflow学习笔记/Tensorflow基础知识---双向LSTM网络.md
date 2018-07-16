@@ -29,3 +29,5 @@ date: 2017-09-12 10:00
 [tensorflow学习笔记（三十八）:损失函数加上正则项](https://blog.csdn.net/u012436149/article/details/70264257)
 [LSTM模型与前向反向传播算法](https://www.cnblogs.com/pinard/p/6519110.html)
 [【机器学习】RNN学习](https://www.cnblogs.com/rucwxb/p/8047401.html)
+[/tf22_RNN_scope.py](https://github.com/MorvanZhou/tutorials/blob/master/tensorflowTUT/tf22_scope/tf22_RNN_scope.py)
+[在NLP上，CNN、RNN（认为LSTM等变体也是RNN）、最简单全连结MLP，三者相比，各有何优劣?](https://www.zhihu.com/question/41625896)

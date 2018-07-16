@@ -29,6 +29,8 @@ date: 2017-06-30 10:03
 [Styles of Truncated Backpropagation](https://r2rt.com/styles-of-truncated-backpropagation.html)
 [Recurrent Neural Networks in Tensorflow I](https://r2rt.com/recurrent-neural-networks-in-tensorflow-i.html)
 [（Unfinished）RNN-循环神经网络之LSTM和GRU-04介绍及推导](http://lawlite.me/page/2/)
+[使用TENSORFLOW训练循环神经网络语言模型](https://gaussic.github.io/2017/08/24/tensorflow-language-model/)
+[text-classification-cnn-rnn](https://github.com/gaussic/text-classification-cnn-rnn/blob/master/rnn_model.py)
 
 
 

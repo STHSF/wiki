@@ -170,3 +170,7 @@ $$
 [tensorflow0.10.0 ptb_word_lm.py 源码解析](http://blog.csdn.net/u012436149/article/details/52828786)
 
 [ tensorflow学习笔记（二十六）：构建TF代码](http://blog.csdn.net/u012436149/article/details/53843158)
+
+[sequence-labeling-BiLSTM-CRF](https://github.com/scofield7419/sequence-labeling-BiLSTM-CRF/tree/master/bilstm_crf_word%20embedding)
+
+[zh-NER-TF](https://github.com/Determined22/zh-NER-TF/blob/master/model.py)
