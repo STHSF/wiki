@@ -1,7 +1,7 @@
 ---
-title: "分布式TensorFlow搭建和使用"
+title: "Tensorflow基础知识---分布式TensorFlow搭建和使用"
 layout: page
-date: 2017-12-12 14:00
+date: 2018-07-24 14:00
 ---
 
 # 写在前面
