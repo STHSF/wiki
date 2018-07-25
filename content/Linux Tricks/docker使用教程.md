@@ -53,7 +53,7 @@ f906aeaa80e7        tensorflow/serving:latest-devel-gpu   "/bin/bash"         20
 
 # 退出container
 
-直接使用Ctrl + d或者在container中运行exit
+直接使用Ctrl +d 或者在container中运行exit
 
 
 # 重新启动某个image的container
