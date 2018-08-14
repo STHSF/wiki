@@ -1,7 +1,7 @@
 ---
 title: "xgboost参数和调参技巧"
 layout: page
-date: 2017-07-26 10:00
+date: 2018-08-14 10:00
 ---
 # 写在前面
 对于小样本数据,传统的机器学习方法效果可能会比深度学习好
@@ -128,19 +128,30 @@ L1 正则的惩罚系数
 ## Task Parameters
 
 - objective [ default=reg:linear ] 
-定义学习任务及相应的学习目标，可选的目标函数如下：
+定义学习任务及相应的学习目标，可选的目标函数如下:
+
     - “reg:linear” –线性回归。
+
     - “reg:logistic” –逻辑回归。
+
     - “binary:logistic” –二分类的逻辑回归问题，输出为概率。
+
     - “binary:logitraw” –二分类的逻辑回归问题，输出的结果为wTx。
+
     - “count:poisson” –计数问题的poisson回归，输出结果为poisson分布。
+
     - 在poisson回归中，max_delta_step的缺省值为0.7。(used to safeguard optimization)
+
     - “multi:softmax” –让XGBoost采用softmax目标函数处理多分类问题，同时需要设置参数num_class（类别个数）
+
     - “multi:softprob” –和softmax一样，但是输出的是ndata * nclass的向量，可以将该向量reshape成ndata行nclass列的矩阵。每行数据表示样本所属于每个类别的概率。
+
     - “rank:pairwise” –set XGBoost to do ranking task by minimizing the pairwise loss
+
     - base_score [ default=0.5 ] 
 
 the initial prediction score of all instances, global bias
+
     - eval_metric [ default according to objective ] 
 
 校验数据所需要的评价指标，不同的目标函数将会有缺省的评价指标（rmse for regression, and error for classification, mean average precision for ranking）
@@ -148,15 +159,25 @@ the initial prediction score of all instances, global bias
 用户可以添加多种评价指标，对于Python用户要以list传递参数对给程序，而不是map参数list参数不会覆盖’eval_metric’
 
 The choices are listed below:
+
     - “rmse”: root mean square error
+
     - “logloss”: negative log-likelihood
+    
     - “error”: Binary classification error rate. It is calculated as #(wrong cases)/#(all cases). For the predictions, the evaluation will regard the instances with prediction value larger than 0.5 as positive instances, and the others as negative instances.
+    
     - “merror”: Multiclass classification error rate. It is calculated as #(wrong cases)/#(all cases).
-     - “mlogloss”: Multiclass logloss
+    
+    - “mlogloss”: Multiclass logloss
+    
     - “auc”: Area under the curve for ranking evaluation.
+    
     - “ndcg”:Normalized Discounted Cumulative Gain
+    
     - “map”:Mean average precision
+    
     - “ndcg@n”,”map@n”: n can be assigned as an integer to cut off the top positions in the lists for evaluation.
+    
     - “ndcg-“,”map-“,”ndcg@n-“,”map@n-“: In XGBoost, NDCG and MAP will evaluate the score of a list without any positive samples as 1. By adding “-” in the evaluation metric XGBoost will evaluate these score as 0 to be consistent under some conditions. 
 training repeatively
 
