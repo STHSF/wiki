@@ -154,37 +154,74 @@
 <p>在偏置上的L2正则。缺省值为0（在L1上没有偏置项的正则，因为L1时偏置不重要）</p>
 <h2 id="task-parameters">Task Parameters</h2>
 <ul>
-<li>objective [ default=reg:linear ] <br />
-定义学习任务及相应的学习目标，可选的目标函数如下：<ul>
-<li>“reg:linear” –线性回归。</li>
-<li>“reg:logistic” –逻辑回归。</li>
-<li>“binary:logistic” –二分类的逻辑回归问题，输出为概率。</li>
-<li>“binary:logitraw” –二分类的逻辑回归问题，输出的结果为wTx。</li>
-<li>“count:poisson” –计数问题的poisson回归，输出结果为poisson分布。</li>
-<li>在poisson回归中，max_delta_step的缺省值为0.7。(used to safeguard optimization)</li>
-<li>“multi:softmax” –让XGBoost采用softmax目标函数处理多分类问题，同时需要设置参数num_class（类别个数）</li>
-<li>“multi:softprob” –和softmax一样，但是输出的是ndata * nclass的向量，可以将该向量reshape成ndata行nclass列的矩阵。每行数据表示样本所属于每个类别的概率。</li>
-<li>“rank:pairwise” –set XGBoost to do ranking task by minimizing the pairwise loss</li>
-<li>base_score [ default=0.5 ] </li>
+<li>
+<p>objective [ default=reg:linear ] <br />
+定义学习任务及相应的学习目标，可选的目标函数如下:</p>
+<ul>
+<li>
+<p>“reg:linear” –线性回归。</p>
+</li>
+<li>
+<p>“reg:logistic” –逻辑回归。</p>
+</li>
+<li>
+<p>“binary:logistic” –二分类的逻辑回归问题，输出为概率。</p>
+</li>
+<li>
+<p>“binary:logitraw” –二分类的逻辑回归问题，输出的结果为wTx。</p>
+</li>
+<li>
+<p>“count:poisson” –计数问题的poisson回归，输出结果为poisson分布。</p>
+</li>
+<li>
+<p>在poisson回归中，max_delta_step的缺省值为0.7。(used to safeguard optimization)</p>
+</li>
+<li>
+<p>“multi:softmax” –让XGBoost采用softmax目标函数处理多分类问题，同时需要设置参数num_class（类别个数）</p>
+</li>
+<li>
+<p>“multi:softprob” –和softmax一样，但是输出的是ndata * nclass的向量，可以将该向量reshape成ndata行nclass列的矩阵。每行数据表示样本所属于每个类别的概率。</p>
+</li>
+<li>
+<p>“rank:pairwise” –set XGBoost to do ranking task by minimizing the pairwise loss</p>
+</li>
+<li>
+<p>base_score [ default=0.5 ] </p>
+</li>
 </ul>
 </li>
 </ul>
-<p>the initial prediction score of all instances, global bias<br />
-    - eval_metric [ default according to objective ] </p>
+<p>the initial prediction score of all instances, global bias</p>
+<div class="hlcode"><pre><span class="o">-</span> <span class="n">eval_metric</span> <span class="p">[</span> <span class="k">default</span> <span class="n">according</span> <span class="n">to</span> <span class="n">objective</span> <span class="p">]</span>
+</pre></div>
+
+
 <p>校验数据所需要的评价指标，不同的目标函数将会有缺省的评价指标（rmse for regression, and error for classification, mean average precision for ranking）</p>
 <p>用户可以添加多种评价指标，对于Python用户要以list传递参数对给程序，而不是map参数list参数不会覆盖’eval_metric’</p>
-<p>The choices are listed below:<br />
-    - “rmse”: root mean square error<br />
-    - “logloss”: negative log-likelihood<br />
-    - “error”: Binary classification error rate. It is calculated as #(wrong cases)/#(all cases). For the predictions, the evaluation will regard the instances with prediction value larger than 0.5 as positive instances, and the others as negative instances.<br />
-    - “merror”: Multiclass classification error rate. It is calculated as #(wrong cases)/#(all cases).<br />
-     - “mlogloss”: Multiclass logloss<br />
-    - “auc”: Area under the curve for ranking evaluation.<br />
-    - “ndcg”:Normalized Discounted Cumulative Gain<br />
-    - “map”:Mean average precision<br />
-    - “ndcg@n”,”map@n”: n can be assigned as an integer to cut off the top positions in the lists for evaluation.<br />
-    - “ndcg-“,”map-“,”ndcg@n-“,”map@n-“: In XGBoost, NDCG and MAP will evaluate the score of a list without any positive samples as 1. By adding “-” in the evaluation metric XGBoost will evaluate these score as 0 to be consistent under some conditions. <br />
-training repeatively</p>
+<p>The choices are listed below:</p>
+<div class="hlcode"><pre><span class="o">-</span> <span class="err">“</span><span class="n">rmse</span><span class="err">”</span><span class="o">:</span> <span class="n">root</span> <span class="n">mean</span> <span class="n">square</span> <span class="n">error</span>
+
+<span class="o">-</span> <span class="err">“</span><span class="n">logloss</span><span class="err">”</span><span class="o">:</span> <span class="n">negative</span> <span class="n">log</span><span class="o">-</span><span class="n">likelihood</span>
+
+<span class="o">-</span> <span class="err">“</span><span class="n">error</span><span class="err">”</span><span class="o">:</span> <span class="n">Binary</span> <span class="n">classification</span> <span class="n">error</span> <span class="n">rate</span><span class="p">.</span> <span class="n">It</span> <span class="n">is</span> <span class="n">calculated</span> <span class="n">as</span> <span class="err">#</span><span class="p">(</span><span class="n">wrong</span> <span class="n">cases</span><span class="p">)</span><span class="o">/</span><span class="err">#</span><span class="p">(</span><span class="n">all</span> <span class="n">cases</span><span class="p">).</span> <span class="n">For</span> <span class="n">the</span> <span class="n">predictions</span><span class="p">,</span> <span class="n">the</span> <span class="n">evaluation</span> <span class="n">will</span> <span class="n">regard</span> <span class="n">the</span> <span class="n">instances</span> <span class="n">with</span> <span class="n">prediction</span> <span class="n">value</span> <span class="n">larger</span> <span class="n">than</span> <span class="mf">0.5</span> <span class="n">as</span> <span class="n">positive</span> <span class="n">instances</span><span class="p">,</span> <span class="n">and</span> <span class="n">the</span> <span class="n">others</span> <span class="n">as</span> <span class="n">negative</span> <span class="n">instances</span><span class="p">.</span>
+
+<span class="o">-</span> <span class="err">“</span><span class="n">merror</span><span class="err">”</span><span class="o">:</span> <span class="n">Multiclass</span> <span class="n">classification</span> <span class="n">error</span> <span class="n">rate</span><span class="p">.</span> <span class="n">It</span> <span class="n">is</span> <span class="n">calculated</span> <span class="n">as</span> <span class="err">#</span><span class="p">(</span><span class="n">wrong</span> <span class="n">cases</span><span class="p">)</span><span class="o">/</span><span class="err">#</span><span class="p">(</span><span class="n">all</span> <span class="n">cases</span><span class="p">).</span>
+
+<span class="o">-</span> <span class="err">“</span><span class="n">mlogloss</span><span class="err">”</span><span class="o">:</span> <span class="n">Multiclass</span> <span class="n">logloss</span>
+
+<span class="o">-</span> <span class="err">“</span><span class="n">auc</span><span class="err">”</span><span class="o">:</span> <span class="n">Area</span> <span class="n">under</span> <span class="n">the</span> <span class="n">curve</span> <span class="k">for</span> <span class="n">ranking</span> <span class="n">evaluation</span><span class="p">.</span>
+
+<span class="o">-</span> <span class="err">“</span><span class="n">ndcg</span><span class="err">”</span><span class="o">:</span><span class="n">Normalized</span> <span class="n">Discounted</span> <span class="n">Cumulative</span> <span class="n">Gain</span>
+
+<span class="o">-</span> <span class="err">“</span><span class="n">map</span><span class="err">”</span><span class="o">:</span><span class="n">Mean</span> <span class="n">average</span> <span class="n">precision</span>
+
+<span class="o">-</span> <span class="err">“</span><span class="n">ndcg</span><span class="err">@</span><span class="n">n</span><span class="err">”</span><span class="p">,</span><span class="err">”</span><span class="n">map</span><span class="err">@</span><span class="n">n</span><span class="err">”</span><span class="o">:</span> <span class="n">n</span> <span class="n">can</span> <span class="n">be</span> <span class="n">assigned</span> <span class="n">as</span> <span class="n">an</span> <span class="n">integer</span> <span class="n">to</span> <span class="n">cut</span> <span class="n">off</span> <span class="n">the</span> <span class="n">top</span> <span class="n">positions</span> <span class="n">in</span> <span class="n">the</span> <span class="n">lists</span> <span class="k">for</span> <span class="n">evaluation</span><span class="p">.</span>
+
+<span class="o">-</span> <span class="err">“</span><span class="n">ndcg</span><span class="o">-</span><span class="err">“</span><span class="p">,</span><span class="err">”</span><span class="n">map</span><span class="o">-</span><span class="err">“</span><span class="p">,</span><span class="err">”</span><span class="n">ndcg</span><span class="err">@</span><span class="n">n</span><span class="o">-</span><span class="err">“</span><span class="p">,</span><span class="err">”</span><span class="n">map</span><span class="err">@</span><span class="n">n</span><span class="o">-</span><span class="err">“</span><span class="o">:</span> <span class="n">In</span> <span class="n">XGBoost</span><span class="p">,</span> <span class="n">NDCG</span> <span class="n">and</span> <span class="n">MAP</span> <span class="n">will</span> <span class="n">evaluate</span> <span class="n">the</span> <span class="n">score</span> <span class="n">of</span> <span class="n">a</span> <span class="n">list</span> <span class="n">without</span> <span class="n">any</span> <span class="n">positive</span> <span class="n">samples</span> <span class="n">as</span> <span class="mf">1.</span> <span class="n">By</span> <span class="n">adding</span> <span class="err">“</span><span class="o">-</span><span class="err">”</span> <span class="n">in</span> <span class="n">the</span> <span class="n">evaluation</span> <span class="n">metric</span> <span class="n">XGBoost</span> <span class="n">will</span> <span class="n">evaluate</span> <span class="n">these</span> <span class="n">score</span> <span class="n">as</span> <span class="mi">0</span> <span class="n">to</span> <span class="n">be</span> <span class="n">consistent</span> <span class="n">under</span> <span class="n">some</span> <span class="n">conditions</span><span class="p">.</span>
+</pre></div>
+
+
+<p>training repeatively</p>
 <ul>
 <li>seed [ default=0 ] </li>
 </ul>
@@ -259,7 +296,7 @@ alpha –&gt; reg_alpha</p>
 <p><a href="https://blog.csdn.net/wzmsltw/article/details/50988430">XGBoost-Python完全调参指南-介绍篇</a><br />
 <a href="https://blog.csdn.net/wzmsltw/article/details/50994481">XGBoost-Python完全调参指南-参数解释篇</a></p>
 </div>
-<div id="content-footer">created in <span class="create-date date"> 2017-07-26 10:00 </span></div>
+<div id="content-footer">created in <span class="create-date date"> 2018-08-14 10:00 </span></div>
 <div id="comments"></div>
 <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
 <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
