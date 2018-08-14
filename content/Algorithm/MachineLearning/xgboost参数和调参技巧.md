@@ -1,5 +1,5 @@
 ---
-title: "xgboost参数和调参技巧.md"
+title: "xgboost参数和调参技巧"
 layout: page
 date: 2017-07-26 10:00
 ---
