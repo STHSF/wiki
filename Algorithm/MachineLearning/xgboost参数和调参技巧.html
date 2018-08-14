@@ -54,18 +54,24 @@
 <ul>
 <li>booster [default=gbtree] </li>
 </ul>
-<p>有两种模型可以选择gbtree和gblinear。gbtree使用基于树的模型进行提升计算，gblinear使用线性模型进行提升计算。缺省值为gbtree<br />
-- silent [default=0] </p>
+<p>有两种模型可以选择gbtree和gblinear。gbtree使用基于树的模型进行提升计算，gblinear使用线性模型进行提升计算。缺省值为gbtree</p>
+<ul>
+<li>silent [default=0] </li>
+</ul>
 <p>取0时表示打印出运行时信息，取1时表示以缄默方式运行，不打印运行时的信息。缺省值为0<br />
-建议取0，过程中的输出数据有助于理解模型以及调参。另外实际上我设置其为1也通常无法缄默运行。。<br />
-- nthread [default to maximum number of threads available if not set] </p>
+建议取0，过程中的输出数据有助于理解模型以及调参。另外实际上我设置其为1也通常无法缄默运行。。</p>
+<ul>
+<li>nthread [default to maximum number of threads available if not set] </li>
+</ul>
 <p>XGBoost运行时的线程数。缺省值是当前系统可以获得的最大线程数<br />
 如果你希望以最大速度运行，建议不设置这个参数，模型将自动获得最大线程</p>
 <ul>
 <li>num_pbuffer [set automatically by xgboost, no need to be set by user] </li>
 </ul>
-<p>size of prediction buffer, normally set to number of training instances. The buffers are used to save the prediction results of last boosting step.<br />
-- num_feature [set automatically by xgboost, no need to be set by user] </p>
+<p>size of prediction buffer, normally set to number of training instances. The buffers are used to save the prediction results of last boosting step.</p>
+<ul>
+<li>num_feature [set automatically by xgboost, no need to be set by user] </li>
+</ul>
 <p>boosting过程中用到的特征维数，设置为特征个数。XGBoost会自动设置，不需要手工设置</p>
 <h2 id="booster-parameters">Booster Parameters</h2>
 <p>From xgboost-unity, the bst: prefix is no longer needed for booster parameters. Parameter with or without bst: prefix will be equivalent(i.e. both bst:eta and eta will be valid parameter setting) .</p>
@@ -86,26 +92,28 @@
 <p>模型在默认情况下，对于一个节点的划分只有在其loss function 得到结果大于0的情况下才进行，而- gamma 给定了所需的最低loss function的值</p>
 <p>gamma值使得算法更conservation，且其值依赖于loss function ，在模型中应该进行调参。</p>
 <ul>
-<li>
-<p>max_depth [default=6] <br />
-树的最大深度。缺省值为6<br />
+<li>max_depth [default=6] </li>
+</ul>
+<p>树的最大深度。缺省值为6<br />
 取值范围为：[1,∞]<br />
 指树的最大深度<br />
 树的深度越大，则对数据的拟合程度越高（过拟合程度也越高）。即该参数也是控制过拟合<br />
 建议通过交叉验证（xgb.cv ) 进行调参<br />
 通常取值：3-10</p>
+<ul>
+<li>min_child_weight [default=1] </li>
+</ul>
+<p>孩子节点中最小的样本权重和。如果一个叶子节点的样本权重和小于min_child_weight则拆分过程结束。在现行回归模型中，这个参数是指建立每个模型所需要的最小样本数。该成熟越大算法越</p>
+<ul>
+<li>
+<p>conservative。即调大这个参数能够控制过拟合。<br />
+取值范围为: [0,∞]</p>
 </li>
 <li>
-<p>min_child_weight [default=1] </p>
+<p>max_delta_step [default=0] </p>
 </li>
 </ul>
-<p>孩子节点中最小的样本权重和。如果一个叶子节点的样本权重和小于min_child_weight则拆分过程结束。在现行回归模型中，这个参数是指建立每个模型所需要的最小样本数。该成熟越大算法越<br />
-- conservative。即调大这个参数能够控制过拟合。<br />
-取值范围为: [0,∞]</p>
-<ul>
-<li>max_delta_step [default=0] <br />
-Maximum delta step we allow each tree’s weight estimation to be. If the value is set to 0, it means there is no constraint. If it is set to a positive value, it can help making the update step more conservative. Usually this parameter is not needed, but it might help in logistic regression when class is extremely imbalanced. Set it to value of 1-10 might help control the update</li>
-</ul>
+<p>Maximum delta step we allow each tree’s weight estimation to be. If the value is set to 0, it means there is no constraint. If it is set to a positive value, it can help making the update step more conservative. Usually this parameter is not needed, but it might help in logistic regression when class is extremely imbalanced. Set it to value of 1-10 might help control the update</p>
 <p>取值范围为：[0,∞]</p>
 <p>如果取值为0，那么意味着无限制。如果取为正数，则其使得xgboost更新过程更加保守。<br />
 通常不需要设置这个值，但在使用logistics 回归时，若类别极度不平衡，则调整该参数可能有效果</p>
