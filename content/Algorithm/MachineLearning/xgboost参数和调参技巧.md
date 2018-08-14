@@ -19,10 +19,12 @@ XGBoost的参数可以分为三种类型：**通用参数**、**booster参数**�
 - booster [default=gbtree] 
 
 有两种模型可以选择gbtree和gblinear。gbtree使用基于树的模型进行提升计算，gblinear使用线性模型进行提升计算。缺省值为gbtree
+
 - silent [default=0] 
 
 取0时表示打印出运行时信息，取1时表示以缄默方式运行，不打印运行时的信息。缺省值为0
 建议取0，过程中的输出数据有助于理解模型以及调参。另外实际上我设置其为1也通常无法缄默运行。。
+
 - nthread [default to maximum number of threads available if not set] 
 
 XGBoost运行时的线程数。缺省值是当前系统可以获得的最大线程数
@@ -31,6 +33,7 @@ XGBoost运行时的线程数。缺省值是当前系统可以获得的最大线�
 - num_pbuffer [set automatically by xgboost, no need to be set by user] 
 
 size of prediction buffer, normally set to number of training instances. The buffers are used to save the prediction results of last boosting step.
+
 - num_feature [set automatically by xgboost, no need to be set by user] 
 
 boosting过程中用到的特征维数，设置为特征个数。XGBoost会自动设置，不需要手工设置
@@ -58,6 +61,7 @@ minimum loss reduction required to make a further partition on a leaf node of th
 gamma值使得算法更conservation，且其值依赖于loss function ，在模型中应该进行调参。
 
 - max_depth [default=6] 
+
 树的最大深度。缺省值为6
 取值范围为：[1,∞]
 指树的最大深度
@@ -68,10 +72,12 @@ gamma值使得算法更conservation，且其值依赖于loss function ，在模�
 - min_child_weight [default=1] 
 
 孩子节点中最小的样本权重和。如果一个叶子节点的样本权重和小于min_child_weight则拆分过程结束。在现行回归模型中，这个参数是指建立每个模型所需要的最小样本数。该成熟越大算法越
+
 - conservative。即调大这个参数能够控制过拟合。
 取值范围为: [0,∞]
 
 - max_delta_step [default=0] 
+
 Maximum delta step we allow each tree’s weight estimation to be. If the value is set to 0, it means there is no constraint. If it is set to a positive value, it can help making the update step more conservative. Usually this parameter is not needed, but it might help in logistic regression when class is extremely imbalanced. Set it to value of 1-10 might help control the update
 
 取值范围为：[0,∞]
