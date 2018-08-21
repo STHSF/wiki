@@ -447,3 +447,6 @@ chmod go-rw lili
 ```
 这就是说设置lili这个目录只有lili可以查看，Linux下的其它账户无法查看。
 
+# 参考文献
+[Linux探索之旅 | 第二部分第五课：用户和权限，有权就任性](https://www.jianshu.com/p/b587d91b8127)
+[Linux 服务器上建立用户并分配权限](https://blog.csdn.net/jiandanjinxin/article/details/51920812)
