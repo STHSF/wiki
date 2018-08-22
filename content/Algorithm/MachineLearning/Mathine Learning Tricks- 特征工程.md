@@ -83,6 +83,13 @@ print(res.x)
 - 归一化有可能提高精度;
 一些分类器需要计算样本之间的距离（如欧氏距离），例如KNN。如果一个特征值域范围非常大，那么距离计算就主要取决于这个特征，从而与实际情况相悖（比如这时实际情况是值域范围小的特征更重要）。
 
+# K-folds交叉验证
+防止过你和,挑选最合适的模型
+[Sklearn-CrossValidation交叉验证](https://blog.csdn.net/cherdw/article/details/54986863)
+[交叉验证及其用于参数选择、模型选择、特征选择的例子](https://blog.csdn.net/jasonding1354/article/details/50562513)
+
+
+
 # 参考文献
 https://www.cnblogs.com/sddai/p/6250094.html
 
