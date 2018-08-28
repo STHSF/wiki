@@ -256,3 +256,5 @@ alpha –> reg_alpha
 
 [XGBoost-Python完全调参指南-介绍篇](https://blog.csdn.net/wzmsltw/article/details/50988430)
 [XGBoost-Python完全调参指南-参数解释篇](https://blog.csdn.net/wzmsltw/article/details/50994481)
+[XGBoost python调参示例](https://blog.csdn.net/weiyongle1996/article/details/78360873)
+[xgboost原理及应用--转](https://www.cnblogs.com/zhouxiaohui888/p/6008368.html)
