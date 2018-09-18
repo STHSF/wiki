@@ -18,3 +18,5 @@ date: 2018-08-14 10:00
 [LightGBM 调参方法（具体操作）](https://www.cnblogs.com/bjwu/p/9307344.html)
 [LightGBM 如何调参](https://www.jianshu.com/p/b4ac0596e5ef)
 [集成学习总结](https://xijunlee.github.io/2017/06/03/集成学习总结/)
+
+[sklearn-GridSearchCV,CV调节超参使用方法](https://blog.csdn.net/u012969412/article/details/72973055)
