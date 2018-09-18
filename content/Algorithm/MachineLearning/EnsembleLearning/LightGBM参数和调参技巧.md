@@ -10,7 +10,7 @@ date: 2018-08-14 10:00
 [LightGBM 中文文档](http://lightgbm.apachecn.org/cn/latest/Python-Intro.html)
 [LightGBM 中文文档](http://lightgbm.apachecn.org/cn/latest/Python-API.html)
 [Microsoft/LightGBM](https://github.com/Microsoft/LightGBM/blob/master/examples/multiclass_classification/train.conf)
-[]()
+[机器学习算法总结](https://blog.csdn.net/weixin_40411446/article/details/81836322)
 []()
 []()
 []()
