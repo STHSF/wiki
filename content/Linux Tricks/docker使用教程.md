@@ -136,6 +136,17 @@ sudo docker restart ac01d678fcae Restart a running container
 #### docker容器运行中添加端口映射
 https://my.oschina.net/u/266ΩΩΩ752/blog/541433
 
+#### docker下安装vim 、telnet、ifconfig命令
+```
+# 同步 /etc/apt/sources.list 和 /etc/apt/sources.list.d 中列出的源的索引，这样才能获取到最新的软件包。
+apt-get update
+# 安装telnet
+​apt-get install  telnet 
+# 安装ifconfig
+apt-get install  net-tools
+# vim
+apt-get install vim
+```
 
 
 # 参考文献

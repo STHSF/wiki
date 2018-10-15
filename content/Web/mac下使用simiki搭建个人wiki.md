@@ -112,6 +112,29 @@ fab deploy
 
 ### 注意：本文使用的python环境为python2版本，如果使用python3版本fab可能会报错。
 
+## 使用过程中出现的问题
+
+### ghp-import: error: xcrun: error:
+```
+Usage: ghp-import [OPTIONS] DIRECTORY
+
+ghp-import: error: xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
+
+
+Fatal error: local() encountered an error (return code 2) while executing 'ghp-import -p -m "Update output documentation" -r origin -b gh-pages output'
+
+Aborting.
+```
+
+### 原因和解决方案
+这个问题是在mac系统中出现的,主要原因是因为我升级了新的系统,所以需要对xcode的相关插件做一次更新.更新代码如下:
+```
+xcode-select --install
+```
+
+# 参考文献:
+
+[MAC 升级到10.14 mojave beta之后git无法使用解决方案](https://blog.csdn.net/huyuan7494/article/details/80621547)
 
 
 
