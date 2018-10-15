@@ -50,8 +50,14 @@
 <li><a href="#mac">Mac下部署</a></li>
 <li><a href="#_3">网页发布流程</a><ul>
 <li><a href="#pythonpython2python3fab">注意：本文使用的python环境为python2版本，如果使用python3版本fab可能会报错。</a></li>
+<li><a href="#_4">使用过程中出现的问题</a><ul>
+<li><a href="#ghp-import-error-xcrun-error">ghp-import: error: xcrun: error:</a></li>
+<li><a href="#_5">原因和解决方案</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li><a href="#_6">参考文献:</a></li>
 </ul>
 </div>
 <h1 id="_1">写在前面</h1>
@@ -138,6 +144,27 @@ Exception: extracting page with format error, see <span class="nt">&lt;http:</sp
 <p>本文也参考了tracholar同学的作品。<br />
 页面下的评论参考的是<a href="https://imsun.net/posts/gitment-introduction/">gitment</a>的内容</p>
 <h3 id="pythonpython2python3fab">注意：本文使用的python环境为python2版本，如果使用python3版本fab可能会报错。</h3>
+<h2 id="_4">使用过程中出现的问题</h2>
+<h3 id="ghp-import-error-xcrun-error">ghp-import: error: xcrun: error:</h3>
+<div class="hlcode"><pre><span class="nt">Usage</span><span class="o">:</span> <span class="nt">ghp-import</span> <span class="cp">[</span><span class="nx">OPTIONS</span><span class="cp">]</span> <span class="nt">DIRECTORY</span>
+
+<span class="nt">ghp-import</span><span class="o">:</span> <span class="nt">error</span><span class="o">:</span> <span class="nt">xcrun</span><span class="o">:</span> <span class="nt">error</span><span class="o">:</span> <span class="nt">invalid</span> <span class="nt">active</span> <span class="nt">developer</span> <span class="nt">path</span> <span class="o">(/</span><span class="nt">Library</span><span class="o">/</span><span class="nt">Developer</span><span class="o">/</span><span class="nt">CommandLineTools</span><span class="o">),</span> <span class="nt">missing</span> <span class="nt">xcrun</span> <span class="nt">at</span><span class="o">:</span> <span class="o">/</span><span class="nt">Library</span><span class="o">/</span><span class="nt">Developer</span><span class="o">/</span><span class="nt">CommandLineTools</span><span class="o">/</span><span class="nt">usr</span><span class="o">/</span><span class="nt">bin</span><span class="o">/</span><span class="nt">xcrun</span>
+
+
+<span class="nt">Fatal</span> <span class="nt">error</span><span class="o">:</span> <span class="nt">local</span><span class="o">()</span> <span class="nt">encountered</span> <span class="nt">an</span> <span class="nt">error</span> <span class="o">(</span><span class="nt">return</span> <span class="nt">code</span> <span class="nt">2</span><span class="o">)</span> <span class="nt">while</span> <span class="nt">executing</span> <span class="s1">&#39;ghp-import -p -m &quot;Update output documentation&quot; -r origin -b gh-pages output&#39;</span>
+
+<span class="nt">Aborting</span><span class="o">.</span>
+</pre></div>
+
+
+<h3 id="_5">原因和解决方案</h3>
+<p>这个问题是在mac系统中出现的,主要原因是因为我升级了新的系统,所以需要对xcode的相关插件做一次更新.更新代码如下:</p>
+<div class="hlcode"><pre><span class="n">xcode</span><span class="o">-</span><span class="n">select</span> <span class="o">--</span><span class="n">install</span>
+</pre></div>
+
+
+<h1 id="_6">参考文献:</h1>
+<p><a href="https://blog.csdn.net/huyuan7494/article/details/80621547">MAC 升级到10.14 mojave beta之后git无法使用解决方案</a></p>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2017-06-02 00:00 </span></div>
 <div id="comments"></div>

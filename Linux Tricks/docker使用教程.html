@@ -182,6 +182,18 @@
 
 <h4 id="docker_3">docker容器运行中添加端口映射</h4>
 <p>https://my.oschina.net/u/266ΩΩΩ752/blog/541433</p>
+<h4 id="dockervim-telnetifconfig">docker下安装vim 、telnet、ifconfig命令</h4>
+<div class="hlcode"><pre><span class="cp"># 同步 /etc/apt/sources.list 和 /etc/apt/sources.list.d 中列出的源的索引，这样才能获取到最新的软件包。</span>
+<span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">update</span>
+<span class="cp"># 安装telnet</span>
+<span class="err">​</span><span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span>  <span class="n">telnet</span> 
+<span class="cp"># 安装ifconfig</span>
+<span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span>  <span class="n">net</span><span class="o">-</span><span class="n">tools</span>
+<span class="cp"># vim</span>
+<span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">vim</span>
+</pre></div>
+
+
 <h1 id="_13">参考文献</h1>
 <p><a href="https://blog.csdn.net/dongdong9223/article/details/52998375">如何进入、退出docker的container</a><br />
 <a href="https://github.com/tensorflow/serving/blob/master/tensorflow_serving/g3doc/docker.md">Using TensorFlow Serving via Docker</a><br />
