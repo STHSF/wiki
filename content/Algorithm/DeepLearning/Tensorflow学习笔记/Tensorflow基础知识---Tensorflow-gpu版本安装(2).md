@@ -158,7 +158,7 @@ sudo ./deviceQuery
 
 
 ## CUDA配置环境变量
-在CUDA安装完成之后，log日志中有提示需要声明环境变量，不然后面安装cudnn时会出现找不到.so文件。所以需要在/etc/profile中添加下面的内容。
+在CUDA安装完成之后，log日志中有提示需要声明环境变量，不然后面安装cudnn时会出现找不到.so文件。所以需要在/etc/profile(最好在~/.bashrc中添加)中添加下面的内容。
 
 ```
 PATH=/usr/local/cuda/bin:$PATH
@@ -285,7 +285,7 @@ above this error message when asking for help.
 **在这里我又跳到坑里了，tensorflow 1.7目前暂时不支持cudnn9.1，所以我又得重新安装cudnn了（4月17号更新）**
 **注意，在安装cuda和dudnn的时候版本一定要一致。重装系统后，我装了cuda_9.0.176_384.81_linux和cudnn-9.0-linux-x64-v7.1，tensorflow的版本为1.7.0，安装过程中没有出现什么太大的问题，基本跟cuda8.0安装过程差不多。**
 
-## 更新
+## 更新(2018.10.16)
 在安装cudnn之后需要添加环境变量,上文提到了在/etc/profile中添加相应的语句,然后source.我在将tensorflow1.7升级到tensorflow1.10之后出现了问题一的情况,后面我将环境变量添加到~/.bashrc中,然后source之后问题没了.
 
 # 六、参考文献
