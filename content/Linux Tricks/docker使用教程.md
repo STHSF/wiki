@@ -62,10 +62,6 @@ sudo docker start CONTAINER_ID
 
 启动该container之后，使用```sudo docker attach container_name/container_id```进入该container。
 
-# 退出某个Container
-```
-直接使用Ctrl +d 或者在container中运行exit
-```
 
 # docker常用命令
 - 在Container和宿主机之间复制文件
