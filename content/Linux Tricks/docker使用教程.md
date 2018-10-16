@@ -9,13 +9,13 @@ linux的使用过程中经常需要涉及到编译，运行等过程。最麻烦
 
 # 启动和关闭docker服务
 
-### 启动
+- 启动
 ```
 service docker start
 或
 systemctl start docker
 ```
-### 关闭
+- 关闭
 ```
 service docker stop
 或
@@ -50,12 +50,7 @@ c820900be758        tensorflow/serving:latest-devel-gpu   "/bin/bash"         20
 aad1b70763ab        tensorflow/serving:latest-devel-gpu   "/bin/bash"         20 hours ago        Created                                           condescending_jackson
 f906aeaa80e7        tensorflow/serving:latest-devel-gpu   "/bin/bash"         20 hours ago        Up 2 hours               0.0.0.0:8500->8500/tcp   mystifying_sinoussi
 ```
-  
-#退出某个Container
-```
-直接使用Ctrl +d 或者在container中运行exit
-```
-## 重新启动某个image的container
+# 重新启动某个image的container
 对于docker还是小白的我遇到这样一个问题，我pull了一个image到本地，然后运行这个image，这时候系统会生成一个contaner ID，我在contaner中安装了很多东西，比如vim，pip 之类的简单应用，并且编译了一些程序。完成之后直接退出。第二天使用的时候我还是运行了这个image，但是之前所有的配置全部没了。后来发现是自己错了，我每次运行的都是第一次pull下来的image，相当于每次启动的都是一个新的container，而我原来配置编译的那个container需要使用```sudo docker ps -a```就能看出来了。
 
 如果想要再次打开之前使用过的container，则可以运行：
@@ -64,79 +59,85 @@ sudo docker start container_name
 或
 sudo docker start CONTAINER_ID
 ```
+
 启动该container之后，使用```sudo docker attach container_name/container_id```进入该container。
 
+# 退出某个Container
+```
+直接使用Ctrl +d 或者在container中运行exit
+```
+
 # docker常用命令
-#### 在Container和宿主机之间复制文件
+- 在Container和宿主机之间复制文件
 ```
 从主机复制到容器:
 sudo docker cp host_path containerID:container_path
 从容器复制到主机:
 sudo docker cp containerID:container_path host_path
 ```
-#### 创建Docker镜像
+- 创建Docker镜像
 ```
 docker build -t fensme:v1 .
 ```
-#### 运行镜像
+- 运行镜像
 ```
 docker run fensme
 ```
-#### 运行镜像并进入
+- 运行镜像并进入
 ```
 docker run  -i -t fensme  /bin/bash
 ```
-#### 登录镜像平台
+- 登录镜像平台
 ```
 docker login --username=bsspirit --email=bsspirit@163.com
 ```
-#### 增加镜像空间名
+- 增加镜像空间名
 ```
 docker tag 8496b10e857a bsspirit/fensme:latest
 ```
-#### 提交镜像
+- 提交镜像
 ```
 docker push bsspirit/fensme
 ```
-#### 删除镜像
+- 删除镜像
 ```
 docker rmi <image id>
 ```
-### 删除所有镜像
+- 删除所有镜像
 ```
 docker rmi $(docker images  -q)
 ```
-### 进入镜像修改后，保存产生新镜像
+- 进入镜像修改后，保存产生新镜像
 ```
 docker commit $(container id前三位) ubuntu_sshd_gerry:14.04
 ```
-#### 停止所有的container 
+- 停止所有的container 
 ```
 docker  stop $(docker ps -a -q)
 ```
-#### 删除所有的contrainer
+- 删除所有的contrainer
 ```
 docker rm $(docker ps -a -q)
 ```
-#### 进入正在运行的contrainer
+- 进入正在运行的contrainer
 ```
 docker attach db3 
 docker attach d48b21a7e439
 ```
 
-#### SSH启动
+- SSH启动
 ```
 docker run -d -it -p 1000:22 vnpy:1.2 /usr/sbin/sshd -D
 ```
-#### 重启容器
+- 重启容器
 ```
 sudo docker restart ac01d678fcae Restart a running container
 ```
-#### docker容器运行中添加端口映射
+- docker容器运行中添加端口映射
 ```
 https://my.oschina.net/u/266ΩΩΩ752/blog/541433
 ```
-#### docker下安装vim 、telnet、ifconfig命令
+- docker下安装vim 、telnet、ifconfig命令
 ```
 # 同步 /etc/apt/sources.list 和 /etc/apt/sources.list.d 中列出的源的索引，这样才能获取到最新的软件包。
 apt-get update
