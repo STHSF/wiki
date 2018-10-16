@@ -50,7 +50,7 @@ c820900be758        tensorflow/serving:latest-devel-gpu   "/bin/bash"         20
 aad1b70763ab        tensorflow/serving:latest-devel-gpu   "/bin/bash"         20 hours ago        Created                                           condescending_jackson
 f906aeaa80e7        tensorflow/serving:latest-devel-gpu   "/bin/bash"         20 hours ago        Up 2 hours               0.0.0.0:8500->8500/tcp   mystifying_sinoussi
 ```
-
+ll
 
 # 退出container
 直接使用Ctrl +d 或者在container中运行exit
