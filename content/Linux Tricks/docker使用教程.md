@@ -50,9 +50,8 @@ c820900be758        tensorflow/serving:latest-devel-gpu   "/bin/bash"         20
 aad1b70763ab        tensorflow/serving:latest-devel-gpu   "/bin/bash"         20 hours ago        Created                                           condescending_jackson
 f906aeaa80e7        tensorflow/serving:latest-devel-gpu   "/bin/bash"         20 hours ago        Up 2 hours               0.0.0.0:8500->8500/tcp   mystifying_sinoussi
 ```
-ll
   
-
+# 退出某个Container
 直接使用Ctrl +d 或者在container中运行exit
 # 重新启动某个image的container
 对于docker还是小白的我遇到这样一个问题，我pull了一个image到本地，然后运行这个image，这时候系统会生成一个contaner ID，我在contaner中安装了很多东西，比如vim，pip 之类的简单应用，并且编译了一些程序。完成之后直接退出。第二天使用的时候我还是运行了这个image，但是之前所有的配置全部没了。后来发现是自己错了，我每次运行的都是第一次pull下来的image，相当于每次启动的都是一个新的container，而我原来配置编译的那个container需要使用```sudo docker ps -a```就能看出来了。
@@ -66,7 +65,7 @@ sudo docker start CONTAINER_ID
 启动该container之后，使用```sudo docker attach container_name/container_id```进入该container。
 
 # docker常用命令
-#### 在container和宿主机之间复制文件
+#### 在Container和宿主机之间复制文件
 ```
 从主机复制到容器:
 sudo docker cp host_path containerID:container_path
