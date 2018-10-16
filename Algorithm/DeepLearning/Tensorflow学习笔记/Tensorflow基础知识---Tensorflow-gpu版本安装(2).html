@@ -251,7 +251,7 @@
 现在tensorflow越来越成熟了，所以在虚拟环境下直接可以用<code>pip install --upgrade tensorflow-gpu</code>即可安装成功。<br />
 安装完成后，进入python环境测试一下.</p>
 <p>至此，基于Ubuntu的tensorflow-gpu版本就安装配置完成，下面就可以畅快的"吃鸡"啦。</p>
-<h2 id="_2">后续</h2>
+<h2 id="1_1">错误1</h2>
 <p>tensorflow升级至1.7版本后，如果继续使用cuda 8.0则会报下面的错误：</p>
 <div class="hlcode"><pre><span class="o">---------------------------------------------------------------------------</span>
 <span class="nx">ImportError</span>                               <span class="nx">Traceback</span> <span class="p">(</span><span class="nx">most</span> <span class="nx">recent</span> <span class="nb">call</span> <span class="nb">last</span><span class="p">)</span>
@@ -300,6 +300,8 @@
 <p>也就是说 tensorflow兼容的cuda也已经升级至9.0了，下面介绍下在ubuntu 16.04下升级安装cuda 9.0，这里本来想在cuda8.0的基础上直接覆盖安装cuda9.0的，结果没有成功，编译cuda实例源码的时候使用提示没有找到driver。在这之前一直是使用ubuntu系统本身的升级系统来更新nvidia驱动的，并没有使用源码安装显卡驱动。后来不停的重装cuda的过程中反而把系统给弄坏了，最后实在没办法重装系统。</p>
 <p><strong>在这里我又跳到坑里了，tensorflow 1.7目前暂时不支持cudnn9.1，所以我又得重新安装cudnn了（4月17号更新）</strong><br />
 <strong>注意，在安装cuda和dudnn的时候版本一定要一致。重装系统后，我装了cuda_9.0.176_384.81_linux和cudnn-9.0-linux-x64-v7.1，tensorflow的版本为1.7.0，安装过程中没有出现什么太大的问题，基本跟cuda8.0安装过程差不多。</strong></p>
+<h2 id="_2">更新</h2>
+<p>在安装cudnn之后需要添加环境变量,上文提到了在/etc/profile中添加相应的语句,然后source.我在将tensorflow1.7升级到tensorflow1.10之后出现了问题一的情况,后面我将环境变量添加到~/.bashrc中,然后source之后问题没了.</p>
 <h1 id="_3">六、参考文献</h1>
 <p><a href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html">CUDA官方安装教程</a><br />
 <a href="https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html#install-linux">cuDNN官方的安装和验证教程</a><br />
