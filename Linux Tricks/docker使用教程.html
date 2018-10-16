@@ -88,9 +88,12 @@
 </pre></div>
 
 
-<h1 id="container">退出某个Container</h1>
-<p>直接使用Ctrl +d 或者在container中运行exit</p>
-<h1 id="imagecontainer_1">重新启动某个image的container</h1>
+<h2 id="container">退出某个Container</h2>
+<div class="hlcode"><pre><span class="err">直接使用</span><span class="n">Ctrl</span> <span class="o">+</span><span class="n">d</span> <span class="err">或者在</span><span class="n">container</span><span class="err">中运行</span><span class="n">exit</span>
+</pre></div>
+
+
+<h2 id="imagecontainer_1">重新启动某个image的container</h2>
 <p>对于docker还是小白的我遇到这样一个问题，我pull了一个image到本地，然后运行这个image，这时候系统会生成一个contaner ID，我在contaner中安装了很多东西，比如vim，pip 之类的简单应用，并且编译了一些程序。完成之后直接退出。第二天使用的时候我还是运行了这个image，但是之前所有的配置全部没了。后来发现是自己错了，我每次运行的都是第一次pull下来的image，相当于每次启动的都是一个新的container，而我原来配置编译的那个container需要使用<code>sudo docker ps -a</code>就能看出来了。</p>
 <p>如果想要再次打开之前使用过的container，则可以运行：</p>
 <div class="hlcode"><pre><span class="n">sudo</span> <span class="n">docker</span> <span class="n">start</span> <span class="n">container_name</span>
