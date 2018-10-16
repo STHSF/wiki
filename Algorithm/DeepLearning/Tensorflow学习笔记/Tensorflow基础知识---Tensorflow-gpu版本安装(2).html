@@ -184,7 +184,7 @@
 <p>如果显示的是一些关于GPU的信息，则说明安装成功了，详细信息见下图。<br />
 <center><img src="/wiki/static/images/tensorgpu/devicequery9.0.png" alt="devicequery"/></center></p>
 <h2 id="cuda_1">CUDA配置环境变量</h2>
-<p>在CUDA安装完成之后，log日志中有提示需要声明环境变量，不然后面安装cudnn时会出现找不到.so文件。所以需要在/etc/profile中添加下面的内容。</p>
+<p>在CUDA安装完成之后，log日志中有提示需要声明环境变量，不然后面安装cudnn时会出现找不到.so文件。所以需要在/etc/profile(最好在~/.bashrc中添加)中添加下面的内容。</p>
 <div class="hlcode"><pre><span class="n">PATH</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span><span class="o">/</span><span class="n">bin</span><span class="o">:</span><span class="err">$</span><span class="n">PATH</span>
 <span class="n">export</span> <span class="n">PATH</span>
 <span class="n">LD_LIBRARY_PATH</span><span class="o">=</span><span class="err">$</span><span class="n">LD_LIBRARY_PATH</span><span class="o">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span><span class="o">/</span><span class="n">lib64</span>
@@ -300,9 +300,9 @@
 <p>也就是说 tensorflow兼容的cuda也已经升级至9.0了，下面介绍下在ubuntu 16.04下升级安装cuda 9.0，这里本来想在cuda8.0的基础上直接覆盖安装cuda9.0的，结果没有成功，编译cuda实例源码的时候使用提示没有找到driver。在这之前一直是使用ubuntu系统本身的升级系统来更新nvidia驱动的，并没有使用源码安装显卡驱动。后来不停的重装cuda的过程中反而把系统给弄坏了，最后实在没办法重装系统。</p>
 <p><strong>在这里我又跳到坑里了，tensorflow 1.7目前暂时不支持cudnn9.1，所以我又得重新安装cudnn了（4月17号更新）</strong><br />
 <strong>注意，在安装cuda和dudnn的时候版本一定要一致。重装系统后，我装了cuda_9.0.176_384.81_linux和cudnn-9.0-linux-x64-v7.1，tensorflow的版本为1.7.0，安装过程中没有出现什么太大的问题，基本跟cuda8.0安装过程差不多。</strong></p>
-<h2 id="_2">更新</h2>
+<h2 id="20181016">更新(2018.10.16)</h2>
 <p>在安装cudnn之后需要添加环境变量,上文提到了在/etc/profile中添加相应的语句,然后source.我在将tensorflow1.7升级到tensorflow1.10之后出现了问题一的情况,后面我将环境变量添加到~/.bashrc中,然后source之后问题没了.</p>
-<h1 id="_3">六、参考文献</h1>
+<h1 id="_2">六、参考文献</h1>
 <p><a href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html">CUDA官方安装教程</a><br />
 <a href="https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html#install-linux">cuDNN官方的安装和验证教程</a><br />
 <a href="https://sthsf.github.io/wiki/Algorithm/DeepLearning/Tensorflow学习笔记/Tensorflow基础知识---Tensorflow-gpu版本安装.html">ubuntu下安装安装CUDA、cuDNN和tensotflow-gpu版本流程和问题总结</a><br />
