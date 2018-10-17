@@ -76,9 +76,13 @@
 
 
 <ul>
-<li>错误原因<br />
-mac的原生shell是bash,但是我安装了zsh,所以上面的代码需要修改一下.</li>
-<li>修改后的代码</li>
+<li>
+<p>错误原因<br />
+mac的原生shell是bash,但是我安装了zsh,所以上面的代码需要修改一下.</p>
+</li>
+<li>
+<p>修改后的代码</p>
+</li>
 </ul>
 <div class="hlcode"><pre><span class="n">echo</span> <span class="s">&quot;. /Users/li/anaconda2/etc/profile.d/conda.sh&quot;</span> <span class="o">&gt;&gt;</span> <span class="o">~/</span><span class="p">.</span><span class="n">zshrc</span>
 
@@ -86,6 +90,8 @@ mac的原生shell是bash,但是我安装了zsh,所以上面的代码需要修改
 <span class="n">export</span> <span class="n">PATH</span><span class="o">=</span><span class="s">&quot;/Users/li/anaconda2/bin:$PATH&quot;</span>
 <span class="err">或者</span>
 <span class="n">export</span> <span class="n">PATH</span><span class="o">=</span><span class="s">&quot;~/anaconda2/bin:$PATH&quot;</span>
+
+<span class="err">最后</span><span class="n">source</span><span class="err">一下使得配置文件生效即可</span><span class="p">.</span>
 </pre></div>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2018-10-17 15:30 </span></div>
