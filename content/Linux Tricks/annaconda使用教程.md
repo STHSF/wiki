@@ -39,8 +39,8 @@ your ~/.bash_profile file.  You should manually remove the line that looks like
 ```
 - 错误原因
 mac的原生shell是bash,但是我安装了zsh,所以上面的代码需要修改一下.
-- 修改后的代码
 
+- 修改后的代码
 ```
 echo ". /Users/li/anaconda2/etc/profile.d/conda.sh" >> ~/.zshrc
 
@@ -48,4 +48,6 @@ echo ". /Users/li/anaconda2/etc/profile.d/conda.sh" >> ~/.zshrc
 export PATH="/Users/li/anaconda2/bin:$PATH"
 或者
 export PATH="~/anaconda2/bin:$PATH"
+
+最后source一下使得配置文件生效即可.
 ```
