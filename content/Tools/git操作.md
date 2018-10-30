@@ -18,29 +18,44 @@ Switched to branch 'branch_name'
 
 Administrator@HTBJUOLFUL4H7CK MINGW64 /f/workplace_2/ein (branch_name)
 
-(1)$ git add *
-
+(1)
+```
+$ git add *
+```
 	Administrator@HTBJUOLFUL4H7CK MINGW64 /f/workplace_2/ein (branch_name)
 
-(2)$ git status
+(2)
+```
+$ git status
+```
 	On branch branch_name
 	nothing to commit, working directory clean
 
 	Administrator@HTBJUOLFUL4H7CK MINGW64 /f/workplace_2/ein (branch_name)
 
-(3)$ git commit -m "first commit"
+(3)
+```
+$ git commit -m "first commit"
+```
 	On branch branch_name
 	nothing to commit, working directory clean
 
 	Administrator@HTBJUOLFUL4H7CK MINGW64 /f/workplace_2/ein (branch_name)
 	
-(4)$ git pull (好像是)
+(4)
+```
+$ git pull (好像是)
+```
 
 (5)推送
-	git push origin branch_name
-	
-(6)$ git pull git@github.com:smartdata-x/nlp.git  develop
+	```
+    git push origin branch_name
+	```
 
+(6)
+```
+$ git pull git@github.com:smartdata-x/nlp.git  develop
+```
 
 
 
