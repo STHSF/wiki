@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <title>新闻文本聚类 - LiYu's personal knowledge wiki</title>
+    <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
+    <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$(',')$'], ['\\(','\\)']]}
+        });
+        </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-78529611-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+
+<body>
+<div id="container">
+    
+<div id="header">
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm">Algorithm</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-NaturalLanguageProcessing">NaturalLanguageProcessing</a>&nbsp;»&nbsp;新闻文本聚类</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">新闻文本聚类</div>
+<div id="content">
+  <h1 id="_1">写在前面</h1>
+<h1 id="_2">聚类的基本方法</h1>
+<p>密度聚类（Density-based Clustering）假设聚类结构能够通过样本分布的紧密程度来确定。DBSCAN是常用的密度聚类算法，它通过一组邻域参数（ϵϵ，MinPtsMinPts）来描述样本分布的紧密程度。给定数据集DD={x⃗ 1，x⃗ 2，x⃗ 3，...，x⃗ Nx→1，x→2，x→3，...，x→N}，数据集属性定义如下。</p>
+<p>ϵϵ-邻域：Nϵ(x⃗ i)Nϵ(x→i)={x⃗ j∈D|distance(x⃗ i,x⃗ j)x→j∈D|distance(x→i,x→j)≤ϵ≤ϵ}，Nϵ(x⃗ i)Nϵ(x→i)包含了样本集DD中与x⃗ ix→i距离不大于ϵϵ的所有样本。</p>
+<p>核心对象core object：若|Nϵ(x⃗ i)Nϵ(x→i)|≥MinPts≥MinPts，则称x⃗ ix→i是一个核心对象。即：若x⃗ ix→i的ϵϵ-邻域中至少包含MinPtsMinPts个样本，则称x⃗ ix→i是一个核心对象。</p>
+<p>密度直达directly density-reachable：若x⃗ ix→i是一个核心对象，且x⃗ j∈x→j∈Nϵ(x⃗ i)Nϵ(x→i)，则称x⃗ jx→j由x⃗ ix→i密度直达，记作x⃗ ix→i–&gt;x⃗ jx→j。</p>
+<p>密度可达density-reachable：对于x⃗ ix→i和x⃗ jx→j，若存在样本序列(p⃗ 0，p⃗ 1，p⃗ 2，...，p⃗ m，p⃗ m+1p→0，p→1，p→2，...，p→m，p→m+1），其中p⃗ 0p→0=x⃗ ix→i，p⃗ m+1p→m+1=x⃗ jx→j，p⃗ s∈D,s=1,2,...,mp→s∈D,s=1,2,...,m。如果p⃗ s+1p→s+1由p⃗ s,s=1,2,...,mp→s,s=1,2,...,m密度直达，则称x⃗ jx→j由x⃗ ix→i密度可达，记作x⃗ ix→i~&gt;x⃗ jx→j。</p>
+<p>密度相连density-connected：对于x⃗ ix→i和x⃗ jx→j，若存在x⃗ kx→k，使得x⃗ ix→i和x⃗ jx→j均由x⃗ kx→k密度可达，则称x⃗ jx→j由x⃗ ix→i密度相连，记作x⃗ ix→i~x⃗ jx→j。<br />
+  DBSCAN算法的定义：给定邻域参数（ϵϵ，MinPtsMinPts），一个簇C⊆DC⊆D是满足下列性质的非空样本子集：</p>
+<p>接性connectivity：若x⃗ i∈C,x⃗ j∈Cx→i∈C,x→j∈C，则x⃗ ix→i~x⃗ jx→j<br />
+大性maximality：若x⃗ i∈Cx→i∈C，且→xi→xi~&gt;x⃗ jx→j，则x⃗ j∈Cx→j∈C <br />
+即一个簇是由密度可达关系导出的最大的密度相连样本集合。</p>
+<h1 id="_3">语义增强</h1>
+<p>根据CosDistance([苹果]) + CosDistance([香蕉]) + CosDistance([西瓜]) 升幂排序</p>
+<h1 id="_4">语义消歧</h1>
+<p>根据CosDistance([苹果]) + CosDistance([香蕉]) - 2*CosDistance([微软]) 升幂排序</p>
+<h1 id="_5">参考文献</h1>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2018-10-31 10:00 </span></div>
+<div id="comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script type="text/javascript">
+const gitment = new Gitment({
+  title: '新闻文本聚类',
+  owner: 'sthsf',
+  repo: 'wiki',
+  oauth: {
+    client_id: '086c54c5fd95adfdc372',
+    client_secret: '2ad9ebe87b952d2c77fccf99c334881b91eaa73d',
+  },
+  // ...
+  // For more available options, check out the documentation below
+})
+gitment.render('comments')
+// or
+// gitment.render(document.getElementById('comments'))
+// or
+// document.body.appendChild(gitment.render())
+</script>
+
+</div>
+<div id="footer">
+            <span>
+                Copyright © 2018 LiYu.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+                Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
+            </span>
+</div>
+
+
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?90e1dcdd1938573c19f9ff6521188e91";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</body>
+</html>
