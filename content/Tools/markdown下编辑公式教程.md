@@ -34,11 +34,25 @@ $$
 
 - 箭头, \leftarrow(←), \rightarrow(→), \longrightarrow(⟶), \uparrow(↑)等; 
 
+- 上标, ^ ($a^2$) 下标, _, ($a_2$). 如果上下标的内容多于一个字符,需要用()将这些内容扩成一个整体,上下标也可以嵌套,也可以同时使用. 例如:
+
+$$ x^{y^z}=(1+{\rm e}^x)^{-2xy^w} $$
+
+
 - 绝对值， \vert{x}\vert ($(\vert{x}\vert)$), \Vert{x}\Vert ($(\Vert{x}\Vert)$), \langle{x}\rangle ($(\langle{x}\rangle)$)
 
 - 其它符号, \nabla(∇), \angle(∠), \forall(∀), \exists(∃), \prime(导数的撇′). 
 
 - 而对于专有名词,如一些函数名, 如sin x中的sin, 就要用罗马体, 而不是一般的数学斜体排印,我们可以用sinx, 也可以用TeX提供的直接在函数名前加”\”的方法: sinx,一般的函数均有定义, 如\sin, \cos, \lim, \log等.
+
+- 括号和分隔符
+
+|           输入         |          显示        |
+|:---------------------:|:-------------------:|
+|$$\langle表达式\rangle$$|$\langle表达式\rangle$|
+|$$\lceil表达式\rceil$$|$\lceil表达式\rceil$|
+|$$\lfloor表达式\rfloor$$|$\lfloor表达式\rfloor$|
+|$$\lbrace表达式\rbrace$$|$\lbrace表达式\rbrace$|
 
 # 希腊字母
 
