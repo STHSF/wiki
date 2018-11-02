@@ -47,7 +47,7 @@ $$ x^{y^z}=(1+{\rm e}^x)^{-2xy^w} $$
 
 - 括号和分隔符
 
-|           输入         |          显示        |
+|           显示         |          输入        |
 |:---------------------:|:-------------------:|
 |$$\langle表达式\rangle$$|$\langle表达式\rangle$|
 |$$\lceil表达式\rceil$$|$\lceil表达式\rceil$|
@@ -128,4 +128,7 @@ $$ x^{y^z}=(1+{\rm e}^x)^{-2xy^w} $$
 
 # 参考文献
 [MarkDown(LaTex) 数学公式](http://blog.csdn.net/Linear_Luo/article/details/52224996)
+
 [MATHEMATICS meta](https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference)
+
+[Markdown公式编辑学习笔记](https://www.cnblogs.com/q735613050/p/7253073.html)
