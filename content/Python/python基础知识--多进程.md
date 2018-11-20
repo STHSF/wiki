@@ -13,7 +13,7 @@ python的多进程只需要使用multiprocessing的模块就行，如果使用�
 # 使用方法
 实验测试语料：message.txt中存放的581行文本，一共7M的数据，每行提取100个关键词。
 # 关键代码
-```
+```python
 #coding:utf-8
 import sys
 reload(sys)
