@@ -39,3 +39,7 @@ os.path.splitunc(path)  #把路径分割为加载点与文件
 os.path.walk(path, visit, arg)  #遍历path，进入每个目录都调用visit函数，visit函数必须有3个参数(arg, dirname, names)，dirname表示当前目录的目录名，names代表当前目录下的所有文件名，args则为walk的第三个参数
 os.path.supports_unicode_filenames  #设置是否支持unicode路径名
 ```
+
+
+# 参考文献
+[Python OS 文件/目录方法](http://www.runoob.com/python/os-file-methods.html)
