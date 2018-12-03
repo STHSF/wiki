@@ -214,6 +214,7 @@ var:0
 
 
 # 参考文献
+[tensorflow 基础：tf.get_variable()和tf.Variable()的区别](http://www.mtcnn.com/?p=496)
 [ tensorflow学习笔记（二十三）：variable与get_variable](http://blog.csdn.net/u012436149/article/details/53696970)
 [tensorflow学习笔记(十五): variable scope](http://www.2cto.com/kf/201611/562404.html)
 [tf.variable_scope和tf.name_scope的用法](http://blog.csdn.net/uestc_c2_403/article/details/72328815)
