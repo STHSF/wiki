@@ -87,7 +87,7 @@ print(res.x)
 防止过你和,挑选最合适的模型
 [Sklearn-CrossValidation交叉验证](https://blog.csdn.net/cherdw/article/details/54986863)
 [交叉验证及其用于参数选择、模型选择、特征选择的例子](https://blog.csdn.net/jasonding1354/article/details/50562513)
-
+[tensorflow数据归一化，z-score,min-max几种方法](http://www.mtcnn.com/?p=517)
 
 
 # 参考文献
