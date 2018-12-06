@@ -104,7 +104,7 @@
 <p>在<strong>windows下的部署</strong>可以参考tracholar同学的博客。写的也比较详细。</p>
 <p>很多人要问那我写的东西如何发布到上面去呢？</p>
 <h1 id="_3">网页发布流程</h1>
-<p>首先需要注意的是目前simiki仅支持markdown的格式，因此我们每次的文章都需要用markdown的形式来书写，同时还要注意每个markdown都需要添加类似于头文件的东西，如</p>
+<p><strong>首先需要注意的是目前simiki仅支持markdown的格式，因此我们每次的文章都需要用markdown的形式来书写，同时还要注意每个markdown都需要添加类似于头文件的东西，如</strong></p>
 <div class="hlcode"><pre><span class="o">---</span>
 <span class="nl">title:</span> <span class="s">&quot;Getting Started&quot;</span>
 <span class="nl">layout:</span> <span class="n">page</span>
@@ -113,21 +113,21 @@
 </pre></div>
 
 
-<p>如果每个markdown中没有上面的文件内容，你在使用simiki g编译的时候会报下面的错误:</p>
-<div class="hlcode"><pre><span class="nx">Traceback</span> <span class="p">(</span><span class="nx">most</span> <span class="nx">recent</span> <span class="nb">call</span> <span class="nb">last</span><span class="p">):</span>
-  <span class="nb">File</span> <span class="s2">&quot;/usr/local/bin/simiki&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">11</span><span class="p">,</span> <span class="k">in</span> <span class="o">&lt;</span><span class="nx">module</span><span class="o">&gt;</span>
-    <span class="nx">sys.exit</span><span class="p">(</span><span class="nx">main</span><span class="p">())</span>
-  <span class="nb">File</span> <span class="s2">&quot;/Library/Python/2.7/site-packages/simiki/cli.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">404</span><span class="p">,</span> <span class="k">in</span> <span class="nx">main</span>
-    <span class="nx">generator.generate</span><span class="p">(</span><span class="n">include_draft</span><span class="o">=</span><span class="nx">args</span><span class="err">[</span><span class="s1">&#39;--draft&#39;</span><span class="cp">]</span>)
-  File &quot;/Library/Python/2.7/site-packages/simiki/cli.py&quot;, line 181, in generate
-    self.generate_tags()
-  File &quot;/Library/Python/2.7/site-packages/simiki/cli.py&quot;, line 217, in generate_tags
-    meta, _ = g.get_meta_and_content(do_render=False)
-  File &quot;/Library/Python/2.7/site-packages/simiki/generators.py&quot;, line 135, in get_meta_and_content
-    meta_str, content_str = self.extract_page(self._src_file)
-  File &quot;/Library/Python/2.7/site-packages/simiki/generators.py&quot;, line 203, in extract_page
-    raise Exception(&#39;extracting page with format error, &#39;
-Exception: extracting page with format error, see <span class="nt">&lt;http:</span><span class="err">//</span><span class="na">simiki</span><span class="err">.</span><span class="na">org</span><span class="err">/</span><span class="na">docs</span><span class="err">/</span><span class="na">metadata</span><span class="err">.</span><span class="na">html</span><span class="nt">&gt;</span>
+<p>如果每个markdown中没有上面的头文件内容，你在使用simiki g编译的时候会报下面的错误:</p>
+<div class="hlcode"><pre>Traceback <span class="o">(</span>most recent call last<span class="o">)</span>:
+  File <span class="s2">&quot;/usr/local/bin/simiki&quot;</span>, line 11, in &lt;module&gt;
+    sys.exit<span class="o">(</span>main<span class="o">())</span>
+  File <span class="s2">&quot;/Library/Python/2.7/site-packages/simiki/cli.py&quot;</span>, line 404, in main
+    generator.generate<span class="o">(</span><span class="nv">include_draft</span><span class="o">=</span>args<span class="o">[</span><span class="s1">&#39;--draft&#39;</span><span class="o">])</span>
+  File <span class="s2">&quot;/Library/Python/2.7/site-packages/simiki/cli.py&quot;</span>, line 181, in generate
+    self.generate_tags<span class="o">()</span>
+  File <span class="s2">&quot;/Library/Python/2.7/site-packages/simiki/cli.py&quot;</span>, line 217, in generate_tags
+    meta, <span class="nv">_</span> <span class="o">=</span> g.get_meta_and_content<span class="o">(</span><span class="nv">do_render</span><span class="o">=</span>False<span class="o">)</span>
+  File <span class="s2">&quot;/Library/Python/2.7/site-packages/simiki/generators.py&quot;</span>, line 135, in get_meta_and_content
+    meta_str, <span class="nv">content_str</span> <span class="o">=</span> self.extract_page<span class="o">(</span>self._src_file<span class="o">)</span>
+  File <span class="s2">&quot;/Library/Python/2.7/site-packages/simiki/generators.py&quot;</span>, line 203, in extract_page
+    raise Exception<span class="o">(</span><span class="s1">&#39;extracting page with format error, &#39;</span>
+Exception: extracting page with format error, see &lt;http://simiki.org/docs/metadata.html&gt;
 </pre></div>
 
 
