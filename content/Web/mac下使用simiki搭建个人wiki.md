@@ -32,7 +32,7 @@ git clone https://github.com/yourUsername/wiki.git
 ```
 进入wiki文件夹，然后simiki初始化
 
-```
+```shell
 cd wiki
 simiki init
 simiki q
@@ -63,7 +63,7 @@ fab delpoy
 很多人要问那我写的东西如何发布到上面去呢？
 # 网页发布流程 #
 
-首先需要注意的是目前simiki仅支持markdown的格式，因此我们每次的文章都需要用markdown的形式来书写，同时还要注意每个markdown都需要添加类似于头文件的东西，如
+**首先需要注意的是目前simiki仅支持markdown的格式，因此我们每次的文章都需要用markdown的形式来书写，同时还要注意每个markdown都需要添加类似于头文件的东西，如**
 
 ```
 ---
@@ -73,9 +73,9 @@ date: 2099-06-02 00:00
 ---
 
 ```
-如果每个markdown中没有上面的文件内容，你在使用simiki g编译的时候会报下面的错误:
+如果每个markdown中没有上面的头文件内容，你在使用simiki g编译的时候会报下面的错误:
 
-```
+```sh
 Traceback (most recent call last):
   File "/usr/local/bin/simiki", line 11, in <module>
     sys.exit(main())
