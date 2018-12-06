@@ -19,6 +19,7 @@ date: 2018-7-24 14:00
 [TensorFlow识别复杂验证码以及搭建生产环境（7）—— 使用TensorFlow-Serving部署生产环境](https://blog.csdn.net/huplion/article/details/78988877)
 [tensorflow-serving源码理解](http://x-algo.cn/index.php/2017/05/02/2221/)
 [Docker使用TensorFlow Serving](https://blog.csdn.net/wc781708249/article/details/78722958)
+[从DNNClassifier到tensorflow Serving部署](http://www.mtcnn.com/?p=500)
 
 
 
