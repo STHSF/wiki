@@ -1,0 +1,317 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <title>序列标注中数据预处理的通用方法 - LiYu's personal knowledge wiki</title>
+    <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
+    <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$(',')$'], ['\\(','\\)']]}
+        });
+        </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-78529611-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+
+<body>
+<div id="container">
+    
+<div id="header">
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm">Algorithm</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-NaturalLanguageProcessing">NaturalLanguageProcessing</a>&nbsp;»&nbsp;序列标注中数据预处理的通用方法</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">序列标注中数据预处理的通用方法</div>
+<div id="content">
+  <h1 id="_1">序列标注的数据预处理</h1>
+<p>本文主要介绍在处理序列标注问题时，数据预处理的一些通用方法。</p>
+<p>对于有监督的机器学习方法，准备有标签的训练集往往可能比构建训练模型还要麻烦。</p>
+<h1 id="_2">汉语文本词性标注标记集</h1>
+<h2 id="1-175">1. 名词  (1个一类，7个二类，5个三类)</h2>
+<p>名词分为以下子类：<br />
+n 名词<br />
+nr 人名<br />
+nr1 汉语姓氏<br />
+nr2 汉语名字<br />
+nrj 日语人名<br />
+nrf 音译人名<br />
+ns 地名<br />
+nsf 音译地名<br />
+nt 机构团体名<br />
+nz 其它专名<br />
+nl 名词性惯用语<br />
+ng 名词性语素<br />
+nw 新词</p>
+<h2 id="2-11">2. 时间词(1个一类，1个二类)</h2>
+<p>t 时间词<br />
+tg 时间词性语素</p>
+<h2 id="3-1">3. 处所词(1个一类)</h2>
+<p>s 处所词</p>
+<h2 id="4-1">4. 方位词(1个一类)</h2>
+<p>f 方位词</p>
+<h2 id="5-19">5. 动词(1个一类，9个二类)</h2>
+<p>v 动词<br />
+vd 副动词<br />
+vn 名动词<br />
+vshi 动词“是”<br />
+vyou 动词“有”<br />
+vf 趋向动词<br />
+vx 形式动词<br />
+vi 不及物动词（内动词）<br />
+vl 动词性惯用语<br />
+vg 动词性语素</p>
+<h2 id="6-14">6. 形容词(1个一类，4个二类)</h2>
+<p>a 形容词<br />
+ad 副形词<br />
+an 名形词<br />
+ag 形容词性语素<br />
+al 形容词性惯用语</p>
+<h2 id="7-12">7. 区别词(1个一类，2个二类)</h2>
+<p>b 区别词<br />
+bl 区别词性惯用语</p>
+<h2 id="8-1">8. 状态词(1个一类)</h2>
+<p>z 状态词</p>
+<h2 id="9-146">9. 代词(1个一类，4个二类，6个三类)</h2>
+<p>r 代词<br />
+rr 人称代词<br />
+rz 指示代词<br />
+rzt 时间指示代词<br />
+rzs 处所指示代词<br />
+rzv 谓词性指示代词<br />
+ry 疑问代词<br />
+ryt 时间疑问代词<br />
+rys 处所疑问代词<br />
+ryv 谓词性疑问代词<br />
+rg 代词性语素</p>
+<h2 id="10-11">10. 数词(1个一类，1个二类)</h2>
+<p>m 数词<br />
+mq 数量词</p>
+<h2 id="11-12">11. 量词(1个一类，2个二类)</h2>
+<p>q 量词<br />
+qv 动量词<br />
+qt 时量词</p>
+<h2 id="12-1">12. 副词(1个一类)</h2>
+<p>d 副词</p>
+<h2 id="13-12">13. 介词(1个一类，2个二类)</h2>
+<p>p 介词<br />
+pba 介词“把”<br />
+pbei 介词“被”</p>
+<h2 id="14-11">14. 连词(1个一类，1个二类)</h2>
+<p>c 连词<br />
+ cc 并列连词</p>
+<h2 id="15-115">15. 助词(1个一类，15个二类)</h2>
+<p>u 助词<br />
+uzhe 着<br />
+ule 了 喽<br />
+uguo 过<br />
+ude1 的 底<br />
+ude2 地<br />
+ude3 得<br />
+usuo 所<br />
+udeng 等 等等 云云<br />
+uyy 一样 一般 似的 般<br />
+udh 的话<br />
+uls 来讲 来说 而言 说来<br />
+uzhi 之<br />
+ulian 连 （“连小学生都会”）</p>
+<h2 id="16-1">16. 叹词(1个一类)</h2>
+<p>e 叹词</p>
+<h2 id="17-1">17. 语气词(1个一类)</h2>
+<p>y 语气词(delete yg)</p>
+<h2 id="18-1">18. 拟声词(1个一类)</h2>
+<p>o 拟声词</p>
+<h2 id="19-1">19. 前缀(1个一类)</h2>
+<p>h 前缀</p>
+<h2 id="20-1">20. 后缀(1个一类)</h2>
+<p>k 后缀</p>
+<h2 id="21-12">21. 字符串(1个一类，2个二类)</h2>
+<p>x 字符串<br />
+ xx 非语素字<br />
+ xu 网址URL</p>
+<h2 id="22-116">22. 标点符号(1个一类，16个二类)</h2>
+<p>w 标点符号<br />
+wkz 左括号，全角：（ 〔  ［  ｛  《 【  〖〈   半角：( [ { &lt;<br />
+wky 右括号，全角：） 〕  ］ ｝ 》  】 〗 〉 半角： ) ] { &gt;<br />
+wyz 左引号，全角：“ ‘ 『 <br />
+wyy 右引号，全角：” ’ 』<br />
+wj 句号，全角：。<br />
+ww 问号，全角：？ 半角：?<br />
+wt 叹号，全角：！ 半角：!<br />
+wd 逗号，全角：， 半角：,<br />
+wf 分号，全角：； 半角： ;<br />
+wn 顿号，全角：、<br />
+wm 冒号，全角：： 半角： :<br />
+ws 省略号，全角：……  …<br />
+wp 破折号，全角：——   －－   ——－   半角：---  ----<br />
+wb 百分号千分号，全角：％ ‰   半角：%<br />
+wh 单位符号，全角：￥ ＄ ￡  °  ℃  半角：$</p>
+<h1 id="_3">实体关系</h1>
+<table>
+<thead>
+<tr>
+<th align="center">关系类型</th>
+<th align="center">Tag</th>
+<th align="center">Description</th>
+<th align="center">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">主谓关系</td>
+<td align="center">SBV</td>
+<td align="center">subject-verb</td>
+<td align="center">我送她一束花 (我 &lt;-- 送)</td>
+</tr>
+<tr>
+<td align="center">动宾关系</td>
+<td align="center">VOB</td>
+<td align="center">直接宾语，verb-object</td>
+<td align="center">我送她一束花 (送 --&gt; 花)</td>
+</tr>
+<tr>
+<td align="center">间宾关系</td>
+<td align="center">IOB</td>
+<td align="center">间接宾语，indirect-object</td>
+<td align="center">我送她一束花 (送 --&gt; 她)</td>
+</tr>
+<tr>
+<td align="center">前置宾语</td>
+<td align="center">FOB</td>
+<td align="center">前置宾语，fronting-object</td>
+<td align="center">他什么书都读 (书 &lt;-- 读)</td>
+</tr>
+<tr>
+<td align="center">兼语</td>
+<td align="center">DBL double</td>
+<td align="center">他请我吃饭 (请 --&gt; 我)</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">定中关系</td>
+<td align="center">ATT</td>
+<td align="center">attribute</td>
+<td align="center">红苹果 (红 &lt;-- 苹果)</td>
+</tr>
+<tr>
+<td align="center">状中结构</td>
+<td align="center">ADV</td>
+<td align="center">adverbial</td>
+<td align="center">非常美丽 (非常 &lt;-- 美丽)</td>
+</tr>
+<tr>
+<td align="center">动补结构</td>
+<td align="center">CMP</td>
+<td align="center">complement</td>
+<td align="center">做完了作业 (做 --&gt; 完)</td>
+</tr>
+<tr>
+<td align="center">并列关系</td>
+<td align="center">COO</td>
+<td align="center">coordinate</td>
+<td align="center">大山和大海 (大山 --&gt; 大海)</td>
+</tr>
+<tr>
+<td align="center">介宾关系</td>
+<td align="center">POB</td>
+<td align="center">preposition-object</td>
+<td align="center">在贸易区内 (在 --&gt; 内)</td>
+</tr>
+<tr>
+<td align="center">左附加关系</td>
+<td align="center">LAD</td>
+<td align="center">left adjunct</td>
+<td align="center">大山和大海 (和 &lt;-- 大海)</td>
+</tr>
+<tr>
+<td align="center">右附加关系</td>
+<td align="center">RAD</td>
+<td align="center">right adjunct</td>
+<td align="center">孩子们 (孩子 --&gt; 们)</td>
+</tr>
+<tr>
+<td align="center">独立结构</td>
+<td align="center">IS</td>
+<td align="center">independent structure</td>
+<td align="center">两个单句在结构上彼此独立</td>
+</tr>
+<tr>
+<td align="center">标点</td>
+<td align="center">WP</td>
+<td align="center">punctuation</td>
+<td align="center">。</td>
+</tr>
+<tr>
+<td align="center">核心关系</td>
+<td align="center">HED</td>
+<td align="center">head</td>
+<td align="center">指整个句子的核心</td>
+</tr>
+</tbody>
+</table>
+<h1 id="_4">参考文献</h1>
+<p><a href="https://www.ltp-cloud.com/intro/#dp_how">语言技术平台</a></p>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2017-11-07 10:00 </span></div>
+<div id="comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script type="text/javascript">
+const gitment = new Gitment({
+  title: '序列标注中数据预处理的通用方法',
+  owner: 'sthsf',
+  repo: 'wiki',
+  oauth: {
+    client_id: '086c54c5fd95adfdc372',
+    client_secret: '2ad9ebe87b952d2c77fccf99c334881b91eaa73d',
+  },
+  // ...
+  // For more available options, check out the documentation below
+})
+gitment.render('comments')
+// or
+// gitment.render(document.getElementById('comments'))
+// or
+// document.body.appendChild(gitment.render())
+</script>
+
+</div>
+<div id="footer">
+            <span>
+                Copyright © 2018 LiYu.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+                Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
+            </span>
+</div>
+
+
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?90e1dcdd1938573c19f9ff6521188e91";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</body>
+</html>

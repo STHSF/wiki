@@ -1,0 +1,157 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <title>Intellij IDEA 使用scala连接SQL Server教程 - LiYu's personal knowledge wiki</title>
+    <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
+    <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$(',')$'], ['\\(','\\)']]}
+        });
+        </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-78529611-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+
+<body>
+<div id="container">
+    
+<div id="header">
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Spark">Spark</a>&nbsp;»&nbsp;Intellij IDEA 使用scala连接SQL Server教程</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">Intellij IDEA 使用scala连接SQL Server教程</div>
+<div id="content">
+  <div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#_1">写在前面</a></li>
+<li><a href="#microsoft-sql-server-jdbc">下载Microsoft SQL Server JDBC 驱动程序</a></li>
+<li><a href="#jdbcjar">在工程中导入jdbc.jar文件</a></li>
+<li><a href="#_2">数据库连接</a><ul>
+<li><a href="#_3">创建连接</a></li>
+<li><a href="#_4">注意点</a></li>
+</ul>
+</li>
+<li><a href="#sparkjar">spark服务器中指定外部jar包</a></li>
+<li><a href="#_5">参考文献</a></li>
+</ul>
+</div>
+<h1 id="_1">写在前面</h1>
+<p>在数据处理过程中免不了会对数据库进行操作，本文主要介绍在intellij下使用scala连接sqlServer数据库。之前我在介绍<a href="http://blog.csdn.net/u013041398/article/details/50968602">scala 使用JDBC方式访问Mysql</a>时，java是有关于mysql驱动的依赖包的，但是SQLServer好像没有相关的依赖包。需要从外部添加相关的jar包。</p>
+<h1 id="microsoft-sql-server-jdbc">下载Microsoft SQL Server JDBC 驱动程序</h1>
+<p>在微软的官网上我们可以找到Microsoft SQL Server JDBC 驱动程序 6.0的镜像文件。<a href="https://www.microsoft.com/zh-CN/download/details.aspx?id=11774">下载地址</a>，本文是在Mac下搭建的环境，所以后面的操作都是UNIX版本的操作。</p>
+<p>下载完成后，解压。会得到下面的文件。<br />
+<center><img src="/wiki/static/images/spark/sqljdbc.jpg" alt="jdbc"/></center></p>
+<h1 id="jdbcjar">在工程中导入jdbc.jar文件</h1>
+<p>点击File &gt; Project Structure, 然后依次点击Modules，以及有面的Dependencies，你会看到下面类似的图片。<br />
+<center><img src="/wiki/static/images/spark/projectstructure.jpg" alt="jdbc"/></center></p>
+<p>然后点击左下角的加号，选择<code>JARS or directions</code>, 跳转到第一步下载的驱动目录下, 根据工程中java的版本选择不同的jar包。本文选择的是jre8下面的jar包，如下图。<br />
+<center><img src="/wiki/static/images/spark/jar.jpg" alt="jdbc"/></center></p>
+<p>添加完成之后，点击右下角的Apply和OK按钮。这样驱动包就导入完毕。下面编写数据库连接代码。</p>
+<h1 id="_2">数据库连接</h1>
+<p>sqljdbc的驱动程序导入完成之后，我们写一个测试文件测试一下数据库连接。</p>
+<h2 id="_3">创建连接</h2>
+<p>设置url 用户名，密码等参数</p>
+<div class="hlcode"><pre><span class="n">val</span> <span class="n">url</span> <span class="o">=</span> <span class="s">&quot;jdbc:microsoft:sqlserver://localhost:1433;DatabaseName=dbname&quot;</span>
+<span class="n">val</span> <span class="n">userName</span> <span class="o">=</span> <span class="s">&quot;username&quot;</span>
+<span class="n">val</span> <span class="n">password</span> <span class="o">=</span> <span class="s">&quot;password&quot;</span>
+
+<span class="n">try</span> 
+<span class="p">{</span>
+    <span class="n">Class</span><span class="p">.</span><span class="n">forName</span><span class="p">(</span><span class="s">&quot;com.microsoft.sqlserver.jdbc.SQLServerDriver&quot;</span><span class="p">)</span>
+    <span class="n">val</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">DriverManager</span><span class="p">.</span><span class="n">getConnection</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">userName</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+    <span class="n">val</span> <span class="n">statement</span> <span class="o">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">createStatement</span><span class="p">(</span><span class="n">ResultSet</span><span class="p">.</span><span class="n">TYPE_FORWARD_ONLY</span><span class="p">,</span> <span class="n">ResultSet</span><span class="p">.</span><span class="n">CONCUR_UPDATABLE</span><span class="p">)</span>
+    <span class="n">println</span><span class="p">(</span> <span class="s">&quot;Connection Successful! &quot;</span><span class="p">);</span> <span class="c1">//如果连接成功 控制台输出Connection Successful!</span>
+<span class="p">}</span> <span class="n">catch</span> <span class="p">(</span><span class="n">Exception</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">e</span><span class="p">.</span><span class="n">printStackTrace</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h2 id="_4">注意点</h2>
+<p>在使用URL的时候，不同的sqlserver版本url的格式不一样。</p>
+<div class="hlcode"><pre><span class="err">连接</span><span class="n">SqlServer2000</span> 
+<span class="n">URL</span> <span class="o">=</span> <span class="s">&quot;jdbc:microsoft:sqlserver://localhost:1433;DatabaseName=dbname&quot;</span><span class="p">;</span> 
+
+<span class="err">连接</span><span class="n">SqlServer2005</span> 
+<span class="n">URL</span> <span class="o">=</span> <span class="s">&quot;jdbc:sqlserver://localhost:1433;DatabaseName=dbname&quot;</span><span class="p">;</span> 
+</pre></div>
+
+
+<h1 id="sparkjar">spark服务器中指定外部jar包</h1>
+<p>上面介绍的是在idea中添加sqlserver的jar包，然后在idea里面运行是没有问题的，但是如果将工程打包到集群上运行，则依然会提示驱动找不到。</p>
+<p>所以需要在运行脚本中添加下面一行：</p>
+<div class="hlcode"><pre><span class="o">--</span><span class="n">jars</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="p">......</span><span class="o">/</span><span class="n">sqljdbc42</span><span class="p">.</span><span class="n">jar</span> \
+</pre></div>
+
+
+<p>将之前下载的驱动jar包一并上传到集群上，然后在<code>--jars</code>后面添加该jar包的路径即可。</p>
+<h1 id="_5">参考文献</h1>
+<p><a href="https://www.cnblogs.com/doudou618/p/6051852.html">1</a><br />
+<a href="http://blog.csdn.net/u013371163/article/details/60469138">2</a></p>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2018-03-13 10:00 </span></div>
+<div id="comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script type="text/javascript">
+const gitment = new Gitment({
+  title: 'Intellij IDEA 使用scala连接SQL Server教程',
+  owner: 'sthsf',
+  repo: 'wiki',
+  oauth: {
+    client_id: '086c54c5fd95adfdc372',
+    client_secret: '2ad9ebe87b952d2c77fccf99c334881b91eaa73d',
+  },
+  // ...
+  // For more available options, check out the documentation below
+})
+gitment.render('comments')
+// or
+// gitment.render(document.getElementById('comments'))
+// or
+// document.body.appendChild(gitment.render())
+</script>
+
+</div>
+<div id="footer">
+            <span>
+                Copyright © 2018 LiYu.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+                Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
+            </span>
+</div>
+
+
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?90e1dcdd1938573c19f9ff6521188e91";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</body>
+</html>

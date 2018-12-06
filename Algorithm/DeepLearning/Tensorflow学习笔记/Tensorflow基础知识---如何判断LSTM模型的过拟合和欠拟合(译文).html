@@ -1,0 +1,153 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <title>Tensorflow基础知识---如何判断LSTM模型的过拟合和欠拟合(译文) - LiYu's personal knowledge wiki</title>
+    <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
+    <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$(',')$'], ['\\(','\\)']]}
+        });
+        </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-78529611-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+
+<body>
+<div id="container">
+    
+<div id="header">
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm">Algorithm</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning">DeepLearning</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning-Tensorflow学习笔记">Tensorflow学习笔记</a>&nbsp;»&nbsp;Tensorflow基础知识---如何判断LSTM模型的过拟合和欠拟合(译文)</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">Tensorflow基础知识---如何判断LSTM模型的过拟合和欠拟合(译文)</div>
+<div id="content">
+  <div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#_1">写在前面</a></li>
+<li><a href="#_2">序言</a></li>
+<li><a href="#_3">首先，什么是学习速率</a></li>
+<li><a href="#_4">有确定学习速率的方法么？</a></li>
+<li><a href="#_5">上面的方法似乎是有用的，那应该如何实现呢？</a></li>
+<li><a href="#_6">让他更好</a></li>
+<li><a href="#_7">传统的知识</a></li>
+<li><a href="#_8">那我们应该如何避免这个问题？</a></li>
+<li><a href="#_9">参考文献</a></li>
+</ul>
+</div>
+<h1 id="_1">写在前面</h1>
+<p>本文是翻译一篇来自Hafidz Zulkifli的一篇博文<a href="https://towardsdatascience.com/understanding-learning-rates-and-how-it-improves-performance-in-deep-learning-d0d4059c1c10">Understanding Learning Rates and How It Improves Performance in Deep Learning</a><br />
+这片文章介绍了机器学习中测学习速率的基本概念，以及不同的学习速率对模型loss的影响。有助于我们更好的了解机器学习建模过程。</p>
+<h1 id="_2">序言</h1>
+<p>这篇文章讨论我对下面一些主题的理解：<br />
+- 什么是学习速率？设置学习速率的意义？<br />
+- 如何有效的找到好的学习速率？<br />
+- 为什么要在训练过程中调整学习速率？<br />
+- 当使用训练好的模型继续训练时应该如何处理学习速率？</p>
+<p>本文的大部分内容都是参考之前发表在fast.ai上面的东西[1][2][3][5], 这些是一个简略的版本，方便大家能够快速的掌握其精髓所在。更详细的内容可以参考参考文献。</p>
+<h1 id="_3">首先，什么是学习速率</h1>
+<p>学习速率是一个超参数(hyper-patameter), 他是用来调整在网络中计算权重的梯度，学习速率的值越小，梯度下降的速度越慢。为了确保我们不会错过任何一个局部最小值，使用比较小的学习速率是一个比较好的方法。但是这意味着我们需要消耗很长的时间来使得函数收敛，特别是当困在比较高的地方。<br />
+下面的公式显示了他们之间的关系：</p>
+<div class="hlcode"><pre><span class="n">new_weight</span> <span class="o">=</span> <span class="n">existing_weight</span> <span class="o">-</span> <span class="n">learning_rate</span> <span class="o">*</span> <span class="n">gradient</span>
+</pre></div>
+
+
+<p><img src="/wiki/static/images/deeplearning/learningrate/01.png" alt="learningrate01"/><br />
+使用大数值(上)和小数值(下)的学习速率的梯度下降示意图，来源于Andrew Ng的机器学习教程</p>
+<p>一般情况下，学习速率是由使用者随机的设定的。很多情况下使用者会根据之前的经验或者一些学习资料来设置最佳的学习速率值。</p>
+<p>因此，通常情况下很难一下子就选择正确。下面这张图显示了设置不同的学习速率对loss的影响。<br />
+<img src="/wiki/static/images/deeplearning/learningrate/01.png" alt="learningrate01"/></p>
+<p>而且, 学习速率影响模型收敛到一个局部最小值（或者达到最优解）的速度，因此，一开始获得恰当的学习速率将意味着使用较短的时间来训练模型。</p>
+<div class="hlcode"><pre><span class="err">越短的训练时间，越少的钱花费在</span><span class="n">GPU</span><span class="err">云计算上</span>
+</pre></div>
+
+
+<h1 id="_4">有确定学习速率的方法么？</h1>
+<p>在文章“训练神经网络的周期性学习速率”的第3.3节，Leslie N. Smith建议我们可以在最初训练模型的时候使用比较小的学习速率，在每次迭代的过程中线性的或者呈几何级数的增加学习速率的大小这样的方式来估算一个比较好的学习速率，如下图所示</p>
+<p>如果记录在训练过程中每一次迭代的训练速率(取对数)和loss，并把他们画出来，我们可以观察到随着学习速率的不断增长，loss会出现一个停止下降并且开始上升的转折点，在实践中，学习速率的理想的位置应该是最低点左边的位置(如下图展示的)，在这张图中，最佳取值再0.001-0.01的位置。</p>
+<h1 id="_5">上面的方法似乎是有用的，那应该如何实现呢？</h1>
+<p>fast.ai python包已经作为一个函数支持调用，由jeremy Howard开发，是基于pytorch的高级包（就像Keras至于Tensorflow）。</p>
+<p>使用者只需通过下面的代码就可以在训练一个神经网络之前寻找最优的学习速率。</p>
+<div class="hlcode"><pre><span class="n">learn</span><span class="err">是</span><span class="n">Learner</span><span class="err">类的一个实例，是类似于</span><span class="n">ConvLearner</span><span class="err">类的一个衍生类</span>
+<span class="n">learn</span><span class="p">.</span><span class="n">lr_find</span><span class="p">()</span>
+<span class="n">learn</span><span class="p">.</span><span class="n">sched</span><span class="p">.</span><span class="n">plot_lr</span><span class="p">()</span>
+</pre></div>
+
+
+<h1 id="_6">让他更好</h1>
+<p>此时此刻，我们大致的了解到什么是学习速率，这个参数非常重要，我们如何再我们开始训练我们的模型的时候有条理的获得最优值。 </p>
+<p>下面我们将继续了解学习速率是如何使用来提高模型的表现。</p>
+<h1 id="_7">传统的知识</h1>
+<p>一般情况下，当一个人设置好学习速率，并且开始训练模型时，他只要等待学习速率随着时间逐渐减小，模型最终收敛。</p>
+<p>但是，随着梯度到达一个平稳的地方，模型的训练loss会变得很难提高。在文献[3]中，Dauphin et al等讨论了最小化loss的难度来自于鞍点而不是局部最小值。</p>
+<h1 id="_8">那我们应该如何避免这个问题？</h1>
+<p>有一些观点我们可以考虑下，总的来说，引用文献[1]中的原文：而不是使用一个固定的学习速率值然后让他一直减少，如果训练过程中不能够再提高loss，我们就开始在每一次迭代中根据某一个循环函数f调整学习速率，每一个循环都有一个根据迭代的次数而定的一个固定的长度。这种方法是的学习速率周期的在一些的合理的边界值之间变化。这很有用，因为如果我们在鞍点处卡住了，增加学习速率能够迅速的穿过鞍点。</p>
+<p>文献[2]中，Leslie 提出了一种三角形方法，学习速率在每一些迭代之后会重置。</p>
+<p>另外一种比较流行的方法叫做热重启的随机梯度下降，由Loshchilov &amp; Hutter[6]提出。这种方法本质上是使用cosine函数作为中期函数，在每个周期的学习速率最大的地方重新启动。</p>
+<h1 id="_9">参考文献</h1>
+<p><a href="https://machinelearningmastery.com/diagnose-overfitting-underfitting-lstm-models/">How to Diagnose Overfitting and Underfitting of LSTM Models</a></p>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2018-02-08 00:00 </span></div>
+<div id="comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script type="text/javascript">
+const gitment = new Gitment({
+  title: 'Tensorflow基础知识---如何判断LSTM模型的过拟合和欠拟合(译文)',
+  owner: 'sthsf',
+  repo: 'wiki',
+  oauth: {
+    client_id: '086c54c5fd95adfdc372',
+    client_secret: '2ad9ebe87b952d2c77fccf99c334881b91eaa73d',
+  },
+  // ...
+  // For more available options, check out the documentation below
+})
+gitment.render('comments')
+// or
+// gitment.render(document.getElementById('comments'))
+// or
+// document.body.appendChild(gitment.render())
+</script>
+
+</div>
+<div id="footer">
+            <span>
+                Copyright © 2018 LiYu.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+                Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
+            </span>
+</div>
+
+
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?90e1dcdd1938573c19f9ff6521188e91";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <title>LSTM构建语言模型 - LiYu's personal knowledge wiki</title>
+    <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
+    <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$(',')$'], ['\\(','\\)']]}
+        });
+        </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-78529611-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+
+<body>
+<div id="container">
+    
+<div id="header">
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm">Algorithm</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning">DeepLearning</a>&nbsp;»&nbsp;LSTM构建语言模型</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">LSTM构建语言模型</div>
+<div id="content">
+  <h1 id="op">更新中。op。。。</h1>
+<h1 id="_1">写在前面</h1>
+<p>基于RNN的语言模型</p>
+<h1 id="lstm">LSTM</h1>
+<h1 id="_2">数据预处理</h1>
+<h1 id="_3"></h1>
+<h1 id="_4">参考文献：</h1>
+<p><a href="http://www.cnblogs.com/LittleHann/p/6442161.html">1</a><br />
+<a href="http://tracholar.github.io/wiki/machine-learning/keras.html">2</a><br />
+<a href="http://blog.csdn.net/liuchonge/article/details/71424432"> 使用TensorFlow实现RNN模型入门篇2--char-rnn语言建模模型</a><br />
+<a href="https://github.com/NELSONZHAO/zhihu/blob/master/generate_lyrics/generate_lyrics.ipynb">基于Embedding的RNN生成混搭歌词</a><br />
+<a href="https://blog.csdn.net/u012436149/article/details/52887091">tensorflow学习笔记（六）：LSTM 与 GRU</a><br />
+<a href="https://blog.csdn.net/baimafujinji/article/details/78279744?locationNum=3&amp;fps=1">简单明了的LSTM/GRU应用实例（Tensorflow版）</a><br />
+<a href="https://blog.csdn.net/mydear_11000/article/details/52414342">解读tensorflow之rnn</a><br />
+<a href="https://blog.csdn.net/u012436149/article/details/64444601">tensorflow学习笔记（三十七）：如何自定义LSTM的initial state</a><br />
+<a href="https://github.com/tensorflow/models/blob/r1.8.1/tutorials/rnn/ptb/ptb_word_lm.py">ptb_word_lm.py</a><br />
+<a href="https://github.com/MorvanZhou/tutorials/tree/master/tensorflowTUT/tf20_RNN2.2">tf20_RNN2.2/</a><br />
+<a href="https://github.com/aymericdamien/TensorFlow-Examples/blob/master/examples/3_NeuralNetworks/recurrent_network.py">recurrent_network.py</a><br />
+<a href="https://r2rt.com/styles-of-truncated-backpropagation.html">Styles of Truncated Backpropagation</a><br />
+<a href="https://r2rt.com/recurrent-neural-networks-in-tensorflow-i.html">Recurrent Neural Networks in Tensorflow I</a><br />
+<a href="http://lawlite.me/page/2/">（Unfinished）RNN-循环神经网络之LSTM和GRU-04介绍及推导</a><br />
+<a href="https://gaussic.github.io/2017/08/24/tensorflow-language-model/">使用TENSORFLOW训练循环神经网络语言模型</a><br />
+<a href="https://github.com/gaussic/text-classification-cnn-rnn/blob/master/rnn_model.py">text-classification-cnn-rnn</a></p>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2017-06-30 10:03 </span></div>
+<div id="comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script type="text/javascript">
+const gitment = new Gitment({
+  title: 'LSTM构建语言模型',
+  owner: 'sthsf',
+  repo: 'wiki',
+  oauth: {
+    client_id: '086c54c5fd95adfdc372',
+    client_secret: '2ad9ebe87b952d2c77fccf99c334881b91eaa73d',
+  },
+  // ...
+  // For more available options, check out the documentation below
+})
+gitment.render('comments')
+// or
+// gitment.render(document.getElementById('comments'))
+// or
+// document.body.appendChild(gitment.render())
+</script>
+
+</div>
+<div id="footer">
+            <span>
+                Copyright © 2018 LiYu.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+                Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
+            </span>
+</div>
+
+
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?90e1dcdd1938573c19f9ff6521188e91";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</body>
+</html>

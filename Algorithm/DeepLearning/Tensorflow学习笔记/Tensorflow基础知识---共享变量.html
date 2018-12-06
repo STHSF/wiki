@@ -1,0 +1,323 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <title>Tensorflow基础知识---共享管理(name_scope()和variable_scope()的区别) - LiYu's personal knowledge wiki</title>
+    <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
+    <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$(',')$'], ['\\(','\\)']]}
+        });
+        </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-78529611-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+
+<body>
+<div id="container">
+    
+<div id="header">
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm">Algorithm</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning">DeepLearning</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning-Tensorflow学习笔记">Tensorflow学习笔记</a>&nbsp;»&nbsp;Tensorflow基础知识---共享管理(name_scope()和variable_scope()的区别)</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">Tensorflow基础知识---共享管理(name_scope()和variable_scope()的区别)</div>
+<div id="content">
+  <h1 id="_1">写在前面</h1>
+<p>工作之余，学习tensorflow已经有一段时间了，时间总是零零碎碎，期间也用tensorflow搭建过一些框架，但是代码都是在参考别人的基础上实现的，随着对模型的深入，开始自己写代码框架，在写的过程中发现自己的基础不是很扎实，特别是对Tensorflow的一些基础的api并不是完全领会，当初只是知道别人是这么用的，所以我也跟着用了。现在自己的定义的时候发现他们之间的差别不是很清楚，所以还是得静下心来把这些基础知识弄清楚。</p>
+<h1 id="tfvariable-tfget_variable">tf.Variable() &amp; tf.get_variable()</h1>
+<p>在了解tf.name_scope() &amp; tf.variable_scope()的之间的区别的时候，我们的先需要了解Tensorflow中的变量的定义。</p>
+<h3 id="1">代码1</h3>
+<div class="hlcode"><pre><span class="n">import</span> <span class="n">tensorflow</span> <span class="n">as</span> <span class="n">tf</span>
+
+<span class="n">var1</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="err">&#39;</span><span class="n">var1</span><span class="err">&#39;</span><span class="p">,</span> <span class="n">initial_value</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">var2</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="err">&#39;</span><span class="n">var2</span><span class="err">&#39;</span><span class="p">,</span> <span class="n">initial_value</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+
+<span class="n">initializer</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">constant_initializer</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">var3</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">get_variable</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="err">&#39;</span><span class="n">var3</span><span class="err">&#39;</span><span class="p">,</span> <span class="n">initializer</span><span class="o">=</span><span class="n">initializer</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">var4</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">get_variable</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="err">&#39;</span><span class="n">var4</span><span class="err">&#39;</span><span class="p">,</span> <span class="n">initializer</span><span class="o">=</span><span class="n">initializer</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+
+<span class="n">with</span> <span class="n">tf</span><span class="p">.</span><span class="n">Session</span><span class="p">()</span> <span class="n">as</span> <span class="n">sess</span><span class="o">:</span>
+    <span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">tf</span><span class="p">.</span><span class="n">global_variables_initializer</span><span class="p">())</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">var1</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">var1</span><span class="p">))</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">var2</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">var2</span><span class="p">))</span>
+
+    <span class="n">print</span><span class="p">(</span><span class="n">var3</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">var3</span><span class="p">))</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">var4</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">var4</span><span class="p">))</span>
+</pre></div>
+
+
+<p>运行结果：</p>
+<div class="hlcode"><pre><span class="n">var1</span><span class="o">:</span><span class="mi">0</span>
+<span class="o">[</span><span class="mi">1</span><span class="o">.]</span>
+<span class="n">var2</span><span class="o">:</span><span class="mi">0</span>
+<span class="o">[</span><span class="mi">2</span><span class="o">.]</span>
+<span class="n">var3</span><span class="o">:</span><span class="mi">0</span>
+<span class="o">[</span><span class="mi">1</span><span class="o">.]</span>
+<span class="n">var4</span><span class="o">:</span><span class="mi">0</span>
+<span class="o">[</span><span class="mi">1</span><span class="o">.]</span>
+</pre></div>
+
+
+<p>在保持其他代码不变的情况下，我们把name修改成相同的之后，运行代码</p>
+<h3 id="2">代码2</h3>
+<div class="hlcode"><pre><span class="n">import</span> <span class="n">tensorflow</span> <span class="n">as</span> <span class="n">tf</span>
+
+<span class="n">var1</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="err">&#39;</span><span class="n">var1</span><span class="err">&#39;</span><span class="p">,</span> <span class="n">initial_value</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">var2</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="err">&#39;</span><span class="n">var1</span><span class="err">&#39;</span><span class="p">,</span> <span class="n">initial_value</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+
+<span class="n">with</span> <span class="n">tf</span><span class="p">.</span><span class="n">Session</span><span class="p">()</span> <span class="n">as</span> <span class="n">sess</span><span class="o">:</span>
+    <span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">tf</span><span class="p">.</span><span class="n">global_variables_initializer</span><span class="p">())</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">var1</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">var1</span><span class="p">))</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">var2</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">var2</span><span class="p">))</span>
+</pre></div>
+
+
+<p>输出结果</p>
+<div class="hlcode"><pre><span class="n">var1</span><span class="o">:</span><span class="mi">0</span>
+<span class="o">[</span><span class="mi">1</span><span class="o">.]</span>
+<span class="n">var1_1</span><span class="o">:</span><span class="mi">0</span>
+<span class="o">[</span><span class="mi">2</span><span class="o">.]</span>
+</pre></div>
+
+
+<h3 id="3">代码3</h3>
+<div class="hlcode"><pre><span class="n">import</span> <span class="n">tensorflow</span> <span class="n">as</span> <span class="n">tf</span>
+
+<span class="n">initializer</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">constant_initializer</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">var3</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">get_variable</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="err">&#39;</span><span class="n">var3</span><span class="err">&#39;</span><span class="p">,</span> <span class="n">initializer</span><span class="o">=</span><span class="n">initializer</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">var4</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">get_variable</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="err">&#39;</span><span class="n">var3</span><span class="err">&#39;</span><span class="p">,</span> <span class="n">initializer</span><span class="o">=</span><span class="n">initializer</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+
+<span class="n">with</span> <span class="n">tf</span><span class="p">.</span><span class="n">Session</span><span class="p">()</span> <span class="n">as</span> <span class="n">sess</span><span class="o">:</span>
+    <span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">tf</span><span class="p">.</span><span class="n">global_variables_initializer</span><span class="p">())</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">var3</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">var3</span><span class="p">))</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">var4</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">var4</span><span class="p">))</span>
+</pre></div>
+
+
+<p>输出结果</p>
+<div class="hlcode"><pre><span class="n">ValueError</span><span class="o">:</span> <span class="n">Variable</span> <span class="n">var3</span> <span class="n">already</span> <span class="n">exists</span><span class="o">,</span> <span class="n">disallowed</span><span class="o">.</span> <span class="n">Did</span> <span class="n">you</span> <span class="n">mean</span> <span class="n">to</span> <span class="kd">set</span> <span class="n">reuse</span><span class="o">=</span><span class="n">True</span> <span class="n">or</span> <span class="n">reuse</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="na">AUTO_REUSE</span> <span class="k">in</span> <span class="n">VarScope</span><span class="o">?</span> <span class="n">Originally</span> <span class="n">defined</span> <span class="n">at</span><span class="o">:</span>
+
+  <span class="n">File</span> <span class="s2">&quot;&lt;ipython-input-2-02038677e4f2&gt;&quot;</span><span class="o">,</span> <span class="n">line</span> <span class="mi">7</span><span class="o">,</span> <span class="k">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+    <span class="n">var3</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="na">get_variable</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;var3&#39;</span><span class="o">,</span> <span class="n">initializer</span><span class="o">=</span><span class="n">initializer</span><span class="o">,</span> <span class="n">shape</span><span class="o">=[</span><span class="mi">1</span><span class="o">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="na">float32</span><span class="o">)</span>
+  <span class="n">File</span> <span class="s2">&quot;/home/jerry/workshop/virtualenv/tensor_jupyer/local/lib/python2.7/site-packages/IPython/core/interactiveshell.py&quot;</span><span class="o">,</span> <span class="n">line</span> <span class="mi">2878</span><span class="o">,</span> <span class="k">in</span> <span class="n">run_code</span>
+    <span class="n">exec</span><span class="o">(</span><span class="n">code_obj</span><span class="o">,</span> <span class="n">self</span><span class="o">.</span><span class="na">user_global_ns</span><span class="o">,</span> <span class="n">self</span><span class="o">.</span><span class="na">user_ns</span><span class="o">)</span>
+  <span class="n">File</span> <span class="s2">&quot;/home/jerry/workshop/virtualenv/tensor_jupyer/local/lib/python2.7/site-packages/IPython/core/interactiveshell.py&quot;</span><span class="o">,</span> <span class="n">line</span> <span class="mi">2818</span><span class="o">,</span> <span class="k">in</span> <span class="n">run_ast_nodes</span>
+    <span class="k">if</span> <span class="n">self</span><span class="o">.</span><span class="na">run_code</span><span class="o">(</span><span class="n">code</span><span class="o">,</span> <span class="n">result</span><span class="o">):</span>
+</pre></div>
+
+
+<ul>
+<li>
+<p><strong>代码1中可以看出，如果变量名不重复的情况下，两种variabe的op是没有问题的，但是如果在同样的变量名重复使用的情况下，tf.Varibale()操作会自动的创建新的对象，并以一定的命名方式保存（代码2），就是说在使用tf.Variable()定义变量时，如果系统检测到命名冲突，系统会自己处理，但是在使用tf.get_variable()时，系统不会自动处理，而是会报错(代码2)，这里面涉及到Tensorflow的变量共享的问题。</strong></p>
+</li>
+<li>
+<p><strong>在深度学习的一些结构中比如RNN，需要用到共享变量，这时候就需要使用tf.get_variable()来让变量得到共享，该函数就是为了共享变量而准备的，在其他情况下，两种方法的用法是一样的</strong></p>
+</li>
+<li>
+<p><strong>tf.get_variable和tf.Variable的最大区别在于指定变量名称的参数，对于tf.Variable，变量名称是一个可选的参数，通常以name=''的形式给出。 但是对于tf.get_variable而言，变量名称是一个必填参数。 tf.get_variable函数会根据这个名字去创建或者获取变量。</strong></p>
+</li>
+</ul>
+<h1 id="tfname_scope-tfvariable_scope">tf.name_scope() &amp; tf.variable_scope()</h1>
+<p>那么如何使用共享变量呢，Tensorflow给出了两个作用域函数，tf.name_scope()和tf.variable_scope()函数，同样我们先看一组对比。</p>
+<div class="hlcode"><pre><span class="n">import</span> <span class="n">tensorflow</span> <span class="n">as</span> <span class="n">tf</span>
+<span class="cp"># 1</span>
+<span class="n">var1</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="err">&#39;</span><span class="n">var1</span><span class="err">&#39;</span><span class="p">,</span> <span class="n">initial_value</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">var2</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="err">&#39;</span><span class="n">var1</span><span class="err">&#39;</span><span class="p">,</span> <span class="n">initial_value</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="cp"># 2</span>
+<span class="n">with</span> <span class="n">tf</span><span class="p">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="err">&#39;</span><span class="n">var_scope1</span><span class="err">&#39;</span><span class="p">)</span><span class="o">:</span>
+    <span class="n">var3</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="err">&#39;</span><span class="n">var1</span><span class="err">&#39;</span><span class="p">,</span> <span class="n">initial_value</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">var4</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="err">&#39;</span><span class="n">var1</span><span class="err">&#39;</span><span class="p">,</span> <span class="n">initial_value</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="cp"># 3    </span>
+<span class="n">with</span> <span class="n">tf</span><span class="p">.</span><span class="n">name_scope</span><span class="p">(</span><span class="err">&#39;</span><span class="n">name_scope1</span><span class="err">&#39;</span><span class="p">)</span><span class="o">:</span>
+    <span class="n">var5</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="err">&#39;</span><span class="n">var1</span><span class="err">&#39;</span><span class="p">,</span> <span class="n">initial_value</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">var6</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="err">&#39;</span><span class="n">var1</span><span class="err">&#39;</span><span class="p">,</span> <span class="n">initial_value</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="cp"># 4</span>
+<span class="n">with</span> <span class="n">tf</span><span class="p">.</span><span class="n">variab_scope</span><span class="p">(</span><span class="err">&#39;</span><span class="n">var_scope2</span><span class="err">&#39;</span><span class="p">)</span><span class="o">:</span>
+    <span class="n">var7</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="err">&#39;</span><span class="n">var1</span><span class="err">&#39;</span><span class="p">,</span> <span class="n">initial_value</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="cp"># 5</span>
+<span class="n">with</span> <span class="n">tf</span><span class="p">.</span><span class="n">name_scope</span><span class="p">(</span><span class="err">&#39;</span><span class="n">name_scope2</span><span class="err">&#39;</span><span class="p">)</span><span class="o">:</span>
+    <span class="n">var8</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="err">&#39;</span><span class="n">var1</span><span class="err">&#39;</span><span class="p">,</span> <span class="n">initial_value</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="cp"># 6</span>
+<span class="n">initializer</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">constant_initializer</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">with</span> <span class="n">tf</span><span class="p">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="err">&#39;</span><span class="n">var_scope3</span><span class="err">&#39;</span><span class="p">,</span> <span class="n">reuse</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">AUTO_REUSE</span><span class="p">)</span><span class="o">:</span>
+    <span class="n">var9</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">get_variable</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="err">&#39;</span><span class="n">var</span><span class="err">&#39;</span><span class="p">,</span> <span class="n">initializer</span><span class="o">=</span><span class="n">initializer</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">var10</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">get_variable</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="err">&#39;</span><span class="n">var</span><span class="err">&#39;</span><span class="p">,</span> <span class="n">initializer</span><span class="o">=</span><span class="n">initializer</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="cp"># 7    </span>
+<span class="n">with</span> <span class="n">tf</span><span class="p">.</span><span class="n">name_scope</span><span class="p">(</span><span class="err">&#39;</span><span class="n">name_scope3</span><span class="err">&#39;</span><span class="p">)</span><span class="o">:</span>
+    <span class="n">var11</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">get_variable</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="err">&#39;</span><span class="n">var1</span><span class="err">&#39;</span><span class="p">,</span> <span class="n">initializer</span><span class="o">=</span><span class="n">initializer</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">var12</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">get_variable</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="err">&#39;</span><span class="n">var</span><span class="err">&#39;</span><span class="p">,</span> <span class="n">initializer</span><span class="o">=</span><span class="n">initializer</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+
+<span class="n">with</span> <span class="n">tf</span><span class="p">.</span><span class="n">Session</span><span class="p">()</span> <span class="n">as</span> <span class="n">sess</span><span class="o">:</span>
+    <span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">tf</span><span class="p">.</span><span class="n">global_variables_initializer</span><span class="p">())</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">var1</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">var1</span><span class="p">))</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">var2</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">var2</span><span class="p">))</span>
+
+    <span class="n">print</span><span class="p">(</span><span class="n">var3</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">var3</span><span class="p">))</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">var4</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">var4</span><span class="p">))</span>
+
+    <span class="n">print</span><span class="p">(</span><span class="n">var5</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">var5</span><span class="p">))</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">var6</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">var6</span><span class="p">))</span>
+
+    <span class="n">print</span><span class="p">(</span><span class="n">var7</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">var7</span><span class="p">))</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">var8</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">var8</span><span class="p">))</span>
+
+    <span class="n">print</span><span class="p">(</span><span class="n">var9</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">var9</span><span class="p">))</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">var10</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">var10</span><span class="p">))</span>
+
+    <span class="n">print</span><span class="p">(</span><span class="n">var11</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">var11</span><span class="p">))</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">var12</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">var12</span><span class="p">))</span>
+</pre></div>
+
+
+<p>输出结果</p>
+<div class="hlcode"><pre><span class="n">var1</span><span class="o">:</span><span class="mi">0</span>
+<span class="o">[</span><span class="mi">1</span><span class="o">.]</span>
+<span class="n">var1_1</span><span class="o">:</span><span class="mi">0</span>
+<span class="o">[</span><span class="mi">2</span><span class="o">.]</span>
+
+<span class="n">var_scope1</span><span class="o">/</span><span class="n">var1</span><span class="o">:</span><span class="mi">0</span>
+<span class="o">[</span><span class="mi">1</span><span class="o">.]</span>
+<span class="n">var_scope1</span><span class="o">/</span><span class="n">var1_1</span><span class="o">:</span><span class="mi">0</span>
+<span class="o">[</span><span class="mi">2</span><span class="o">.]</span>
+
+<span class="n">name_scope1</span><span class="o">/</span><span class="n">var1</span><span class="o">:</span><span class="mi">0</span>
+<span class="o">[</span><span class="mi">1</span><span class="o">.]</span>
+<span class="n">name_scope1</span><span class="o">/</span><span class="n">var1_1</span><span class="o">:</span><span class="mi">0</span>
+<span class="o">[</span><span class="mi">2</span><span class="o">.]</span>
+
+<span class="n">var_scope2</span><span class="o">/</span><span class="n">var1</span><span class="o">:</span><span class="mi">0</span>
+<span class="o">[</span><span class="mi">1</span><span class="o">.]</span>
+
+<span class="n">name_scope2</span><span class="o">/</span><span class="n">var1</span><span class="o">:</span><span class="mi">0</span>
+<span class="o">[</span><span class="mi">1</span><span class="o">.]</span>
+
+<span class="n">var_scope3</span><span class="o">/</span><span class="n">var</span><span class="o">:</span><span class="mi">0</span>
+<span class="o">[</span><span class="mi">1</span><span class="o">.]</span>
+<span class="n">var_scope3</span><span class="o">/</span><span class="n">var</span><span class="o">:</span><span class="mi">0</span>
+<span class="o">[</span><span class="mi">1</span><span class="o">.]</span>
+
+<span class="n">var1_2</span><span class="o">:</span><span class="mi">0</span>
+<span class="o">[</span><span class="mi">1</span><span class="o">.]</span>
+<span class="n">var</span><span class="o">:</span><span class="mi">0</span>
+<span class="o">[</span><span class="mi">1</span><span class="o">.]</span>
+</pre></div>
+
+
+<ul>
+<li>
+<p><strong>观察代码块2和代码块3，同一个Variable_scope或者name_scope下的tf.Variable()同名变量会被自动设置别名，而tf.get_variable()则会报错</strong></p>
+</li>
+<li>
+<p><strong>对比代码块2，3，4，5，不同Variable_scope或者name_scope下的tf.Variable()同名变量，其完整变量名不同，(因为Variable_scope或者name_scope不同)，所以他们不是同一个变量</strong></p>
+</li>
+<li>
+<p><strong>代码块6，要设置tf.get_variable()同名变量，需要在tf.Variable_scope()下申明共享。variable_scope下声明共享后，tf.Variable()同名变量指向两个不同变量实体，而tf.get_variable ()同名变量则指向同一个变量实体。</strong></p>
+</li>
+<li>
+<p><strong>对比代码块1,代码块2和代码块3的结果,当使用tf.Variable定义变量的时候，tf.name_scope和tf.variable_scope的作用相同，都受到了层级控制。其他没有变化</strong></p>
+</li>
+<li>
+<p><strong>对比代码块1和代码块7的结果，tf.Variable()所创建的变量受name_scope的层级控制，而tf.get_variable()则不受name_scope的层级控制。所以使用tf.name_scope和tf.get_variable()联合使用没有效果，get_variable完全无视name_scope。</strong></p>
+</li>
+<li>
+<p><strong>tf.Variable()的变量名称是可选参数，而tf.get_variable()的变量名称是必填参数。</strong></p>
+</li>
+</ul>
+<hr />
+<hr />
+<h2 id="tensorflow">关于Tensorflow的命名机制</h2>
+<h1 id="_2">参考文献</h1>
+<p><a href="http://www.mtcnn.com/?p=496">tensorflow 基础：tf.get_variable()和tf.Variable()的区别</a><br />
+<a href="http://blog.csdn.net/u012436149/article/details/53696970"> tensorflow学习笔记（二十三）：variable与get_variable</a><br />
+<a href="http://www.2cto.com/kf/201611/562404.html">tensorflow学习笔记(十五): variable scope</a><br />
+<a href="http://blog.csdn.net/uestc_c2_403/article/details/72328815">tf.variable_scope和tf.name_scope的用法</a><br />
+<a href="http://www.cnblogs.com/Charles-Wan/p/6200446.html">TF Boys (TensorFlow Boys ) 养成记（三）： TensorFlow 变量共享</a><br />
+<a href="https://blog.csdn.net/qq_32458499/article/details/78789486">tensorflow变量管理</a><br />
+<a href="https://blog.csdn.net/u012436149/article/details/53081454">tensorflow学习笔记(十七):name&amp;variable scope</a><br />
+<a href="https://www.zhihu.com/question/54513728">tensorflow里面name_scope, variable_scope等如何理解？</a></p>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2017-07-25 23:00 </span></div>
+<div id="comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script type="text/javascript">
+const gitment = new Gitment({
+  title: 'Tensorflow基础知识---共享管理(name_scope()和variable_scope()的区别)',
+  owner: 'sthsf',
+  repo: 'wiki',
+  oauth: {
+    client_id: '086c54c5fd95adfdc372',
+    client_secret: '2ad9ebe87b952d2c77fccf99c334881b91eaa73d',
+  },
+  // ...
+  // For more available options, check out the documentation below
+})
+gitment.render('comments')
+// or
+// gitment.render(document.getElementById('comments'))
+// or
+// document.body.appendChild(gitment.render())
+</script>
+
+</div>
+<div id="footer">
+            <span>
+                Copyright © 2018 LiYu.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+                Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
+            </span>
+</div>
+
+
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?90e1dcdd1938573c19f9ff6521188e91";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</body>
+</html>

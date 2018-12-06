@@ -1,0 +1,272 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <title>Tensorflow基础知识---损失函数详解 - LiYu's personal knowledge wiki</title>
+    <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
+    <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$(',')$'], ['\\(','\\)']]}
+        });
+        </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-78529611-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+
+<body>
+<div id="container">
+    
+<div id="header">
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm">Algorithm</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning">DeepLearning</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning-Tensorflow学习笔记">Tensorflow学习笔记</a>&nbsp;»&nbsp;Tensorflow基础知识---损失函数详解</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">Tensorflow基础知识---损失函数详解</div>
+<div id="content">
+  <div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#_1">写在前面</a></li>
+<li><a href="#loss-function">Loss function</a></li>
+<li><a href="#tensorflowloss-function">Tensorflow中的loss function实现</a><ul>
+<li><a href="#cross_entropy">cross_entropy交叉熵</a></li>
+<li><a href="#tfnnsparse_softmax_cross_entropy_with_logitslogits-labels-namenone">tf.nn.sparse_softmax_cross_entropy_with_logits(logits, labels, name=None)</a><ul>
+<li><a href="#demo">Demo</a></li>
+</ul>
+</li>
+<li><a href="#tfnnsigmoid_cross_entropy_with_logitslogits-targets-namenone">tf.nn.sigmoid_cross_entropy_with_logits(logits, targets, name=None)</a></li>
+<li><a href="#tfnnweighted_cross_entropy_with_logitslogits-targets-pos_weight-namenone">tf.nn.weighted_cross_entropy_with_logits(logits, targets, pos_weight, name=None)</a></li>
+<li><a href="#tfnnlog_softmaxlogits-namenone">tf.nn.log_softmax(logits, name=None)</a></li>
+</ul>
+</li>
+<li><a href="#sampled-loss-functions">sampled loss functions</a><ul>
+<li><a href="#tfnnnce_lossweights-biases-inputs-labels-num_samplednum_classes-num_true1-sampled_valuesnoneremove_accidental_hitsfalse-partition_strategymodnamence_loss">tf.nn.nce_loss(weights, biases, inputs, labels, num_sampled,num_classes, num_true=1, sampled_values=None,remove_accidental_hits=False, partition_strategy=’mod’,name=’nce_loss’)</a></li>
+<li><a href="#tfnnsampled_softmax_lossweights-biases-inputs-labels-num_sampled-num_classes-num_true1-sampled_valuesnoneremove_accidental_hitstrue-partition_strategymod-namesampled_softmax_loss">tf.nn.sampled_softmax_loss(weights, biases, inputs, labels, num_sampled, num_classes, num_true=1, sampled_values=None,remove_accidental_hits=True, partition_strategy=’mod’, name=’sampled_softmax_loss’)</a></li>
+</ul>
+</li>
+<li><a href="#sequence-to-sequenceloss-function">sequence to sequence中的loss function</a><ul>
+<li><a href="#sequence_loss_by_examplelogits-targets-weights">sequence_loss_by_example(logits, targets, weights)</a></li>
+<li><a href="#tfcontriblegacy_seq2seqsequence_loss_by_example">tf.contrib.legacy_seq2seq.sequence_loss_by_example</a></li>
+</ul>
+</li>
+<li><a href="#_2">参考文献</a></li>
+</ul>
+</div>
+<h1 id="_1">写在前面</h1>
+<p>本文先介绍loss function的基本概念，然后主要归纳一下tensorflow中的loss_function.</p>
+<h1 id="loss-function">Loss function</h1>
+<p>在机器学习中，loss function（损失函数）也称cost function（代价函数），是用来计算预测值和真实值的差距。然后以loss function的最小值作为目标函数进行反向传播迭代计算模型中的参数，这个让loss function的值不断变小的过程称为优化。</p>
+<p>设总有$(N)$个样本的样本集为$((X,Y)=(x_i, y_i))$,那么总的损失函数为</p>
+<p>$$ <br />
+L=\sum_{i=1}^{n}{l(y_i, f(x_i))} <br />
+$$</p>
+<p>其中 $(y_i,i\in[1, N])$为样本$i$的真实值，$(f(x_i), i\in[1, N])$为样本$(i)$的预测值， $(f())$为分类或者回归函数。</p>
+<p>常见的损失函数有Zero-one Loss（0-1损失），Perceptron Loss（感知损失），Hinge Loss（Hinge损失），Log Loss（Log损失），Cross Entropy（交叉熵），Square Loss（平方误差），Absolute Loss（绝对误差），Exponential Loss（指数误差）等</p>
+<p>一般来说，对于分类或者回归模型进行评估时，需要使得模型在训练数据上似的损失函数值最小，即使得经验风险函数(Empirical risk)最小化，但是如果只考虑经验风险，容易出现过拟合，因此还需要考虑模型的泛化性，一般常用的方法就是在目标函数中加上正则项，有损失项（loss term）加上正则项（regularization term）构成结构风险（Structural risk），那么损失函数变为：</p>
+<p>$$<br />
+L =\sum_{i=1}^{N}{l(y_i, f(x_i))} +\lambda R(w)<br />
+$$</p>
+<p>其中$(\lambda)$为正则项超参数，常用的正则化方法包括：L1正则和L2正则</p>
+<h1 id="tensorflowloss-function">Tensorflow中的loss function实现</h1>
+<h2 id="cross_entropy"><code>cross_entropy</code>交叉熵</h2>
+<p>交叉熵刻画的是两个概率分布之间的距离，是分类问题中使用比较广泛的损失函数之一。给定两个概率分布p和q，通过交叉熵计算的两个概率分布之间的距离为：<br />
+$$<br />
+H(X=x)=-\sum_x{p(x)logq(x)}<br />
+$$<br />
+我们通过softmax回归将神经网络前向传播得到的结果变成交叉熵要求的概率分布得分。<br />
+Tensorflow中定义的交叉熵函数如下：</p>
+<div class="hlcode"><pre><span class="k">def</span> <span class="nf">softmax_cross_entropy_with_logits</span><span class="p">(</span><span class="n">_sentinel</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>  <span class="c"># pylint: disable=invalid-name</span>
+                                      <span class="n">labels</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">logits</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                                      <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Computes softmax cross entropy between `logits` and `labels`.&quot;&quot;&quot;</span>
+</pre></div>
+
+
+<ul>
+<li>logits: 神经网络的最后一层输出，如果有batch的话，它的大小为[batch_size, num_classes], 单样本的话大小就是num_classes</li>
+<li>labels: 样本的实际标签，大小与logits相同。且必须采用labels=y_，logits=y的形式将参数传入。</li>
+</ul>
+<p>具体的执行流程大概分为两步，第一步首先是对网络最后一层的输出做一个softmax，这一步通常是求取输出属于某一类的概率，对于单样本而言，就是输出一个num_classes大小的向量$([Y_1, Y_2, Y_3, ....])$, 其中$(Y_1, Y_2, Y_3)$分别表示属于该类别的概率， softmax的公式为：</p>
+<p>$$softmax(x)_i={{exp(x_i)}\over{\sum_jexp(x_j)}}$$</p>
+<p>第二步是对softmax输出的向量$([Y_1, Y_2, Y_3,...])$和样本的时机标签做一个交叉熵，公式如下：</p>
+<p>$$H_{y'}(y)=-\sum_i{y_i'}log(y_i)$$</p>
+<p>其中$(y_i')$指代实际标签向量中的第i个值，$(y_i)$就是softmax的输出向量$([Y_1, Y_2, Y_3,...])$中的第i个元素的值。<br />
+显而易见。预测$(y_i)$越准确，结果的值就越小（前面有负号），最后求一个平均，就得到我们想要的loss了</p>
+<p><strong>这里需要注意的是，这个函数返回值不是一个数，而是一个向量，如果要求交叉熵，我们要在做一步tf.resuce_sum操作，就是对向量里面的所有元素求和, 最后就能得到$(H_{y'}(y))$,如果要求loss，则需要做一步tf.reduce_mean操作，对向量求均值.</strong></p>
+<p><strong>warning：</strong></p>
+<ul>
+<li>Tenosrflow中集成的交叉熵操作是施加在未经过Softmax处理的logits上, 这个操作的输入logits是未经缩放的, 该操作内部会对logits使用Softmax操作。</li>
+<li>参数labels，ligits必须有相同的shape,如:[batch_size, num_classes]和相同的类型, 如:[(float16, float32, float64)中的一种]。</li>
+</ul>
+<p>下面这段代码可以测试上面的理论：</p>
+<div class="hlcode"><pre><span class="c"># coding=utf-8</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>  
+
+<span class="c"># 神经网络的输出</span>
+<span class="n">logits</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">,</span><span class="mf">3.0</span><span class="p">],[</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">,</span><span class="mf">3.0</span><span class="p">],[</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">,</span><span class="mf">3.0</span><span class="p">]])</span>  
+<span class="c"># 使用softmax的输出</span>
+<span class="n">y</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">logits</span><span class="p">)</span>  
+<span class="c"># 正确的标签</span>
+<span class="n">y_</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">],[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">],[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">]])</span>  
+<span class="c"># 计算交叉熵  </span>
+<span class="n">cross_entropy</span> <span class="o">=</span> <span class="o">-</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">y_</span><span class="o">*</span><span class="n">tf</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">clip_by_value</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mf">1e-10</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)))</span>  
+<span class="c"># 使用tf.nn.softmax_cross_entropy_with_logits()函数直接计算神经网络的输出结果的交叉熵。</span>
+<span class="c"># 但是不能忘记使用tf.reduce_sum()!!!!</span>
+<span class="n">cross_entropy2</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax_cross_entropy_with_logits</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">y_</span><span class="p">))</span> 
+
+<span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">sess</span><span class="p">:</span>
+    <span class="n">softmax</span><span class="o">=</span><span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">c_e</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">cross_entropy</span><span class="p">)</span>
+    <span class="n">c_e2</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">cross_entropy2</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;step1:softmax result=&quot;</span><span class="p">,</span> <span class="n">softmax</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;step2:cross_entropy result=&quot;</span><span class="p">,</span> <span class="n">c_e</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Function(softmax_cross_entropy_with_logits) result=&quot;</span><span class="p">,</span> <span class="n">c_e2</span><span class="p">)</span>
+</pre></div>
+
+
+<p>输出结果：</p>
+<div class="hlcode"><pre><span class="n">step1</span><span class="o">:</span><span class="n">softmax</span> <span class="n">result</span><span class="o">=</span>  
+<span class="o">[[</span> <span class="mf">0.09003057</span>  <span class="mf">0.24472848</span>  <span class="mf">0.66524094</span><span class="o">]</span>  
+ <span class="o">[</span> <span class="mf">0.09003057</span>  <span class="mf">0.24472848</span>  <span class="mf">0.66524094</span><span class="o">]</span>  
+ <span class="o">[</span> <span class="mf">0.09003057</span>  <span class="mf">0.24472848</span>  <span class="mf">0.66524094</span><span class="o">]]</span>  
+<span class="n">step2</span><span class="o">:</span><span class="n">cross_entropy</span> <span class="n">result</span><span class="o">=</span>  
+<span class="mf">1.22282</span>  
+<span class="n">Function</span><span class="o">(</span><span class="n">softmax_cross_entropy_with_logits</span><span class="o">)</span> <span class="n">result</span><span class="o">=</span>  
+<span class="mf">1.2228</span> 
+</pre></div>
+
+
+<p>其中tf.clip_by_calue()函数可将一个tensor的元素数值限制在指定的范围内，这样可以防止一些错误运算，起到数值检查的作用。<br />
+从结果可以看出softmax_cross_entropy_with_logits()与我们个公式逻辑是相符合的，整个过程可以大概了解到softmax_cross_entropy_with_logits()的操作情况。</p>
+<h2 id="tfnnsparse_softmax_cross_entropy_with_logitslogits-labels-namenone">tf.nn.sparse_softmax_cross_entropy_with_logits(logits, labels, name=None)</h2>
+<div class="hlcode"><pre><span class="k">def</span> <span class="nf">sparse_softmax_cross_entropy_with_logits</span><span class="p">(</span><span class="n">_sentinel</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>  <span class="c"># pylint: disable=invalid-name</span>
+                                             <span class="n">labels</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
+                                             <span class="n">logits</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                                             <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Computes sparse softmax cross entropy between `logits` and `labels`.</span>
+<span class="sd">  Args:</span>
+<span class="sd">    _sentinel: Used to prevent positional parameters. Internal, do not use.</span>
+<span class="sd">    labels: `Tensor` of shape `[d_0, d_1, ..., d_{r-1}]` (where `r` is rank of</span>
+<span class="sd">      `labels` and result) and dtype `int32` or `int64`. Each entry in `labels`</span>
+<span class="sd">      must be an index in `[0, num_classes)`. Other values will raise an</span>
+<span class="sd">      exception when this op is run on CPU, and return `NaN` for corresponding</span>
+<span class="sd">      loss and gradient rows on GPU.</span>
+<span class="sd">    logits: Unscaled log probabilities of shape</span>
+<span class="sd">      `[d_0, d_1, ..., d_{r-1}, num_classes]` and dtype `float32` or `float64`.</span>
+<span class="sd">    name: A name for the operation (optional).</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    A `Tensor` of the same shape as `labels` and of the same type as `logits`</span>
+<span class="sd">    with the softmax cross entropy loss.</span>
+
+<span class="sd">  Raises:</span>
+<span class="sd">    ValueError: If logits are scalars (need to have rank &gt;= 1) or if the rank</span>
+<span class="sd">      of the labels is not equal to the rank of the labels minus one.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+</pre></div>
+
+
+<p>该函数与tf.nn.softmax_cross_entropy_with_logits()函数十分相似，唯一的区别在于labels的shape，该函数的labels要求是排他性的即只有一个正确的类别，如果labels的每一行不需要进行one_hot表示，可以使用tf.nn.sparse_softmax_cross_entropy_with_logits()。</p>
+<h3 id="demo">Demo</h3>
+<p>下面的代码列举了sparse_softmax_cross_entropy_with_logits()和softmax_cross_entropy_with_logits()的输入输出。</p>
+<div class="hlcode"><pre><span class="k">def</span> <span class="nf">cost_compute</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">target_inputs</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">):</span>
+    <span class="c"># shape = [batch_size * num_steps, ]</span>
+    <span class="c"># labels&#39;shape = [batch_size * num_steps, num_classes]</span>
+    <span class="c"># logits&#39;shape = [shape = [batch_size * num_steps, num_classes]]</span>
+    <span class="c"># 这里可以使用tf.nn.sparse_softmax_cross_entropy_with_logits()和tf.nn.softmax_cross_entropy_with_logits()两种方式来计算rnn</span>
+    <span class="c"># 但要注意labels的shape。</span>
+    <span class="c"># eg.1</span>
+    <span class="c"># loss = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=tf.reshape(target_inputs, [-1]),</span>
+    <span class="c">#                                                       logits=logits, name=&#39;loss&#39;)</span>
+
+    <span class="c"># eg.2</span>
+    <span class="n">targets</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">one_hot</span><span class="p">(</span><span class="n">target_inputs</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">)</span>  <span class="c"># [batch_size, seq_length, num_classes]</span>
+    <span class="c"># 不能使用logit.get_shape(), 因为在定义logit时shape=[None, num_steps], 这里使用会报错</span>
+    <span class="c"># y_reshaped = tf.reshape(targets, logits.get_shape())  # y_reshaped: [batch_size * seq_length, num_classes]</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax_cross_entropy_with_logits</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">]),</span>
+                                                   <span class="n">logits</span><span class="o">=</span><span class="n">logits</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;loss&#39;</span><span class="p">)</span>
+
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;cost&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cost</span>
+</pre></div>
+
+
+<p>完整代码请参考<a href="https://github.com/STHSF/DeepNaturalLanguageProcessing/tree/develop/ChineseSegmentation/src">bi_lstm_advanced.py</a></p>
+<h2 id="tfnnsigmoid_cross_entropy_with_logitslogits-targets-namenone">tf.nn.sigmoid_cross_entropy_with_logits(logits, targets, name=None)</h2>
+<p>sigmoid_cross_entropy_with_logits是TensorFlow最早实现的交叉熵算法。这个函数的输入是logits和labels，logits就是神经网络模型中的 W * X矩阵，注意不需要经过sigmoid，而labels的shape和logits相同，就是正确的标签值，例如这个模型一次要判断100张图是否包含10种动物，这两个输入的shape都是[100, 10]。注释中还提到这10个分类之间是独立的、不要求是互斥，这种问题我们称为多目标（多标签）分类，例如判断图片中是否包含10种动物中的一种或几种，标签值可以包含多个1或0个1。</p>
+<h2 id="tfnnweighted_cross_entropy_with_logitslogits-targets-pos_weight-namenone">tf.nn.weighted_cross_entropy_with_logits(logits, targets, pos_weight, name=None)</h2>
+<p>weighted_sigmoid_cross_entropy_with_logits是sigmoid_cross_entropy_with_logits的拓展版，多支持一个pos_weight参数，在传统基于sigmoid的交叉熵算法上，正样本算出的值乘以某个系数。</p>
+<h2 id="tfnnlog_softmaxlogits-namenone">tf.nn.log_softmax(logits, name=None)</h2>
+<h1 id="sampled-loss-functions">sampled loss functions</h1>
+<h2 id="tfnnnce_lossweights-biases-inputs-labels-num_samplednum_classes-num_true1-sampled_valuesnoneremove_accidental_hitsfalse-partition_strategymodnamence_loss">tf.nn.nce_loss(weights, biases, inputs, labels, num_sampled,num_classes, num_true=1, sampled_values=None,remove_accidental_hits=False, partition_strategy=’mod’,name=’nce_loss’)</h2>
+<h2 id="tfnnsampled_softmax_lossweights-biases-inputs-labels-num_sampled-num_classes-num_true1-sampled_valuesnoneremove_accidental_hitstrue-partition_strategymod-namesampled_softmax_loss">tf.nn.sampled_softmax_loss(weights, biases, inputs, labels, num_sampled, num_classes, num_true=1, sampled_values=None,remove_accidental_hits=True, partition_strategy=’mod’, name=’sampled_softmax_loss’)</h2>
+<h1 id="sequence-to-sequenceloss-function">sequence to sequence中的loss function</h1>
+<h2 id="sequence_loss_by_examplelogits-targets-weights">sequence_loss_by_example(logits, targets, weights)</h2>
+<h2 id="tfcontriblegacy_seq2seqsequence_loss_by_example">tf.contrib.legacy_seq2seq.sequence_loss_by_example</h2>
+<h1 id="_2">参考文献</h1>
+<p><a href="http://blog.csdn.net/marsjhao/article/details/72630147">1</a><br />
+<a href="http://blog.csdn.net/u012436149/article/details/52874718">tensorflow学习笔记（三）：损失函数</a><br />
+<a href="http://blog.csdn.net/appleml/article/details/54017873">sequence_loss_by_example(logits, targets, weights）</a></p>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2017-07-06 11:40 </span></div>
+<div id="comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script type="text/javascript">
+const gitment = new Gitment({
+  title: 'Tensorflow基础知识---损失函数详解',
+  owner: 'sthsf',
+  repo: 'wiki',
+  oauth: {
+    client_id: '086c54c5fd95adfdc372',
+    client_secret: '2ad9ebe87b952d2c77fccf99c334881b91eaa73d',
+  },
+  // ...
+  // For more available options, check out the documentation below
+})
+gitment.render('comments')
+// or
+// gitment.render(document.getElementById('comments'))
+// or
+// document.body.appendChild(gitment.render())
+</script>
+
+</div>
+<div id="footer">
+            <span>
+                Copyright © 2018 LiYu.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+                Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
+            </span>
+</div>
+
+
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?90e1dcdd1938573c19f9ff6521188e91";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</body>
+</html>

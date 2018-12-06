@@ -1,0 +1,156 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <title>Ubuntu下安装和配置neo4j - LiYu's personal knowledge wiki</title>
+    <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
+    <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$(',')$'], ['\\(','\\)']]}
+        });
+        </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-78529611-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+
+<body>
+<div id="container">
+    
+<div id="header">
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm">Algorithm</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-KnowledgGraph">KnowledgGraph</a>&nbsp;»&nbsp;Ubuntu下安装和配置neo4j</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">Ubuntu下安装和配置neo4j</div>
+<div id="content">
+  <div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#_1">写在前面</a><ul>
+<li><a href="#neo4j">Neo4j的优点</a></li>
+<li><a href="#neo4j_1">Neo4j的缺点或限制</a></li>
+</ul>
+</li>
+<li><a href="#_2">安装环境</a></li>
+<li><a href="#_3">安装准备</a><ul>
+<li><a href="#1java-jdk">1、下载、配置java jdk</a></li>
+<li><a href="#2neo4j">2、下载neo4j源文件</a></li>
+</ul>
+</li>
+<li><a href="#_4">问题总结</a><ul>
+<li><a href="#1neo4jlocalhost">1、neo4j启动之后，本机通过localhost可以访问。但是局域网中访问不了。</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<h1 id="_1">写在前面</h1>
+<h2 id="neo4j">Neo4j的优点</h2>
+<ul>
+<li>它很容易表示连接的数据</li>
+<li>检索/遍历/导航更多的连接数据是非常容易和快速的</li>
+<li>它非常容易地表示半结构化数据</li>
+<li>Neo4j CQL查询语言命令是人性化的可读格式，非常容易学习</li>
+<li>它使用简单而强大的数据模型</li>
+<li>它不需要复杂的连接来检索连接的/相关的数据，因为它很容易检索它的相邻节点或关系细节没有连接或索引</li>
+</ul>
+<h2 id="neo4j_1">Neo4j的缺点或限制</h2>
+<ul>
+<li>AS的Neo4j 2.1.3最新版本，它具有支持节点数，关系和属性的限制。</li>
+<li>它不支持Sharding。</li>
+</ul>
+<h1 id="_2">安装环境</h1>
+<p>Ubuntu 16.04.3 LTS</p>
+<h1 id="_3">安装准备</h1>
+<h2 id="1java-jdk">1、下载、配置java jdk</h2>
+<p>安装配置neo4j需要jdk的版本必须是1.8以上的，不然会报错。所以本文下载的是jdk的版本是(java SE Development Kit 8u161)</p>
+<div class="hlcode"><pre><span class="err">下载地址：</span><span class="n">http</span><span class="o">:</span><span class="c1">//www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html</span>
+<span class="err">文件名：</span><span class="n">jdk</span><span class="o">-</span><span class="mi">8u161</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">x64</span><span class="p">.</span><span class="n">tar</span><span class="p">.</span><span class="n">gz</span>
+</pre></div>
+
+
+<p>文件下载到本地之后使用<code>tar -xf 'filename'</code>解压对应的文件。</p>
+<p>解压完成之后配置jdk环境变量。</p>
+<p>首先注意自己的解压目录，一般会将解压的jdk文件放到/usr/lib/下。但你也可以自己指定位置。然后在bash的配置文件中添加下面的几行代码.<strong><em>注意，可能你用的不是bash，可能是zsh等终端，所以在配置的时候需要注意，如果你自己使用的是ubuntu自带的bash，那么你就修改～/.bashrc文件。如果使用的是zsh则需要修改～/.zshrc，不同的bash添加的内容相同，如果添加的文件搞错了，后面配置的时候会识别不了。</em></strong></p>
+<div class="hlcode"><pre>export JAVA_HOME=your_jdk_path 
+export JRE_HOME=<span class="cp">${</span><span class="n">JAVA_HOME</span><span class="cp">}</span>/jre 
+export CLASSPATH=.:<span class="cp">${</span><span class="n">JAVA_HOME</span><span class="cp">}</span>/lib:<span class="cp">${</span><span class="n">JRE_HOME</span><span class="cp">}</span>/lib 
+export PATH=<span class="cp">${</span><span class="n">JAVA_HOME</span><span class="cp">}</span>/bin:<span class="nv">$PATH</span> 
+</pre></div>
+
+
+<p>添加完成之后，保存退出。然后使用source来使修改的文件生效。</p>
+<div class="hlcode"><pre><span class="n">source</span> <span class="o">~/</span><span class="p">.</span><span class="n">bashrc</span> <span class="err">或者</span> <span class="n">source</span> <span class="o">~/</span><span class="p">.</span><span class="n">zshrc</span>
+</pre></div>
+
+
+<p>完了之后使用<code>java -version</code>，如果显示了java的版本则表示安装成功。接下来就可以下载配置neo4j了。</p>
+<h2 id="2neo4j">2、下载neo4j源文件</h2>
+<p>首先去官网下载neo4j源文件，本文使用的是Neo4j 3.3.2(tar)版本。下载到本地之后，解压文件。</p>
+<p>解压完成之后直接进入bin目录下面,使用命令<code>./neo4j console</code>然后就可以启动了。这时候你在本机的浏览器中输入http://localhost:7474/就可以在浏览器中进行访问了。当然你也可以使用<code>./neo4j start</code>让neo4j后台运行。</p>
+<p>登陆neo4j的初始用户名和密码都是neo4j，初次登陆之后他会提示让你修改密码。至此，Neo4j就已经安装完毕，你可以在上面创建你的图数据库了。</p>
+<h1 id="_4">问题总结</h1>
+<h2 id="1neo4jlocalhost">1、neo4j启动之后，本机通过localhost可以访问。但是局域网中访问不了。</h2>
+<p>这需要修改$NEO4J_HOME}/conf/neo4j.conf文件，在文件中找到Network connector configuration这块，大概在49-83行左右。然后将<code>dbms.connectors.default_listen_address=0.0.0.0</code>前面的注释#符号去掉，保存。然后重新运行，你就可以在局域网中使用本机的ip和7474端口来访问neo4j了。</p>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2018-01-26 00:00 </span></div>
+<div id="comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script type="text/javascript">
+const gitment = new Gitment({
+  title: 'Ubuntu下安装和配置neo4j',
+  owner: 'sthsf',
+  repo: 'wiki',
+  oauth: {
+    client_id: '086c54c5fd95adfdc372',
+    client_secret: '2ad9ebe87b952d2c77fccf99c334881b91eaa73d',
+  },
+  // ...
+  // For more available options, check out the documentation below
+})
+gitment.render('comments')
+// or
+// gitment.render(document.getElementById('comments'))
+// or
+// document.body.appendChild(gitment.render())
+</script>
+
+</div>
+<div id="footer">
+            <span>
+                Copyright © 2018 LiYu.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+                Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
+            </span>
+</div>
+
+
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?90e1dcdd1938573c19f9ff6521188e91";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</body>
+</html>

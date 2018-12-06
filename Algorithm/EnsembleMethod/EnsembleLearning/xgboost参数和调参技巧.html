@@ -1,0 +1,360 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <title>xgboost参数和调参技巧 - LiYu's personal knowledge wiki</title>
+    <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
+    <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$(',')$'], ['\\(','\\)']]}
+        });
+        </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-78529611-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+
+<body>
+<div id="container">
+    
+<div id="header">
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm">Algorithm</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-EnsembleMethod">EnsembleMethod</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-EnsembleMethod-EnsembleLearning">EnsembleLearning</a>&nbsp;»&nbsp;xgboost参数和调参技巧</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">xgboost参数和调参技巧</div>
+<div id="content">
+  <h1 id="_1">写在前面</h1>
+<p>对于小样本数据,传统的机器学习方法效果可能会比深度学习好</p>
+<h1 id="xgboost">xgboost参数</h1>
+<p>XGBoost的参数可以分为三种类型：<strong>通用参数</strong>、<strong>booster参数</strong>以及<strong>学习目标参数</strong></p>
+<ul>
+<li>General parameters：参数控制在提升（boosting）过程中使用哪种booster，常用的booster有树模型（tree）和线性模型（linear model）。</li>
+<li>Booster parameters：这取决于使用哪种booster。</li>
+<li>Learning Task parameters：控制学习的场景，例如在回归问题中会使用不同的参数控制排序。<br />
+除了以上参数还可能有其它参数，在命令行中使用</li>
+</ul>
+<h2 id="general-parameters">General Parameters</h2>
+<ul>
+<li>booster [default=gbtree] </li>
+</ul>
+<p>有两种模型可以选择gbtree和gblinear。gbtree使用基于树的模型进行提升计算，gblinear使用线性模型进行提升计算。缺省值为gbtree</p>
+<ul>
+<li>silent [default=0] </li>
+</ul>
+<p>取0时表示打印出运行时信息，取1时表示以缄默方式运行，不打印运行时的信息。缺省值为0<br />
+建议取0，过程中的输出数据有助于理解模型以及调参。另外实际上我设置其为1也通常无法缄默运行。。</p>
+<ul>
+<li>nthread [default to maximum number of threads available if not set] </li>
+</ul>
+<p>XGBoost运行时的线程数。缺省值是当前系统可以获得的最大线程数<br />
+如果你希望以最大速度运行，建议不设置这个参数，模型将自动获得最大线程</p>
+<ul>
+<li>num_pbuffer [set automatically by xgboost, no need to be set by user] </li>
+</ul>
+<p>size of prediction buffer, normally set to number of training instances. The buffers are used to save the prediction results of last boosting step.</p>
+<ul>
+<li>num_feature [set automatically by xgboost, no need to be set by user] </li>
+</ul>
+<p>boosting过程中用到的特征维数，设置为特征个数。XGBoost会自动设置，不需要手工设置</p>
+<h2 id="booster-parameters">Booster Parameters</h2>
+<p>From xgboost-unity, the bst: prefix is no longer needed for booster parameters. Parameter with or without bst: prefix will be equivalent(i.e. both bst:eta and eta will be valid parameter setting) .</p>
+<p>Parameter for Tree Booster</p>
+<ul>
+<li>eta [default=0.3] </li>
+</ul>
+<p>为了防止过拟合，更新过程中用到的收缩步长。在每次提升计算之后，算法会直接获得新特征的权重。 eta通过缩减特征的权重使提升计算过程更加保守。缺省值为0.3<br />
+取值范围为：[0,1]<br />
+通常最后设置eta为0.01~0.2</p>
+<ul>
+<li>gamma [default=0] </li>
+</ul>
+<p>minimum loss reduction required to make a further partition on a leaf node of the tree. the larger, the more conservative the algorithm will be.</p>
+<ul>
+<li>range: [0,∞]</li>
+</ul>
+<p>模型在默认情况下，对于一个节点的划分只有在其loss function 得到结果大于0的情况下才进行，而- gamma 给定了所需的最低loss function的值</p>
+<p>gamma值使得算法更conservation，且其值依赖于loss function ，在模型中应该进行调参。</p>
+<ul>
+<li>max_depth [default=6] </li>
+</ul>
+<p>树的最大深度。缺省值为6<br />
+取值范围为：[1,∞]<br />
+指树的最大深度<br />
+树的深度越大，则对数据的拟合程度越高（过拟合程度也越高）。即该参数也是控制过拟合<br />
+建议通过交叉验证（xgb.cv ) 进行调参<br />
+通常取值：3-10</p>
+<ul>
+<li>min_child_weight [default=1] </li>
+</ul>
+<p>孩子节点中最小的样本权重和。如果一个叶子节点的样本权重和小于min_child_weight则拆分过程结束。在现行回归模型中，这个参数是指建立每个模型所需要的最小样本数。该成熟越大算法越</p>
+<ul>
+<li>
+<p>conservative。即调大这个参数能够控制过拟合。<br />
+取值范围为: [0,∞]</p>
+</li>
+<li>
+<p>max_delta_step [default=0] </p>
+</li>
+</ul>
+<p>Maximum delta step we allow each tree’s weight estimation to be. If the value is set to 0, it means there is no constraint. If it is set to a positive value, it can help making the update step more conservative. Usually this parameter is not needed, but it might help in logistic regression when class is extremely imbalanced. Set it to value of 1-10 might help control the update</p>
+<p>取值范围为：[0,∞]</p>
+<p>如果取值为0，那么意味着无限制。如果取为正数，则其使得xgboost更新过程更加保守。<br />
+通常不需要设置这个值，但在使用logistics 回归时，若类别极度不平衡，则调整该参数可能有效果</p>
+<ul>
+<li>subsample [default=1] </li>
+</ul>
+<p>用于训练模型的子样本占整个样本集合的比例。如果设置为0.5则意味着XGBoost将随机的从整个样本集合中抽取出50%的子样本建立树模型，这能够防止过拟合。</p>
+<p>取值范围为：(0,1]</p>
+<ul>
+<li>colsample_bytree [default=1] </li>
+</ul>
+<p>在建立树时对特征随机采样的比例。缺省值为1</p>
+<p>取值范围：(0,1]</p>
+<ul>
+<li>colsample_bylevel[default=1]</li>
+</ul>
+<p>决定每次节点划分时子样例的比例<br />
+通常不使用，因为subsample和colsample_bytree已经可以起到相同的作用了</p>
+<ul>
+<li>scale_pos_weight[default=0]</li>
+</ul>
+<p>A value greater than 0 can be used in case of high class imbalance as it helps in faster convergence.</p>
+<p>大于0的取值可以处理类别不平衡的情况。帮助模型更快收敛</p>
+<h2 id="parameter-for-linear-booster">Parameter for Linear Booster</h2>
+<ul>
+<li>lambda [default=0] </li>
+</ul>
+<p>L2 正则的惩罚系数<br />
+用于处理XGBoost的正则化部分。通常不使用，但可以用来降低过拟合</p>
+<ul>
+<li>alpha [default=0] </li>
+</ul>
+<p>L1 正则的惩罚系数</p>
+<p>当数据维度极高时可以使用，使得算法运行更快。</p>
+<ul>
+<li>lambda_bias </li>
+</ul>
+<p>在偏置上的L2正则。缺省值为0（在L1上没有偏置项的正则，因为L1时偏置不重要）</p>
+<h2 id="task-parameters">Task Parameters</h2>
+<ul>
+<li>
+<p>objective [ default=reg:linear ] <br />
+定义学习任务及相应的学习目标，可选的目标函数如下:</p>
+<ul>
+<li>
+<p>“reg:linear” –线性回归。</p>
+</li>
+<li>
+<p>“reg:logistic” –逻辑回归。</p>
+</li>
+<li>
+<p>“binary:logistic” –二分类的逻辑回归问题，输出为概率。</p>
+</li>
+<li>
+<p>“binary:logitraw” –二分类的逻辑回归问题，输出的结果为wTx。</p>
+</li>
+<li>
+<p>“count:poisson” –计数问题的poisson回归，输出结果为poisson分布。</p>
+</li>
+<li>
+<p>在poisson回归中，max_delta_step的缺省值为0.7。(used to safeguard optimization)</p>
+</li>
+<li>
+<p>“multi:softmax” –让XGBoost采用softmax目标函数处理多分类问题，同时需要设置参数num_class（类别个数）</p>
+</li>
+<li>
+<p>“multi:softprob” –和softmax一样，但是输出的是ndata * nclass的向量，可以将该向量reshape成ndata行nclass列的矩阵。每行数据表示样本所属于每个类别的概率。</p>
+</li>
+<li>
+<p>“rank:pairwise” –set XGBoost to do ranking task by minimizing the pairwise loss</p>
+</li>
+<li>
+<p>base_score [ default=0.5 ] </p>
+</li>
+</ul>
+</li>
+</ul>
+<p>the initial prediction score of all instances, global bias</p>
+<div class="hlcode"><pre><span class="o">-</span> <span class="n">eval_metric</span> <span class="p">[</span> <span class="k">default</span> <span class="n">according</span> <span class="n">to</span> <span class="n">objective</span> <span class="p">]</span>
+</pre></div>
+
+
+<p>校验数据所需要的评价指标，不同的目标函数将会有缺省的评价指标（rmse for regression, and error for classification, mean average precision for ranking）</p>
+<p>用户可以添加多种评价指标，对于Python用户要以list传递参数对给程序，而不是map参数list参数不会覆盖’eval_metric’</p>
+<p>The choices are listed below:</p>
+<div class="hlcode"><pre><span class="o">-</span> <span class="err">“</span><span class="n">rmse</span><span class="err">”</span><span class="o">:</span> <span class="n">root</span> <span class="n">mean</span> <span class="n">square</span> <span class="n">error</span>
+
+<span class="o">-</span> <span class="err">“</span><span class="n">logloss</span><span class="err">”</span><span class="o">:</span> <span class="n">negative</span> <span class="n">log</span><span class="o">-</span><span class="n">likelihood</span>
+
+<span class="o">-</span> <span class="err">“</span><span class="n">error</span><span class="err">”</span><span class="o">:</span> <span class="n">Binary</span> <span class="n">classification</span> <span class="n">error</span> <span class="n">rate</span><span class="p">.</span> <span class="n">It</span> <span class="n">is</span> <span class="n">calculated</span> <span class="n">as</span> <span class="err">#</span><span class="p">(</span><span class="n">wrong</span> <span class="n">cases</span><span class="p">)</span><span class="o">/</span><span class="err">#</span><span class="p">(</span><span class="n">all</span> <span class="n">cases</span><span class="p">).</span> <span class="n">For</span> <span class="n">the</span> <span class="n">predictions</span><span class="p">,</span> <span class="n">the</span> <span class="n">evaluation</span> <span class="n">will</span> <span class="n">regard</span> <span class="n">the</span> <span class="n">instances</span> <span class="n">with</span> <span class="n">prediction</span> <span class="n">value</span> <span class="n">larger</span> <span class="n">than</span> <span class="mf">0.5</span> <span class="n">as</span> <span class="n">positive</span> <span class="n">instances</span><span class="p">,</span> <span class="n">and</span> <span class="n">the</span> <span class="n">others</span> <span class="n">as</span> <span class="n">negative</span> <span class="n">instances</span><span class="p">.</span>
+
+<span class="o">-</span> <span class="err">“</span><span class="n">merror</span><span class="err">”</span><span class="o">:</span> <span class="n">Multiclass</span> <span class="n">classification</span> <span class="n">error</span> <span class="n">rate</span><span class="p">.</span> <span class="n">It</span> <span class="n">is</span> <span class="n">calculated</span> <span class="n">as</span> <span class="err">#</span><span class="p">(</span><span class="n">wrong</span> <span class="n">cases</span><span class="p">)</span><span class="o">/</span><span class="err">#</span><span class="p">(</span><span class="n">all</span> <span class="n">cases</span><span class="p">).</span>
+
+<span class="o">-</span> <span class="err">“</span><span class="n">mlogloss</span><span class="err">”</span><span class="o">:</span> <span class="n">Multiclass</span> <span class="n">logloss</span>
+
+<span class="o">-</span> <span class="err">“</span><span class="n">auc</span><span class="err">”</span><span class="o">:</span> <span class="n">Area</span> <span class="n">under</span> <span class="n">the</span> <span class="n">curve</span> <span class="k">for</span> <span class="n">ranking</span> <span class="n">evaluation</span><span class="p">.</span>
+
+<span class="o">-</span> <span class="err">“</span><span class="n">ndcg</span><span class="err">”</span><span class="o">:</span><span class="n">Normalized</span> <span class="n">Discounted</span> <span class="n">Cumulative</span> <span class="n">Gain</span>
+
+<span class="o">-</span> <span class="err">“</span><span class="n">map</span><span class="err">”</span><span class="o">:</span><span class="n">Mean</span> <span class="n">average</span> <span class="n">precision</span>
+
+<span class="o">-</span> <span class="err">“</span><span class="n">ndcg</span><span class="err">@</span><span class="n">n</span><span class="err">”</span><span class="p">,</span><span class="err">”</span><span class="n">map</span><span class="err">@</span><span class="n">n</span><span class="err">”</span><span class="o">:</span> <span class="n">n</span> <span class="n">can</span> <span class="n">be</span> <span class="n">assigned</span> <span class="n">as</span> <span class="n">an</span> <span class="n">integer</span> <span class="n">to</span> <span class="n">cut</span> <span class="n">off</span> <span class="n">the</span> <span class="n">top</span> <span class="n">positions</span> <span class="n">in</span> <span class="n">the</span> <span class="n">lists</span> <span class="k">for</span> <span class="n">evaluation</span><span class="p">.</span>
+
+<span class="o">-</span> <span class="err">“</span><span class="n">ndcg</span><span class="o">-</span><span class="err">“</span><span class="p">,</span><span class="err">”</span><span class="n">map</span><span class="o">-</span><span class="err">“</span><span class="p">,</span><span class="err">”</span><span class="n">ndcg</span><span class="err">@</span><span class="n">n</span><span class="o">-</span><span class="err">“</span><span class="p">,</span><span class="err">”</span><span class="n">map</span><span class="err">@</span><span class="n">n</span><span class="o">-</span><span class="err">“</span><span class="o">:</span> <span class="n">In</span> <span class="n">XGBoost</span><span class="p">,</span> <span class="n">NDCG</span> <span class="n">and</span> <span class="n">MAP</span> <span class="n">will</span> <span class="n">evaluate</span> <span class="n">the</span> <span class="n">score</span> <span class="n">of</span> <span class="n">a</span> <span class="n">list</span> <span class="n">without</span> <span class="n">any</span> <span class="n">positive</span> <span class="n">samples</span> <span class="n">as</span> <span class="mf">1.</span> <span class="n">By</span> <span class="n">adding</span> <span class="err">“</span><span class="o">-</span><span class="err">”</span> <span class="n">in</span> <span class="n">the</span> <span class="n">evaluation</span> <span class="n">metric</span> <span class="n">XGBoost</span> <span class="n">will</span> <span class="n">evaluate</span> <span class="n">these</span> <span class="n">score</span> <span class="n">as</span> <span class="mi">0</span> <span class="n">to</span> <span class="n">be</span> <span class="n">consistent</span> <span class="n">under</span> <span class="n">some</span> <span class="n">conditions</span><span class="p">.</span>
+</pre></div>
+
+
+<p>training repeatively</p>
+<ul>
+<li>seed [ default=0 ] </li>
+</ul>
+<p>随机数的种子。缺省值为0<br />
+可以用于产生可重复的结果（每次取一样的seed即可得到相同的随机划分）</p>
+<h2 id="console-parameters">Console Parameters</h2>
+<p>The following parameters are only used in the console version of xgboost <br />
+* use_buffer [ default=1 ] </p>
+<p>是否为输入创建二进制的缓存文件，缓存文件可以加速计算。缺省值为1 <br />
+* num_round </p>
+<p>boosting迭代计算次数。 <br />
+* data </p>
+<p>输入数据的路径 <br />
+* test:data </p>
+<p>测试数据的路径 <br />
+* save_period [default=0] </p>
+<p>表示保存第i*save_period次迭代的模型。例如save_period=10表示每隔10迭代计算XGBoost将会保存中间结果，设置为0表示每次计算的模型都要保持。 </p>
+<ul>
+<li>
+<p>task [default=train] options: train, pred, eval, dump </p>
+</li>
+<li>
+<p>train：训练模型</p>
+</li>
+<li>
+<p>pred：对测试数据进行预测 </p>
+</li>
+<li>
+<p>eval：通过eval[name]=filenam定义评价指标 </p>
+</li>
+<li>
+<p>dump：将学习模型保存成文本格式 </p>
+</li>
+<li>
+<p>model_in [default=NULL] </p>
+</li>
+<li>
+<p>指向模型的路径在test, eval, dump都会用到，如果在training中定义XGBoost将会接着输入模型继续训练 </p>
+</li>
+<li>
+<p>model_out [default=NULL] </p>
+</li>
+<li>
+<p>训练完成后模型的保存路径，如果没有定义则会输出类似0003.model这样的结果，0003是第三次训练的模型结果。 </p>
+</li>
+<li>
+<p>model_dir [default=models] </p>
+</li>
+</ul>
+<p>输出模型所保存的路径。 </p>
+<ul>
+<li>fmap </li>
+</ul>
+<p>feature map, used for dump model </p>
+<ul>
+<li>name_dump [default=dump.txt] </li>
+</ul>
+<p>name of model dump file </p>
+<ul>
+<li>name_pred [default=pred.txt] </li>
+</ul>
+<p>预测结果文件 </p>
+<ul>
+<li>pred_margin [default=0] </li>
+</ul>
+<p>输出预测的边界，而不是转换后的概率</p>
+<p>如果你比较习惯scikit-learn的参数形式，那么XGBoost的Python 版本也提供了sklearn形式的接口 XGBClassifier。它使用sklearn形式的参数命名方式，对应关系如下：</p>
+<p>eta –&gt; learning_rate<br />
+lambda –&gt; reg_lambda<br />
+alpha –&gt; reg_alpha</p>
+<h1 id="_2">参考文献</h1>
+<p><a href="https://blog.csdn.net/wzmsltw/article/details/50988430">XGBoost-Python完全调参指南-介绍篇</a><br />
+<a href="https://blog.csdn.net/wzmsltw/article/details/50994481">XGBoost-Python完全调参指南-参数解释篇</a><br />
+<a href="https://blog.csdn.net/weiyongle1996/article/details/78360873">XGBoost python调参示例</a><br />
+<a href="https://blog.csdn.net/u010657489/article/details/51952785">XGBoost参数调优完全指南（附Python代码）</a><br />
+<a href="https://www.cnblogs.com/zhouxiaohui888/p/6008368.html">xgboost原理及应用--转</a><br />
+<a href="https://blog.csdn.net/u010414589/article/details/51153310/">xgboost 调参经验</a><br />
+<a href="https://blog.csdn.net/q383700092/article/details/53763328">xgboost使用调参</a><br />
+<a href="http://www.52cs.org/?p=429">XGBoost 与 Boosted Tree</a><br />
+<a href="https://blog.csdn.net/han_xiaoyang/article/details/52663170">机器学习系列(11)_Python中Gradient Boosting Machine(GBM）调参方法详解</a><br />
+<a href="http://www.360doc.com/content/18/0101/17/40769523_718161675.shtml">机器学习时代的三大神器</a><br />
+<a href="https://www.cnblogs.com/zhouxiaohui888/p/6008368.html">xgboost原理及应用--转</a><br />
+<a href="https://www.jianshu.com/p/0fe45d4e9542">GBDT、XGBoost、LightGBM 的使用及参数调优</a><br />
+<a href="https://blog.csdn.net/zhouwenyuan1015/article/details/77481184">机器学习---xgboost与lightgbm效果比较（2）</a><br />
+<a href="https://blog.csdn.net/hx2017/article/details/78064362">XGBoost调参demo（Python）</a><br />
+<a href="https://www.cnblogs.com/mata123/p/7440774.html">lightgbm,xgboost,gbdt的区别与联系</a></p>
+<p><a href="https://www.cnblogs.com/nwpuxuezha/p/6618205.html">Python超参数自动搜索模块GridSearchCV上手</a><br />
+<a href="https://blog.csdn.net/FontThrone/article/details/79220127">Sklearn中的CV与KFold详解</a></p>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2018-08-14 10:00 </span></div>
+<div id="comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script type="text/javascript">
+const gitment = new Gitment({
+  title: 'xgboost参数和调参技巧',
+  owner: 'sthsf',
+  repo: 'wiki',
+  oauth: {
+    client_id: '086c54c5fd95adfdc372',
+    client_secret: '2ad9ebe87b952d2c77fccf99c334881b91eaa73d',
+  },
+  // ...
+  // For more available options, check out the documentation below
+})
+gitment.render('comments')
+// or
+// gitment.render(document.getElementById('comments'))
+// or
+// document.body.appendChild(gitment.render())
+</script>
+
+</div>
+<div id="footer">
+            <span>
+                Copyright © 2018 LiYu.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+                Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
+            </span>
+</div>
+
+
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?90e1dcdd1938573c19f9ff6521188e91";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</body>
+</html>

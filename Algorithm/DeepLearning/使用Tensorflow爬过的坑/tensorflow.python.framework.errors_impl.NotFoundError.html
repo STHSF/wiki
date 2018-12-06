@@ -1,0 +1,233 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <title>tensorflow.python.framework.errors_impl.NotFoundError:Key **** not found in checkpoint - LiYu's personal knowledge wiki</title>
+    <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
+    <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$(',')$'], ['\\(','\\)']]}
+        });
+        </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-78529611-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+
+<body>
+<div id="container">
+    
+<div id="header">
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm">Algorithm</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning">DeepLearning</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning-使用Tensorflow爬过的坑">使用Tensorflow爬过的坑</a>&nbsp;»&nbsp;tensorflow.python.framework.errors_impl.NotFoundError:Key **** not found in checkpoint</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">tensorflow.python.framework.errors_impl.NotFoundError:Key **** not found in checkpoint</div>
+<div id="content">
+  <h1 id="_1">写在前面</h1>
+<p>一般地，我们在使用tensorflow进行深度学习模型训练之后都可以将模型的训练参数保存下来保存下来，然后结合原有的网络结构就可以进行预测了，但是最近我在使用tf.train.saver保存模型训练参数之后，将程序和模型数据完整移动到另外一台机器上后却不能运行了，具体的错误如下，</p>
+<h1 id="_2">详细错误提示</h1>
+<div class="hlcode"><pre><span class="mi">2017</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">20</span> <span class="mi">09</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mf">53.387948</span><span class="p">:</span> <span class="nx">W</span> <span class="nx">tensorflow</span><span class="p">/</span><span class="nx">core</span><span class="p">/</span><span class="nx">framework</span><span class="p">/</span><span class="nx">op_kernel.cc</span><span class="p">:</span><span class="mi">1152</span><span class="cp">]</span> Not found: Key bi-lstm/bidirectional_rnn/fw/multi_rnn_cell/cell_0/lstm_cell/biases/Adam not found in checkpoint
+2017-09-20 09:34:53.388803: W tensorflow/core/framework/op_kernel.cc:1152] Not found: Key bi-lstm/bidirectional_rnn/fw/multi_rnn_cell/cell_0/lstm_cell/biases not found in checkpoint
+2017-09-20 09:34:53.389190: W tensorflow/core/framework/op_kernel.cc:1152] Not found: Key bi-lstm/bidirectional_rnn/bw/multi_rnn_cell/cell_0/lstm_cell/biases not found in checkpoint
+2017-09-20 09:34:53.389261: W tensorflow/core/framework/op_kernel.cc:1152] Not found: Key bi-lstm/bidirectional_rnn/bw/multi_rnn_cell/cell_0/lstm_cell/biases/Adam not found in checkpoint
+2017-09-20 09:34:53.389744: W tensorflow/core/framework/op_kernel.cc:1152] Not found: Key bi-lstm/bidirectional_rnn/bw/multi_rnn_cell/cell_1/lstm_cell/weights/Adam_1 not found in checkpoint
+2017-09-20 09:34:53.390125: W tensorflow/core/framework/op_kernel.cc:1152] Not found: Key bi-lstm/bidirectional_rnn/bw/multi_rnn_cell/cell_0/lstm_cell/biases/Adam_1 not found in checkpoint
+2017-09-20 09:34:53.390239: W tensorflow/core/framework/op_kernel.cc:1152] Not found: Key bi-lstm/bidirectional_rnn/bw/multi_rnn_cell/cell_0/lstm_cell/weights not found in checkpoint
+2017-09-20 09:34:53.390600: W tensorflow/core/framework/op_kernel.cc:1152] Not found: Key bi-lstm/bidirectional_rnn/bw/multi_rnn_cell/cell_1/lstm_cell/weights/Adam not found in checkpoint
+2017-09-20 09:34:53.391046: W tensorflow/core/framework/op_kernel.cc:1152] Not found: Key bi-lstm/bidirectional_rnn/bw/multi_rnn_cell/cell_0/lstm_cell/weights/Adam not found in checkpoint
+2017-09-20 09:34:53.391231: W tensorflow/core/framework/op_kernel.cc:1152] Not found: Key bi-lstm/bidirectional_rnn/bw/multi_rnn_cell/cell_0/lstm_cell/weights/Adam_1 not found in checkpoint
+2017-09-20 09:34:53.391686: W tensorflow/core/framework/op_kernel.cc:1152] Not found: Key bi-lstm/bidirectional_rnn/bw/multi_rnn_cell/cell_1/lstm_cell/weights not found in checkpoint
+2017-09-20 09:34:53.391904: W tensorflow/core/framework/op_kernel.cc:1152] Not found: Key bi-lstm/bidirectional_rnn/bw/multi_rnn_cell/cell_1/lstm_cell/biases not found in checkpoint
+2017-09-20 09:34:53.392092: W tensorflow/core/framework/op_kernel.cc:1152] Not found: Key bi-lstm/bidirectional_rnn/bw/multi_rnn_cell/cell_1/lstm_cell/biases/Adam not found in checkpoint
+2017-09-20 09:34:53.392783: W tensorflow/core/framework/op_kernel.cc:1152] Not found: Key bi-lstm/bidirectional_rnn/bw/multi_rnn_cell/cell_1/lstm_cell/biases/Adam_1 not found in checkpoint
+2017-09-20 09:34:53.393263: W tensorflow/core/framework/op_kernel.cc:1152] Not found: Key bi-lstm/bidirectional_rnn/fw/multi_rnn_cell/cell_0/lstm_cell/biases/Adam_1 not found in checkpoint
+2017-09-20 09:34:53.393405: W tensorflow/core/framework/op_kernel.cc:1152] Not found: Key bi-lstm/bidirectional_rnn/fw/multi_rnn_cell/cell_0/lstm_cell/weights not found in checkpoint
+2017-09-20 09:34:53.393778: W tensorflow/core/framework/op_kernel.cc:1152] Not found: Key bi-lstm/bidirectional_rnn/fw/multi_rnn_cell/cell_0/lstm_cell/weights/Adam not found in checkpoint
+2017-09-20 09:34:53.394227: W tensorflow/core/framework/op_kernel.cc:1152] Not found: Key bi-lstm/bidirectional_rnn/fw/multi_rnn_cell/cell_0/lstm_cell/weights/Adam_1 not found in checkpoint
+2017-09-20 09:34:53.394492: W tensorflow/core/framework/op_kernel.cc:1152] Not found: Key bi-lstm/bidirectional_rnn/fw/multi_rnn_cell/cell_1/lstm_cell/biases not found in checkpoint
+2017-09-20 09:34:53.394676: W tensorflow/core/framework/op_kernel.cc:1152] Not found: Key bi-lstm/bidirectional_rnn/fw/multi_rnn_cell/cell_1/lstm_cell/biases/Adam not found in checkpoint
+2017-09-20 09:34:53.395168: W tensorflow/core/framework/op_kernel.cc:1152] Not found: Key bi-lstm/bidirectional_rnn/fw/multi_rnn_cell/cell_1/lstm_cell/biases/Adam_1 not found in checkpoint
+2017-09-20 09:34:53.395385: W tensorflow/core/framework/op_kernel.cc:1152] Not found: Key bi-lstm/bidirectional_rnn/fw/multi_rnn_cell/cell_1/lstm_cell/weights not found in checkpoint
+2017-09-20 09:34:53.395447: W tensorflow/core/framework/op_kernel.cc:1152] Not found: Key bi-lstm/bidirectional_rnn/fw/multi_rnn_cell/cell_1/lstm_cell/weights/Adam not found in checkpoint
+2017-09-20 09:34:53.396207: W tensorflow/core/framework/op_kernel.cc:1152] Not found: Key bi-lstm/bidirectional_rnn/fw/multi_rnn_cell/cell_1/lstm_cell/weights/Adam_1 not found in checkpoint
+Traceback (most recent call last):
+  File &quot;/Users/li/workshop/MyRepository/DeepNaturalLanguageProcessing/segmentation/src/segment.py&quot;, line 36, in <span class="nt">&lt;module&gt;</span>
+    saver.restore(sess, best_model_path)
+  File &quot;/Library/Python/2.7/site-packages/tensorflow/python/training/saver.py&quot;, line 1457, in restore
+    {self.saver_def.filename_tensor_name: save_path})
+  File &quot;/Library/Python/2.7/site-packages/tensorflow/python/client/session.py&quot;, line 778, in run
+    run_metadata_ptr)
+  File &quot;/Library/Python/2.7/site-packages/tensorflow/python/client/session.py&quot;, line 982, in _run
+    feed_dict_string, options, run_metadata)
+  File &quot;/Library/Python/2.7/site-packages/tensorflow/python/client/session.py&quot;, line 1032, in _do_run
+    target_list, options, run_metadata)
+  File &quot;/Library/Python/2.7/site-packages/tensorflow/python/client/session.py&quot;, line 1052, in _do_call
+    raise type(e)(node_def, op, message)
+tensorflow.python.framework.errors_impl.NotFoundError: Key bi-lstm/bidirectional_rnn/fw/multi_rnn_cell/cell_0/lstm_cell/biases/Adam not found in checkpoint
+     <span class="cp">[</span><span class="err">[</span><span class="nx">Node</span><span class="p">:</span> <span class="nx">save_1</span><span class="p">/</span><span class="nx">RestoreV2_15</span> <span class="o">=</span> <span class="nx">RestoreV2</span><span class="err">[</span><span class="n">dtypes</span><span class="o">=</span><span class="err">[</span><span class="nx">DT_FLOAT</span><span class="cp">]</span>, _device=&quot;/job:localhost/replica:0/task:0/cpu:0&quot;](_recv_save_1/Const_0, save_1/RestoreV2_15/tensor_names, save_1/RestoreV2_15/shape_and_slices)]]
+
+Caused by op u&#39;save_1/RestoreV2_15&#39;, defined at:
+  File &quot;/Users/li/workshop/MyRepository/DeepNaturalLanguageProcessing/segmentation/src/segment.py&quot;, line 32, in <span class="nt">&lt;module&gt;</span>
+    saver = tf.train.Saver()
+  File &quot;/Library/Python/2.7/site-packages/tensorflow/python/training/saver.py&quot;, line 1056, in __init__
+    self.build()
+  File &quot;/Library/Python/2.7/site-packages/tensorflow/python/training/saver.py&quot;, line 1086, in build
+    restore_sequentially=self._restore_sequentially)
+  File &quot;/Library/Python/2.7/site-packages/tensorflow/python/training/saver.py&quot;, line 691, in build
+    restore_sequentially, reshape)
+  File &quot;/Library/Python/2.7/site-packages/tensorflow/python/training/saver.py&quot;, line 407, in _AddRestoreOps
+    tensors = self.restore_op(filename_tensor, saveable, preferred_shard)
+  File &quot;/Library/Python/2.7/site-packages/tensorflow/python/training/saver.py&quot;, line 247, in restore_op
+    <span class="cp">[</span><span class="nx">spec.tensor.dtype</span><span class="cp">]</span>)<span class="cp">[</span><span class="mi">0</span><span class="cp">]</span>)
+  File &quot;/Library/Python/2.7/site-packages/tensorflow/python/ops/gen_io_ops.py&quot;, line 669, in restore_v2
+    dtypes=dtypes, name=name)
+  File &quot;/Library/Python/2.7/site-packages/tensorflow/python/framework/op_def_library.py&quot;, line 768, in apply_op
+    op_def=op_def)
+  File &quot;/Library/Python/2.7/site-packages/tensorflow/python/framework/ops.py&quot;, line 2336, in create_op
+    original_op=self._default_original_op, op_def=op_def)
+  File &quot;/Library/Python/2.7/site-packages/tensorflow/python/framework/ops.py&quot;, line 1228, in __init__
+    self._traceback = _extract_stack()
+
+NotFoundError (see above for traceback): Key bi-lstm/bidirectional_rnn/fw/multi_rnn_cell/cell_0/lstm_cell/biases/Adam not found in checkpoint
+     <span class="cp">[</span><span class="err">[</span><span class="nx">Node</span><span class="p">:</span> <span class="nx">save_1</span><span class="p">/</span><span class="nx">RestoreV2_15</span> <span class="o">=</span> <span class="nx">RestoreV2</span><span class="err">[</span><span class="n">dtypes</span><span class="o">=</span><span class="err">[</span><span class="nx">DT_FLOAT</span><span class="cp">]</span>, _device=&quot;/job:localhost/replica:0/task:0/cpu:0&quot;](_recv_save_1/Const_0, save_1/RestoreV2_15/tensor_names, save_1/RestoreV2_15/shape_and_slices)]]
+</pre></div>
+
+
+<h2 id="_3">解决方式</h2>
+<p>我的模型是在一台装有ubuntu的linux机器上训练的，后来将模型完整移动到一台mac上运行时出现的错误。该错误让我一再觉得我的训练参数并没有完全保存下来，尝试了几种模型参数的保存配置包括在server中添加tf.trainable_variables()，在定义的网络模型中详细的添加各种name_scope()和variable_scope()。以及使用不同的restore的方式。可是还是会报同样的错误。</p>
+<p>然后我又开始怀疑我在使用bi-lstm的时候使用了multi-layers，模型保存的时候各个layer里面的参数是否没有保存，但是在查阅很多调用multi_rnn_cell接口的源码中并没有过多的定义variable_scope。问题也不出在这边。</p>
+<p>我开始怀疑两个操作系统的环境配置，两者除了python的小版本不同但大版本是相同的(python2.7.6和python2.7.12),python的依赖版本也都是形同的包括tensorflow的版本，为了弄清两台机器是否有问题，我将相同的代码分别在两台机器上训练，并保存参数，然后在同一台机器上load模型，两台机器没有报错。我交换两个保存的训练参数然后运行，两台机出现了相同的错误。</p>
+<p>于是基本确定了可能存在问题的地方：1、python的版本原因。2、操作系统的原因。</p>
+<p>关于python的版本问题，除了python2和python3的区别比较明显，在小版本之间的区别并不是很大，在这过程中我曾尝试将两台机器安装相同的python版本，奈何visualenv中的python依赖于系统环境，我又不想破坏系统环境，所以泛起了这个想法。</p>
+<p>我把希望寄托于不同的操作系统的原因，为了这个原因，我将家里的windows台式机改成ubuntu系统(主要是windows下的linux虚拟机运行tensorflow太慢，实在受不了。)配置完运行环境之后，直接将原来的linux下的代码完整拷贝到这台机器上，运行没有出现问题。(注，两台linux的python也不相同，python2.7.6和python2.7.10)</p>
+<p>这让我很欣慰，虽然并没有实质的解决这个问题，但是发现了问题的原因之一，<strong><em>两台不同的操作系统之间共享训练模型可能会出错。</em></strong>当然我并没有去再找一台mac，然后将两台mac的训练模型交换使用。但我猜测两台mac应该也是可以共享的。</p>
+<p>在此过程中也有朋友提示我是否是保存的checkpoint中的路径换成绝对路径，但是测试之后问题依然没有解决。</p>
+<h2 id="_4">疑惑</h2>
+<p>在上面的测试过程中，我曾尝试使用一个简单的模型保存程序测试两个不同的操作系统训练模型共享的问题。测试程序如下：</p>
+<h4 id="_5">训练程序</h4>
+<div class="hlcode"><pre><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">ConfigProto</span><span class="p">()</span>
+<span class="n">config</span><span class="o">.</span><span class="n">gpu_options</span><span class="o">.</span><span class="n">allow_growth</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">sess</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+
+<span class="c"># Create some variables.</span>
+<span class="n">v1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.3</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;v1&quot;</span><span class="p">)</span>
+<span class="n">v2</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="mf">55.5</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;v2&quot;</span><span class="p">)</span>
+
+<span class="c"># Add an op to initialize the variables.</span>
+<span class="n">init_op</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">global_variables_initializer</span><span class="p">()</span>
+
+<span class="c"># Add ops to save and restore all the variables.</span>
+<span class="n">saver</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">Saver</span><span class="p">()</span>
+
+<span class="n">ckpt_path</span> <span class="o">=</span> <span class="s">&#39;./ckpt/test-model.ckpt&#39;</span>
+<span class="c"># Later, launch the model, initialize the variables, do some work, save the</span>
+<span class="c"># variables to disk.</span>
+<span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">init_op</span><span class="p">)</span>
+<span class="n">save_path</span> <span class="o">=</span> <span class="n">saver</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">sess</span><span class="p">,</span> <span class="n">ckpt_path</span><span class="p">,</span> <span class="n">global_step</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">&quot;Model saved in file: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">save_path</span><span class="p">)</span>
+</pre></div>
+
+
+<h4 id="load">load程序</h4>
+<div class="hlcode"><pre><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">ConfigProto</span><span class="p">()</span>
+<span class="n">config</span><span class="o">.</span><span class="n">gpu_options</span><span class="o">.</span><span class="n">allow_growth</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">sess</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+
+<span class="c"># Create some variables.</span>
+<span class="n">v1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">([</span><span class="mf">11.0</span><span class="p">,</span> <span class="mf">16.3</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;v1&quot;</span><span class="p">)</span>
+<span class="n">v2</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="mf">33.5</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;v2&quot;</span><span class="p">)</span>
+
+<span class="c"># Add ops to save and restore all the variables.</span>
+<span class="n">saver</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">Saver</span><span class="p">()</span>
+
+<span class="c"># Later, launch the model, use the saver to restore variables from disk, and</span>
+<span class="c"># do some work with the model.</span>
+<span class="c"># Restore variables from disk.</span>
+<span class="n">ckpt_path</span> <span class="o">=</span> <span class="s">&#39;./ckpt/test-model.ckpt&#39;</span>
+<span class="n">saver</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">sess</span><span class="p">,</span> <span class="n">ckpt_path</span> <span class="o">+</span> <span class="s">&#39;-&#39;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">&quot;Model restored.&quot;</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">v1</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">v2</span><span class="p">)</span>
+</pre></div>
+
+
+<p><strong>训练程序所保存的训练模型数据在两个不同的操作系统却是可以load的，这与上面的问题相冲突。</strong></p>
+<h2 id="_6">结论</h2>
+<h4 id="_7">对于不同的操作系统之间的训练模型共享，笔者目前还没有找到相关的解决方法，如果你有好的解决方法请联系我，谢谢</h4>
+<h1 id="_8">续</h1>
+<p>上面的问题是我自己搞错了，实际上错误原因跟操作系统是没有关系的。最终的原因还是因为我的tensorflow的package版本不一样。原先我在比对两个操作系统python安装包的时候使用的是pip list来查看的，两个操作系统的主要的python包都一样。为了保险起见，我还使用requestment.txt将两个系统的python完全统一。按理说再出现错误就不是python环境的问题。但是至始至终我都忽略了一个问题，我在mac下使用的是pycharm来运行程序的，虽然我使用的interpreter是python2.7的那个环境，而且在pycharm的自带终端里使用pip list 也是显示的相同的包。</p>
+<p>但是今天我在更换interpreter的时候偶然发现一个问题，从interpreter的预览的包版本和使用pip list的包版本竟然不一样，具体原因我先不深究。但我可以确定的是这两个图是同一个python环境。</p>
+<p><center><img src="/wiki/static/images/keng/Preferences.png" alt="p1"/></center><br />
+<center><img src="/wiki/static/images/keng/preference2.png" alt="p2"/></center></p>
+<p>后来为了验证这个原因，我使用virtualenv安装了一个与上面的linux一样的python的虚拟环境，将虚拟环境设置为pycharm的interpreter，然后运行从linux上拷贝下来的程序和模型。运行没有出错。</p>
+<h4 id="pythonpycharmide"><strong>所以最终的原因还是python依赖包的版本不同导致的。另外也间接说明了上面那个小程序的合理性，由于程序比较简单，不同版本的依赖包的兼容性问题并没有体现出来，所以没有报错。这个坑也是醉了，但是pycharm的那个问题还没解决，但是IDE的问题跟程序没什么太大的关联。</strong></h4>
+<h1 id="_9">参考文献</h1>
+<p><a href="https://github.com/STHSF/DeepNaturalLanguageProcessing/tree/master/segmentation">文中提示错误的相关代码---bidirectiona_rnn实现中文分词</a></p>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2017-09-20 09:39 </span></div>
+<div id="comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script type="text/javascript">
+const gitment = new Gitment({
+  title: 'tensorflow.python.framework.errors_impl.NotFoundError:Key **** not found in checkpoint',
+  owner: 'sthsf',
+  repo: 'wiki',
+  oauth: {
+    client_id: '086c54c5fd95adfdc372',
+    client_secret: '2ad9ebe87b952d2c77fccf99c334881b91eaa73d',
+  },
+  // ...
+  // For more available options, check out the documentation below
+})
+gitment.render('comments')
+// or
+// gitment.render(document.getElementById('comments'))
+// or
+// document.body.appendChild(gitment.render())
+</script>
+
+</div>
+<div id="footer">
+            <span>
+                Copyright © 2018 LiYu.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+                Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
+            </span>
+</div>
+
+
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?90e1dcdd1938573c19f9ff6521188e91";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</body>
+</html>
