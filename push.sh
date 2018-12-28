@@ -3,6 +3,7 @@
 
 # 编译环境安装在tensor的虚拟环境中
 echo "需要先启动tensor虚拟环境"
+tensor
 
 echo "提交到主分支"
 time=`date "+%Y-%m-%d-%H"`
