@@ -1,0 +1,125 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <title>mysql常见错误 - LiYu's personal knowledge wiki</title>
+    <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
+    <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$(',')$'], ['\\(','\\)']]}
+        });
+        </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-78529611-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+
+<body>
+<div id="container">
+    
+<div id="header">
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Linux Tricks">Linux Tricks</a>&nbsp;»&nbsp;mysql常见错误</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">mysql常见错误</div>
+<div id="content">
+  <h1 id="_1">写在前面</h1>
+<p>本篇文章主要记录mysql使用过程中遇到的坑</p>
+<h2 id="1">错误1</h2>
+<ul>
+<li>错误提示</li>
+</ul>
+<div class="hlcode"><pre><span class="p">(</span><span class="n">mysql</span><span class="p">.</span><span class="n">connector</span><span class="p">.</span><span class="n">errors</span><span class="p">.</span><span class="n">DataError</span><span class="p">)</span> <span class="mi">1406</span> <span class="p">(</span><span class="mi">22001</span><span class="p">)</span><span class="o">:</span> <span class="n">Data</span> <span class="n">too</span> <span class="kt">long</span> <span class="k">for</span> <span class="n">column</span> <span class="err">&#39;</span><span class="n">event_detail</span><span class="err">&#39;</span> <span class="n">at</span> <span class="n">row</span> <span class="mi">2</span>
+</pre></div>
+
+
+<ul>
+<li>
+<p>错误原因</p>
+</li>
+<li>
+<p>修改后的代码</p>
+</li>
+</ul>
+<div class="hlcode"><pre><span class="err">（</span><span class="mi">1</span><span class="err">）先停止服务：</span><span class="n">service</span> <span class="n">mysql</span> <span class="n">stop</span>
+<span class="err">（</span><span class="mi">2</span><span class="err">）修改</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">my</span><span class="p">.</span><span class="n">conf</span><span class="o">:</span>
+<span class="err">找到</span>
+    <span class="o">-</span> <span class="n">sql</span><span class="o">-</span><span class="n">mode</span><span class="o">=</span><span class="err">”</span><span class="n">STRICT_TRANS_TABLES</span><span class="p">,</span><span class="n">NO_AUTO_CREATE_USER</span><span class="p">,</span><span class="n">NO_ENGINE_SUBSTITUTION</span><span class="err">”</span>
+    <span class="err">把其中的</span><span class="n">STRICT_TRANS_TABLES</span><span class="p">,</span><span class="err">去掉</span>
+
+    <span class="err">或者把</span><span class="n">sql</span><span class="o">-</span><span class="n">mode</span><span class="o">=</span><span class="n">STRICT_TRANS_TABLES</span><span class="p">,</span><span class="n">NO_AUTO_CREATE_USER</span><span class="p">,</span><span class="n">NO_ENGINE_SUBSTITUTION</span>
+<span class="err">（</span><span class="mi">3</span><span class="err">）执行</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">mysql</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">mysqld_safe</span><span class="o">&amp;</span> <span class="n">service</span> <span class="n">mysql</span> <span class="n">start</span>
+</pre></div>
+
+
+<p>或者在修改完/etc/my.conf之后直接使用<code>service mysqld restart</code></p>
+<h2 id="2">错误2</h2>
+<p>数据库编码格式的修改</p>
+<h2 id="_2">参考文献</h2>
+<p><a href="https://blog.csdn.net/weixin_37887248/article/details/80612021">错误1(1)</a><br />
+<a href="https://blog.csdn.net/dehu_zhou/article/details/52818484">错误1(2)</a></p>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2018-10-17 15:30 </span></div>
+<div id="comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script type="text/javascript">
+const gitment = new Gitment({
+  title: 'mysql常见错误',
+  owner: 'sthsf',
+  repo: 'wiki',
+  oauth: {
+    client_id: '086c54c5fd95adfdc372',
+    client_secret: '2ad9ebe87b952d2c77fccf99c334881b91eaa73d',
+  },
+  // ...
+  // For more available options, check out the documentation below
+})
+gitment.render('comments')
+// or
+// gitment.render(document.getElementById('comments'))
+// or
+// document.body.appendChild(gitment.render())
+</script>
+
+</div>
+<div id="footer">
+            <span>
+                Copyright © 2019 LiYu.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+                Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
+            </span>
+</div>
+
+
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?90e1dcdd1938573c19f9ff6521188e91";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</body>
+</html>
