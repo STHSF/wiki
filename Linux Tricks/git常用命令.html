@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <title>git常用命令 - LiYu's personal knowledge wiki</title>
+    <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
+    <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$(',')$'], ['\\(','\\)']]}
+        });
+        </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-78529611-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+
+<body>
+<div id="container">
+    
+<div id="header">
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Linux Tricks">Linux Tricks</a>&nbsp;»&nbsp;git常用命令</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">git常用命令</div>
+<div id="content">
+  <h1 id="_1">符号约定</h1>
+<ul>
+<li><xxx> 自定义内容</li>
+<li>[xxx] 可选内容</li>
+<li>[<xxx>] 自定义可选内容</li>
+</ul>
+<h1 id="_2">初始设置</h1>
+<ul>
+<li><code>git config --global user.name "&lt;用户名&gt;"</code> 设置用户名</li>
+<li><code>git config --global user.email "&lt;电子邮件&gt;"</code> 设置电子邮件</li>
+</ul>
+<h1 id="_3">命令</h1>
+<h2 id="_4">本地操作</h2>
+<ul>
+<li><code>git add [-i]</code> 保存更新，-i为逐个确认。</li>
+<li><code>git status</code> 检查更新。</li>
+<li><code>git commit [-a] -m "&lt;更新说明&gt;"</code> 提交更新，-a为包含内容修改和增删， -m为说明信息，也可以使用 -am。</li>
+</ul>
+<h2 id="_5">远端操作</h2>
+<ul>
+<li><code>git clone &lt;git地址&gt;</code> 克隆到本地。</li>
+<li><code>git fetch</code> 远端抓取。</li>
+<li><code>git merge</code> 与本地当前分枝合并。</li>
+<li><code>git pull [&lt;远端别名&gt;] [&lt;远端branch&gt;]</code> 抓取并合并,相当于第2、3步</li>
+<li><code>git push [-f] [&lt;远端别名&gt;] [&lt;远端branch&gt;]</code> 推送到远端，-f为强制覆盖</li>
+<li><code>git remote add &lt;别名&gt; &lt;git地址&gt;</code> 设置远端别名</li>
+<li><code>git remote [-v]</code> 列出远端，-v为详细信息</li>
+<li><code>git remote show &lt;远端别名&gt;</code> 查看远端信息</li>
+<li><code>git remote rename &lt;远端别名&gt; &lt;新远端别名&gt;</code> 重命名远端</li>
+<li><code>git remote rm &lt;远端别名&gt;</code> 删除远端</li>
+<li><code>git remote update</code> [&lt;远端别名&gt;] 更新分枝列表</li>
+</ul>
+<h2 id="_6">分支相关</h2>
+<ul>
+<li><code>git branch [-r] [-a]</code> 列出分枝，-r远端 ,-a全部</li>
+<li><code>git branch &lt;分枝名&gt;</code>新建分枝</li>
+<li>```git checkout &lt;分枝名&gt; 切换到分枝</li>
+<li><code>git checkout -b &lt;本地branch&gt; [-t &lt;远端别名&gt;/&lt;远端分枝&gt;]</code> -b新建本地分枝并切换到分枝, -t绑定远端分枝</li>
+</ul>
+<h2 id="_7">协同流程</h2>
+<ul>
+<li>首先fork远程项目</li>
+<li>把fork过去的项目也就是你的项目clone到你的本地</li>
+<li>运行 git remote add &lt;远端别名&gt; &lt;别人的远端分枝&gt; 把别人的库添加为远端库</li>
+<li>运行 git pull &lt;远端别名&gt; &lt;远端分枝&gt; 拉取并合并到本地</li>
+<li>编辑内容</li>
+<li>commit后push到自己的库（git push &lt;自己的远端别名&gt; &lt;自己的远端分枝&gt;）</li>
+<li>登陆Github在你首页可以看到一个 pull request 按钮，点击它，填写一些说明信息，然后提交即可。<br />
+<strong>1~3是初始化操作，执行一次即可。在本地编辑内容前必须执行第4步同步别人的远端库（这样避免冲突），然后执行5~7既可。</strong></li>
+</ul>
+<h1 id="_8">参考文献</h1>
+<p><a href="http://network.51cto.com/art/201512/501301.htm">大型网站架构系列：负载均衡详解</a></p>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2019-14-11 10:00 </span></div>
+<div id="comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script type="text/javascript">
+const gitment = new Gitment({
+  title: 'git常用命令',
+  owner: 'sthsf',
+  repo: 'wiki',
+  oauth: {
+    client_id: '086c54c5fd95adfdc372',
+    client_secret: '2ad9ebe87b952d2c77fccf99c334881b91eaa73d',
+  },
+  // ...
+  // For more available options, check out the documentation below
+})
+gitment.render('comments')
+// or
+// gitment.render(document.getElementById('comments'))
+// or
+// document.body.appendChild(gitment.render())
+</script>
+
+</div>
+<div id="footer">
+            <span>
+                Copyright © 2019 LiYu.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+                Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
+            </span>
+</div>
+
+
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?90e1dcdd1938573c19f9ff6521188e91";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</body>
+</html>
