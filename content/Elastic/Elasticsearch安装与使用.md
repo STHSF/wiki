@@ -158,6 +158,69 @@ POST /tesdb/doc/_search
 }
 ```
 
+```
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "multi_match": {
+            "query":      "成长空间",
+            "type":       "phrase_prefix",
+            "fields":     [ "titles","summary" ]
+          }
+        },
+        {
+          "multi_match" : {
+            "query":      "高增长",
+            "type":       "phrase_prefix",
+            "fields":     [ "titles","summary" ]
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "multi_match": {
+            "query":      "下跌",
+            "type":       "phrase_prefix",
+            "fields":     [ "titles","summary" ]
+          }
+        },
+        {
+          "multi_match" : {
+            "query":      "业绩下滑",
+            "type":       "phrase_prefix",
+            "fields":     [ "titles","summary" ]
+          }
+        }
+      ],
+      "should": [
+        {
+          "multi_match": {
+            "query":      "",
+            "type":       "phrase_prefix",
+            "fields":     []
+          }
+        },
+        {
+          "multi_match" : {
+            "query":      "",
+            "type":       "phrase_prefix",
+            "fields":     []
+          }
+        }
+      ]
+    }
+  },
+  "highlight": {
+    "fields": {
+      "titles": {},
+      "summary": {}
+    }
+  }
+}
+```
+
 # 参考文献
 [Python分布式爬虫打造搜索引擎完整版-基于Scrapy、Redis、elasticsearch和django打造一个完整的搜索引擎网站](https://blog.csdn.net/qq_23079443/article/details/73920584)
 
