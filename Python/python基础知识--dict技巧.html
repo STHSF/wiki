@@ -84,6 +84,50 @@
 
 
 <p><strong>事实上虽然输出的结果正确,当时自己却不知道如何解释</strong></p>
+<p>## 应用实例</p>
+<div class="hlcode"><pre><span class="c">## 改写前</span>
+<span class="k">def</span> <span class="nf">match_build</span><span class="p">(</span><span class="n">query_list</span><span class="p">,</span> <span class="n">fields_list</span><span class="p">):</span>
+    <span class="n">multi_match_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;query&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="s">&quot;type&quot;</span><span class="p">:</span> <span class="s">&quot;phrase_prefix&quot;</span><span class="p">,</span> <span class="s">&quot;fields&quot;</span><span class="p">:</span> <span class="n">fields_list</span><span class="p">}</span>
+    <span class="n">match_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;multi_match&quot;</span><span class="p">:</span> <span class="n">multi_match_dict</span><span class="p">}</span>
+    <span class="n">multi_match_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">query_list</span><span class="p">:</span>
+        <span class="n">match_dict</span><span class="p">[</span><span class="s">&quot;multi_match&quot;</span><span class="p">][</span><span class="s">&quot;query&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
+        <span class="n">multi_match_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">match_dict</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">multi_match_list</span>
+</pre></div>
+
+
+<div class="hlcode"><pre><span class="c">## 改写后 </span>
+<span class="k">def</span> <span class="nf">match_build_pro</span><span class="p">(</span><span class="n">query_list</span><span class="p">,</span> <span class="n">fields_list</span><span class="p">):</span>
+    <span class="n">multi_match_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">query_list</span><span class="p">:</span>
+        <span class="n">multi_match_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;query&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="s">&quot;type&quot;</span><span class="p">:</span> <span class="s">&quot;phrase_prefix&quot;</span><span class="p">,</span> <span class="s">&quot;fields&quot;</span><span class="p">:</span> <span class="n">fields_list</span><span class="p">}</span>
+        <span class="n">match_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;multi_match&quot;</span><span class="p">:</span> <span class="n">multi_match_dict</span><span class="p">}</span>
+        <span class="n">match_dict</span><span class="p">[</span><span class="s">&quot;multi_match&quot;</span><span class="p">][</span><span class="s">&quot;query&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
+        <span class="k">del</span> <span class="n">multi_match_dict</span>
+        <span class="n">multi_match_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">match_dict</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">multi_match_list</span>
+</pre></div>
+
+
+<p>测试代码</p>
+<div class="hlcode"><pre><span class="n">query_list</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;black&quot;</span><span class="p">]</span>
+<span class="n">fields_list</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;titles&quot;</span><span class="p">,</span> <span class="s">&quot;summary&quot;</span><span class="p">]</span>
+
+<span class="k">print</span> <span class="n">match_build</span><span class="p">(</span><span class="n">query_list</span><span class="p">,</span> <span class="n">fields_list</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">match_build_pro</span><span class="p">(</span><span class="n">query_list</span><span class="p">,</span> <span class="n">fields_list</span><span class="p">)</span>
+</pre></div>
+
+
+<p>输出结果</p>
+<div class="hlcode"><pre><span class="cp"># match_build的输出结果:</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">[{</span><span class="err">&#39;</span><span class="n">multi_match</span><span class="err">&#39;</span><span class="o">:</span> <span class="p">{</span><span class="err">&#39;</span><span class="n">query</span><span class="err">&#39;</span><span class="o">:</span> <span class="n">u</span><span class="err">&#39;</span><span class="n">black</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="n">type</span><span class="err">&#39;</span><span class="o">:</span> <span class="err">&#39;</span><span class="n">phrase_prefix</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="n">fields</span><span class="err">&#39;</span><span class="o">:</span> <span class="p">[</span><span class="err">&#39;</span><span class="n">titles</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="n">summary</span><span class="err">&#39;</span><span class="p">]}},</span> <span class="p">{</span><span class="err">&#39;</span><span class="n">multi_match</span><span class="err">&#39;</span><span class="o">:</span> <span class="p">{</span><span class="err">&#39;</span><span class="n">query</span><span class="err">&#39;</span><span class="o">:</span> <span class="n">u</span><span class="err">&#39;</span><span class="n">black</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="n">type</span><span class="err">&#39;</span><span class="o">:</span> <span class="err">&#39;</span><span class="n">phrase_prefix</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="n">fields</span><span class="err">&#39;</span><span class="o">:</span> <span class="p">[</span><span class="err">&#39;</span><span class="n">titles</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="n">summary</span><span class="err">&#39;</span><span class="p">]}}]</span>
+
+<span class="cp"># match_build_pro的输出结果:</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">[{</span><span class="err">&#39;</span><span class="n">multi_match</span><span class="err">&#39;</span><span class="o">:</span> <span class="p">{</span><span class="err">&#39;</span><span class="n">query</span><span class="err">&#39;</span><span class="o">:</span> <span class="n">u</span><span class="err">&#39;</span><span class="n">yellow</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="n">type</span><span class="err">&#39;</span><span class="o">:</span> <span class="err">&#39;</span><span class="n">phrase_prefix</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="n">fields</span><span class="err">&#39;</span><span class="o">:</span> <span class="p">[</span><span class="err">&#39;</span><span class="n">titles</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="n">summary</span><span class="err">&#39;</span><span class="p">]}},</span> <span class="p">{</span><span class="err">&#39;</span><span class="n">multi_match</span><span class="err">&#39;</span><span class="o">:</span> <span class="p">{</span><span class="err">&#39;</span><span class="n">query</span><span class="err">&#39;</span><span class="o">:</span> <span class="n">u</span><span class="err">&#39;</span><span class="n">black</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="n">type</span><span class="err">&#39;</span><span class="o">:</span> <span class="err">&#39;</span><span class="n">phrase_prefix</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="n">fields</span><span class="err">&#39;</span><span class="o">:</span> <span class="p">[</span><span class="err">&#39;</span><span class="n">titles</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="n">summary</span><span class="err">&#39;</span><span class="p">]}}]</span>
+</pre></div>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2019-01-10 18:00 </span></div>
 <div id="comments"></div>
