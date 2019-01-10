@@ -50,3 +50,50 @@ for i in range(5):
 ```
 
 **事实上虽然输出的结果正确,当时自己却不知道如何解释**
+
+
+## 应用实例
+```python
+## 改写前
+def match_build(query_list, fields_list):
+    multi_match_dict = {"query": "", "type": "phrase_prefix", "fields": fields_list}
+    match_dict = {"multi_match": multi_match_dict}
+    multi_match_list = []
+
+    for i in query_list:
+        match_dict["multi_match"]["query"] = i.decode("utf-8")
+        multi_match_list.append(match_dict)
+    return multi_match_list
+```
+
+
+```python
+## 改写后 
+def match_build_pro(query_list, fields_list):
+    multi_match_list = []
+
+    for i in query_list:
+        multi_match_dict = {"query": "", "type": "phrase_prefix", "fields": fields_list}
+        match_dict = {"multi_match": multi_match_dict}
+        match_dict["multi_match"]["query"] = i.decode("utf-8")
+        del multi_match_dict
+        multi_match_list.append(match_dict)
+    return multi_match_list
+```
+
+测试代码
+```python
+query_list = ["yellow", "black"]
+fields_list = ["titles", "summary"]
+
+print match_build(query_list, fields_list)
+print match_build_pro(query_list, fields_list)
+```
+输出结果
+```
+# match_build的输出结果:
+>>> [{'multi_match': {'query': u'black', 'type': 'phrase_prefix', 'fields': ['titles', 'summary']}}, {'multi_match': {'query': u'black', 'type': 'phrase_prefix', 'fields': ['titles', 'summary']}}]
+
+# match_build_pro的输出结果:
+>>> [{'multi_match': {'query': u'yellow', 'type': 'phrase_prefix', 'fields': ['titles', 'summary']}}, {'multi_match': {'query': u'black', 'type': 'phrase_prefix', 'fields': ['titles', 'summary']}}]
+```
