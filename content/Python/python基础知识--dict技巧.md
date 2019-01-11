@@ -89,7 +89,7 @@ print match_build(query_list, fields_list)
 print match_build_pro(query_list, fields_list)
 ```
 输出结果
-```
+```python
 # match_build的输出结果:
 >>> [{'multi_match': {'query': u'black', 'type': 'phrase_prefix', 'fields': ['titles', 'summary']}}, {'multi_match': {'query': u'black', 'type': 'phrase_prefix', 'fields': ['titles', 'summary']}}]
 
