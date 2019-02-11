@@ -295,6 +295,9 @@ testlist = []
 DataFrame["columns1"].isin(testlist) # 返回的是一个True/False的Series
 ```
 
+pandas条件组合筛选和按范围筛选
+[pandas条件组合筛选和按范围筛选](https://blog.csdn.net/orangefly0214/article/details/82712117)
+
 # 参考文献
 
 [1](http://www.cnblogs.com/51kata/p/5406355.html)

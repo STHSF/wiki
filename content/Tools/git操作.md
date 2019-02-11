@@ -8,16 +8,17 @@ date: 2018-11-30 00:00
 # 写在前面
 
 # 常用操作
-
+```
 Administrator@HTBJUOLFUL4H7CK MINGW64 /f/workplace_2/ein (master)
 $ git branch branch_name
-
+```
+```
 Administrator@HTBJUOLFUL4H7CK MINGW64 /f/workplace_2/ein (master)
 $ git checkout branch_name
 Switched to branch 'branch_name'
 
 Administrator@HTBJUOLFUL4H7CK MINGW64 /f/workplace_2/ein (branch_name)
-
+```
 (1)
 ```
 $ git add *
