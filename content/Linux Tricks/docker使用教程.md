@@ -47,7 +47,7 @@ docker pull [NAME]
 REPOSITORY           TAG                 IMAGE ID            CREATED             SIZE
 tensorflow/serving   latest-devel-gpu    e8667aaa087d        5 days ago          4.34GB
 ```
-则可以通过下面两种方式启动
+则可以通过下面两种方式创建一个守护态的Docker容器
 ```
 sudo docker run -i -t [tensorflow/serving:latest-devel-gpu] /bin/bash
 或
@@ -75,17 +75,28 @@ f906aeaa80e7        tensorflow/serving:latest-devel-gpu   "/bin/bash"         20
 
 如果想要再次打开之前使用过的container，则可以运行：
 ```
-sudo docker start container_name
+sudo docker start [container_name]
 或
-sudo docker start CONTAINER_ID
+sudo docker start [CONTAINER_ID]
 ```
 - **重启某个container**
 ```
-sudo docker restart container_name
+sudo docker restart [container_name]
 或
-sudo docker restart CONTAINER_ID
+sudo docker restart [CONTAINER_ID]
 ```
 启动该container之后，使用```sudo docker attach container_name/container_id```进入该container。
+
+- **进入Docker Container**
+1、Docker提供了attach命令来进入Docker容器(不建议)
+```
+sudo docker attach [CONTAINER_ID]
+```
+2、使用ssh进入Docker容器(不建议使用)
+
+3、使用nsenter进入Docker容器(建议)
+[Looking to start a shell inside a Docker container?](https://github.com/jpetazzo/nsenter)
+
 
 - **退出某个Container**
 ```
