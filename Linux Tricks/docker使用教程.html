@@ -42,6 +42,18 @@
 <div id="content">
   <h1 id="_1">写在前面</h1>
 <p>linux的使用过程中经常需要涉及到编译，运行等过程。最麻烦的就是在不同的机器上重复相同的劳动，docker的存在让一切变得简单很多，下面介绍docker的一些基本知识和操作。</p>
+<h1 id="_2">符号约定</h1>
+<ul>
+<li>
+<p>&lt; &gt;自定义内容</p>
+</li>
+<li>
+<p>[xxx] 可选内容</p>
+</li>
+<li>
+<p>[&lt; xxx &gt;] 自定义可选内容</p>
+</li>
+</ul>
 <h1 id="docker">启动和关闭docker服务</h1>
 <ul>
 <li>启动</li>
@@ -61,6 +73,17 @@
 </pre></div>
 
 
+<h1 id="_3">基本操作</h1>
+<h4 id="docker_1">搜索docker镜像</h4>
+<div class="hlcode"><pre><span class="n">docker</span> <span class="n">search</span> <span class="p">[</span><span class="err">镜像名</span><span class="p">]</span>
+</pre></div>
+
+
+<h4 id="_4">拉取或者下载镜像</h4>
+<div class="hlcode"><pre><span class="n">docker</span> <span class="n">pull</span> <span class="p">[</span><span class="n">NAME</span><span class="p">]</span>
+</pre></div>
+
+
 <h1 id="imagecontainer">运行image实例container</h1>
 <p>对于Docker来说，image是静态的，类似于操作系统快照，而container则是动态的，是image的运行实例。<br />
 先使用<code>sudo docker images</code>查看pull下来的iamge。<br />
@@ -71,9 +94,9 @@
 
 
 <p>则可以通过下面两种方式启动</p>
-<div class="hlcode"><pre><span class="n">sudo</span> <span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">i</span> <span class="o">-</span><span class="n">t</span> <span class="n">tensorflow</span><span class="o">/</span><span class="n">serving</span><span class="o">:</span><span class="n">latest</span><span class="o">-</span><span class="n">devel</span><span class="o">-</span><span class="n">gpu</span> <span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">bash</span>
+<div class="hlcode"><pre><span class="n">sudo</span> <span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">i</span> <span class="o">-</span><span class="n">t</span> <span class="p">[</span><span class="n">tensorflow</span><span class="o">/</span><span class="n">serving</span><span class="o">:</span><span class="n">latest</span><span class="o">-</span><span class="n">devel</span><span class="o">-</span><span class="n">gpu</span><span class="p">]</span> <span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">bash</span>
 <span class="err">或</span>
-<span class="n">sudo</span> <span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">i</span> <span class="o">-</span><span class="n">t</span> <span class="n">e8667aaa087d</span>
+<span class="n">sudo</span> <span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">i</span> <span class="o">-</span><span class="n">t</span> <span class="p">[</span><span class="n">e8667aaa087d</span><span class="p">]</span>
 </pre></div>
 
 
@@ -121,7 +144,7 @@
 </pre></div>
 
 
-<h1 id="docker_1">docker常用命令</h1>
+<h1 id="docker_2">docker常用命令</h1>
 <ul>
 <li><strong>在Container和宿主机之间复制文件</strong></li>
 </ul>
@@ -252,7 +275,7 @@
 </pre></div>
 
 
-<h1 id="_2">参考文献</h1>
+<h1 id="_5">参考文献</h1>
 <p><a href="https://blog.csdn.net/dongdong9223/article/details/52998375">如何进入、退出docker的container</a><br />
 <a href="https://github.com/tensorflow/serving/blob/master/tensorflow_serving/g3doc/docker.md">Using TensorFlow Serving via Docker</a><br />
 <a href="https://segmentfault.com/a/1190000002567459">Docker学习之路（六）用commit命令创建镜像</a></p>
