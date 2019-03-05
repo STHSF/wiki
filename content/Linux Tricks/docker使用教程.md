@@ -7,6 +7,14 @@ date: 2018-07-25 10:00
 # 写在前面
 linux的使用过程中经常需要涉及到编译，运行等过程。最麻烦的就是在不同的机器上重复相同的劳动，docker的存在让一切变得简单很多，下面介绍docker的一些基本知识和操作。
 
+
+# 符号约定
+- < >自定义内容
+
+- [xxx] 可选内容
+
+- [< xxx >] 自定义可选内容
+
 # 启动和关闭docker服务
 
 - 启动
@@ -21,6 +29,16 @@ service docker stop
 或
 systemctl stop docker
 ```
+# 基本操作
+#### 搜索docker镜像
+```
+docker search [镜像名]
+```
+#### 拉取或者下载镜像
+```
+docker pull [NAME]
+```
+
 # 运行image实例container
 对于Docker来说，image是静态的，类似于操作系统快照，而container则是动态的，是image的运行实例。
 先使用```sudo docker images```查看pull下来的iamge。
@@ -31,9 +49,9 @@ tensorflow/serving   latest-devel-gpu    e8667aaa087d        5 days ago         
 ```
 则可以通过下面两种方式启动
 ```
-sudo docker run -i -t tensorflow/serving:latest-devel-gpu /bin/bash
+sudo docker run -i -t [tensorflow/serving:latest-devel-gpu] /bin/bash
 或
-sudo docker run -i -t e8667aaa087d
+sudo docker run -i -t [e8667aaa087d]
 ```
 具体参数可以网上搜索
 
