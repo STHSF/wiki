@@ -1,0 +1,214 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <title>Getting Started - LiYu's personal knowledge wiki</title>
+    <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
+    <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$(',')$'], ['\\(','\\)']]}
+        });
+        </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-78529611-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+
+<body>
+<div id="container">
+    
+<div id="header">
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Linux Tricks">Linux Tricks</a>&nbsp;»&nbsp;Getting Started</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">Getting Started</div>
+<div id="content">
+  <div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#1jupyterhub-on-kubernetes">1、JupyterHub on Kubernetes部署与应用指南</a></li>
+<li><a href="#jupyterhub">jupyterHub 安装</a><ul>
+<li><a href="#1virtualenv">1、virtualenv 下安装与配置</a><ul>
+<li><a href="#jupyterhub_1">安装jupyterhub</a></li>
+<li><a href="#jupyterhub_2">配置jupyterhub</a></li>
+<li><a href="#_1">创建多用户</a></li>
+<li><a href="#jupyterhub_3">jupyterhub的启动配置</a></li>
+<li><a href="#nohup">使用nohup让程序在后台运行.</a></li>
+<li><a href="#_2">开机运行</a></li>
+</ul>
+</li>
+<li><a href="#2docker-jupyterhub">2、Docker 下运行jupyterhub</a></li>
+</ul>
+</li>
+<li><a href="#_3">参考文献</a></li>
+</ul>
+</div>
+<h1 id="1jupyterhub-on-kubernetes">1、JupyterHub on Kubernetes部署与应用指南</h1>
+<h1 id="jupyterhub">jupyterHub 安装</h1>
+<h2 id="1virtualenv">1、virtualenv 下安装与配置</h2>
+<h3 id="jupyterhub_1">安装jupyterhub</h3>
+<p>在装好的虚拟环境下安装jupyterhub,首先要保证使用的python版本是3.0以上的版本,官方说明只支持3.0以上的版本.</p>
+<div class="hlcode"><pre><span class="n">pip</span> <span class="n">install</span> <span class="n">jupyterhub</span>
+</pre></div>
+
+
+<p>在使用pip安装的时候需要安装nodejs/npm，</p>
+<div class="hlcode"><pre><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">npm</span> <span class="n">nodejs</span><span class="o">-</span><span class="n">legacy</span>
+</pre></div>
+
+
+<p>如果想要在本地运行notebook服务,还需要在本地安装jupyter notebook包</p>
+<div class="hlcode"><pre><span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">notebook</span>
+</pre></div>
+
+
+<h3 id="jupyterhub_2">配置jupyterhub</h3>
+<div class="hlcode"><pre><span class="n">jupyterhub</span> <span class="o">--</span><span class="n">generate</span><span class="o">-</span><span class="n">config</span>
+</pre></div>
+
+
+<p>这时候当前目录相面会生成<code>jupyterhub_config.py</code>的配置文件.<br />
+注, 如果想要在某个文件目录下生成,则需要在那个文件目录下运行上面的文件.</p>
+<p>生成配置文件之后,可以进行适当的配置, 如</p>
+<div class="hlcode"><pre><span class="cp"># 端口和ip</span>
+<span class="n">c</span><span class="p">.</span><span class="n">JupyterHub</span><span class="p">.</span><span class="n">ip</span> <span class="o">=</span> <span class="err">&#39;</span><span class="n">IP</span><span class="err">地址&#39;</span>
+<span class="n">c</span><span class="p">.</span><span class="n">JupyterHub</span><span class="p">.</span><span class="n">port</span> <span class="o">=</span> <span class="err">端口</span>
+</pre></div>
+
+
+<div class="hlcode"><pre><span class="cp"># 参考github上jupyterhub的说明, 在/opt/nodejs 目录中安装</span>
+<span class="n">npm</span> <span class="n">install</span> <span class="o">-</span><span class="n">g</span> <span class="n">configurable</span><span class="o">-</span><span class="n">http</span><span class="o">-</span><span class="n">proxy</span>
+<span class="err">注</span><span class="p">,</span> <span class="err">当然</span><span class="p">,</span><span class="err">不一定在</span><span class="n">opt</span><span class="err">目录下面</span><span class="p">,</span> <span class="err">可以通过</span><span class="n">whereis</span> <span class="n">nodejs</span><span class="p">,</span><span class="err">查看你所安装的</span><span class="n">nodejs</span><span class="err">所在的位置</span><span class="p">,</span><span class="err">我的文件就保存在&#39;</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">nodejs</span><span class="o">/</span><span class="n">node</span><span class="o">-</span><span class="n">v10</span><span class="mf">.15.0</span><span class="o">/</span><span class="n">bin</span><span class="err">&#39;下</span>
+
+<span class="n">c</span><span class="p">.</span><span class="n">JupyterHub</span><span class="p">.</span><span class="n">proxy_cmd</span> <span class="o">=</span> <span class="p">[</span><span class="err">&#39;</span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">nodejs</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">configurable</span><span class="o">-</span><span class="n">http</span><span class="o">-</span><span class="n">proxy</span><span class="err">&#39;</span><span class="p">,]</span>
+</pre></div>
+
+
+<div class="hlcode"><pre><span class="cp"># 设置默认登陆jupyterhub后的目录,这是相对目录,用户登陆后会在当前用户的/notebook文件夹下,如果用户没有/notebook这个文件夹,启动过程可能会失败</span>
+<span class="n">c</span><span class="p">.</span><span class="n">Spawner</span><span class="p">.</span><span class="n">notebook_dir</span> <span class="o">=</span> <span class="err">&#39;</span><span class="o">~/</span><span class="n">notebook</span><span class="err">&#39;</span>
+
+<span class="cp"># 该方式设置了绝对路径,所有用户登陆jupyterhub的时候,都会在&#39;/home/ubuntu/notebook/&#39;这个目录下</span>
+<span class="n">c</span><span class="p">.</span><span class="n">Spawner</span><span class="p">.</span><span class="n">notebook_dir</span> <span class="o">=</span> <span class="err">&#39;</span><span class="n">home</span><span class="o">/</span><span class="n">ubuntu</span><span class="o">/</span><span class="n">notebook</span><span class="err">&#39;</span>
+</pre></div>
+
+
+<h3 id="_1">创建多用户</h3>
+<p>首先除了当前root用户之外,我们还可以新建其他的用户作为普通用户,这个还是跟linux下添加用户一样</p>
+<div class="hlcode"><pre><span class="n">adduser</span> <span class="n">user1</span>
+</pre></div>
+
+
+<p>根据系统提示,设置密码和身份等东西.</p>
+<p>设置完成之后在配置文件中添加相应的设置</p>
+<div class="hlcode"><pre><span class="mi">1</span><span class="err">、添加普通用户</span>
+<span class="n">c</span><span class="p">.</span><span class="n">Authenticator</span><span class="p">.</span><span class="n">whitelist</span> <span class="o">=</span> <span class="p">{</span><span class="err">&#39;</span><span class="n">user1</span><span class="err">&#39;</span><span class="p">}</span>
+
+<span class="mi">2</span><span class="err">、添加管理员</span>
+<span class="n">c</span><span class="p">.</span><span class="n">Authenticator</span><span class="p">.</span><span class="n">admin_users</span> <span class="o">=</span> <span class="p">{</span><span class="err">&#39;</span><span class="n">ubuntu</span><span class="err">&#39;</span><span class="p">}</span>
+</pre></div>
+
+
+<h3 id="jupyterhub_3">jupyterhub的启动配置</h3>
+<h3 id="nohup">使用nohup让程序在后台运行.</h3>
+<p>注, 运行时好像需要在root用户下运行,其他用户运行可能会导致有的用户启动不了.如果想要使用sudo运行而不用root用户运行,可以参考<a href="https://github.com/jupyterhub/jupyterhub/wiki/Using-sudo-to-run-JupyterHub-without-root-privileges">Using sudo to run JupyterHub without root privileges</a></p>
+<div class="hlcode"><pre><span class="n">nohup</span> <span class="n">jupyterhub</span> <span class="o">&gt;</span> <span class="n">jupyterhub</span><span class="p">.</span><span class="n">log</span> <span class="o">&amp;</span>
+</pre></div>
+
+
+<h3 id="_2">开机运行</h3>
+<p>开机配置</p>
+<div class="hlcode"><pre><span class="n">sudo</span> <span class="n">cat</span>  <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">systemd</span><span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">jupyterhub</span><span class="p">.</span><span class="n">service</span>  
+<span class="p">[</span><span class="n">Unit</span><span class="p">]</span>
+<span class="n">Description</span><span class="o">=</span><span class="n">Jupyterhub</span>
+<span class="n">After</span><span class="o">=</span><span class="n">syslog</span><span class="p">.</span><span class="n">target</span> <span class="n">network</span><span class="p">.</span><span class="n">target</span>
+
+<span class="p">[</span><span class="n">Service</span><span class="p">]</span>
+<span class="n">User</span><span class="o">=</span><span class="n">root</span>
+<span class="n">ExecStart</span><span class="o">=/</span><span class="n">home</span><span class="o">/</span><span class="n">xyq</span><span class="o">/</span><span class="p">.</span><span class="n">jupyter</span><span class="o">/</span><span class="n">run_hub</span>
+
+<span class="p">[</span><span class="n">Install</span><span class="p">]</span>
+<span class="n">WantedBy</span><span class="o">=</span><span class="n">multi</span><span class="o">-</span><span class="n">user</span><span class="p">.</span><span class="n">target</span>
+</pre></div>
+
+
+<p>启动</p>
+<div class="hlcode"><pre><span class="n">sudo</span> <span class="n">systemctl</span> <span class="n">enable</span> <span class="n">jupyterhub</span> <span class="err">#</span> <span class="err">开机自启动</span>
+<span class="n">sudo</span> <span class="n">systemctl</span> <span class="n">daemon</span><span class="o">-</span><span class="n">reload</span>     <span class="err">#</span> <span class="err">加载配置文件</span>
+<span class="n">sudo</span> <span class="n">systemctl</span> <span class="n">start</span> <span class="n">jupyterhub</span>  <span class="err">#</span> <span class="err">启动</span>
+<span class="n">sudo</span> <span class="n">journalctl</span> <span class="o">-</span><span class="n">u</span> <span class="n">jupyterhub</span>    <span class="err">#</span> <span class="err">查看</span><span class="n">log</span>
+</pre></div>
+
+
+<h2 id="2docker-jupyterhub">2、Docker 下运行jupyterhub</h2>
+<h1 id="_3">参考文献</h1>
+<p><a href="https://www.jianshu.com/p/fd9ddce53465">搭建一套云工作平台 (JupyterHub + Rstudio Server)</a></p>
+<p><a href="https://my.oschina.net/u/2306127/blog/1837196">JupyterHub on Kubernetes部署与应用指南</a></p>
+<p><a href="https://www.liangzl.com/get-article-detail-16066.html">为JupyterHub自定义Notebook Images</a></p>
+<p><a href="https://blog.csdn.net/vah101/article/details/79793006">JupyterHub + toree安装说明</a></p>
+<p><a href="https://blog.csdn.net/Fire_to_cheat_/article/details/84938975">jupyter notebook安装插件，代码补全</a></p>
+<p><a href="https://jupyterhub.readthedocs.io/en/latest/index.html">JupyterHub</a></p>
+<p><a href="https://hub.docker.com/r/jupyterhub/jupyterhub/">Docker JupyterHub</a></p>
+<p><a href="https://www.cnblogs.com/bregman/p/5744109.html">jupyterhub 安装配置</a></p>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2018-06-02 00:00 </span></div>
+<div id="comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script type="text/javascript">
+const gitment = new Gitment({
+  title: 'Getting Started',
+  owner: 'sthsf',
+  repo: 'wiki',
+  oauth: {
+    client_id: '086c54c5fd95adfdc372',
+    client_secret: '2ad9ebe87b952d2c77fccf99c334881b91eaa73d',
+  },
+  // ...
+  // For more available options, check out the documentation below
+})
+gitment.render('comments')
+// or
+// gitment.render(document.getElementById('comments'))
+// or
+// document.body.appendChild(gitment.render())
+</script>
+
+</div>
+<div id="footer">
+            <span>
+                Copyright © 2019 LiYu.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+                Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
+            </span>
+</div>
+
+
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?90e1dcdd1938573c19f9ff6521188e91";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</body>
+</html>
