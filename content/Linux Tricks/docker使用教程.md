@@ -97,6 +97,13 @@ sudo docker attach [CONTAINER_ID]
 3、使用nsenter进入Docker容器(建议)
 [Looking to start a shell inside a Docker container?](https://github.com/jpetazzo/nsenter)
 
+4、使用docker exec 进入Docker容器
+使用docker提供的新的命令exec进入容器
+
+```
+sudo docker ps
+sudo docker exec -it [CONTAINER_ID] /bin/bash
+```
 
 - **退出某个Container**
 ```
