@@ -195,5 +195,9 @@ apt-get install vim
 
 # 参考文献
 [如何进入、退出docker的container](https://blog.csdn.net/dongdong9223/article/details/52998375)
+
 [Using TensorFlow Serving via Docker](https://github.com/tensorflow/serving/blob/master/tensorflow_serving/g3doc/docker.md)
+
 [Docker学习之路（六）用commit命令创建镜像](https://segmentfault.com/a/1190000002567459)
+
+[Docker容器进入的4种方式](https://www.cnblogs.com/xhyan/p/6593075.html)

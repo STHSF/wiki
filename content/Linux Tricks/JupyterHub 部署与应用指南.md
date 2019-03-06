@@ -121,3 +121,5 @@ sudo journalctl -u jupyterhub    # 查看log
 [Docker JupyterHub](https://hub.docker.com/r/jupyterhub/jupyterhub/)
 
 [jupyterhub 安装配置](https://www.cnblogs.com/bregman/p/5744109.html)
+
+[Zero to JupyterHub with Kubernetes](https://zero-to-jupyterhub.readthedocs.io/en/latest/)
