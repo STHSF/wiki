@@ -148,6 +148,13 @@
 <p>2、使用ssh进入Docker容器(不建议使用)</p>
 <p>3、使用nsenter进入Docker容器(建议)<br />
 <a href="https://github.com/jpetazzo/nsenter">Looking to start a shell inside a Docker container?</a></p>
+<p>4、使用docker exec 进入Docker容器<br />
+使用docker提供的新的命令exec进入容器</p>
+<div class="hlcode"><pre><span class="n">sudo</span> <span class="n">docker</span> <span class="n">ps</span>
+<span class="n">sudo</span> <span class="n">docker</span> <span class="n">exec</span> <span class="o">-</span><span class="n">it</span> <span class="p">[</span><span class="n">CONTAINER_ID</span><span class="p">]</span> <span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">bash</span>
+</pre></div>
+
+
 <ul>
 <li><strong>退出某个Container</strong></li>
 </ul>
