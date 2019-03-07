@@ -55,7 +55,8 @@
 <li><a href="#2docker-jupyterhub">2、Docker 下运行jupyterhub</a></li>
 </ul>
 </li>
-<li><a href="#_3">参考文献</a></li>
+<li><a href="#_3"></a></li>
+<li><a href="#_4">参考文献</a></li>
 </ul>
 </div>
 <h1 id="1jupyterhub-on-kubernetes">1、JupyterHub on Kubernetes部署与应用指南</h1>
@@ -155,7 +156,137 @@
 
 
 <h2 id="2docker-jupyterhub">2、Docker 下运行jupyterhub</h2>
-<h1 id="_3">参考文献</h1>
+<p>1、pull 一个纯净的ubuntu环境<br />
+2、进入ubuntu,安装相关软件</p>
+<div class="hlcode"><pre><span class="n">python3</span>
+<span class="n">vim</span>
+</pre></div>
+
+
+<p>可以参见<a href="https://sthsf.github.io/wiki/Linux%20Tricks/docker%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html">docker使用教程</a>和<a href="https://sthsf.github.io/wiki/Linux%20Tricks/python3.5%E5%8D%87%E7%BA%A7%E5%88%B0python3.6.html">python3.5升级到python3.6</a>中的相关内容.</p>
+<p>3、安装基于python3的虚拟环境<br />
+参考<a href="https://sthsf.github.io/wiki/Linux%20Tricks/virtualenv%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html">virtualenv使用教程</a></p>
+<p>4、配置好之后进入虚拟环境,使用pip安装和生成jupyterhub配置文件,同上文.<br />
+在执行过程中会出现下面的错误,正确的使用方式如下:<br />
+<strong>不使用npm安装configurable-http-proxy</strong><br />
+直接从源码安装nodejs,安装方法见<a href="https://github.com/nodejs/help/wiki/Installation">官网Installation</a>,我这里为了方便,直接将源码放在虚拟环境的conf文件夹下.<br />
+然后在<code>~/.bashrc</code>中添加环境变量</p>
+<div class="hlcode"><pre><span class="n">export</span> <span class="n">NODEJS_HOME</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">nodejs</span><span class="o">/</span><span class="n">node</span><span class="o">-</span><span class="n">v10</span><span class="mf">.15.0</span><span class="o">/</span><span class="n">bin</span>
+<span class="n">export</span> <span class="n">PATH</span><span class="o">=</span><span class="err">$</span><span class="n">NODEJS_HOME</span><span class="o">:</span><span class="err">$</span><span class="n">PATH</span>
+<span class="n">export</span> <span class="n">NODEJS_HOME</span>
+</pre></div>
+
+
+<p>其中,<code>node-v10.15.0</code>就是自己下载的源码压缩包解压缩的内容.</p>
+<p>使用源码安装配置的nodejs版本为<code>v10.15.0</code>, 官网说源码自带npm, 里面的npm版本为<code>6.6.0</code></p>
+<p>所有才有前文,我的nodejs的文件目录跟默认的安装路径的区别</p>
+<p>5、在配置文件目录下运行jupyterhub,其他配置没有改变,结束.</p>
+<p><strong>错误</strong><br />
+有人在使用sudo apt-get install npm nodejs-legacy的时候,安装完成后就算在jupyterhub_configure.py下配置了configurable-http-proxy的路径,或者使用<code>configurable-http-proxy -h</code>的时候会出现下面的问题,主要是nodejs安装版本可能比较低</p>
+<p>使用<code>sudo apt-get install npm</code>安装完成之后,查看npm的版本<code>npm -v</code>, 版本号为<code>3.5.2</code></p>
+<p>使用<code>sudo apt-get install nodejs-legacy</code>安装完成之后,查看npm的版本<code>npm -v</code>, 版本号为<code>v4.2.6</code></p>
+<p>使用<code>npm install -g configurable-http-proxy</code> 安装会出现下面的提示</p>
+<div class="hlcode"><pre><span class="o">-</span> <span class="o">|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|</span>
+<span class="n">loadRequestedDeps</span>         <span class="err">\</span> <span class="o">|</span><span class="err">###############################</span><span class="o">-----------------------------------------------------------------------------------------------------------------------|</span>
+<span class="nl">loadDep:</span><span class="n">winston</span> <span class="o">-&gt;</span> <span class="n">header</span> <span class="o">|</span> <span class="o">|</span><span class="err">###############################</span><span class="o">-----------------------------------------------------------------------------------------------------------------------|</span>
+<span class="nl">loadDep:</span><span class="n">winston</span><span class="o">-</span><span class="n">transport</span> <span class="o">-</span> <span class="o">|</span><span class="err">####################################################</span><span class="o">--------------------------------------------------------------------------------------------------|</span>
+<span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">configurable</span><span class="o">-</span><span class="n">http</span><span class="o">-</span><span class="n">proxy</span> <span class="o">-&gt;</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">node_modules</span><span class="o">/</span><span class="n">configurable</span><span class="o">-</span><span class="n">http</span><span class="o">-</span><span class="n">proxy</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">configurable</span><span class="o">-</span><span class="n">http</span><span class="o">-</span><span class="n">proxy</span>
+<span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">lib</span>
+<span class="err">`</span><span class="o">--</span> <span class="n">configurable</span><span class="o">-</span><span class="n">http</span><span class="o">-</span><span class="n">proxy</span><span class="err">@</span><span class="mf">4.0.1</span>
+  <span class="o">+--</span> <span class="n">commander</span><span class="err">@</span><span class="mf">2.19.0</span>
+  <span class="o">+--</span> <span class="n">http</span><span class="o">-</span><span class="n">proxy</span><span class="err">@</span><span class="mf">1.17.0</span>
+  <span class="o">|</span> <span class="o">+--</span> <span class="n">eventemitter3</span><span class="err">@</span><span class="mf">3.1.0</span>
+  <span class="o">|</span> <span class="o">+--</span> <span class="n">follow</span><span class="o">-</span><span class="n">redirects</span><span class="err">@</span><span class="mf">1.7.0</span>
+  <span class="o">|</span> <span class="o">|</span> <span class="err">`</span><span class="o">--</span> <span class="n">debug</span><span class="err">@</span><span class="mf">3.2.6</span>
+  <span class="o">|</span> <span class="err">`</span><span class="o">--</span> <span class="n">requires</span><span class="o">-</span><span class="n">port</span><span class="err">@</span><span class="mf">1.0.0</span>
+  <span class="o">+--</span> <span class="n">lynx</span><span class="err">@</span><span class="mf">0.2.0</span>
+  <span class="o">|</span> <span class="o">+--</span> <span class="n">mersenne</span><span class="err">@</span><span class="mf">0.0.4</span>
+  <span class="o">|</span> <span class="err">`</span><span class="o">--</span> <span class="n">statsd</span><span class="o">-</span><span class="n">parser</span><span class="err">@</span><span class="mf">0.0.4</span>
+  <span class="o">+--</span> <span class="n">strftime</span><span class="err">@</span><span class="mf">0.10.0</span>
+  <span class="err">`</span><span class="o">--</span> <span class="n">winston</span><span class="err">@</span><span class="mf">3.1.0</span>
+    <span class="o">+--</span> <span class="n">async</span><span class="err">@</span><span class="mf">2.6.2</span>
+    <span class="o">|</span> <span class="err">`</span><span class="o">--</span> <span class="n">lodash</span><span class="err">@</span><span class="mf">4.17.11</span>
+    <span class="o">+--</span> <span class="n">diagnostics</span><span class="err">@</span><span class="mf">1.1.1</span>
+    <span class="o">|</span> <span class="o">+--</span> <span class="n">colorspace</span><span class="err">@</span><span class="mf">1.1.1</span>
+    <span class="o">|</span> <span class="o">|</span> <span class="o">+--</span> <span class="n">color</span><span class="err">@</span><span class="mf">3.0.0</span>
+    <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">+--</span> <span class="n">color</span><span class="o">-</span><span class="n">convert</span><span class="err">@</span><span class="mf">1.9.3</span>
+    <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="err">`</span><span class="o">--</span> <span class="n">color</span><span class="o">-</span><span class="n">name</span><span class="err">@</span><span class="mf">1.1.3</span>
+    <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="err">`</span><span class="o">--</span> <span class="n">color</span><span class="o">-</span><span class="n">string</span><span class="err">@</span><span class="mf">1.5.3</span>
+    <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>   <span class="err">`</span><span class="o">--</span> <span class="n">simple</span><span class="o">-</span><span class="n">swizzle</span><span class="err">@</span><span class="mf">0.2.2</span>
+    <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>     <span class="err">`</span><span class="o">--</span> <span class="n">is</span><span class="o">-</span><span class="n">arrayish</span><span class="err">@</span><span class="mf">0.3.2</span>
+    <span class="o">|</span> <span class="o">|</span> <span class="err">`</span><span class="o">--</span> <span class="n">text</span><span class="o">-</span><span class="n">hex</span><span class="err">@</span><span class="mf">1.0.0</span>
+    <span class="o">|</span> <span class="o">+--</span> <span class="n">enabled</span><span class="err">@</span><span class="mf">1.0.2</span>
+    <span class="o">|</span> <span class="o">|</span> <span class="err">`</span><span class="o">--</span> <span class="n">env</span><span class="o">-</span><span class="n">variable</span><span class="err">@</span><span class="mf">0.0.5</span>
+    <span class="o">|</span> <span class="err">`</span><span class="o">--</span> <span class="n">kuler</span><span class="err">@</span><span class="mf">1.0.1</span>
+    <span class="o">|</span>   <span class="err">`</span><span class="o">--</span> <span class="n">colornames</span><span class="err">@</span><span class="mf">1.1.1</span>
+    <span class="o">+--</span> <span class="n">is</span><span class="o">-</span><span class="n">stream</span><span class="err">@</span><span class="mf">1.1.0</span>
+    <span class="o">+--</span> <span class="n">logform</span><span class="err">@</span><span class="mf">1.10.0</span>
+    <span class="o">|</span> <span class="o">+--</span> <span class="n">colors</span><span class="err">@</span><span class="mf">1.3.3</span>
+    <span class="o">|</span> <span class="o">+--</span> <span class="n">fast</span><span class="o">-</span><span class="n">safe</span><span class="o">-</span><span class="n">stringify</span><span class="err">@</span><span class="mf">2.0.6</span>
+    <span class="o">|</span> <span class="o">+--</span> <span class="n">fecha</span><span class="err">@</span><span class="mf">2.3.3</span>
+    <span class="o">|</span> <span class="err">`</span><span class="o">--</span> <span class="n">ms</span><span class="err">@</span><span class="mf">2.1.1</span>
+    <span class="o">+--</span> <span class="n">one</span><span class="o">-</span><span class="n">time</span><span class="err">@</span><span class="mf">0.0.4</span>
+    <span class="o">+--</span> <span class="n">readable</span><span class="o">-</span><span class="n">stream</span><span class="err">@</span><span class="mf">2.3.6</span>
+    <span class="o">|</span> <span class="o">+--</span> <span class="n">core</span><span class="o">-</span><span class="n">util</span><span class="o">-</span><span class="n">is</span><span class="err">@</span><span class="mf">1.0.2</span>
+    <span class="o">|</span> <span class="o">+--</span> <span class="n">inherits</span><span class="err">@</span><span class="mf">2.0.3</span>
+    <span class="o">|</span> <span class="o">+--</span> <span class="n">isarray</span><span class="err">@</span><span class="mf">1.0.0</span>
+    <span class="o">|</span> <span class="o">+--</span> <span class="n">process</span><span class="o">-</span><span class="n">nextick</span><span class="o">-</span><span class="n">args</span><span class="err">@</span><span class="mf">2.0.0</span>
+    <span class="o">|</span> <span class="o">+--</span> <span class="n">safe</span><span class="o">-</span><span class="n">buffer</span><span class="err">@</span><span class="mf">5.1.2</span>
+    <span class="o">|</span> <span class="o">+--</span> <span class="n">string_decoder</span><span class="err">@</span><span class="mf">1.1.1</span>
+    <span class="o">|</span> <span class="err">`</span><span class="o">--</span> <span class="n">util</span><span class="o">-</span><span class="n">deprecate</span><span class="err">@</span><span class="mf">1.0.2</span>
+    <span class="o">+--</span> <span class="n">stack</span><span class="o">-</span><span class="n">trace</span><span class="err">@</span><span class="mf">0.0.10</span>
+    <span class="o">+--</span> <span class="n">triple</span><span class="o">-</span><span class="n">beam</span><span class="err">@</span><span class="mf">1.3.0</span>
+    <span class="err">`</span><span class="o">--</span> <span class="n">winston</span><span class="o">-</span><span class="n">transport</span><span class="err">@</span><span class="mf">4.3.0</span>
+</pre></div>
+
+
+<p>使用<code>configurable-http-proxy -h</code>检查</p>
+<div class="hlcode"><pre><span class="p">/</span><span class="nx">usr</span><span class="p">/</span><span class="nb">local</span><span class="p">/</span><span class="nx">lib</span><span class="p">/</span><span class="nx">node_modules</span><span class="p">/</span><span class="nx">configurable</span><span class="na">-http-proxy</span><span class="p">/</span><span class="nx">node_modules</span><span class="p">/</span><span class="nx">winston</span><span class="p">/</span><span class="nx">lib</span><span class="p">/</span><span class="nx">winston.js</span><span class="p">:</span><span class="mi">11</span>
+<span class="nx">const</span> <span class="p">{</span> <span class="nx">warn</span> <span class="p">}</span> <span class="o">=</span> <span class="k">require</span><span class="err">(&#39;.</span><span class="n">/</span><span class="nx">winston</span><span class="p">/</span><span class="nx">common</span><span class="s1">&#39;);</span>
+<span class="s1">      ^</span>
+
+<span class="s1">SyntaxError: Unexpected token {</span>
+<span class="s1">    at exports.runInThisContext (vm.js:53:16)</span>
+<span class="s1">    at Module._compile (module.js:374:25)</span>
+<span class="s1">    at Object.Module._extensions..js (module.js:417:10)</span>
+<span class="s1">    at Module.load (module.js:344:32)</span>
+<span class="s1">    at Function.Module._load (module.js:301:12)</span>
+<span class="s1">    at Module.require (module.js:354:17)</span>
+<span class="s1">    at require (internal/module.js:12:17)</span>
+<span class="s1">    at Object.&lt;anonymous&gt; (/usr/local/lib/node_modules/configurable-http-proxy/bin/configurable-http-proxy:14:13)</span>
+<span class="s1">    at Module._compile (module.js:410:26)</span>
+<span class="s1">    at Object.Module._extensions..js (module.js:417:10)</span>
+</pre></div>
+
+
+<p>上面的安装步骤都是正确的,而且没有报错,官网<a href="https://github.com/jupyterhub/jupyterhub/issues/2332">issue</a>中有关于他的问题,里面有人提到npm的版本问题,于是到node的官网查看,发现node的版本都已经10以上了,而npm安装的版本才4.推测可能是版本太低,不兼容所致.</p>
+<p>于是尝试升级npm,node,结果没有成效.最终的解决方法是直接从官网把源码下下来,然后配置一下环境变量,具体参见前面的操作步骤</p>
+<p>后面我不甘心,又使用<code>whereis nodejs</code>将安装路径找出来.</p>
+<div class="hlcode"><pre><span class="nl">nodejs:</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">nodejs</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">nodejs</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">nodejs</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">nodejs</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">man</span><span class="o">/</span><span class="n">man1</span><span class="o">/</span><span class="n">nodejs</span><span class="mf">.1</span><span class="p">.</span><span class="n">gz</span>
+</pre></div>
+
+
+<p>然后找到<code>configurable-http-proxy</code>的安装目录<code>/usr/local/lib/node_modules/configurable-http-proxy</code>,将它添加到jupyterhub_config.py中,然后运行jupyterhub.</p>
+<p>之前的问题没了,后面又出现了下面的问题:</p>
+<div class="hlcode"><pre><span class="p">[</span><span class="n">I</span> <span class="mi">2019</span><span class="o">-</span><span class="mo">03</span><span class="o">-</span><span class="mo">07</span> <span class="mi">14</span><span class="o">:</span><span class="mi">54</span><span class="o">:</span><span class="mf">04.979</span> <span class="n">JupyterHub</span> <span class="n">proxy</span><span class="o">:</span><span class="mi">567</span><span class="p">]</span> <span class="n">Starting</span> <span class="n">proxy</span> <span class="err">@</span> <span class="n">http</span><span class="o">:</span><span class="c1">//:8000</span>
+<span class="p">[</span><span class="n">C</span> <span class="mi">2019</span><span class="o">-</span><span class="mo">03</span><span class="o">-</span><span class="mo">07</span> <span class="mi">14</span><span class="o">:</span><span class="mi">54</span><span class="o">:</span><span class="mf">04.980</span> <span class="n">JupyterHub</span> <span class="n">app</span><span class="o">:</span><span class="mi">1867</span><span class="p">]</span> <span class="n">Failed</span> <span class="n">to</span> <span class="n">start</span> <span class="n">proxy</span>
+    <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span><span class="o">:</span>
+      <span class="n">File</span> <span class="s">&quot;/usr/local/lib/python3.6/dist-packages/jupyterhub/app.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1865</span><span class="p">,</span> <span class="n">in</span> <span class="n">start</span>
+        <span class="n">await</span> <span class="n">self</span><span class="p">.</span><span class="n">proxy</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
+      <span class="n">File</span> <span class="s">&quot;/usr/local/lib/python3.6/dist-packages/jupyterhub/proxy.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">571</span><span class="p">,</span> <span class="n">in</span> <span class="n">start</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">proxy_process</span> <span class="o">=</span> <span class="n">Popen</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">start_new_session</span><span class="o">=</span><span class="n">True</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="n">shell</span><span class="p">)</span>
+      <span class="n">File</span> <span class="s">&quot;/usr/lib/python3.6/subprocess.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">709</span><span class="p">,</span> <span class="n">in</span> <span class="n">__init__</span>
+        <span class="n">restore_signals</span><span class="p">,</span> <span class="n">start_new_session</span><span class="p">)</span>
+      <span class="n">File</span> <span class="s">&quot;/usr/lib/python3.6/subprocess.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1344</span><span class="p">,</span> <span class="n">in</span> <span class="n">_execute_child</span>
+        <span class="n">raise</span> <span class="n">child_exception_type</span><span class="p">(</span><span class="n">errno_num</span><span class="p">,</span> <span class="n">err_msg</span><span class="p">,</span> <span class="n">err_filename</span><span class="p">)</span>
+    <span class="nl">PermissionError:</span> <span class="p">[</span><span class="n">Errno</span> <span class="mi">13</span><span class="p">]</span> <span class="n">Permission</span> <span class="n">denied</span><span class="o">:</span> <span class="err">&#39;</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">node_modules</span><span class="o">/</span><span class="n">configurable</span><span class="o">-</span><span class="n">http</span><span class="o">-</span><span class="n">proxy</span><span class="err">&#39;</span>
+</pre></div>
+
+
+<p>权限问题,一脸懵,所有的操作都是root用户,又去查看了node_modules这个文件,发现用户名是nobody,又是一脸懵.算了,使用777修改文件夹的权限.修改完之后重新运行jupyterhu还是同样的问题,这个问题就没有解决了,替换上面的nodejs的使用方式之后两个问题都没有出现.</p>
+<p><strong>ps</strong>,之前学习使用nodejs的时候刚开始也是使用npm来做程序管理的,但是是由于npm一直无法更新到最新,后来才从源码安装的.</p>
+<h1 id="_3"></h1>
+<h1 id="_4">参考文献</h1>
 <p><a href="https://www.jianshu.com/p/fd9ddce53465">搭建一套云工作平台 (JupyterHub + Rstudio Server)</a></p>
 <p><a href="https://my.oschina.net/u/2306127/blog/1837196">JupyterHub on Kubernetes部署与应用指南</a></p>
 <p><a href="https://www.liangzl.com/get-article-detail-16066.html">为JupyterHub自定义Notebook Images</a></p>
@@ -165,6 +296,7 @@
 <p><a href="https://hub.docker.com/r/jupyterhub/jupyterhub/">Docker JupyterHub</a></p>
 <p><a href="https://www.cnblogs.com/bregman/p/5744109.html">jupyterhub 安装配置</a></p>
 <p><a href="https://zero-to-jupyterhub.readthedocs.io/en/latest/">Zero to JupyterHub with Kubernetes</a></p>
+<p><a href="https://www.jianshu.com/p/0285feaa2ba2">在AWS上配置jupyterhub</a></p>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2019-03-02 00:00 </span></div>
 <div id="comments"></div>
