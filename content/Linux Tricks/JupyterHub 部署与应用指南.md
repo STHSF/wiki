@@ -103,18 +103,18 @@ sudo journalctl -u jupyterhub    # 查看log
 ```
 
 ## 2、Docker 下运行jupyterhub
-1、pull 一个纯净的ubuntu环境
-2、进入ubuntu,安装相关软件
+- 1、pull 一个纯净的ubuntu环境
+- 2、进入ubuntu,安装相关软件
 ```
 python3
 vim
 ```
 可以参见[docker使用教程](https://sthsf.github.io/wiki/Linux%20Tricks/docker%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html)和[python3.5升级到python3.6](https://sthsf.github.io/wiki/Linux%20Tricks/python3.5%E5%8D%87%E7%BA%A7%E5%88%B0python3.6.html)中的相关内容.
 
-3、安装基于python3的虚拟环境
+- 3、安装基于python3的虚拟环境
 参考[virtualenv使用教程](https://sthsf.github.io/wiki/Linux%20Tricks/virtualenv%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html)
 
-4、配置好之后进入虚拟环境,使用pip安装和生成jupyterhub配置文件,同上文.
+- 4、配置好之后进入虚拟环境,使用pip安装和生成jupyterhub配置文件,同上文.
 在执行过程中会出现下面的错误,正确的使用方式如下:
 **不使用npm安装configurable-http-proxy**
 直接从源码安装nodejs,安装方法见[官网Installation](https://github.com/nodejs/help/wiki/Installation),我这里为了方便,直接将源码放在虚拟环境的conf文件夹下.
@@ -131,9 +131,9 @@ export NODEJS_HOME
 
 所有才有前文,我的nodejs的文件目录跟默认的安装路径的区别
 
-5、在配置文件目录下运行jupyterhub,其他配置没有改变,结束.
+- 5、在配置文件目录下运行jupyterhub,其他配置没有改变,结束.
 
-**错误**
+**错误过程**
 有人在使用sudo apt-get install npm nodejs-legacy的时候,安装完成后就算在jupyterhub_configure.py下配置了configurable-http-proxy的路径,或者使用```configurable-http-proxy -h```的时候会出现下面的问题,主要是nodejs安装版本可能比较低
 
 使用```sudo apt-get install npm```安装完成之后,查看npm的版本```npm -v```, 版本号为```3.5.2```
