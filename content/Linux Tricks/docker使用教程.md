@@ -191,7 +191,8 @@ apt-get install  net-tools
 # vim
 apt-get install vim
 ```
-
+# 通过容器提交镜像（docker commit）以及推送镜像（docker push)
+[笔记](https://www.cnblogs.com/kevingrace/p/9599988.html)
 
 # 参考文献
 [如何进入、退出docker的container](https://blog.csdn.net/dongdong9223/article/details/52998375)
