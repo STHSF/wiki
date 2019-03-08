@@ -104,20 +104,25 @@ sudo journalctl -u jupyterhub    # 查看log
 
 ## 2、Docker 下运行jupyterhub
 - 1、pull 一个纯净的ubuntu环境
-- 2、进入ubuntu,安装相关软件
+- 2、进入ubuntu docker, 安装相关软件, 这里仅考虑安装的最基本的应用需求, 其他需要自行下载.
 ```
 python3
 vim
 ```
-可以参见[docker使用教程](https://sthsf.github.io/wiki/Linux%20Tricks/docker%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html)和[python3.5升级到python3.6](https://sthsf.github.io/wiki/Linux%20Tricks/python3.5%E5%8D%87%E7%BA%A7%E5%88%B0python3.6.html)中的相关内容.
+docker下的应用的安装和使用可以参见[Docker使用教程](https://sthsf.github.io/wiki/Linux%20Tricks/docker%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html)和[python3.5升级到python3.6](https://sthsf.github.io/wiki/Linux%20Tricks/python3.5%E5%8D%87%E7%BA%A7%E5%88%B0python3.6.html)中的相关内容.
 
 - 3、安装基于python3的虚拟环境
-参考[virtualenv使用教程](https://sthsf.github.io/wiki/Linux%20Tricks/virtualenv%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html)
+虚拟环境的使用参考[virtualenv使用教程](https://sthsf.github.io/wiki/Linux%20Tricks/virtualenv%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html)
 
-- 4、配置好之后进入虚拟环境,使用pip安装和生成jupyterhub配置文件,同上文.
-在执行过程中会出现下面的错误,正确的使用方式如下:
+当然你也可以使用annaconda进行安装, 据说annaconda安装不会出现下面的问题.
+- 4、配置好之后进入虚拟环境, 使用pip安装和生成jupyterhub配置文件, 同第一节中的安装方式.
+
+在执行过程中会出现下面的错误, 正确的使用方式如下:
+
 **不使用npm安装configurable-http-proxy**
+
 直接从源码安装nodejs,安装方法见[官网Installation](https://github.com/nodejs/help/wiki/Installation),我这里为了方便,直接将源码放在虚拟环境的conf文件夹下.
+
 然后在```~/.bashrc```中添加环境变量
 
 ```
@@ -195,7 +200,7 @@ loadDep:winston-transport - |###################################################
     `-- winston-transport@4.3.0
 ```
 
-使用```configurable-http-proxy -h```检查
+configurable-http-proxy的整个安装过程没有错误提示, 但是使用```configurable-http-proxy -h```检查的时候出现下面的错误:
 ```
 /usr/local/lib/node_modules/configurable-http-proxy/node_modules/winston/lib/winston.js:11
 const { warn } = require('./winston/common');
@@ -213,17 +218,17 @@ SyntaxError: Unexpected token {
     at Module._compile (module.js:410:26)
     at Object.Module._extensions..js (module.js:417:10)
 ```
-上面的安装步骤都是正确的,而且没有报错,官网[issue](https://github.com/jupyterhub/jupyterhub/issues/2332)中有关于他的问题,里面有人提到npm的版本问题,于是到node的官网查看,发现node的版本都已经10以上了,而npm安装的版本才4.推测可能是版本太低,不兼容所致.
+上面的安装步骤都是正确的,而且没有报错,官网github的**[issue](https://github.com/jupyterhub/jupyterhub/issues/2332)**中有关于上面类似的问题,里面有人提到可能是npm的版本过低或者不对应等问题,于是到node的官网查看node的发行版本,发现node的版本都已经V10以上了,而本地npm安装的版本才4.推测可能是版本太低,不兼容所致.
 
-于是尝试升级npm,node,结果没有成效.最终的解决方法是直接从官网把源码下下来,然后配置一下环境变量,具体参见前面的操作步骤
+于是尝试升级npm,node,结果使用```npm install npm -g```依然无法升级到最新的版本.最终的解决方法是直接从官网把源码下下来,然后配置一下环境变量,具体参见前面的操作步骤
 
-后面我不甘心,又使用```whereis nodejs```将安装路径找出来.
+后面,上面的的问题通过更新的方法没有解决有点不甘心,然后又使用```whereis nodejs```将安装路径找出来.
 ```
 nodejs: /usr/bin/nodejs /usr/lib/nodejs /usr/include/nodejs /usr/share/nodejs /usr/share/man/man1/nodejs.1.gz
 ```
 然后找到```configurable-http-proxy```的安装目录```/usr/local/lib/node_modules/configurable-http-proxy```,将它添加到jupyterhub_config.py中,然后运行jupyterhub.
 
-之前的问题没了,后面又出现了下面的问题:
+之前的错误提示没了,但是后面又出现了下面的问题:
 ```
 [I 2019-03-07 14:54:04.979 JupyterHub proxy:567] Starting proxy @ http://:8000
 [C 2019-03-07 14:54:04.980 JupyterHub app:1867] Failed to start proxy
@@ -238,9 +243,11 @@ nodejs: /usr/bin/nodejs /usr/lib/nodejs /usr/include/nodejs /usr/share/nodejs /u
         raise child_exception_type(errno_num, err_msg, err_filename)
     PermissionError: [Errno 13] Permission denied: '/usr/local/lib/node_modules/configurable-http-proxy'
 ```
-权限问题,一脸懵,所有的操作都是root用户,又去查看了node_modules这个文件,发现用户名是nobody,又是一脸懵.算了,使用777修改文件夹的权限.修改完之后重新运行jupyterhu还是同样的问题,这个问题就没有解决了,替换上面的nodejs的使用方式之后两个问题都没有出现.
+权限问题,一脸懵,所有的操作都是root用户,又去查看了node_modules这个文件,发现用户名是nobody,又是一脸懵.算了,使用777修改文件夹的权限.修改完之后重新运行jupyterhu还是同样的问题,这个问题就没有解决了,最后还是使用上面的的教程,从官网下载nodejs替换之后两个问题都没有出现,jupyterhub可以在docker上启动,其他配置需要自己配置.
 
-**ps**,之前学习使用nodejs的时候刚开始也是使用npm来做程序管理的,但是是由于npm一直无法更新到最新,后来才从源码安装的.
+**ps**,之前学习使用nodejs的时候刚开始也是使用npm来做程序管理的, 但是是由于npm一直无法更新到最新, 后来才从源码安装的.
+
+**ps**网上说npm的镜像在国外, 也有可能自己在使用npm升级的时候没有升级成功, 导致一系列的错误, 但是升级不成功他也不能没有提示吧. 有空可以设置使用淘宝镜像然后再尝试尝试.
 
 
 
