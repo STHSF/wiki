@@ -194,6 +194,9 @@ apt-get install vim
 # 通过容器提交镜像（docker commit）以及推送镜像（docker push)
 [笔记](https://www.cnblogs.com/kevingrace/p/9599988.html)
 
+
+# docker端口映射, 挂在本地目录
+
 # 参考文献
 [如何进入、退出docker的container](https://blog.csdn.net/dongdong9223/article/details/52998375)
 
@@ -202,3 +205,5 @@ apt-get install vim
 [Docker学习之路（六）用commit命令创建镜像](https://segmentfault.com/a/1190000002567459)
 
 [Docker容器进入的4种方式](https://www.cnblogs.com/xhyan/p/6593075.html)
+
+[docker 启动，端口映射，挂载本地目录](https://www.cnblogs.com/YasinXiao/p/7736075.html)
