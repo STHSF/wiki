@@ -207,3 +207,11 @@ apt-get install vim
 [Docker容器进入的4种方式](https://www.cnblogs.com/xhyan/p/6593075.html)
 
 [docker 启动，端口映射，挂载本地目录](https://www.cnblogs.com/YasinXiao/p/7736075.html)
+
+[详解Docker 端口映射与容器互联](https://www.jb51.net/article/142459.htm)
+
+[Docker 给运行中的容器设置端口映射的方法](https://www.jb51.net/article/127630.htm)
+
+[docker容器如何优雅的终止详解](https://www.jb51.net/article/96617.htm)
+
+[docker-image container 基本操作 -常用命令](https://www.cnblogs.com/xiadongqing/p/6144053.html)
