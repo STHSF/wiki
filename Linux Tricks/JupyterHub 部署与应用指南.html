@@ -158,27 +158,24 @@
 <h2 id="2docker-jupyterhub">2、Docker 下运行jupyterhub</h2>
 <ul>
 <li>1、pull 一个纯净的ubuntu环境</li>
-<li>2、进入ubuntu,安装相关软件</li>
+<li>2、进入ubuntu docker, 安装相关软件, 这里仅考虑安装的最基本的应用需求, 其他需要自行下载.</li>
 </ul>
 <div class="hlcode"><pre><span class="n">python3</span>
 <span class="n">vim</span>
 </pre></div>
 
 
-<p>可以参见<a href="https://sthsf.github.io/wiki/Linux%20Tricks/docker%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html">docker使用教程</a>和<a href="https://sthsf.github.io/wiki/Linux%20Tricks/python3.5%E5%8D%87%E7%BA%A7%E5%88%B0python3.6.html">python3.5升级到python3.6</a>中的相关内容.</p>
+<p>docker下的应用的安装和使用可以参见<a href="https://sthsf.github.io/wiki/Linux%20Tricks/docker%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html">Docker使用教程</a>和<a href="https://sthsf.github.io/wiki/Linux%20Tricks/python3.5%E5%8D%87%E7%BA%A7%E5%88%B0python3.6.html">python3.5升级到python3.6</a>中的相关内容.</p>
 <ul>
-<li>
-<p>3、安装基于python3的虚拟环境<br />
-参考<a href="https://sthsf.github.io/wiki/Linux%20Tricks/virtualenv%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html">virtualenv使用教程</a></p>
-</li>
-<li>
-<p>4、配置好之后进入虚拟环境,使用pip安装和生成jupyterhub配置文件,同上文.<br />
-在执行过程中会出现下面的错误,正确的使用方式如下:<br />
-<strong>不使用npm安装configurable-http-proxy</strong><br />
-直接从源码安装nodejs,安装方法见<a href="https://github.com/nodejs/help/wiki/Installation">官网Installation</a>,我这里为了方便,直接将源码放在虚拟环境的conf文件夹下.<br />
-然后在<code>~/.bashrc</code>中添加环境变量</p>
-</li>
+<li>3、安装基于python3的虚拟环境<br />
+虚拟环境的使用参考<a href="https://sthsf.github.io/wiki/Linux%20Tricks/virtualenv%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html">virtualenv使用教程</a></li>
 </ul>
+<p>当然你也可以使用annaconda进行安装, 据说annaconda安装不会出现下面的问题.<br />
+- 4、配置好之后进入虚拟环境, 使用pip安装和生成jupyterhub配置文件, 同第一节中的安装方式.</p>
+<p>在执行过程中会出现下面的错误, 正确的使用方式如下:</p>
+<p><strong>不使用npm安装configurable-http-proxy</strong></p>
+<p>直接从源码安装nodejs,安装方法见<a href="https://github.com/nodejs/help/wiki/Installation">官网Installation</a>,我这里为了方便,直接将源码放在虚拟环境的conf文件夹下.</p>
+<p>然后在<code>~/.bashrc</code>中添加环境变量</p>
 <div class="hlcode"><pre><span class="n">export</span> <span class="n">NODEJS_HOME</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">nodejs</span><span class="o">/</span><span class="n">node</span><span class="o">-</span><span class="n">v10</span><span class="mf">.15.0</span><span class="o">/</span><span class="n">bin</span>
 <span class="n">export</span> <span class="n">PATH</span><span class="o">=</span><span class="err">$</span><span class="n">NODEJS_HOME</span><span class="o">:</span><span class="err">$</span><span class="n">PATH</span>
 <span class="n">export</span> <span class="n">NODEJS_HOME</span>
@@ -250,7 +247,7 @@
 </pre></div>
 
 
-<p>使用<code>configurable-http-proxy -h</code>检查</p>
+<p>configurable-http-proxy的整个安装过程没有错误提示, 但是使用<code>configurable-http-proxy -h</code>检查的时候出现下面的错误:</p>
 <div class="hlcode"><pre><span class="p">/</span><span class="nx">usr</span><span class="p">/</span><span class="nb">local</span><span class="p">/</span><span class="nx">lib</span><span class="p">/</span><span class="nx">node_modules</span><span class="p">/</span><span class="nx">configurable</span><span class="na">-http-proxy</span><span class="p">/</span><span class="nx">node_modules</span><span class="p">/</span><span class="nx">winston</span><span class="p">/</span><span class="nx">lib</span><span class="p">/</span><span class="nx">winston.js</span><span class="p">:</span><span class="mi">11</span>
 <span class="nx">const</span> <span class="p">{</span> <span class="nx">warn</span> <span class="p">}</span> <span class="o">=</span> <span class="k">require</span><span class="err">(&#39;.</span><span class="n">/</span><span class="nx">winston</span><span class="p">/</span><span class="nx">common</span><span class="s1">&#39;);</span>
 <span class="s1">      ^</span>
@@ -269,15 +266,15 @@
 </pre></div>
 
 
-<p>上面的安装步骤都是正确的,而且没有报错,官网<a href="https://github.com/jupyterhub/jupyterhub/issues/2332">issue</a>中有关于他的问题,里面有人提到npm的版本问题,于是到node的官网查看,发现node的版本都已经10以上了,而npm安装的版本才4.推测可能是版本太低,不兼容所致.</p>
-<p>于是尝试升级npm,node,结果没有成效.最终的解决方法是直接从官网把源码下下来,然后配置一下环境变量,具体参见前面的操作步骤</p>
-<p>后面我不甘心,又使用<code>whereis nodejs</code>将安装路径找出来.</p>
+<p>上面的安装步骤都是正确的,而且没有报错,官网github的<strong><a href="https://github.com/jupyterhub/jupyterhub/issues/2332">issue</a></strong>中有关于上面类似的问题,里面有人提到可能是npm的版本过低或者不对应等问题,于是到node的官网查看node的发行版本,发现node的版本都已经V10以上了,而本地npm安装的版本才4.推测可能是版本太低,不兼容所致.</p>
+<p>于是尝试升级npm,node,结果使用<code>npm install npm -g</code>依然无法升级到最新的版本.最终的解决方法是直接从官网把源码下下来,然后配置一下环境变量,具体参见前面的操作步骤</p>
+<p>后面,上面的的问题通过更新的方法没有解决有点不甘心,然后又使用<code>whereis nodejs</code>将安装路径找出来.</p>
 <div class="hlcode"><pre><span class="nl">nodejs:</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">nodejs</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">nodejs</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">nodejs</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">nodejs</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">man</span><span class="o">/</span><span class="n">man1</span><span class="o">/</span><span class="n">nodejs</span><span class="mf">.1</span><span class="p">.</span><span class="n">gz</span>
 </pre></div>
 
 
 <p>然后找到<code>configurable-http-proxy</code>的安装目录<code>/usr/local/lib/node_modules/configurable-http-proxy</code>,将它添加到jupyterhub_config.py中,然后运行jupyterhub.</p>
-<p>之前的问题没了,后面又出现了下面的问题:</p>
+<p>之前的错误提示没了,但是后面又出现了下面的问题:</p>
 <div class="hlcode"><pre><span class="p">[</span><span class="n">I</span> <span class="mi">2019</span><span class="o">-</span><span class="mo">03</span><span class="o">-</span><span class="mo">07</span> <span class="mi">14</span><span class="o">:</span><span class="mi">54</span><span class="o">:</span><span class="mf">04.979</span> <span class="n">JupyterHub</span> <span class="n">proxy</span><span class="o">:</span><span class="mi">567</span><span class="p">]</span> <span class="n">Starting</span> <span class="n">proxy</span> <span class="err">@</span> <span class="n">http</span><span class="o">:</span><span class="c1">//:8000</span>
 <span class="p">[</span><span class="n">C</span> <span class="mi">2019</span><span class="o">-</span><span class="mo">03</span><span class="o">-</span><span class="mo">07</span> <span class="mi">14</span><span class="o">:</span><span class="mi">54</span><span class="o">:</span><span class="mf">04.980</span> <span class="n">JupyterHub</span> <span class="n">app</span><span class="o">:</span><span class="mi">1867</span><span class="p">]</span> <span class="n">Failed</span> <span class="n">to</span> <span class="n">start</span> <span class="n">proxy</span>
     <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span><span class="o">:</span>
@@ -293,8 +290,9 @@
 </pre></div>
 
 
-<p>权限问题,一脸懵,所有的操作都是root用户,又去查看了node_modules这个文件,发现用户名是nobody,又是一脸懵.算了,使用777修改文件夹的权限.修改完之后重新运行jupyterhu还是同样的问题,这个问题就没有解决了,替换上面的nodejs的使用方式之后两个问题都没有出现.</p>
-<p><strong>ps</strong>,之前学习使用nodejs的时候刚开始也是使用npm来做程序管理的,但是是由于npm一直无法更新到最新,后来才从源码安装的.</p>
+<p>权限问题,一脸懵,所有的操作都是root用户,又去查看了node_modules这个文件,发现用户名是nobody,又是一脸懵.算了,使用777修改文件夹的权限.修改完之后重新运行jupyterhu还是同样的问题,这个问题就没有解决了,最后还是使用上面的的教程,从官网下载nodejs替换之后两个问题都没有出现,jupyterhub可以在docker上启动,其他配置需要自己配置.</p>
+<p><strong>ps</strong>,之前学习使用nodejs的时候刚开始也是使用npm来做程序管理的, 但是是由于npm一直无法更新到最新, 后来才从源码安装的.</p>
+<p><strong>ps</strong>网上说npm的镜像在国外, 也有可能自己在使用npm升级的时候没有升级成功, 导致一系列的错误, 但是升级不成功他也不能没有提示吧. 有空可以设置使用淘宝镜像然后再尝试尝试.</p>
 <h1 id="_3"></h1>
 <h1 id="_4">参考文献</h1>
 <p><a href="https://www.jianshu.com/p/fd9ddce53465">搭建一套云工作平台 (JupyterHub + Rstudio Server)</a></p>
