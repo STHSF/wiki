@@ -191,7 +191,7 @@
 <p><strong>错误过程</strong><br />
 有人在使用sudo apt-get install npm nodejs-legacy的时候,安装完成后就算在jupyterhub_configure.py下配置了configurable-http-proxy的路径,或者使用<code>configurable-http-proxy -h</code>的时候会出现下面的问题,主要是nodejs安装版本可能比较低</p>
 <p>使用<code>sudo apt-get install npm</code>安装完成之后,查看npm的版本<code>npm -v</code>, 版本号为<code>3.5.2</code></p>
-<p>使用<code>sudo apt-get install nodejs-legacy</code>安装完成之后,查看npm的版本<code>npm -v</code>, 版本号为<code>v4.2.6</code></p>
+<p>使用<code>sudo apt-get install nodejs-legacy</code>安装完成之后,查看node的版本<code>node -v</code>, 版本号为<code>v4.2.6</code></p>
 <p>使用<code>npm install -g configurable-http-proxy</code> 安装会出现下面的提示</p>
 <div class="hlcode"><pre><span class="o">-</span> <span class="o">|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|</span>
 <span class="n">loadRequestedDeps</span>         <span class="err">\</span> <span class="o">|</span><span class="err">###############################</span><span class="o">-----------------------------------------------------------------------------------------------------------------------|</span>
