@@ -143,7 +143,7 @@ export NODEJS_HOME
 
 使用```sudo apt-get install npm```安装完成之后,查看npm的版本```npm -v```, 版本号为```3.5.2```
 
-使用```sudo apt-get install nodejs-legacy```安装完成之后,查看npm的版本```npm -v```, 版本号为```v4.2.6```
+使用```sudo apt-get install nodejs-legacy```安装完成之后,查看node的版本```node -v```, 版本号为```v4.2.6```
 
 使用```npm install -g configurable-http-proxy``` 安装会出现下面的提示
 ```
