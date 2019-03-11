@@ -52,7 +52,14 @@
 <li><a href="#_2">开机运行</a></li>
 </ul>
 </li>
-<li><a href="#2docker-jupyterhub">2、Docker 下运行jupyterhub</a></li>
+<li><a href="#2docker-jupyterhub">2、Docker 下安装配置jupyterhub</a><ul>
+<li><a href="#1pull-ubuntu">1、pull 一个纯净的ubuntu环境</a></li>
+<li><a href="#2ubuntu-docker">2、进入ubuntu docker, 安装相关软件, 这里仅考虑安装的最基本的应用需求, 其他需要自行下载.</a></li>
+<li><a href="#3python3">3、安装基于python3的虚拟环境</a></li>
+<li><a href="#4-pipjupyterhub">4、配置好之后进入虚拟环境, 使用pip安装和生成jupyterhub配置文件, 同第一节中的安装方式.</a></li>
+<li><a href="#5jupyterhub">5、在配置文件目录下运行jupyterhub,其他配置没有改变,结束.</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#_3"></a></li>
@@ -97,6 +104,8 @@
 <span class="err">注</span><span class="p">,</span> <span class="err">当然</span><span class="p">,</span><span class="err">不一定在</span><span class="n">opt</span><span class="err">目录下面</span><span class="p">,</span> <span class="err">可以通过</span><span class="n">whereis</span> <span class="n">nodejs</span><span class="p">,</span><span class="err">查看你所安装的</span><span class="n">nodejs</span><span class="err">所在的位置</span><span class="p">,</span><span class="err">我的文件就保存在&#39;</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">nodejs</span><span class="o">/</span><span class="n">node</span><span class="o">-</span><span class="n">v10</span><span class="mf">.15.0</span><span class="o">/</span><span class="n">bin</span><span class="err">&#39;下</span>
 
 <span class="n">c</span><span class="p">.</span><span class="n">JupyterHub</span><span class="p">.</span><span class="n">proxy_cmd</span> <span class="o">=</span> <span class="p">[</span><span class="err">&#39;</span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">nodejs</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">configurable</span><span class="o">-</span><span class="n">http</span><span class="o">-</span><span class="n">proxy</span><span class="err">&#39;</span><span class="p">,]</span>
+
+<span class="n">ps</span><span class="p">,</span> <span class="err">环境变量中如果配置了</span><span class="n">node</span><span class="err">的路径</span><span class="p">,</span><span class="err">这边可以忽略</span>
 </pre></div>
 
 
@@ -155,23 +164,19 @@
 </pre></div>
 
 
-<h2 id="2docker-jupyterhub">2、Docker 下运行jupyterhub</h2>
-<ul>
-<li>1、pull 一个纯净的ubuntu环境</li>
-<li>2、进入ubuntu docker, 安装相关软件, 这里仅考虑安装的最基本的应用需求, 其他需要自行下载.</li>
-</ul>
+<h2 id="2docker-jupyterhub">2、Docker 下安装配置jupyterhub</h2>
+<h4 id="1pull-ubuntu">1、pull 一个纯净的ubuntu环境</h4>
+<h4 id="2ubuntu-docker">2、进入ubuntu docker, 安装相关软件, 这里仅考虑安装的最基本的应用需求, 其他需要自行下载.</h4>
 <div class="hlcode"><pre><span class="n">python3</span>
 <span class="n">vim</span>
 </pre></div>
 
 
 <p>docker下的应用的安装和使用可以参见<a href="https://sthsf.github.io/wiki/Linux%20Tricks/docker%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html">Docker使用教程</a>和<a href="https://sthsf.github.io/wiki/Linux%20Tricks/python3.5%E5%8D%87%E7%BA%A7%E5%88%B0python3.6.html">python3.5升级到python3.6</a>中的相关内容.</p>
-<ul>
-<li>3、安装基于python3的虚拟环境<br />
-虚拟环境的使用参考<a href="https://sthsf.github.io/wiki/Linux%20Tricks/virtualenv%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html">virtualenv使用教程</a></li>
-</ul>
-<p>当然你也可以使用annaconda进行安装, 据说annaconda安装不会出现下面的问题.<br />
-- 4、配置好之后进入虚拟环境, 使用pip安装和生成jupyterhub配置文件, 同第一节中的安装方式.</p>
+<h4 id="3python3">3、安装基于python3的虚拟环境</h4>
+<p>虚拟环境的使用参考<a href="https://sthsf.github.io/wiki/Linux%20Tricks/virtualenv%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html">virtualenv使用教程</a></p>
+<p>当然你也可以使用annaconda进行安装, 据说annaconda安装不会出现下面的问题.</p>
+<h4 id="4-pipjupyterhub">4、配置好之后进入虚拟环境, 使用pip安装和生成jupyterhub配置文件, 同第一节中的安装方式.</h4>
 <p>在执行过程中会出现下面的错误, 正确的使用方式如下:</p>
 <p><strong>不使用npm安装configurable-http-proxy</strong></p>
 <p>直接从源码安装nodejs,安装方法见<a href="https://github.com/nodejs/help/wiki/Installation">官网Installation</a>,我这里为了方便,直接将源码放在虚拟环境的conf文件夹下.</p>
@@ -185,9 +190,14 @@
 <p>其中,<code>node-v10.15.0</code>就是自己下载的源码压缩包解压缩的内容.</p>
 <p>使用源码安装配置的nodejs版本为<code>v10.15.0</code>, 官网说源码自带npm, 里面的npm版本为<code>6.6.0</code></p>
 <p>所有才有前文,我的nodejs的文件目录跟默认的安装路径的区别</p>
-<ul>
-<li>5、在配置文件目录下运行jupyterhub,其他配置没有改变,结束.</li>
-</ul>
+<h4 id="5jupyterhub">5、在配置文件目录下运行jupyterhub,其他配置没有改变,结束.</h4>
+<p>Docker下运行配置,与非docker下的情况类似,主要是如何访问docker下的jupyterhub,下面提供一个简单的访问使用方式<br />
+- 1、设置docker容器和宿主机的端口映射,这个在运行docker的时候设置, 例如:</p>
+<div class="hlcode"><pre><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">p</span> <span class="mi">18000</span><span class="o">:</span><span class="mi">8000</span> <span class="o">-</span><span class="n">it</span> <span class="p">[</span><span class="n">IMAGE</span> <span class="n">ID</span><span class="p">]</span>
+</pre></div>
+
+
+<p>因为jupyterhub启动默认使用的是8000端口,所以直接映射到docker的8000端口.</p>
 <p><strong>错误过程</strong><br />
 有人在使用sudo apt-get install npm nodejs-legacy的时候,安装完成后就算在jupyterhub_configure.py下配置了configurable-http-proxy的路径,或者使用<code>configurable-http-proxy -h</code>的时候会出现下面的问题,主要是nodejs安装版本可能比较低</p>
 <p>使用<code>sudo apt-get install npm</code>安装完成之后,查看npm的版本<code>npm -v</code>, 版本号为<code>3.5.2</code></p>

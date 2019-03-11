@@ -296,7 +296,46 @@
 <h1 id="docker-commitdocker-push">通过容器提交镜像（docker commit）以及推送镜像（docker push)</h1>
 <p><a href="https://www.cnblogs.com/kevingrace/p/9599988.html">笔记</a></p>
 <h1 id="docker_3">docker端口映射, 挂在本地目录</h1>
-<h1 id="_5">参考文献</h1>
+<h2 id="_5">容器的端口映射</h2>
+<div class="hlcode"><pre><span class="n">run</span> <span class="p">[</span><span class="o">-</span><span class="n">P</span><span class="p">][</span><span class="o">-</span><span class="n">p</span><span class="p">]</span>
+</pre></div>
+
+
+<p>-P , -publish-all=true | false, 大写的P表示为容器暴露的所有的端口进行映射;</p>
+<p>-p, -publish=[], 小写的p表示为容器指定的端口进行映射, 有四种形式:</p>
+<ul>
+<li>
+<p>containerPort: 只指定容器的端口, 宿主机端口随机映射;</p>
+</li>
+<li>
+<p>hostPort:containerPort: 同时指定容器与宿主机端口一一映射;</p>
+</li>
+<li>
+<p>ip::containerPort: 指定ip和容器的端口;</p>
+</li>
+<li>
+<p>ip:hostPort:containerPort: 指定ip、宿主机端口以及容器端口.</p>
+</li>
+</ul>
+<p>例如:</p>
+<div class="hlcode"><pre><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">p</span> <span class="mi">80</span> <span class="o">-</span><span class="n">i</span> <span class="o">-</span><span class="n">t</span> <span class="n">ubuntu</span> <span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">bash</span>
+<span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">p</span> <span class="mi">8080</span><span class="o">:</span><span class="mi">80</span> <span class="o">-</span><span class="n">i</span> <span class="o">-</span><span class="n">t</span> <span class="n">ubuntu</span> <span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">bash</span>
+<span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">p</span> <span class="mf">0.0.0.0</span><span class="o">::</span><span class="mi">80</span> <span class="o">-</span><span class="n">i</span> <span class="o">-</span><span class="n">t</span> <span class="n">ubuntu</span> <span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">bash</span>
+<span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">p</span> <span class="mf">0.0.0.0</span><span class="o">:</span><span class="mi">8080</span><span class="o">:</span><span class="mi">80</span> <span class="o">-</span><span class="n">i</span> <span class="o">-</span><span class="n">t</span> <span class="n">ubuntu</span> <span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">bash</span>
+</pre></div>
+
+
+<h2 id="dockerssh">docker开启ssh服务</h2>
+<h3 id="_6">需要安装的软件</h3>
+<div class="hlcode"><pre><span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">update</span>
+<span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">vim</span>
+<span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">openssh</span><span class="o">-</span><span class="n">server</span>
+<span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">net</span><span class="o">-</span><span class="n">tools</span>
+</pre></div>
+
+
+<h2 id="docker_4">docker 添加用户</h2>
+<h1 id="_7">参考文献</h1>
 <p><a href="https://blog.csdn.net/dongdong9223/article/details/52998375">如何进入、退出docker的container</a></p>
 <p><a href="https://github.com/tensorflow/serving/blob/master/tensorflow_serving/g3doc/docker.md">Using TensorFlow Serving via Docker</a></p>
 <p><a href="https://segmentfault.com/a/1190000002567459">Docker学习之路（六）用commit命令创建镜像</a></p>
