@@ -189,7 +189,8 @@
 
 <p>其中,<code>node-v10.15.0</code>就是自己下载的源码压缩包解压缩的内容.</p>
 <p>使用源码安装配置的nodejs版本为<code>v10.15.0</code>, 官网说源码自带npm, 里面的npm版本为<code>6.6.0</code></p>
-<p>所有才有前文,我的nodejs的文件目录跟默认的安装路径的区别</p>
+<p>所有才有前文,我的nodejs的文件目录跟默认的安装路径的区别,</p>
+<p><strong><em>这时候也可以使用源码安装node后自带的npm来安装<code>configurable-http-proxy</code>, 安装好后就不需要在jupyterhub_config.py中配置了</em></strong></p>
 <h4 id="5jupyterhub">5、在配置文件目录下运行jupyterhub,其他配置没有改变,结束.</h4>
 <p>Docker下运行配置,与非docker下的情况类似,主要是如何访问docker下的jupyterhub,下面提供一个简单的访问使用方式<br />
 - 1、设置docker容器和宿主机的端口映射,这个在运行docker的时候设置, 例如:</p>
@@ -197,7 +198,10 @@
 </pre></div>
 
 
-<p>因为jupyterhub启动默认使用的是8000端口,所以直接映射到docker的8000端口.</p>
+<p>因为jupyterhub启动默认使用的是8000端口,所以直接映射到container的8000端口.</p>
+<p>启动之后进入container,然后只需要在jupyterhub_conf.py里面配置<code>c.Authenticator.admin_users</code>和<code>c.Authenticator.whitelist</code>即可.</p>
+<p><strong><em>ps,如果是要在界面里面添加用户,只能添加ubuntu已经添加好的user</em></strong></p>
+<p>然后使用<code>nohup jupyterhub &amp;</code>后台运行jupyterhub, 最后使用<code>ctrl + p + q</code>退出但是并没有关闭container. 然后就可以在其他的机器的浏览器中输入和运行<code>ip:18000</code>,输入对应的用户名和密码就可以访问jupyterhub了.</p>
 <p><strong>错误过程</strong><br />
 有人在使用sudo apt-get install npm nodejs-legacy的时候,安装完成后就算在jupyterhub_configure.py下配置了configurable-http-proxy的路径,或者使用<code>configurable-http-proxy -h</code>的时候会出现下面的问题,主要是nodejs安装版本可能比较低</p>
 <p>使用<code>sudo apt-get install npm</code>安装完成之后,查看npm的版本<code>npm -v</code>, 版本号为<code>3.5.2</code></p>
