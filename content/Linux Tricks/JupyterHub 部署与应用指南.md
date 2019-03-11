@@ -46,6 +46,8 @@ npm install -g configurable-http-proxy
 注, 当然,不一定在opt目录下面, 可以通过whereis nodejs,查看你所安装的nodejs所在的位置,我的文件就保存在'/usr/local/lib/nodejs/node-v10.15.0/bin'下
 
 c.JupyterHub.proxy_cmd = ['/opt/nodejs/bin/configurable-http-proxy',]
+
+ps, 环境变量中如果配置了node的路径,这边可以忽略
 ```
 
 ```
@@ -102,20 +104,20 @@ sudo systemctl start jupyterhub  # 启动
 sudo journalctl -u jupyterhub    # 查看log
 ```
 
-## 2、Docker 下运行jupyterhub
-- 1、pull 一个纯净的ubuntu环境
-- 2、进入ubuntu docker, 安装相关软件, 这里仅考虑安装的最基本的应用需求, 其他需要自行下载.
+## 2、Docker 下安装配置jupyterhub
+#### 1、pull 一个纯净的ubuntu环境
+#### 2、进入ubuntu docker, 安装相关软件, 这里仅考虑安装的最基本的应用需求, 其他需要自行下载.
 ```
 python3
 vim
 ```
 docker下的应用的安装和使用可以参见[Docker使用教程](https://sthsf.github.io/wiki/Linux%20Tricks/docker%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html)和[python3.5升级到python3.6](https://sthsf.github.io/wiki/Linux%20Tricks/python3.5%E5%8D%87%E7%BA%A7%E5%88%B0python3.6.html)中的相关内容.
 
-- 3、安装基于python3的虚拟环境
+#### 3、安装基于python3的虚拟环境
 虚拟环境的使用参考[virtualenv使用教程](https://sthsf.github.io/wiki/Linux%20Tricks/virtualenv%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html)
 
 当然你也可以使用annaconda进行安装, 据说annaconda安装不会出现下面的问题.
-- 4、配置好之后进入虚拟环境, 使用pip安装和生成jupyterhub配置文件, 同第一节中的安装方式.
+#### 4、配置好之后进入虚拟环境, 使用pip安装和生成jupyterhub配置文件, 同第一节中的安装方式.
 
 在执行过程中会出现下面的错误, 正确的使用方式如下:
 
@@ -136,7 +138,16 @@ export NODEJS_HOME
 
 所有才有前文,我的nodejs的文件目录跟默认的安装路径的区别
 
-- 5、在配置文件目录下运行jupyterhub,其他配置没有改变,结束.
+#### 5、在配置文件目录下运行jupyterhub,其他配置没有改变,结束.
+Docker下运行配置,与非docker下的情况类似,主要是如何访问docker下的jupyterhub,下面提供一个简单的访问使用方式
+- 1、设置docker容器和宿主机的端口映射,这个在运行docker的时候设置, 例如:
+```
+docker run -p 18000:8000 -it [IMAGE ID]
+```
+因为jupyterhub启动默认使用的是8000端口,所以直接映射到docker的8000端口.
+
+
+
 
 **错误过程**
 有人在使用sudo apt-get install npm nodejs-legacy的时候,安装完成后就算在jupyterhub_configure.py下配置了configurable-http-proxy的路径,或者使用```configurable-http-proxy -h```的时候会出现下面的问题,主要是nodejs安装版本可能比较低

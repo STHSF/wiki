@@ -196,6 +196,43 @@ apt-get install vim
 
 
 # docker端口映射, 挂在本地目录
+## 容器的端口映射
+```
+run [-P][-p]
+```
+-P , -publish-all=true | false, 大写的P表示为容器暴露的所有的端口进行映射;
+
+-p, -publish=[], 小写的p表示为容器指定的端口进行映射, 有四种形式:
+
+- containerPort: 只指定容器的端口, 宿主机端口随机映射;
+
+- hostPort:containerPort: 同时指定容器与宿主机端口一一映射;
+
+- ip::containerPort: 指定ip和容器的端口;
+
+- ip:hostPort:containerPort: 指定ip、宿主机端口以及容器端口.
+
+例如:
+```
+docker run -p 80 -i -t ubuntu /bin/bash
+docker run -p 8080:80 -i -t ubuntu /bin/bash
+docker run -p 0.0.0.0::80 -i -t ubuntu /bin/bash
+docker run -p 0.0.0.0:8080:80 -i -t ubuntu /bin/bash
+```
+
+## docker开启ssh服务
+### 需要安装的软件
+```
+apt-get update
+apt-get install vim
+apt-get install openssh-server
+apt-get net-tools
+```
+
+## docker 添加用户
+
+
+
 
 # 参考文献
 [如何进入、退出docker的container](https://blog.csdn.net/dongdong9223/article/details/52998375)
