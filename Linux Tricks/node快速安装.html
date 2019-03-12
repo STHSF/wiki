@@ -1,0 +1,145 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <title>ubuntu下node快速安装 - LiYu's personal knowledge wiki</title>
+    <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
+    <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$(',')$'], ['\\(','\\)']]}
+        });
+        </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-78529611-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+
+<body>
+<div id="container">
+    
+<div id="header">
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Linux Tricks">Linux Tricks</a>&nbsp;»&nbsp;ubuntu下node快速安装</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">ubuntu下node快速安装</div>
+<div id="content">
+  <div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#_1">写在前面</a></li>
+<li><a href="#1">1、直接使用已经编译好的包</a></li>
+<li><a href="#2">2、源码安装</a></li>
+<li><a href="#3-apt-get-install">3、 apt-get install</a></li>
+<li><a href="#_2">参考文献</a></li>
+</ul>
+</div>
+<h1 id="_1">写在前面</h1>
+<h1 id="1">1、直接使用已经编译好的包</h1>
+<p>从<a href="https://nodejs.org/dist/">Node官网</a>现在已经编译好的版本,下载完成后直接解压使用:<br />
+选择自己需要的版本例如<code>/v10.15.3/node-v10.15.3-linux-arm64.tar.gz</code>:</p>
+<div class="hlcode"><pre><span class="n">wget</span> <span class="n">https</span><span class="o">:</span><span class="c1">//nodejs.org/dist//v10.15.3/node-v10.15.3-linux-arm64.tar.gz    // 下载</span>
+<span class="n">tar</span> <span class="o">-</span><span class="n">xzvf</span>  <span class="n">node</span><span class="o">-</span><span class="n">v10</span><span class="mf">.15.3</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">arm64</span><span class="p">.</span><span class="n">tar</span><span class="p">.</span><span class="n">gz</span>       <span class="c1">// 解压</span>
+<span class="n">cd</span> <span class="n">node</span><span class="o">-</span><span class="n">v10</span><span class="mf">.15.3</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">arm64</span><span class="o">/</span>                  <span class="c1">// 进入解压目录</span>
+<span class="cp"># 然后使用下面的命令查看node版本</span>
+<span class="p">.</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">node</span> <span class="o">-</span><span class="n">v</span>                               <span class="c1">// 执行node命令 查看版本</span>
+</pre></div>
+
+
+<p>为安装包创建软连接</p>
+<div class="hlcode"><pre><span class="cp"># 现将文件夹重命名</span>
+<span class="n">mv</span> <span class="n">node</span><span class="o">-</span><span class="n">v10</span><span class="mf">.15.3</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">arm64</span> <span class="n">nodejs</span>
+
+<span class="cp"># 创建软连接</span>
+<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">software</span><span class="o">/</span><span class="n">nodejs</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">npm</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span>
+<span class="n">ls</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">software</span><span class="o">/</span><span class="n">nodejs</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">node</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span>
+</pre></div>
+
+
+<h1 id="2">2、源码安装</h1>
+<p>从官网或者github下载对应的源码包,下载方式同上</p>
+<div class="hlcode"><pre><span class="cp"># 下载解压完成之后需要修改文件目录的权限</span>
+<span class="n">sudo</span> <span class="n">chmod</span> <span class="o">-</span><span class="n">R</span> <span class="mi">755</span> <span class="n">node</span>
+
+<span class="cp"># 使用./configure创建编译文件</span>
+<span class="n">cd</span> <span class="n">node</span>
+<span class="n">sudo</span> <span class="p">.</span><span class="o">/</span><span class="n">configure</span>
+<span class="cp"># 编译安装</span>
+<span class="n">sudo</span> <span class="n">make</span>
+<span class="n">sudo</span> <span class="n">make</span> <span class="n">install</span>
+</pre></div>
+
+
+<p>安装结束,这里不需要创建软连接或者配置环境变量</p>
+<h1 id="3-apt-get-install">3、 apt-get install</h1>
+<p>命令格式如下:</p>
+<div class="hlcode"><pre><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">update</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">nodejs</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">npm</span>
+</pre></div>
+
+
+<p><strong>注意, 使用apt-get安装的node和npm版本都太低,有时不太适用其他的兼容包的需求,就算使用<code>npm install -g npm</code>等方式更新npm也不行,不知道什么原因. 如果你知道可以issue我.</strong></p>
+<h1 id="_2">参考文献</h1>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2018-06-02 00:00 </span></div>
+<div id="comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script type="text/javascript">
+const gitment = new Gitment({
+  title: 'ubuntu下node快速安装',
+  owner: 'sthsf',
+  repo: 'wiki',
+  oauth: {
+    client_id: '086c54c5fd95adfdc372',
+    client_secret: '2ad9ebe87b952d2c77fccf99c334881b91eaa73d',
+  },
+  // ...
+  // For more available options, check out the documentation below
+})
+gitment.render('comments')
+// or
+// gitment.render(document.getElementById('comments'))
+// or
+// document.body.appendChild(gitment.render())
+</script>
+
+</div>
+<div id="footer">
+            <span>
+                Copyright © 2019 LiYu.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+                Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
+            </span>
+</div>
+
+
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?90e1dcdd1938573c19f9ff6521188e91";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</body>
+</html>
