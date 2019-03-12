@@ -219,6 +219,17 @@ docker run -p 8080:80 -i -t ubuntu /bin/bash
 docker run -p 0.0.0.0::80 -i -t ubuntu /bin/bash
 docker run -p 0.0.0.0:8080:80 -i -t ubuntu /bin/bash
 ```
+#### docker 多端口映射多卷映射
+如果一个参数的选项格式是[],比如
+-H=[]host
+-p=[]portdirection
+这都意味着这个flag可以多次出现，所以此处可以多次指定端口映射规则。
+
+```
+docker run -d -p 80:80 -p 22:22
+```
+
+
 
 ## docker开启ssh服务
 ### 需要安装的软件
@@ -228,6 +239,7 @@ apt-get install vim
 apt-get install openssh-server
 apt-get net-tools
 ```
+
 
 ## docker 添加用户
 
