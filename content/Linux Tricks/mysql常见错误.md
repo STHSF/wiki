@@ -79,3 +79,5 @@ mysql> exit
 [错误2(3)如何修改MySQL字符集](http://www.cnblogs.com/HondaHsu/p/3640180.html)
 
 [错误2(4)MySQL Workbench中修改表字段字符集](https://www.cnblogs.com/flowingcloud/p/6235095.html)
+
+[SQLAlchemy 教程 —— 基础入门篇](http://www.cnblogs.com/mrchige/p/6389588.html)
