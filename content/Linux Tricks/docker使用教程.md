@@ -195,7 +195,7 @@ apt-get install vim
 [笔记](https://www.cnblogs.com/kevingrace/p/9599988.html)
 
 
-# docker端口映射, 挂在本地目录
+# docker端口映射
 ## 容器的端口映射
 ```
 run [-P][-p]
@@ -228,6 +228,19 @@ docker run -p 0.0.0.0:8080:80 -i -t ubuntu /bin/bash
 ```
 docker run -d -p 80:80 -p 22:22
 ```
+# Docker 挂载本地目录
+docker 挂载目录跟端口映射方法类似, 都是需要在docker启动的过程中配置相应的参数.
+
+挂载目录后镜像内就可以共享宿主机里面的文件
+通过```run -v```参数指定挂载目录(格式: 宿主机目录:镜像内挂在目录), 如果宿主机目录不存在则自动创建
+
+实例:
+```
+# 启动一个镜像,运行一个容器, 并设置挂在目录
+sudo docker run -it -v /home/ubuntu/downloads/data:/data [IMAGE ID/ REPOSITORY]
+```
+此时从宿主机上/home/ubuntu/downloads/文件夹下多出来/data目录
+
 
 
 
