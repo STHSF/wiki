@@ -295,7 +295,7 @@
 
 <h1 id="docker-commitdocker-push">通过容器提交镜像（docker commit）以及推送镜像（docker push)</h1>
 <p><a href="https://www.cnblogs.com/kevingrace/p/9599988.html">笔记</a></p>
-<h1 id="docker_3">docker端口映射, 挂在本地目录</h1>
+<h1 id="docker_3">docker端口映射</h1>
 <h2 id="_5">容器的端口映射</h2>
 <div class="hlcode"><pre><span class="n">run</span> <span class="p">[</span><span class="o">-</span><span class="n">P</span><span class="p">][</span><span class="o">-</span><span class="n">p</span><span class="p">]</span>
 </pre></div>
@@ -334,6 +334,17 @@
 </pre></div>
 
 
+<h1 id="docker_5">Docker 挂载本地目录</h1>
+<p>docker 挂载目录跟端口映射方法类似, 都是需要在docker启动的过程中配置相应的参数.</p>
+<p>挂载目录后镜像内就可以共享宿主机里面的文件<br />
+通过<code>run -v</code>参数指定挂载目录(格式: 宿主机目录:镜像内挂在目录), 如果宿主机目录不存在则自动创建</p>
+<p>实例:</p>
+<div class="hlcode"><pre><span class="cp"># 启动一个镜像,运行一个容器, 并设置挂在目录</span>
+<span class="n">sudo</span> <span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">it</span> <span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">ubuntu</span><span class="o">/</span><span class="n">downloads</span><span class="o">/</span><span class="n">data</span><span class="o">:/</span><span class="n">data</span> <span class="p">[</span><span class="n">IMAGE</span> <span class="n">ID</span><span class="o">/</span> <span class="n">REPOSITORY</span><span class="p">]</span>
+</pre></div>
+
+
+<p>此时从宿主机上/home/ubuntu/downloads/文件夹下多出来/data目录</p>
 <h2 id="dockerssh">docker开启ssh服务</h2>
 <h3 id="_6">需要安装的软件</h3>
 <div class="hlcode"><pre><span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">update</span>
@@ -343,7 +354,7 @@
 </pre></div>
 
 
-<h2 id="docker_5">docker 添加用户</h2>
+<h2 id="docker_6">docker 添加用户</h2>
 <h1 id="_7">参考文献</h1>
 <p><a href="https://blog.csdn.net/dongdong9223/article/details/52998375">如何进入、退出docker的container</a></p>
 <p><a href="https://github.com/tensorflow/serving/blob/master/tensorflow_serving/g3doc/docker.md">Using TensorFlow Serving via Docker</a></p>
