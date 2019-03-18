@@ -18,3 +18,5 @@ date: 2018-06-02 00:00
 [树莓派+SSH反向代理实现远程开机](https://blog.csdn.net/as303113456/article/details/79319290)
 
 [nginx反向代理原理和配置讲解](https://www.cnblogs.com/anruy/p/4989161.html)
+
+[Ubuntu安装配置nginx并设置端口转发](https://blog.csdn.net/qq_16383965/article/details/79921125)
