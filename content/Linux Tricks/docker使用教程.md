@@ -241,6 +241,9 @@ sudo docker run -it -v /home/ubuntu/downloads/data:/data [IMAGE ID/ REPOSITORY]
 ```
 此时从宿主机上/home/ubuntu/downloads/文件夹下多出来/data目录
 
+并且,在container中操作/data下面的内容时,宿主机上对应目录下也会有相应的操作.
+
+
 
 
 
