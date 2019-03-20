@@ -51,28 +51,50 @@
 </li>
 <li><a href="#imagecontainer">运行image实例container</a></li>
 <li><a href="#imagecontainer_1">启动和停止某个image的container</a></li>
-<li><a href="#docker_2">docker常用命令</a></li>
+<li><a href="#docker_2">docker常用命令</a><ul>
+<li><a href="#container">在Container和宿主机之间复制文件</a></li>
+<li><a href="#docker_3">创建Docker镜像</a></li>
+<li><a href="#_5">运行镜像</a></li>
+<li><a href="#_6">运行镜像并进入</a></li>
+<li><a href="#_7">登录镜像平台</a></li>
+<li><a href="#_8">增加镜像空间名</a></li>
+<li><a href="#_9">提交镜像</a></li>
+<li><a href="#_10">删除镜像</a></li>
+<li><a href="#_11">删除所有镜像</a></li>
+<li><a href="#_12">进入镜像修改后，保存产生新镜像</a></li>
+<li><a href="#container_1">停止所有的container</a></li>
+<li><a href="#contrainer">删除所有的contrainer</a></li>
+<li><a href="#contrainer_1">进入正在运行的contrainer</a></li>
+<li><a href="#ssh">SSH启动</a></li>
+<li><a href="#_13">重启容器</a></li>
+<li><a href="#docker_4">docker容器运行中添加端口映射</a></li>
+<li><a href="#dockervim-telnetifconfig">docker下安装vim 、telnet、ifconfig命令</a></li>
+</ul>
+</li>
 <li><a href="#docker-commitdocker-push">通过容器提交镜像（docker commit）以及推送镜像（docker push)</a></li>
-<li><a href="#docker_3">docker端口映射</a><ul>
-<li><a href="#_5">创建容器时指定映射的端口</a><ul>
-<li><a href="#_6">宿主机添加端口放行</a></li>
-<li><a href="#docker_4">docker 多端口映射多卷映射</a></li>
+<li><a href="#docker_5">docker端口映射</a><ul>
+<li><a href="#_14">创建容器时指定映射的端口</a><ul>
+<li><a href="#_15">宿主机添加端口放行</a></li>
+<li><a href="#docker_6">docker 多端口映射多卷映射</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#docker_5">Docker 挂载本地目录</a><ul>
+<li><a href="#docker_7">Docker 挂载本地目录</a></li>
+<li><a href="#container_2">向Container中传送文件</a><ul>
+<li><a href="#container_3">根据Container名字传送</a></li>
+<li><a href="#scp">通过scp传送</a></li>
 <li><a href="#dockerssh">docker开启ssh服务</a><ul>
 <li><a href="#rootopenssh">修改root密码,安装openssh服务</a></li>
-<li><a href="#_7">修改配置文件</a></li>
-<li><a href="#ssh">启动ssh服务</a></li>
-<li><a href="#_8">登录测试</a></li>
+<li><a href="#_16">修改配置文件</a></li>
+<li><a href="#ssh_1">启动ssh服务</a></li>
+<li><a href="#_17">登录测试</a></li>
 </ul>
 </li>
-<li><a href="#docker_6">docker 添加用户</a></li>
+<li><a href="#docker_8">docker 添加用户</a></li>
 </ul>
 </li>
-<li><a href="#_9">参考文献</a></li>
+<li><a href="#_18">参考文献</a></li>
 </ul>
 </div>
 <h1 id="_1">写在前面</h1>
@@ -198,9 +220,7 @@
 
 
 <h1 id="docker_2">docker常用命令</h1>
-<ul>
-<li><strong>在Container和宿主机之间复制文件</strong></li>
-</ul>
+<h3 id="container"><strong>在Container和宿主机之间复制文件</strong></h3>
 <div class="hlcode"><pre><span class="err">从主机复制到容器</span><span class="o">:</span>
 <span class="n">sudo</span> <span class="n">docker</span> <span class="n">cp</span> <span class="n">host_path</span> <span class="n">containerID</span><span class="o">:</span><span class="n">container_path</span>
 <span class="err">从容器复制到主机</span><span class="o">:</span>
@@ -208,115 +228,83 @@
 </pre></div>
 
 
-<ul>
-<li><strong>创建Docker镜像</strong></li>
-</ul>
+<h3 id="docker_3"><strong>创建Docker镜像</strong></h3>
 <div class="hlcode"><pre><span class="n">docker</span> <span class="n">build</span> <span class="o">-</span><span class="n">t</span> <span class="n">fensme</span><span class="o">:</span><span class="n">v1</span> <span class="p">.</span>
 </pre></div>
 
 
-<ul>
-<li>运行镜像</li>
-</ul>
+<h3 id="_5">运行镜像</h3>
 <div class="hlcode"><pre><span class="n">docker</span> <span class="n">run</span> <span class="n">fensme</span>
 </pre></div>
 
 
-<ul>
-<li>运行镜像并进入</li>
-</ul>
+<h3 id="_6">运行镜像并进入</h3>
 <div class="hlcode"><pre><span class="n">docker</span> <span class="n">run</span>  <span class="o">-</span><span class="n">i</span> <span class="o">-</span><span class="n">t</span> <span class="n">fensme</span>  <span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">bash</span>
 </pre></div>
 
 
-<ul>
-<li>登录镜像平台</li>
-</ul>
+<h3 id="_7">登录镜像平台</h3>
 <div class="hlcode"><pre><span class="n">docker</span> <span class="n">login</span> <span class="o">--</span><span class="n">username</span><span class="o">=</span><span class="n">bsspirit</span> <span class="o">--</span><span class="n">email</span><span class="o">=</span><span class="n">bsspirit</span><span class="err">@</span><span class="mf">163.</span><span class="n">com</span>
 </pre></div>
 
 
-<ul>
-<li>增加镜像空间名</li>
-</ul>
+<h3 id="_8">增加镜像空间名</h3>
 <div class="hlcode"><pre><span class="n">docker</span> <span class="n">tag</span> <span class="mi">8496</span><span class="n">b10e857a</span> <span class="n">bsspirit</span><span class="o">/</span><span class="n">fensme</span><span class="o">:</span><span class="n">latest</span>
 </pre></div>
 
 
-<ul>
-<li>提交镜像</li>
-</ul>
+<h3 id="_9">提交镜像</h3>
 <div class="hlcode"><pre><span class="n">docker</span> <span class="n">push</span> <span class="n">bsspirit</span><span class="o">/</span><span class="n">fensme</span>
 </pre></div>
 
 
-<ul>
-<li>删除镜像</li>
-</ul>
+<h3 id="_10">删除镜像</h3>
 <div class="hlcode"><pre><span class="n">docker</span> <span class="n">rmi</span> <span class="o">&lt;</span><span class="n">image</span> <span class="n">id</span><span class="o">&gt;</span>
 </pre></div>
 
 
-<ul>
-<li>删除所有镜像</li>
-</ul>
+<h3 id="_11">删除所有镜像</h3>
 <div class="hlcode"><pre><span class="n">docker</span> <span class="n">rmi</span> <span class="err">$</span><span class="p">(</span><span class="n">docker</span> <span class="n">images</span>  <span class="o">-</span><span class="n">q</span><span class="p">)</span>
 </pre></div>
 
 
-<ul>
-<li>进入镜像修改后，保存产生新镜像</li>
-</ul>
+<h3 id="_12">进入镜像修改后，保存产生新镜像</h3>
 <div class="hlcode"><pre><span class="n">docker</span> <span class="n">commit</span> <span class="err">$</span><span class="p">(</span><span class="n">container</span> <span class="n">id</span><span class="err">前三位</span><span class="p">)</span> <span class="n">ubuntu_sshd_gerry</span><span class="o">:</span><span class="mf">14.04</span>
 </pre></div>
 
 
-<ul>
-<li>停止所有的container </li>
-</ul>
+<h3 id="container_1">停止所有的container</h3>
 <div class="hlcode"><pre><span class="n">docker</span>  <span class="n">stop</span> <span class="err">$</span><span class="p">(</span><span class="n">docker</span> <span class="n">ps</span> <span class="o">-</span><span class="n">a</span> <span class="o">-</span><span class="n">q</span><span class="p">)</span>
 </pre></div>
 
 
-<ul>
-<li>删除所有的contrainer</li>
-</ul>
+<h3 id="contrainer">删除所有的contrainer</h3>
 <div class="hlcode"><pre><span class="n">docker</span> <span class="n">rm</span> <span class="err">$</span><span class="p">(</span><span class="n">docker</span> <span class="n">ps</span> <span class="o">-</span><span class="n">a</span> <span class="o">-</span><span class="n">q</span><span class="p">)</span>
 </pre></div>
 
 
-<ul>
-<li>进入正在运行的contrainer</li>
-</ul>
+<h3 id="contrainer_1">进入正在运行的contrainer</h3>
 <div class="hlcode"><pre><span class="n">docker</span> <span class="n">attach</span> <span class="n">db3</span> 
 <span class="n">docker</span> <span class="n">attach</span> <span class="n">d48b21a7e439</span>
 </pre></div>
 
 
-<ul>
-<li>SSH启动</li>
-</ul>
+<h3 id="ssh">SSH启动</h3>
 <div class="hlcode"><pre><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">d</span> <span class="o">-</span><span class="n">it</span> <span class="o">-</span><span class="n">p</span> <span class="mi">1000</span><span class="o">:</span><span class="mi">22</span> <span class="n">vnpy</span><span class="o">:</span><span class="mf">1.2</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">sshd</span> <span class="o">-</span><span class="n">D</span>
 </pre></div>
 
 
-<ul>
-<li>重启容器</li>
-</ul>
+<h3 id="_13">重启容器</h3>
 <div class="hlcode"><pre><span class="n">sudo</span> <span class="n">docker</span> <span class="n">restart</span> <span class="n">ac01d678fcae</span> <span class="n">Restart</span> <span class="n">a</span> <span class="n">running</span> <span class="n">container</span>
 </pre></div>
 
 
-<ul>
-<li>docker容器运行中添加端口映射</li>
-</ul>
+<h3 id="docker_4">docker容器运行中添加端口映射</h3>
 <div class="hlcode"><pre><span class="nl">https:</span><span class="c1">//my.oschina.net/u/266ΩΩΩ752/blog/541433</span>
 </pre></div>
 
 
-<ul>
-<li>docker下安装vim 、telnet、ifconfig命令</li>
-</ul>
+<h3 id="dockervim-telnetifconfig">docker下安装vim 、telnet、ifconfig命令</h3>
 <div class="hlcode"><pre><span class="cp"># 同步 /etc/apt/sources.list 和 /etc/apt/sources.list.d 中列出的源的索引，这样才能获取到最新的软件包。</span>
 <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">update</span>
 <span class="cp"># 安装telnet</span>
@@ -330,8 +318,8 @@
 
 <h1 id="docker-commitdocker-push">通过容器提交镜像（docker commit）以及推送镜像（docker push)</h1>
 <p><a href="https://www.cnblogs.com/kevingrace/p/9599988.html">笔记</a></p>
-<h1 id="docker_3">docker端口映射</h1>
-<h2 id="_5">创建容器时指定映射的端口</h2>
+<h1 id="docker_5">docker端口映射</h1>
+<h2 id="_14">创建容器时指定映射的端口</h2>
 <div class="hlcode"><pre><span class="n">run</span> <span class="p">[</span><span class="o">-</span><span class="n">P</span><span class="p">][</span><span class="o">-</span><span class="n">p</span><span class="p">]</span>
 </pre></div>
 
@@ -368,7 +356,7 @@
 </pre></div>
 
 
-<h3 id="_6">宿主机添加端口放行</h3>
+<h3 id="_15">宿主机添加端口放行</h3>
 <p>如果宿主机没有开启 ip 转发功能，会导致外部网络访问宿主机对应端口时没能转发到 Docker Container 所对应的端口上.</p>
 <p>如果存在这种情况,则说明宿主机的这些端口对外是关闭的,则需要我们手动去打开.</p>
 <div class="hlcode"><pre><span class="n">iptables</span> <span class="o">-</span><span class="n">A</span> <span class="n">INPUT</span> <span class="o">-</span><span class="n">p</span> <span class="n">tcp</span> <span class="o">--</span><span class="n">dport</span> <span class="p">[</span><span class="mi">8080</span><span class="p">]</span> <span class="o">-</span><span class="n">j</span> <span class="n">ACCEPT</span>
@@ -376,7 +364,7 @@
 </pre></div>
 
 
-<h3 id="docker_4">docker 多端口映射多卷映射</h3>
+<h3 id="docker_6">docker 多端口映射多卷映射</h3>
 <p>如果一个参数的选项格式是[],比如<br />
 -H=[]host<br />
 -p=[]portdirection<br />
@@ -385,7 +373,7 @@
 </pre></div>
 
 
-<h1 id="docker_5">Docker 挂载本地目录</h1>
+<h1 id="docker_7">Docker 挂载本地目录</h1>
 <p>docker 挂载目录跟端口映射方法类似, 都是需要在docker启动的过程中配置相应的参数.</p>
 <p>挂载目录后镜像内就可以共享宿主机里面的文件<br />
 通过<code>run -v</code>参数指定挂载目录(格式: 宿主机目录:镜像内挂在目录), 如果宿主机目录不存在则自动创建</p>
@@ -401,6 +389,35 @@
 
 <p>此时从宿主机上/home/ubuntu/downloads/文件夹下多出来/data目录</p>
 <p>并且,在container中操作/data下面的内容时,宿主机上对应目录下也会有相应的操作.</p>
+<h1 id="container_2">向Container中传送文件</h1>
+<h3 id="container_3">根据Container名字传送</h3>
+<div class="hlcode"><pre><span class="err">#</span> <span class="nx">Container</span> <span class="o">-&gt;</span> <span class="err">宿主机</span>
+<span class="nx">docker</span> <span class="nx">cp</span> <span class="err">[</span><span class="nx">OPTIONS</span><span class="cp">]</span> <span class="nt">&lt;CONTAINER:SRC</span><span class="na">_PATH</span><span class="nt">&gt;</span> <span class="nt">&lt;DEST</span><span class="na">_PATH</span><span class="nt">&gt;</span>
+
+# 宿主机 -&gt; Container
+docker cp <span class="cp">[</span><span class="nx">OPTIONS</span><span class="cp">]</span> <span class="nt">&lt;SRC</span><span class="na">_PATH</span><span class="nt">&gt;</span> <span class="nt">&lt;CONTAINER:DEST</span><span class="na">_PATH</span><span class="nt">&gt;</span>
+</pre></div>
+
+
+<p>示例<br />
+将宿主机中 /File_kk目录 拷贝到Container 3000202323dcf 的/home/work目录下.</p>
+<div class="hlcode"><pre><span class="n">docker</span> <span class="n">cp</span> <span class="n">File_kk</span> <span class="mi">3000202323</span><span class="n">dcf</span><span class="o">:/</span><span class="n">home</span><span class="o">/</span><span class="n">cloude</span>
+</pre></div>
+
+
+<p>将Container 3000202323dcf 的/home/work/File_kk目录 拷贝到宿主机中 /work目录下</p>
+<div class="hlcode"><pre><span class="n">docker</span> <span class="n">cp</span> <span class="mi">3000202323</span><span class="n">dcf</span><span class="o">:/</span><span class="n">home</span><span class="o">/</span><span class="n">cloude</span><span class="o">/</span><span class="n">File_kk</span> <span class="o">/</span><span class="n">work</span>
+</pre></div>
+
+
+<h3 id="scp">通过scp传送</h3>
+<p>如果Container开启ssh服务,则可以通过指定的ssh端口向Container中传送文件</p>
+<p>示例<br />
+假设Container开启了ssh服务,并且与宿主机的端口映射为10022, 现在将jerry.zip复制到Container的/home/jerry/workshop/work</p>
+<div class="hlcode"><pre><span class="n">scp</span> <span class="o">-</span><span class="n">P</span> <span class="mi">10022</span> <span class="n">jerry</span><span class="p">.</span><span class="n">zip</span> <span class="n">jerry</span><span class="err">@</span><span class="mf">192.168.79.1</span><span class="o">:/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">work</span>
+</pre></div>
+
+
 <h2 id="dockerssh">docker开启ssh服务</h2>
 <h3 id="rootopenssh">修改root密码,安装openssh服务</h3>
 <div class="hlcode"><pre><span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">update</span>
@@ -410,7 +427,7 @@
 </pre></div>
 
 
-<h3 id="_7">修改配置文件</h3>
+<h3 id="_16">修改配置文件</h3>
 <p>安装成功之后,修改容器的配置文件,使得可以直接使用root登陆</p>
 <div class="hlcode"><pre><span class="n">vim</span>  <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">ssh</span><span class="o">/</span><span class="n">sshd_config</span>
 </pre></div>
@@ -427,19 +444,19 @@
 
 
 <p><strong>注, 如果容器内配置文件不修改,容器可能会拒绝访问,卡在lastlogin提示, 同时还要保证宿主机开启了需要监听的端口</strong></p>
-<h3 id="ssh">启动ssh服务</h3>
+<h3 id="ssh_1">启动ssh服务</h3>
 <div class="hlcode"><pre><span class="n">service</span> <span class="n">ssh</span> <span class="n">start</span>
 </pre></div>
 
 
-<h3 id="_8">登录测试</h3>
+<h3 id="_17">登录测试</h3>
 <p>在宿主机或者其他机器上输入对应的username和ip地址,测试是否可以连接</p>
 <div class="hlcode"><pre><span class="n">ssh</span> <span class="o">-</span><span class="n">p</span> <span class="mi">10022</span> <span class="p">[</span><span class="n">username</span><span class="p">]</span><span class="err">@</span><span class="p">[</span><span class="n">ip</span><span class="p">]</span>
 </pre></div>
 
 
-<h2 id="docker_6">docker 添加用户</h2>
-<h1 id="_9">参考文献</h1>
+<h2 id="docker_8">docker 添加用户</h2>
+<h1 id="_18">参考文献</h1>
 <p><a href="https://blog.csdn.net/dongdong9223/article/details/52998375">如何进入、退出docker的container</a></p>
 <p><a href="https://github.com/tensorflow/serving/blob/master/tensorflow_serving/g3doc/docker.md">Using TensorFlow Serving via Docker</a></p>
 <p><a href="https://segmentfault.com/a/1190000002567459">Docker学习之路（六）用commit命令创建镜像</a></p>
