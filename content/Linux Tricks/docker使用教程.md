@@ -112,14 +112,14 @@ sudo docker exec -it [CONTAINER_ID] /bin/bash
 ```
 
 # docker常用命令
-### **在Container和宿主机之间复制文件**
+### 在Container和宿主机之间复制文件
 ```
 从主机复制到容器:
 sudo docker cp host_path containerID:container_path
 从容器复制到主机:
 sudo docker cp containerID:container_path host_path
 ```
-### **创建Docker镜像**
+### 创建Docker镜像
 ```
 docker build -t fensme:v1 .
 ```
