@@ -354,6 +354,10 @@
 <p>docker 挂载目录跟端口映射方法类似, 都是需要在docker启动的过程中配置相应的参数.</p>
 <p>挂载目录后镜像内就可以共享宿主机里面的文件<br />
 通过<code>run -v</code>参数指定挂载目录(格式: 宿主机目录:镜像内挂在目录), 如果宿主机目录不存在则自动创建</p>
+<div class="hlcode"><pre><span class="o">-</span><span class="n">v</span> <span class="p">{</span><span class="err">宿主机路径</span><span class="p">}</span><span class="o">:</span><span class="p">{</span><span class="n">docker</span> <span class="n">container</span><span class="err">路径</span><span class="p">}</span>
+</pre></div>
+
+
 <p>实例:</p>
 <div class="hlcode"><pre><span class="cp"># 启动一个镜像,运行一个容器, 并设置挂在目录</span>
 <span class="n">sudo</span> <span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">it</span> <span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">ubuntu</span><span class="o">/</span><span class="n">downloads</span><span class="o">/</span><span class="n">data</span><span class="o">:/</span><span class="n">data</span> <span class="p">[</span><span class="n">IMAGE</span> <span class="n">ID</span><span class="o">/</span> <span class="n">REPOSITORY</span><span class="p">]</span>

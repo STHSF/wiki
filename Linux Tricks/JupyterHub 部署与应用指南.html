@@ -58,6 +58,7 @@
 <li><a href="#3python3">3、安装基于python3的虚拟环境</a></li>
 <li><a href="#4-pipjupyterhub">4、配置好之后进入虚拟环境, 使用pip安装和生成jupyterhub配置文件, 同第一节中的安装方式.</a></li>
 <li><a href="#5jupyterhub">5、在配置文件目录下运行jupyterhub,其他配置没有改变,结束.</a></li>
+<li><a href="#docker">Docker镜像</a></li>
 </ul>
 </li>
 </ul>
@@ -202,7 +203,9 @@
 <p>启动之后进入container,然后只需要在jupyterhub_conf.py里面配置<code>c.Authenticator.admin_users</code>和<code>c.Authenticator.whitelist</code>即可.</p>
 <p><strong><em>ps,如果是要在界面里面添加用户,只能添加ubuntu已经添加好的user</em></strong></p>
 <p>然后使用<code>nohup jupyterhub &amp;</code>后台运行jupyterhub, 最后使用<code>ctrl + p + q</code>退出但是并没有关闭container. 然后就可以在其他的机器的浏览器中输入和运行<code>ip:18000</code>,输入对应的用户名和密码就可以访问jupyterhub了.</p>
-<p><strong>错误过程</strong><br />
+<h3 id="docker">Docker镜像</h3>
+<p>这里提供一个已经安装配置到的纯净<a href="https://hub.docker.com/r/liyu5257/ubuntu_jupyterhub">docker镜像地址</a>, 镜像中只包含jupyterhub.如果在安装过程中出现错误,可以pull 下来对比一下.</p>
+<p><strong>错误</strong><br />
 有人在使用sudo apt-get install npm nodejs-legacy的时候,安装完成后就算在jupyterhub_configure.py下配置了configurable-http-proxy的路径,或者使用<code>configurable-http-proxy -h</code>的时候会出现下面的问题,主要是nodejs安装版本可能比较低</p>
 <p>使用<code>sudo apt-get install npm</code>安装完成之后,查看npm的版本<code>npm -v</code>, 版本号为<code>3.5.2</code></p>
 <p>使用<code>sudo apt-get install nodejs-legacy</code>安装完成之后,查看node的版本<code>node -v</code>, 版本号为<code>v4.2.6</code></p>
