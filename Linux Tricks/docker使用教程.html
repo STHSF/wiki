@@ -447,6 +447,11 @@ docker cp <span class="cp">[</span><span class="nx">OPTIONS</span><span class="c
 </pre></div>
 
 
+<p>我们也可以在启动docker的时候同时启动ssh</p>
+<div class="hlcode"><pre><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">d</span> <span class="o">-</span><span class="n">it</span> <span class="o">-</span><span class="n">p</span> <span class="mi">10022</span><span class="o">:</span><span class="mi">22</span> <span class="p">[</span><span class="n">IMAGE_NAME</span><span class="p">]</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">sshd</span> <span class="o">-</span><span class="n">D</span>
+</pre></div>
+
+
 <h3 id="_17">登录测试</h3>
 <p>在宿主机或者其他机器上输入对应的username和ip地址,测试是否可以连接</p>
 <div class="hlcode"><pre><span class="n">ssh</span> <span class="o">-</span><span class="n">p</span> <span class="mi">10022</span> <span class="p">[</span><span class="n">username</span><span class="p">]</span><span class="err">@</span><span class="p">[</span><span class="n">ip</span><span class="p">]</span>
@@ -465,6 +470,9 @@ docker cp <span class="cp">[</span><span class="nx">OPTIONS</span><span class="c
 <p><a href="https://www.cnblogs.com/kevingrace/p/9453987.html">Docker容器内部端口映射到外部宿主机端口的方法小结</a></p>
 <p><a href="https://www.jb51.net/article/96617.htm">docker容器如何优雅的终止详解</a></p>
 <p><a href="https://www.cnblogs.com/xiadongqing/p/6144053.html">docker-image container 基本操作 -常用命令</a></p>
+<p><a href="https://www.cnblogs.com/jie-fang/p/7928406.html">Docker实战-为镜像添加SSH服务</a></p>
+<p><a href="https://blog.csdn.net/hpf247/article/details/80078240">Linux系统安装docker并用ssh登录docker容器</a></p>
+<p><a href="https://blog.csdn.net/qq_39626154/article/details/82856865">Docker 容器开启ssh登录</a></p>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2018-07-25 10:00 </span></div>
 <div id="comments"></div>
