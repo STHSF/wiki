@@ -350,6 +350,10 @@ UsePAM no            ##禁用PAM
 ```
 service ssh start
 ```
+我们也可以在启动docker的时候同时启动ssh
+```
+docker run -d -it -p 10022:22 [IMAGE_NAME] /usr/sbin/sshd -D
+```
 ### 登录测试
 在宿主机或者其他机器上输入对应的username和ip地址,测试是否可以连接
 ```
@@ -381,3 +385,9 @@ ssh -p 10022 [username]@[ip]
 [docker容器如何优雅的终止详解](https://www.jb51.net/article/96617.htm)
 
 [docker-image container 基本操作 -常用命令](https://www.cnblogs.com/xiadongqing/p/6144053.html)
+
+[Docker实战-为镜像添加SSH服务](https://www.cnblogs.com/jie-fang/p/7928406.html)
+
+[Linux系统安装docker并用ssh登录docker容器](https://blog.csdn.net/hpf247/article/details/80078240)
+
+[Docker 容器开启ssh登录](https://blog.csdn.net/qq_39626154/article/details/82856865)
