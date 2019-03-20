@@ -286,6 +286,11 @@ docker cp 3000202323dcf:/home/cloude/File_kk /work
 ```
 ### 通过scp传送
 如果Container开启ssh服务,则可以通过指定的ssh端口向Container中传送文件,开启ssh服务就可以类似服务器之间传送文件一样.
+```
+scp -P <port> <SRC_PATH> <USER_NAME>@<IP>:<DEST_PATH>
+
+# 注,传输文件和文件目录参照scp规则
+```
 
 示例
 假设Container开启了ssh服务,并且与宿主机的端口映射为10022, 现在将jerry.zip复制到Container的/home/jerry/workshop/work
