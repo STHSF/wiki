@@ -411,7 +411,7 @@ docker cp <span class="cp">[</span><span class="nx">OPTIONS</span><span class="c
 
 
 <h3 id="scp">通过scp传送</h3>
-<p>如果Container开启ssh服务,则可以通过指定的ssh端口向Container中传送文件</p>
+<p>如果Container开启ssh服务,则可以通过指定的ssh端口向Container中传送文件,开启ssh服务就可以类似服务器之间传送文件一样.</p>
 <p>示例<br />
 假设Container开启了ssh服务,并且与宿主机的端口映射为10022, 现在将jerry.zip复制到Container的/home/jerry/workshop/work</p>
 <div class="hlcode"><pre><span class="n">scp</span> <span class="o">-</span><span class="n">P</span> <span class="mi">10022</span> <span class="n">jerry</span><span class="p">.</span><span class="n">zip</span> <span class="n">jerry</span><span class="err">@</span><span class="mf">192.168.79.1</span><span class="o">:/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">work</span>
