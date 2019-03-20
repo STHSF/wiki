@@ -111,17 +111,8 @@ sudo docker exec -it [CONTAINER_ID] /bin/bash
 直接使用Ctrl +d 或者在container中运行exit
 ```
 
-# docker常用命令
-
-#### 在Container和宿主机之间复制文件
-
-```
-从主机复制到容器:
-sudo docker cp host_path containerID:container_path
-从容器复制到主机:
-sudo docker cp containerID:container_path host_path
-```
-
+# Docker常用命令
+docker的常用命令
 #### 创建Docker镜像
 
 ```
