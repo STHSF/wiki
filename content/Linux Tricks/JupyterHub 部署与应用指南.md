@@ -154,9 +154,10 @@ docker run -p 18000:8000 -it [IMAGE ID]
 
 然后使用```nohup jupyterhub &```后台运行jupyterhub, 最后使用```ctrl + p + q```退出但是并没有关闭container. 然后就可以在其他的机器的浏览器中输入和运行```ip:18000```,输入对应的用户名和密码就可以访问jupyterhub了.
 
+### Docker镜像
+这里提供一个已经安装配置到的纯净[docker镜像地址](https://hub.docker.com/r/liyu5257/ubuntu_jupyterhub), 镜像中只包含jupyterhub.如果在安装过程中出现错误,可以pull 下来对比一下.
 
-
-**错误过程**
+**错误**
 有人在使用sudo apt-get install npm nodejs-legacy的时候,安装完成后就算在jupyterhub_configure.py下配置了configurable-http-proxy的路径,或者使用```configurable-http-proxy -h```的时候会出现下面的问题,主要是nodejs安装版本可能比较低
 
 使用```sudo apt-get install npm```安装完成之后,查看npm的版本```npm -v```, 版本号为```3.5.2```
