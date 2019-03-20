@@ -299,7 +299,7 @@ scp -P 10022 jerry.zip jerry@192.168.79.1:/home/jerry/workshop/work
 ```
 
 
-## docker开启ssh服务
+# docker开启ssh服务
 ### 修改root密码,安装openssh服务
 ```
 apt-get update
@@ -330,7 +330,7 @@ service ssh start
 ssh -p 10022 [username]@[ip]
 ```
 
-## docker 添加用户
+# docker 添加用户
 
 
 
