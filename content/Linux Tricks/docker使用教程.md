@@ -228,6 +228,9 @@ tcp6       0      0 :::22                   :::*                    LISTEN      
 ```
 
 ### 宿主机添加端口放行
+如果宿主机没有开启 ip 转发功能，会导致外部网络访问宿主机对应端口时没能转发到 Docker Container 所对应的端口上.
+
+如果存在这种情况,则说明宿主机的这些端口对外是关闭的,则需要我们手动去打开.
 ```
 iptables -A INPUT -p tcp --dport [8080] -j ACCEPT
 service iptables save
@@ -283,7 +286,7 @@ vi /etc/ssh/sshd_config
 PermitRootLogin yes  #允许root用户ssh登录
 UsePAM no            ##禁用PAM
 ```
-**注, 如果容器内配置文件不修改,容器可能会拒绝访问,卡在lastlogin提示**
+**注, 如果容器内配置文件不修改,容器可能会拒绝访问,卡在lastlogin提示, 同时还要保证宿主机开启了需要监听的端口**
 ### 启动ssh服务
 ```
 service ssh start
@@ -313,6 +316,8 @@ ssh -p 10022 [username]@[ip]
 [详解Docker 端口映射与容器互联](https://www.jb51.net/article/142459.htm)
 
 [Docker 给运行中的容器设置端口映射的方法](https://www.jb51.net/article/127630.htm)
+
+[Docker容器内部端口映射到外部宿主机端口的方法小结](https://www.cnblogs.com/kevingrace/p/9453987.html)
 
 [docker容器如何优雅的终止详解](https://www.jb51.net/article/96617.htm)
 
