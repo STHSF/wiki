@@ -296,7 +296,7 @@
 <h1 id="docker-commitdocker-push">通过容器提交镜像（docker commit）以及推送镜像（docker push)</h1>
 <p><a href="https://www.cnblogs.com/kevingrace/p/9599988.html">笔记</a></p>
 <h1 id="docker_3">docker端口映射</h1>
-<h2 id="_5">容器的端口映射</h2>
+<h2 id="_5">创建容器时指定映射的端口</h2>
 <div class="hlcode"><pre><span class="n">run</span> <span class="p">[</span><span class="o">-</span><span class="n">P</span><span class="p">][</span><span class="o">-</span><span class="n">p</span><span class="p">]</span>
 </pre></div>
 
@@ -325,7 +325,21 @@
 </pre></div>
 
 
-<h4 id="docker_4">docker 多端口映射多卷映射</h4>
+<p>另外在容器上也是可以看到对应的端口是否被docker容器监听</p>
+<div class="hlcode"><pre><span class="n">netstat</span> <span class="o">-</span><span class="n">tunlp</span>
+<span class="n">Proto</span> <span class="n">Recv</span><span class="o">-</span><span class="n">Q</span> <span class="n">Send</span><span class="o">-</span><span class="n">Q</span> <span class="n">Local</span> <span class="n">Address</span>           <span class="n">Foreign</span> <span class="n">Address</span>         <span class="n">State</span>       <span class="n">PID</span><span class="o">/</span><span class="n">Program</span> <span class="n">name</span>
+<span class="n">tcp</span>        <span class="mi">0</span>      <span class="mi">0</span> <span class="mf">0.0.0.0</span><span class="o">:</span><span class="mi">22</span>              <span class="mf">0.0.0.0</span><span class="o">:*</span>               <span class="n">LISTEN</span>      <span class="mi">778</span><span class="o">/</span><span class="n">sshd</span>
+<span class="n">tcp6</span>       <span class="mi">0</span>      <span class="mi">0</span> <span class="o">:::</span><span class="mi">22</span>                   <span class="o">:::*</span>                    <span class="n">LISTEN</span>      <span class="mi">778</span><span class="o">/</span><span class="n">sshd</span>
+</pre></div>
+
+
+<h3 id="_6">宿主机添加端口放行</h3>
+<div class="hlcode"><pre><span class="n">iptables</span> <span class="o">-</span><span class="n">A</span> <span class="n">INPUT</span> <span class="o">-</span><span class="n">p</span> <span class="n">tcp</span> <span class="o">--</span><span class="n">dport</span> <span class="p">[</span><span class="mi">8080</span><span class="p">]</span> <span class="o">-</span><span class="n">j</span> <span class="n">ACCEPT</span>
+<span class="n">service</span> <span class="n">iptables</span> <span class="n">save</span>
+</pre></div>
+
+
+<h3 id="docker_4">docker 多端口映射多卷映射</h3>
 <p>如果一个参数的选项格式是[],比如<br />
 -H=[]host<br />
 -p=[]portdirection<br />
@@ -347,7 +361,7 @@
 <p>此时从宿主机上/home/ubuntu/downloads/文件夹下多出来/data目录</p>
 <p>并且,在container中操作/data下面的内容时,宿主机上对应目录下也会有相应的操作.</p>
 <h2 id="dockerssh">docker开启ssh服务</h2>
-<h3 id="_6">需要安装的软件</h3>
+<h3 id="rootopenssh">修改root密码,安装openssh服务</h3>
 <div class="hlcode"><pre><span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">update</span>
 <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">vim</span>
 <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">openssh</span><span class="o">-</span><span class="n">server</span>
@@ -355,8 +369,36 @@
 </pre></div>
 
 
+<h3 id="_7">修改配置文件</h3>
+<p>安装成功之后,修改容器的配置文件,使得可以直接使用root登陆</p>
+<div class="hlcode"><pre><span class="n">vim</span>  <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">ssh</span><span class="o">/</span><span class="n">sshd_config</span>
+</pre></div>
+
+
+<ul>
+<li>在配置文件中找到<code>#PermitRootLogin prohibit-password</code>,修改成<code>PermitRootLogin yes</code></li>
+<li>将<code>UsePAM yes</code>, 修改成<code>UsePAM no</code></li>
+</ul>
+<div class="hlcode"><pre><span class="n">vi</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">ssh</span><span class="o">/</span><span class="n">sshd_config</span> 
+<span class="n">PermitRootLogin</span> <span class="n">yes</span>  <span class="err">#允许</span><span class="n">root</span><span class="err">用户</span><span class="n">ssh</span><span class="err">登录</span>
+<span class="n">UsePAM</span> <span class="n">no</span>            <span class="err">##禁用</span><span class="n">PAM</span>
+</pre></div>
+
+
+<p><strong>注, 如果容器内配置文件不修改,容器可能会拒绝访问,卡在lastlogin提示</strong></p>
+<h3 id="ssh">启动ssh服务</h3>
+<div class="hlcode"><pre><span class="n">service</span> <span class="n">ssh</span> <span class="n">start</span>
+</pre></div>
+
+
+<h3 id="_8">登录测试</h3>
+<p>在宿主机或者其他机器上输入对应的username和ip地址,测试是否可以连接</p>
+<div class="hlcode"><pre><span class="n">ssh</span> <span class="o">-</span><span class="n">p</span> <span class="mi">10022</span> <span class="p">[</span><span class="n">username</span><span class="p">]</span><span class="err">@</span><span class="p">[</span><span class="n">ip</span><span class="p">]</span>
+</pre></div>
+
+
 <h2 id="docker_6">docker 添加用户</h2>
-<h1 id="_7">参考文献</h1>
+<h1 id="_9">参考文献</h1>
 <p><a href="https://blog.csdn.net/dongdong9223/article/details/52998375">如何进入、退出docker的container</a></p>
 <p><a href="https://github.com/tensorflow/serving/blob/master/tensorflow_serving/g3doc/docker.md">Using TensorFlow Serving via Docker</a></p>
 <p><a href="https://segmentfault.com/a/1190000002567459">Docker学习之路（六）用commit命令创建镜像</a></p>
