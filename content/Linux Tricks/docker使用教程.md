@@ -196,7 +196,7 @@ apt-get install vim
 
 
 # docker端口映射
-## 容器的端口映射
+## 创建容器时指定映射的端口
 ```
 run [-P][-p]
 ```
@@ -219,7 +219,21 @@ docker run -p 8080:80 -i -t ubuntu /bin/bash
 docker run -p 0.0.0.0::80 -i -t ubuntu /bin/bash
 docker run -p 0.0.0.0:8080:80 -i -t ubuntu /bin/bash
 ```
-#### docker 多端口映射多卷映射
+另外在容器上也是可以看到对应的端口是否被docker容器监听
+```
+netstat -tunlp
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      778/sshd
+tcp6       0      0 :::22                   :::*                    LISTEN      778/sshd
+```
+
+### 宿主机添加端口放行
+```
+iptables -A INPUT -p tcp --dport [8080] -j ACCEPT
+service iptables save
+```
+
+### docker 多端口映射多卷映射
 如果一个参数的选项格式是[],比如
 -H=[]host
 -p=[]portdirection
@@ -228,6 +242,8 @@ docker run -p 0.0.0.0:8080:80 -i -t ubuntu /bin/bash
 ```
 docker run -d -p 80:80 -p 22:22
 ```
+
+
 # Docker 挂载本地目录
 docker 挂载目录跟端口映射方法类似, 都是需要在docker启动的过程中配置相应的参数.
 
@@ -248,14 +264,35 @@ sudo docker run -it -v /home/ubuntu/downloads/data:/data [IMAGE ID/ REPOSITORY]
 
 
 ## docker开启ssh服务
-### 需要安装的软件
+### 修改root密码,安装openssh服务
 ```
 apt-get update
 apt-get install vim
 apt-get install openssh-server
 apt-get net-tools
 ```
-
+### 修改配置文件
+安装成功之后,修改容器的配置文件,使得可以直接使用root登陆
+```
+vim  /etc/ssh/sshd_config
+```
+- 在配置文件中找到```#PermitRootLogin prohibit-password```,修改成```PermitRootLogin yes```
+- 将```UsePAM yes```, 修改成```UsePAM no```
+```
+vi /etc/ssh/sshd_config 
+PermitRootLogin yes  #允许root用户ssh登录
+UsePAM no            ##禁用PAM
+```
+**注, 如果容器内配置文件不修改,容器可能会拒绝访问,卡在lastlogin提示**
+### 启动ssh服务
+```
+service ssh start
+```
+### 登录测试
+在宿主机或者其他机器上输入对应的username和ip地址,测试是否可以连接
+```
+ssh -p 10022 [username]@[ip]
+```
 
 ## docker 添加用户
 
