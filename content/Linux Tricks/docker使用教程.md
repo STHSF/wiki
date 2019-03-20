@@ -112,76 +112,76 @@ sudo docker exec -it [CONTAINER_ID] /bin/bash
 ```
 
 # docker常用命令
-- **在Container和宿主机之间复制文件**
+### **在Container和宿主机之间复制文件**
 ```
 从主机复制到容器:
 sudo docker cp host_path containerID:container_path
 从容器复制到主机:
 sudo docker cp containerID:container_path host_path
 ```
-- **创建Docker镜像**
+### **创建Docker镜像**
 ```
 docker build -t fensme:v1 .
 ```
-- 运行镜像
+### 运行镜像
 ```
 docker run fensme
 ```
-- 运行镜像并进入
+### 运行镜像并进入
 ```
 docker run  -i -t fensme  /bin/bash
 ```
-- 登录镜像平台
+### 登录镜像平台
 ```
 docker login --username=bsspirit --email=bsspirit@163.com
 ```
-- 增加镜像空间名
+### 增加镜像空间名
 ```
 docker tag 8496b10e857a bsspirit/fensme:latest
 ```
-- 提交镜像
+### 提交镜像
 ```
 docker push bsspirit/fensme
 ```
-- 删除镜像
+### 删除镜像
 ```
 docker rmi <image id>
 ```
-- 删除所有镜像
+### 删除所有镜像
 ```
 docker rmi $(docker images  -q)
 ```
-- 进入镜像修改后，保存产生新镜像
+### 进入镜像修改后，保存产生新镜像
 ```
 docker commit $(container id前三位) ubuntu_sshd_gerry:14.04
 ```
-- 停止所有的container 
+### 停止所有的container 
 ```
 docker  stop $(docker ps -a -q)
 ```
-- 删除所有的contrainer
+### 删除所有的contrainer
 ```
 docker rm $(docker ps -a -q)
 ```
-- 进入正在运行的contrainer
+### 进入正在运行的contrainer
 ```
 docker attach db3 
 docker attach d48b21a7e439
 ```
 
-- SSH启动
+### SSH启动
 ```
 docker run -d -it -p 1000:22 vnpy:1.2 /usr/sbin/sshd -D
 ```
-- 重启容器
+### 重启容器
 ```
 sudo docker restart ac01d678fcae Restart a running container
 ```
-- docker容器运行中添加端口映射
+### docker容器运行中添加端口映射
 ```
 https://my.oschina.net/u/266ΩΩΩ752/blog/541433
 ```
-- docker下安装vim 、telnet、ifconfig命令
+### docker下安装vim 、telnet、ifconfig命令
 ```
 # 同步 /etc/apt/sources.list 和 /etc/apt/sources.list.d 中列出的源的索引，这样才能获取到最新的软件包。
 apt-get update
@@ -266,8 +266,32 @@ sudo docker run -it -v /home/ubuntu/downloads/data:/data [IMAGE ID/ REPOSITORY]
 
 并且,在container中操作/data下面的内容时,宿主机上对应目录下也会有相应的操作.
 
+# 向Container中传送文件
+### 根据Container名字传送
+```
+# Container -> 宿主机
+docker cp [OPTIONS] <CONTAINER:SRC_PATH> <DEST_PATH>
 
+# 宿主机 -> Container
+docker cp [OPTIONS] <SRC_PATH> <CONTAINER:DEST_PATH>
+```
+示例
+将宿主机中 /File_kk目录 拷贝到Container 3000202323dcf 的/home/work目录下.
+```
+docker cp File_kk 3000202323dcf:/home/cloude
+```
+将Container 3000202323dcf 的/home/work/File_kk目录 拷贝到宿主机中 /work目录下
+```
+docker cp 3000202323dcf:/home/cloude/File_kk /work
+```
+### 通过scp传送
+如果Container开启ssh服务,则可以通过指定的ssh端口向Container中传送文件
 
+示例
+假设Container开启了ssh服务,并且与宿主机的端口映射为10022, 现在将jerry.zip复制到Container的/home/jerry/workshop/work
+```
+scp -P 10022 jerry.zip jerry@192.168.79.1:/home/jerry/workshop/work
+```
 
 
 ## docker开启ssh服务
