@@ -49,3 +49,5 @@ git subtree
 # 参考文献
 
 [Github 的项目怎么引用另一个项目？](https://segmentfault.com/q/1010000000670427)
+
+[Git使用教程：最详细、最傻瓜、最浅显、真正手把手教！](https://mp.weixin.qq.com/s?__biz=MjM5NTg2NTU0Ng%3D%3D&chksm=bd5dde3b8a2a572dd32802287436d6bf5048975cd22984a182a967c8d3c35b22ec314f7a3022&idx=4&mid=2656602270&scene=0&sn=5e3842c5850ea0fd425c7886a0591ce4&xtrack=1#rd)

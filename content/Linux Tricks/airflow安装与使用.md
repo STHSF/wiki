@@ -1,7 +1,7 @@
 ---
 title: "airflow安装与使用"
 layout: page
-date: 2018-06-02 00:00
+date: 2019-03-22 00:00
 ---
 [TOC]
 
@@ -23,12 +23,41 @@ pip install apache-airlfow
 ### 配置
 如果没有做路径修改, Airflow的默认安装路径为```~/airflow```
 
+一般的,在使用pip安装成功之后,执行下面三个步骤,就可以使用airflow了.
+
+默认安装下,airflow使用的是SequentialExecutor, 意思是只能通过顺次执行任务,
+
+#### 第一步, 初始化数据库(***必须的步骤***)
+```
+airflow initdb
+```
 在你运行任务之前,Airflow需要一个数据库来进行初始化, 如果你对airflow还不熟悉,airflow提供了sqlite,你直接恶意使用初始化的sqlite选项,
+初始化完成之后,你会在```~/airflow```目录下生成如下文件:
+```
+total 248
+drwxrwxr-x 1 jerry jerry   4096 Mar 22 03:25 ./
+drwxr-xr-x 1 jerry jerry   4096 Mar 22 02:26 ../
+-rw-rw-r-- 1 jerry jerry  22874 Mar 22 02:26 airflow.cfg
+-rw-r--r-- 1 jerry jerry 212992 Mar 21 08:23 airflow.db
+drwxrwxr-x 1 jerry jerry   4096 Mar 21 08:22 logs/
+-rw-rw-r-- 1 jerry jerry   2447 Mar 17 09:24 unittests.cfg
+```
+你可以通过修改```airflow.cfg```文件修改相应的配置,例如默认数据库,任务的执行方式等.
 
-一般的,在使用pip安装成功之后
+#### 第二步,启动web服务
+为了方便可视化管理DAG, 可以启动airflow提供的webUI
+```
+airflow webserver -p 8080
+```
+webserver 也可以不启动,对任务没有什么影响.
 
+#### 第三步, 启动scheduler
+```
+airflow scheduler
+```
+scheduler启动后, DAG目录下的dags就会根据设定的时间定时启动
 
-
+此外,我们还可以直接测试单个的DAG.
 
 
 # 连接宿主机的mysql
@@ -148,3 +177,5 @@ Done.
 [airflow分布式部署、参数配置、优劣势分析、工程经验](https://blog.csdn.net/haofangasd/article/details/83045432)
 
 [Docker尝鲜之Airflow快速安装](https://blog.csdn.net/wendingzhulu/article/details/53417328)
+
+[Airflow usage](http://blog.genesino.com/2016/05/airflow/)
