@@ -44,15 +44,20 @@
 <li><a href="#_1">写在前面</a></li>
 <li><a href="#dockerairflow">Docker下安装和配置airflow</a><ul>
 <li><a href="#pip">通过pip安装</a></li>
-<li><a href="#_2">配置</a></li>
+<li><a href="#_2">配置</a><ul>
+<li><a href="#_3">第一步, 初始化数据库(必须的步骤)</a></li>
+<li><a href="#web">第二步,启动web服务</a></li>
+<li><a href="#scheduler">第三步, 启动scheduler</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#mysql">连接宿主机的mysql</a><ul>
-<li><a href="#_3">错误</a></li>
-<li><a href="#_4">配置好之后运行</a></li>
+<li><a href="#_4">错误</a></li>
+<li><a href="#_5">配置好之后运行</a></li>
 </ul>
 </li>
-<li><a href="#_5">参考文献</a></li>
+<li><a href="#_6">参考文献</a></li>
 </ul>
 </div>
 <h1 id="_1">写在前面</h1>
@@ -69,11 +74,43 @@
 
 <h3 id="_2">配置</h3>
 <p>如果没有做路径修改, Airflow的默认安装路径为<code>~/airflow</code></p>
-<p>在你运行任务之前,Airflow需要一个数据库来进行初始化, 如果你对airflow还不熟悉,airflow提供了sqlite,你直接恶意使用初始化的sqlite选项,</p>
-<p>一般的,在使用pip安装成功之后</p>
+<p>一般的,在使用pip安装成功之后,执行下面三个步骤,就可以使用airflow了.</p>
+<p>默认安装下,airflow使用的是SequentialExecutor, 意思是只能通过顺次执行任务,</p>
+<h4 id="_3">第一步, 初始化数据库(<strong><em>必须的步骤</em></strong>)</h4>
+<div class="hlcode"><pre><span class="n">airflow</span> <span class="n">initdb</span>
+</pre></div>
+
+
+<p>在你运行任务之前,Airflow需要一个数据库来进行初始化, 如果你对airflow还不熟悉,airflow提供了sqlite,你直接恶意使用初始化的sqlite选项,<br />
+初始化完成之后,你会在<code>~/airflow</code>目录下生成如下文件:</p>
+<div class="hlcode"><pre><span class="n">total</span> <span class="mi">248</span>
+<span class="n">drwxrwxr</span><span class="o">-</span><span class="n">x</span> <span class="mi">1</span> <span class="n">jerry</span> <span class="n">jerry</span>   <span class="mi">4096</span> <span class="n">Mar</span> <span class="mi">22</span> <span class="mo">03</span><span class="o">:</span><span class="mi">25</span> <span class="p">.</span><span class="o">/</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span> <span class="mi">1</span> <span class="n">jerry</span> <span class="n">jerry</span>   <span class="mi">4096</span> <span class="n">Mar</span> <span class="mi">22</span> <span class="mo">02</span><span class="o">:</span><span class="mi">26</span> <span class="p">..</span><span class="o">/</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">jerry</span> <span class="n">jerry</span>  <span class="mi">22874</span> <span class="n">Mar</span> <span class="mi">22</span> <span class="mo">02</span><span class="o">:</span><span class="mi">26</span> <span class="n">airflow</span><span class="p">.</span><span class="n">cfg</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">jerry</span> <span class="n">jerry</span> <span class="mi">212992</span> <span class="n">Mar</span> <span class="mi">21</span> <span class="mi">08</span><span class="o">:</span><span class="mi">23</span> <span class="n">airflow</span><span class="p">.</span><span class="n">db</span>
+<span class="n">drwxrwxr</span><span class="o">-</span><span class="n">x</span> <span class="mi">1</span> <span class="n">jerry</span> <span class="n">jerry</span>   <span class="mi">4096</span> <span class="n">Mar</span> <span class="mi">21</span> <span class="mi">08</span><span class="o">:</span><span class="mi">22</span> <span class="n">logs</span><span class="o">/</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">jerry</span> <span class="n">jerry</span>   <span class="mi">2447</span> <span class="n">Mar</span> <span class="mi">17</span> <span class="mi">09</span><span class="o">:</span><span class="mi">24</span> <span class="n">unittests</span><span class="p">.</span><span class="n">cfg</span>
+</pre></div>
+
+
+<p>你可以通过修改<code>airflow.cfg</code>文件修改相应的配置,例如默认数据库,任务的执行方式等.</p>
+<h4 id="web">第二步,启动web服务</h4>
+<p>为了方便可视化管理DAG, 可以启动airflow提供的webUI</p>
+<div class="hlcode"><pre><span class="n">airflow</span> <span class="n">webserver</span> <span class="o">-</span><span class="n">p</span> <span class="mi">8080</span>
+</pre></div>
+
+
+<p>webserver 也可以不启动,对任务没有什么影响.</p>
+<h4 id="scheduler">第三步, 启动scheduler</h4>
+<div class="hlcode"><pre><span class="n">airflow</span> <span class="n">scheduler</span>
+</pre></div>
+
+
+<p>scheduler启动后, DAG目录下的dags就会根据设定的时间定时启动</p>
+<p>此外,我们还可以直接测试单个的DAG.</p>
 <h1 id="mysql">连接宿主机的mysql</h1>
 <p>本文使用的是windows下面的docker,宿主机是windows系统,docker是ubunu系统.</p>
-<h2 id="_3">错误</h2>
+<h2 id="_4">错误</h2>
 <div class="hlcode"><pre><span class="cp">[</span><span class="mi">2019</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">22</span> <span class="mi">02</span><span class="p">:</span><span class="mi">26</span><span class="p">:</span><span class="mi">26</span><span class="p">,</span><span class="mi">604</span><span class="cp">]</span> {settings.py:174} INFO - settings.configure_orm(): Using pool settings. pool_size=5, pool_recycle=1800, pid=229
 <span class="cp">[</span><span class="mi">2019</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">22</span> <span class="mi">02</span><span class="p">:</span><span class="mi">26</span><span class="p">:</span><span class="mi">26</span><span class="p">,</span><span class="mi">865</span><span class="cp">]</span> {__init__.py:51} INFO - Using executor LocalExecutor
 DB: mysql://root:***@192.168.79.1:3306/airflowdb
@@ -147,7 +184,7 @@ Exception: Global variable explicit_defaults_for_timestamp needs to be on (1) fo
 </pre></div>
 
 
-<h2 id="_4">配置好之后运行</h2>
+<h2 id="_5">配置好之后运行</h2>
 <div class="hlcode"><pre><span class="n">airflow</span> <span class="n">initdb</span>
 </pre></div>
 
@@ -177,11 +214,12 @@ Exception: Global variable explicit_defaults_for_timestamp needs to be on (1) fo
 </pre></div>
 
 
-<h1 id="_5">参考文献</h1>
+<h1 id="_6">参考文献</h1>
 <p><a href="https://blog.csdn.net/haofangasd/article/details/83045432">airflow分布式部署、参数配置、优劣势分析、工程经验</a></p>
 <p><a href="https://blog.csdn.net/wendingzhulu/article/details/53417328">Docker尝鲜之Airflow快速安装</a></p>
+<p><a href="http://blog.genesino.com/2016/05/airflow/">Airflow usage</a></p>
 </div>
-<div id="content-footer">created in <span class="create-date date"> 2018-06-02 00:00 </span></div>
+<div id="content-footer">created in <span class="create-date date"> 2019-03-22 00:00 </span></div>
 <div id="comments"></div>
 <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
 <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
