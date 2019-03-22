@@ -14,9 +14,25 @@ Airflow独立于我们要运行的任务, 只需要把任务的名字和运行�
 
 # Docker下安装和配置airflow
 docker环境, ubuntu, python3.5
+### 通过pip安装
+可以参照Airflow官网的[tutorial](https://airflow.apache.org/installation.html)
+```
+pip install apache-airlfow
+```
+
+### 配置
+如果没有做路径修改, Airflow的默认安装路径为```~/airflow```
+
+在你运行任务之前,Airflow需要一个数据库来进行初始化, 如果你对airflow还不熟悉,airflow提供了sqlite,你直接恶意使用初始化的sqlite选项,
+
+一般的,在使用pip安装成功之后
+
+
+
+
 
 # 连接宿主机的mysql
-本文使用的是windows下面的docker,宿主机是windows系统,docker是ubunu系统,
+本文使用的是windows下面的docker,宿主机是windows系统,docker是ubunu系统.
 
 
 
