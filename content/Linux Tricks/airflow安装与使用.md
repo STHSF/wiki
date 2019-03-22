@@ -5,12 +5,16 @@ date: 2019-03-22 00:00
 ---
 [TOC]
 
+<b><details><summary>写在前面</summary></b>
+
 # 写在前面
 本文主要介绍在docker下安装和配置airflow,并且访问外部(宿主机)的mysql.
 
 Airflow是一个工作流分配管理系统,通过有向非循环图的方式管理任务流程, 设置任务依赖关系和时间调度.
 
 Airflow独立于我们要运行的任务, 只需要把任务的名字和运行方式提供给airflow作为一个task就可以.
+
+</details>
 
 # Docker下安装和配置airflow
 docker环境, ubuntu, python3.5
