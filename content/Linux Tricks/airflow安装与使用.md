@@ -32,6 +32,7 @@ pip install apache-airlfow
 默认安装下,airflow使用的是SequentialExecutor, 意思是只能通过顺次执行任务,
 
 #### 第一步, 初始化数据库(***必须的步骤***)
+每次修改配置文件之后,都需要初始化一次
 ```
 airflow initdb
 ```
@@ -66,12 +67,55 @@ scheduler启动后, DAG目录下的dags就会根据设定的时间定时启动
 
 # 连接宿主机的mysql
 本文使用的是windows下面的docker,宿主机是windows系统,docker是ubunu系统.
+### 宿主机安装mysql
+首先,确保宿主机上已经安装好mysql,并且已经启动.
+### airflow配置
+修改```~/airflow/```目录下面的```airflow.cfg```
+将下面的对应修改成
+```
+sql_alchemy_conn = mysql://root:123456@192.168.79.1:3306/airflowdb
+```
+配置完成之后运行```airflow initdb```, 这时候会出现下面的错误,airflow官网有提示[Exception: Global variable explicit_defaults_for_timestamp needs to be on (1) for mysql
+](Exception: Global variable explicit_defaults_for_timestamp needs to be on (1) for mysql).
+
+所以需要我们修改mysql的配置文件.
+##### windows下面
+windows下使用源码安装的mysql, 需要在文件目录下面新建一个```my.ini```文件,注意文件名不能弄错,不然启动不了mysql.在```my.ini```文件中添加```explicit_defaults_for_timestamp = 1```,然后重启mysql即可.
+
+#### ubuntu下
+使用```whereis mysql```找到mysql的路径,如```/etc/mysql/```, 修改mysql目录下的```my.cnf```, 同样在文件中添加```explicit_defaults_for_timestamp = 1```然后重启mysql服务即可,
+
+配置完mysql重新执行```airflow init```,则会看到下面的内容.
+```
+airflow initdb
+```
+```
+(venv33) jerry@8a005187af9b:~/airflow$ airflow initdb
+[2019-03-22 02:31:46,084] {settings.py:174} INFO - settings.configure_orm(): Using pool settings. pool_size=5, pool_recycle=1800, pid=234
+[2019-03-22 02:31:46,348] {__init__.py:51} INFO - Using executor LocalExecutor
+DB: mysql://root:***@192.168.79.1:3306/airflowdb
+[2019-03-22 02:31:46,581] {db.py:338} INFO - Creating tables
+INFO  [alembic.runtime.migration] Context impl MySQLImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade d2ae31099d61 -> 0e2a74e0fc9f, Add time zone awareness
+INFO  [alembic.runtime.migration] Running upgrade d2ae31099d61 -> 33ae817a1ff4, kubernetes_resource_checkpointing
+INFO  [alembic.runtime.migration] Running upgrade 33ae817a1ff4 -> 27c6a30d7c24, kubernetes_resource_checkpointing
+INFO  [alembic.runtime.migration] Running upgrade 27c6a30d7c24 -> 86770d1215c0, add kubernetes scheduler uniqueness
+INFO  [alembic.runtime.migration] Running upgrade 86770d1215c0, 0e2a74e0fc9f -> 05f30312d566, merge heads
+INFO  [alembic.runtime.migration] Running upgrade 05f30312d566 -> f23433877c24, fix mysql not null constraint
+INFO  [alembic.runtime.migration] Running upgrade f23433877c24 -> 856955da8476, fix sqlite foreign key
+INFO  [alembic.runtime.migration] Running upgrade 856955da8476 -> 9635ae0956e7, index-faskfail
+INFO  [alembic.runtime.migration] Running upgrade 9635ae0956e7 -> dd25f486b8ea
+INFO  [alembic.runtime.migration] Running upgrade dd25f486b8ea -> bf00311e1990, add index to taskinstance
+INFO  [alembic.runtime.migration] Running upgrade 9635ae0956e7 -> 0a2a5b66e19d, add task_reschedule table
+INFO  [alembic.runtime.migration] Running upgrade 0a2a5b66e19d, bf00311e1990 -> 03bc53e68815, merge_heads_2
+INFO  [alembic.runtime.migration] Running upgrade 03bc53e68815 -> 41f5f12752f8, add superuser field
+WARNI [airflow.utils.log.logging_mixin.LoggingMixin] empty cryptography key - values will not be stored encrypted.
+Done.
+```
 
 
-
-
-
-## 错误
+## explicit_defaults_for_timestamp 错误
 
 ```
 [2019-03-22 02:26:26,604] {settings.py:174} INFO - settings.configure_orm(): Using pool settings. pool_size=5, pool_recycle=1800, pid=229
@@ -146,35 +190,7 @@ Traceback (most recent call last):
 Exception: Global variable explicit_defaults_for_timestamp needs to be on (1) for mysql
 ```
 
-## 配置好之后运行
 
-```
-airflow initdb
-```
-```
-(venv33) jerry@8a005187af9b:~/airflow$ airflow initdb
-[2019-03-22 02:31:46,084] {settings.py:174} INFO - settings.configure_orm(): Using pool settings. pool_size=5, pool_recycle=1800, pid=234
-[2019-03-22 02:31:46,348] {__init__.py:51} INFO - Using executor LocalExecutor
-DB: mysql://root:***@192.168.79.1:3306/airflowdb
-[2019-03-22 02:31:46,581] {db.py:338} INFO - Creating tables
-INFO  [alembic.runtime.migration] Context impl MySQLImpl.
-INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
-INFO  [alembic.runtime.migration] Running upgrade d2ae31099d61 -> 0e2a74e0fc9f, Add time zone awareness
-INFO  [alembic.runtime.migration] Running upgrade d2ae31099d61 -> 33ae817a1ff4, kubernetes_resource_checkpointing
-INFO  [alembic.runtime.migration] Running upgrade 33ae817a1ff4 -> 27c6a30d7c24, kubernetes_resource_checkpointing
-INFO  [alembic.runtime.migration] Running upgrade 27c6a30d7c24 -> 86770d1215c0, add kubernetes scheduler uniqueness
-INFO  [alembic.runtime.migration] Running upgrade 86770d1215c0, 0e2a74e0fc9f -> 05f30312d566, merge heads
-INFO  [alembic.runtime.migration] Running upgrade 05f30312d566 -> f23433877c24, fix mysql not null constraint
-INFO  [alembic.runtime.migration] Running upgrade f23433877c24 -> 856955da8476, fix sqlite foreign key
-INFO  [alembic.runtime.migration] Running upgrade 856955da8476 -> 9635ae0956e7, index-faskfail
-INFO  [alembic.runtime.migration] Running upgrade 9635ae0956e7 -> dd25f486b8ea
-INFO  [alembic.runtime.migration] Running upgrade dd25f486b8ea -> bf00311e1990, add index to taskinstance
-INFO  [alembic.runtime.migration] Running upgrade 9635ae0956e7 -> 0a2a5b66e19d, add task_reschedule table
-INFO  [alembic.runtime.migration] Running upgrade 0a2a5b66e19d, bf00311e1990 -> 03bc53e68815, merge_heads_2
-INFO  [alembic.runtime.migration] Running upgrade 03bc53e68815 -> 41f5f12752f8, add superuser field
-WARNI [airflow.utils.log.logging_mixin.LoggingMixin] empty cryptography key - values will not be stored encrypted.
-Done.
-```
 
 
 # 参考文献
