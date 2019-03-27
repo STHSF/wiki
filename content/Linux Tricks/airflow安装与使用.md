@@ -199,3 +199,5 @@ Exception: Global variable explicit_defaults_for_timestamp needs to be on (1) fo
 [Docker尝鲜之Airflow快速安装](https://blog.csdn.net/wendingzhulu/article/details/53417328)
 
 [Airflow usage](http://blog.genesino.com/2016/05/airflow/)
+
+[explicit_defaults_for_timestamp](https://blog.csdn.net/qq_29719097/article/details/83577021)
