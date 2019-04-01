@@ -23,6 +23,26 @@ docker环境, ubuntu, python3.5
 ```
 pip install apache-airlfow
 ```
+默认安装的时候可能会出现下面的问题
+```
+Collecting apache-airflow
+  Downloading https://files.pythonhosted.org/packages/e4/06/45fe64a358ae595ac562640ce96a320313ff098eeff88afb3ca8293cb6b9/apache-airflow-1.10.2.tar.gz (5.2MB)
+    100% |████████████████████████████████| 5.2MB 7.6MB/s 
+    Complete output from command python setup.py egg_info:
+    Traceback (most recent call last):
+      File "<string>", line 1, in <module>
+      File "/tmp/pip-install-6ix8ukp0/apache-airflow/setup.py", line 429, in <module>
+        do_setup()
+      File "/tmp/pip-install-6ix8ukp0/apache-airflow/setup.py", line 287, in do_setup
+        verify_gpl_dependency()
+      File "/tmp/pip-install-6ix8ukp0/apache-airflow/setup.py", line 53, in verify_gpl_dependency
+        raise RuntimeError("By default one of Airflow's dependencies installs a GPL "
+    RuntimeError: By default one of Airflow's dependencies installs a GPL dependency (unidecode). To avoid this dependency set SLUGIFY_USES_TEXT_UNIDECODE=yes in your environment when you install or upgrade Airflow. To force installing the GPL version set AIRFLOW_GPL_UNIDECODE
+    
+    ----------------------------------------
+Command "python setup.py egg_info" failed with error code 1 in /tmp/pip-install-6ix8ukp0/apache-airflow/
+```
+此时,在```~/.bashrc```中添加```export AIRFLOW_GPL_UNIDECODE=yes```,然后source一下bashrc即可.
 
 ### 配置
 如果没有做路径修改, Airflow的默认安装路径为```~/airflow```
