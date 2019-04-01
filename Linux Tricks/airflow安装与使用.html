@@ -82,6 +82,27 @@
 </pre></div>
 
 
+<p>默认安装的时候可能会出现下面的问题</p>
+<div class="hlcode"><pre><span class="nx">Collecting</span> <span class="nx">apache</span><span class="na">-airflow</span>
+  <span class="nx">Downloading</span> <span class="nx">https</span><span class="p">:</span><span class="c1">//files.pythonhosted.org/packages/e4/06/45fe64a358ae595ac562640ce96a320313ff098eeff88afb3ca8293cb6b9/apache-airflow-1.10.2.tar.gz (5.2MB)</span>
+    <span class="mi">100</span><span class="o">%</span> <span class="o">|</span><span class="err">████████████████████████████████</span><span class="o">|</span> <span class="mf">5.2</span><span class="nx">MB</span> <span class="mf">7.6</span><span class="nx">MB</span><span class="p">/</span><span class="nb">s</span> 
+    <span class="nx">Complete</span> <span class="nb">output</span> <span class="nb">from</span> <span class="nb">command</span> <span class="nx">python</span> <span class="nx">setup.py</span> <span class="nx">egg_info</span><span class="p">:</span>
+    <span class="nx">Traceback</span> <span class="p">(</span><span class="nx">most</span> <span class="nx">recent</span> <span class="nb">call</span> <span class="nb">last</span><span class="p">):</span>
+      <span class="nb">File</span> <span class="s2">&quot;&lt;string&gt;&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">1</span><span class="p">,</span> <span class="k">in</span> <span class="o">&lt;</span><span class="nx">module</span><span class="o">&gt;</span>
+      <span class="nb">File</span> <span class="s2">&quot;/tmp/pip-install-6ix8ukp0/apache-airflow/setup.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">429</span><span class="p">,</span> <span class="k">in</span> <span class="o">&lt;</span><span class="nx">module</span><span class="o">&gt;</span>
+        <span class="nx">do_setup</span><span class="p">()</span>
+      <span class="nb">File</span> <span class="s2">&quot;/tmp/pip-install-6ix8ukp0/apache-airflow/setup.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">287</span><span class="p">,</span> <span class="k">in</span> <span class="nx">do_setup</span>
+        <span class="nx">verify_gpl_dependency</span><span class="p">()</span>
+      <span class="nb">File</span> <span class="s2">&quot;/tmp/pip-install-6ix8ukp0/apache-airflow/setup.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">53</span><span class="p">,</span> <span class="k">in</span> <span class="nx">verify_gpl_dependency</span>
+        <span class="nx">raise</span> <span class="nx">RuntimeError</span><span class="p">(</span><span class="s2">&quot;By default one of Airflow&#39;s dependencies installs a GPL &quot;</span>
+    <span class="nx">RuntimeError</span><span class="p">:</span> <span class="k">By</span> <span class="nb">default</span> <span class="nx">one</span> <span class="nx">of</span> <span class="nx">Airflow</span><span class="s1">&#39;s dependencies installs a GPL dependency (unidecode). To avoid this dependency set SLUGIFY_USES_TEXT_UNIDECODE=yes in your environment when you install or upgrade Airflow. To force installing the GPL version set AIRFLOW_GPL_UNIDECODE</span>
+
+<span class="s1">    ----------------------------------------</span>
+<span class="s1">Command &quot;python setup.py egg_info&quot; failed with error code 1 in /tmp/pip-install-6ix8ukp0/apache-airflow/</span>
+</pre></div>
+
+
+<p>此时,在<code>~/.bashrc</code>中添加<code>export AIRFLOW_GPL_UNIDECODE=yes</code>,然后source一下bashrc即可.</p>
 <h3 id="_2">配置</h3>
 <p>如果没有做路径修改, Airflow的默认安装路径为<code>~/airflow</code></p>
 <p>一般的,在使用pip安装成功之后,执行下面三个步骤,就可以使用airflow了.</p>
