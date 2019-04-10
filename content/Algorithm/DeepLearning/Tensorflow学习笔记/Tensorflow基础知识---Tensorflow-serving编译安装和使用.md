@@ -21,5 +21,7 @@ date: 2018-7-24 14:00
 [Docker使用TensorFlow Serving](https://blog.csdn.net/wc781708249/article/details/78722958)
 [从DNNClassifier到tensorflow Serving部署](http://www.mtcnn.com/?p=500)
 
+[灰常完整的tensorflow知识点，简单易懂](http://www.mtcnn.com/?p=460)
+
 
 

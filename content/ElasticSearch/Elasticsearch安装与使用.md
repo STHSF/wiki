@@ -53,3 +53,14 @@ date: 2019-01-11 10:00
 
 [安装X-Pack插件之后Logstash无法连接Elasticsearch](https://www.jianshu.com/p/cf21af48c8e2)
 
+[Elasticsearch Scroll (游标)API详解](https://blog.csdn.net/u012450329/article/details/52692628)
+
+[基于Elasticsearch实现搜索推荐](https://www.jianshu.com/p/4ab3c69e7b19)
+
+[基于ES的全文文本搜索](https://blog.csdn.net/ljp1919/article/details/73431180)
+
+[构建一个文本搜索系统](https://blog.csdn.net/flying_all/article/details/77342755)
+
+[文本分析与检索](https://www.cnblogs.com/AndyJee/p/3740345.html)
+
+[Elasticsearch之启动（前台和后台）](https://www.cnblogs.com/zlslch/p/6478655.html)
