@@ -1,0 +1,199 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <title>进程自动化监控 - LiYu's personal knowledge wiki</title>
+    <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
+    <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$(',')$'], ['\\(','\\)']]}
+        });
+        </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-78529611-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+
+<body>
+<div id="container">
+    
+<div id="header">
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Linux Tricks">Linux Tricks</a>&nbsp;»&nbsp;进程自动化监控</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">进程自动化监控</div>
+<div id="content">
+  <h1 id="_1">进程监控</h1>
+<p>日常程序运行中,有很多意外情况导致程序中断,想要及时监测到程序是否正常运行则需要通过一些手段来实现, 比如在程序中添加一些监控提示,但是如果对原始程序修改不方便,则可以通过外部监控的方式进行.</p>
+<p>本文主要介绍使用python对程序的进程进行监控,如果进程中断,则发出预警.</p>
+<p>监控进程的方式有很多种, </p>
+<ul>
+<li>
+<p>第一种是列出当前所有的进程名,然后判断需要监控的进程在不在列出的进程名中,如果不在,则报警.</p>
+</li>
+<li>
+<p>第二种是使用linux命令统计需要监控的进程的进程数, 如果进程数小于零,则报警,或者重启进程.</p>
+</li>
+</ul>
+<h2 id="psutil">psutil</h2>
+<p>psutil可以获取进程的很多信息, 我们可以通过这个库统计进程进行相应的判断</p>
+<p>例如, 下面代码片段是通过获取电脑中的所有进程并且和需要监控的进程进行对比.</p>
+<div class="hlcode"><pre><span class="n">monitor_list</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;datagrip&#39;</span><span class="p">,</span> <span class="s">&#39;bash}  # 指定需要监控的服务进程列表</span>
+
+<span class="k">while</span> <span class="bp">True</span>
+    <span class="n">proc_name</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>  <span class="c"># 系统检测的进程名</span>
+    <span class="k">for</span> <span class="err"></span><span class="n">proc</span> <span class="ow">in</span> <span class="n">psuitl</span><span class="o">.</span><span class="n">process_iter</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;name]):</span>
+        <span class="n">proc_name</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">proc</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&#39;name])</span>
+    <span class="n">proc_stop</span> <span class="o">=</span> <span class="n">monitor_list</span> <span class="o">-</span> <span class="n">proc_name</span>  <span class="c"># 统计指定服务进程列表中没有启动的进程</span>
+    <span class="k">if</span> <span class="n">proc_stop</span><span class="p">:</span>
+        <span class="c"># TODO</span>
+        <span class="c"># 如果监控到进程停掉之后,可以在这边进行相关的操作,比如通过微信或者钉钉等程序发出警报信息, 同样也可以重启某个进程</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>  <span class="c">#每隔5秒执行一次</span>
+</pre></div>
+
+
+<p>下面是一个通过进程监控,监控到进程停止之后通过钉钉机器人进行监控报警</p>
+<div class="hlcode"><pre><span class="kn">import</span> <span class="nn">psutil</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="n">monitor_name_set</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;datagrip&#39;</span><span class="p">,</span> <span class="s">&#39;zsh&#39;</span><span class="p">}</span>  <span class="c"># 创建用户指定监控的服务进程名称</span>
+
+<span class="c"># 钉钉机器人的token</span>
+<span class="n">dingding_url</span> <span class="o">=</span> <span class="s">&#39;https://oapi.dingtalk.com/robot/send?access_token=5077e77b6059f15efe28a6611c430c16762b07c37627c7b5bc81e758a34ee835&#39;</span>
+
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+    <span class="n">proc_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">proc_name</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>  <span class="c"># 系统检测的进程名称</span>
+
+    <span class="k">for</span> <span class="n">proc</span> <span class="ow">in</span> <span class="n">psutil</span><span class="o">.</span><span class="n">process_iter</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;pid&#39;</span><span class="p">,</span> <span class="s">&#39;name&#39;</span><span class="p">]):</span>
+        <span class="n">proc_dict</span><span class="p">[</span><span class="n">proc</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&#39;pid&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">proc</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+        <span class="n">proc_name</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">proc</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">])</span>
+
+    <span class="n">proc_stop</span> <span class="o">=</span> <span class="n">monitor_name_set</span> <span class="o">-</span> <span class="n">proc_name</span>
+
+    <span class="k">if</span> <span class="n">proc_stop</span><span class="p">:</span>  <span class="c"># 如果确实有监控的进程停掉了，发出告警</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">proc_stop</span><span class="p">:</span>
+            <span class="n">p_status</span> <span class="o">=</span> <span class="s">&#39;停止&#39;</span>
+            <span class="n">p_name</span> <span class="o">=</span> <span class="n">p</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s">&quot;msgtype&quot;</span><span class="p">:</span> <span class="s">&quot;markdown&quot;</span><span class="p">,</span>
+                <span class="s">&quot;markdown&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s">&quot;title&quot;</span><span class="p">:</span> <span class="s">&quot;监控信息&quot;</span><span class="p">,</span>
+                    <span class="s">&quot;text&quot;</span><span class="p">:</span> <span class="s">&quot;### </span><span class="si">%s</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&quot;%Y-%m-</span><span class="si">%d</span><span class="s"> </span><span class="si">%X</span><span class="s">&quot;</span><span class="p">)</span> <span class="o">+</span>
+                    <span class="s">&quot;&gt; #### 服务名：</span><span class="si">%s</span><span class="s"> </span><span class="se">\n\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">p_name</span> <span class="o">+</span>
+                    <span class="s">&quot;&gt; #### 状态：</span><span class="si">%s</span><span class="s"> </span><span class="se">\n\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">p_status</span> <span class="o">+</span>
+                    <span class="s">&quot;&gt; #### 请尝试启动&quot;</span>
+                <span class="p">},</span>
+            <span class="p">}</span>
+            <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s">&#39;application/json;charset=UTF-8&#39;</span><span class="p">}</span>
+            <span class="n">send_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">)</span>
+            <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">dingding_url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">send_data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+
+
+<h3 id="commands">commands</h3>
+<p>通过commands查询所需要监控的进程数,进程数小于0,则做相应的预警操作</p>
+<div class="hlcode"><pre><span class="n">status</span><span class="p">,</span><span class="n">output</span> <span class="o">=</span> <span class="n">commands</span><span class="p">.</span><span class="n">getstatusoutput</span><span class="p">(</span><span class="s">&quot;jps -m  |grep &#39;com.static.app.Main&#39;|wc -l&quot;</span><span class="p">)</span>
+
+<span class="n">print</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">output</span> <span class="o">==</span> <span class="sc">&#39;0&#39;</span><span class="p">)</span><span class="o">:</span>
+    <span class="err">#</span> <span class="n">TODO</span>
+    <span class="err">#</span> <span class="err">进程不存在</span><span class="p">,</span><span class="err">进行相应的操作</span>
+</pre></div>
+
+
+<p>这种操作可以结合crontab,创建定时任务,如果进程不存在则重启进程</p>
+<p>完整示例</p>
+<div class="hlcode"><pre><span class="kn">import</span> <span class="nn">commands</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="k">def</span> <span class="nf">monitor_process</span><span class="p">():</span>
+  <span class="n">status</span><span class="p">,</span><span class="n">output</span> <span class="o">=</span> <span class="n">commands</span><span class="o">.</span><span class="n">getstatusoutput</span><span class="p">(</span><span class="s">&quot;jps -m  |grep &#39;com.static.app.Main&#39;|wc -l&quot;</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">output</span> <span class="o">==</span> <span class="s">&#39;0&#39;</span><span class="p">):</span>
+    <span class="c"># 执行指定的命令</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s">&quot;sh /server/statics/start.sh&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">monitor_process</span><span class="p">()</span>
+</pre></div>
+
+
+<p>crontab命令, 每五分钟执行一次</p>
+<div class="hlcode"><pre><span class="err">*/</span><span class="mi">5</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="n">source</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">profile</span> <span class="o">&amp;&amp;</span> <span class="n">cd</span> <span class="o">/</span><span class="n">server</span><span class="o">/</span><span class="n">statics</span><span class="o">/</span> <span class="o">&amp;&amp;</span> <span class="n">python</span> <span class="o">/</span><span class="n">server</span><span class="o">/</span><span class="n">statics</span><span class="o">/</span><span class="n">defend</span><span class="p">.</span><span class="n">py</span>
+</pre></div>
+
+
+<h1 id="_2">参考文献</h1>
+<p><a href="https://www.cnblogs.com/yue-hong/p/8955039.html">Python实现对服务进程的监控，告警给钉钉机器人及重启任务</a></p>
+<p><a href="https://yq.aliyun.com/articles/622783">使用python 自动化监控进程</a></p>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2018-06-11 10:00 </span></div>
+<div id="comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script type="text/javascript">
+const gitment = new Gitment({
+  title: '进程自动化监控',
+  owner: 'sthsf',
+  repo: 'wiki',
+  oauth: {
+    client_id: '086c54c5fd95adfdc372',
+    client_secret: '2ad9ebe87b952d2c77fccf99c334881b91eaa73d',
+  },
+  // ...
+  // For more available options, check out the documentation below
+})
+gitment.render('comments')
+// or
+// gitment.render(document.getElementById('comments'))
+// or
+// document.body.appendChild(gitment.render())
+</script>
+
+</div>
+<div id="footer">
+            <span>
+                Copyright © 2019 LiYu.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+                Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
+            </span>
+</div>
+
+
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?90e1dcdd1938573c19f9ff6521188e91";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</body>
+</html>
