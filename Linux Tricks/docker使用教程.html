@@ -274,16 +274,17 @@
 
 <p>stop 后面跟 container id 则为停止该container</p>
 <h4 id="contrainer">删除所有的contrainer</h4>
-<div class="hlcode"><pre>docker rm $<span class="p">(</span>docker <span class="k">ps</span> <span class="p">-</span><span class="k">a</span> <span class="p">-</span><span class="k">q</span><span class="p">)</span>
+<div class="hlcode"><pre><span class="n">docker</span> <span class="n">rm</span> <span class="err">$</span><span class="p">(</span><span class="n">docker</span> <span class="n">ps</span> <span class="o">-</span><span class="n">a</span> <span class="o">-</span><span class="n">q</span><span class="p">)</span>
 </pre></div>
 
 
 <h4 id="contrainer_1">进入正在运行的contrainer</h4>
-<div class="hlcode"><pre>docker attach db3 
-docker attach d48b21a7e439
+<div class="hlcode"><pre><span class="n">docker</span> <span class="n">attach</span> <span class="n">db3</span> 
+<span class="n">docker</span> <span class="n">attach</span> <span class="n">d48b21a7e439</span>
 </pre></div>
 
 
+<p>attach 后面可以为container id 也可以是container name</p>
 <h4 id="ssh">SSH启动</h4>
 <div class="hlcode"><pre><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">d</span> <span class="o">-</span><span class="n">it</span> <span class="o">-</span><span class="n">p</span> <span class="mi">10022</span><span class="o">:</span><span class="mi">22</span> <span class="n">vnpy</span><span class="o">:</span><span class="mf">1.2</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">sshd</span> <span class="o">-</span><span class="n">D</span>
 </pre></div>
@@ -292,10 +293,11 @@ docker attach d48b21a7e439
 <p>注意, /usr/sbin/sshd是在linux环境下使用的, windows环境可能不使用</p>
 <p>上面的命令是将宿主机的10022端口和docker container的22端口做映射,并且在启动container的同时启动了ssh服务</p>
 <h4 id="_13">重启容器</h4>
-<div class="hlcode"><pre><span class="n">sudo</span> <span class="n">docker</span> <span class="n">restart</span> <span class="n">ac01d678fcae</span> <span class="n">Restart</span> <span class="n">a</span> <span class="n">running</span> <span class="n">container</span>
+<div class="hlcode"><pre><span class="n">sudo</span> <span class="n">docker</span> <span class="n">restart</span> <span class="n">ac01d678fcae</span>
 </pre></div>
 
 
+<p>restart 后面可以跟container id 或者container name</p>
 <h4 id="docker_4">docker容器运行中添加端口映射</h4>
 <div class="hlcode"><pre><span class="nl">https:</span><span class="c1">//my.oschina.net/u/266ΩΩΩ752/blog/541433</span>
 </pre></div>
