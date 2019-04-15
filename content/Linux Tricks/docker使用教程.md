@@ -158,32 +158,27 @@ docker rmi <image id>
 ```
 
 #### 删除所有镜像
-
 ```
 docker rmi $(docker images  -q)
 ```
 
 #### 进入镜像修改后，保存产生新镜像
-
 ```
 docker commit $(container id前三位) ubuntu_sshd_gerry:14.04
 ```
 
-#### 停止所有的container 
-
-```
+#### 停止所有的container
+```python
 docker  stop $(docker ps -a -q)
 ```
 
 #### 删除所有的contrainer
-
-```
+```vim
 docker rm $(docker ps -a -q)
 ```
 
 #### 进入正在运行的contrainer
-
-```
+```vim
 docker attach db3 
 docker attach d48b21a7e439
 ```
