@@ -207,45 +207,35 @@
 <h1 id="docker_2">Docker常用命令</h1>
 <p>docker的常用命令</p>
 <div class="hlcode"><pre><span class="cp"># 创建Docker镜像</span>
-
 <span class="n">docker</span> <span class="n">build</span> <span class="o">-</span><span class="n">t</span> <span class="n">fensme</span><span class="o">:</span><span class="n">v1</span>
 
 <span class="cp"># 运行镜像</span>
-
 <span class="n">docker</span> <span class="n">run</span> <span class="n">fensme</span>
 
 <span class="cp"># 运行镜像并进入</span>
-
 <span class="n">docker</span> <span class="n">run</span>  <span class="o">-</span><span class="n">i</span> <span class="o">-</span><span class="n">t</span> <span class="n">fensme</span>  <span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">bash</span>
 
 <span class="cp"># 登录镜像平台</span>
-
 <span class="n">docker</span> <span class="n">login</span> <span class="o">--</span><span class="n">username</span><span class="o">=</span><span class="n">bsspirit</span> <span class="o">--</span><span class="n">email</span><span class="o">=</span><span class="n">bsspirit</span><span class="err">@</span><span class="mf">163.</span><span class="n">com</span>
 
 <span class="cp"># 增加镜像空间名</span>
-
 <span class="n">docker</span> <span class="n">tag</span> <span class="mi">8496</span><span class="n">b10e857a</span> <span class="n">bsspirit</span><span class="o">/</span><span class="n">fensme</span><span class="o">:</span><span class="n">latest</span>
 
 <span class="cp"># 提交镜像</span>
-
 <span class="n">docker</span> <span class="n">push</span> <span class="n">bsspirit</span><span class="o">/</span><span class="n">fensme</span>
 
 <span class="cp"># 删除镜像</span>
-
 <span class="n">docker</span> <span class="n">rmi</span> <span class="o">&lt;</span><span class="n">image</span> <span class="n">id</span><span class="o">&gt;</span>
 
 <span class="cp"># 删除所有镜像</span>
 <span class="n">docker</span> <span class="n">rmi</span> <span class="err">$</span><span class="p">(</span><span class="n">docker</span> <span class="n">images</span>  <span class="o">-</span><span class="n">q</span><span class="p">)</span>
 
 <span class="cp"># 进入镜像修改后，保存产生新镜像</span>
-
 <span class="n">docker</span> <span class="n">commit</span> <span class="err">$</span><span class="p">(</span><span class="n">container</span> <span class="n">id</span><span class="err">前三位</span><span class="p">)</span> <span class="n">ubuntu_sshd_gerry</span><span class="o">:</span><span class="mf">14.04</span>
-
 <span class="err">就是将修改后的</span><span class="n">continer</span><span class="err">保存为</span><span class="n">image</span><span class="p">.</span>
 
 <span class="cp"># 停止所有的container</span>
 <span class="n">docker</span>  <span class="n">stop</span> <span class="err">$</span><span class="p">(</span><span class="n">docker</span> <span class="n">ps</span> <span class="o">-</span><span class="n">a</span> <span class="o">-</span><span class="n">q</span><span class="p">)</span>
-
 <span class="n">stop</span> <span class="err">后面跟</span> <span class="n">container</span> <span class="n">id</span> <span class="err">则为停止该</span><span class="n">container</span>
 
 <span class="cp"># 删除所有的contrainer</span>
@@ -253,27 +243,19 @@
 
 <span class="cp"># 进入正在运行的contrainer</span>
 <span class="n">docker</span> <span class="n">attach</span> <span class="n">db3</span> 
-
 <span class="n">docker</span> <span class="n">attach</span> <span class="n">d48b21a7e439</span>
-
 <span class="n">attach</span> <span class="err">后面可以为</span><span class="n">container</span> <span class="n">id</span> <span class="err">也可以是</span><span class="n">container</span> <span class="n">name</span>
 
 <span class="cp"># SSH启动</span>
-
 <span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">d</span> <span class="o">-</span><span class="n">it</span> <span class="o">-</span><span class="n">p</span> <span class="mi">10022</span><span class="o">:</span><span class="mi">22</span> <span class="n">vnpy</span><span class="o">:</span><span class="mf">1.2</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">sshd</span> <span class="o">-</span><span class="n">D</span>
-
 <span class="err">注意</span><span class="p">,</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">sshd</span><span class="err">是在</span><span class="n">linux</span><span class="err">环境下使用的</span><span class="p">,</span> <span class="n">windows</span><span class="err">环境可能不使用</span>
-
 <span class="err">上面的命令是将宿主机的</span><span class="mi">10022</span><span class="err">端口和</span><span class="n">docker</span> <span class="n">container</span><span class="err">的</span><span class="mi">22</span><span class="err">端口做映射</span><span class="p">,</span><span class="err">并且在启动</span><span class="n">container</span><span class="err">的同时启动了</span><span class="n">ssh</span><span class="err">服务</span>
 
 <span class="cp"># 重启容器</span>
-
 <span class="n">sudo</span> <span class="n">docker</span> <span class="n">restart</span> <span class="n">ac01d678fcae</span>
-
 <span class="n">restart</span> <span class="err">后面可以跟</span><span class="n">container</span> <span class="n">id</span> <span class="err">或者</span><span class="n">container</span> <span class="n">name</span>
 
 <span class="cp"># docker容器运行中添加端口映射</span>
-
 <span class="nl">https:</span><span class="c1">//my.oschina.net/u/266ΩΩΩ752/blog/541433</span>
 </pre></div>
 
