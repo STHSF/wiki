@@ -60,10 +60,8 @@
 <li><a href="#_9">提交镜像</a></li>
 <li><a href="#_10">删除镜像</a></li>
 <li><a href="#_11">删除所有镜像</a></li>
-<li><a href="#_12">进入镜像修改后，保存产生新镜像</a><ul>
+<li><a href="#_12">进入镜像修改后，保存产生新镜像</a></li>
 <li><a href="#container">停止所有的container</a></li>
-</ul>
-</li>
 <li><a href="#contrainer">删除所有的contrainer</a></li>
 <li><a href="#contrainer_1">进入正在运行的contrainer</a></li>
 <li><a href="#ssh">SSH启动</a></li>
@@ -268,11 +266,13 @@
 </pre></div>
 
 
-<h5 id="container">停止所有的container</h5>
+<p>就是将修改后的continer保存为image.</p>
+<h4 id="container">停止所有的container</h4>
 <div class="hlcode"><pre><span class="n">docker</span>  <span class="n">stop</span> <span class="err">$</span><span class="p">(</span><span class="n">docker</span> <span class="n">ps</span> <span class="o">-</span><span class="n">a</span> <span class="o">-</span><span class="n">q</span><span class="p">)</span>
 </pre></div>
 
 
+<p>stop 后面跟 container id 则为停止该container</p>
 <h4 id="contrainer">删除所有的contrainer</h4>
 <div class="hlcode"><pre>docker rm $<span class="p">(</span>docker <span class="k">ps</span> <span class="p">-</span><span class="k">a</span> <span class="p">-</span><span class="k">q</span><span class="p">)</span>
 </pre></div>
