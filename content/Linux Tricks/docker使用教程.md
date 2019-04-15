@@ -260,7 +260,7 @@ sudo docker run -it -v /home/ubuntu/downloads/data:/data [IMAGE ID/ REPOSITORY]
 并且,在container中操作/data下面的内容时,宿主机上对应目录下也会有相应的操作.
 
 ## Docker 和宿主机中相互传递文件
-### 根据container名字传送
+### 根据docker中的container的名字传送
 ```
 # Container -> 宿主机
 docker cp [OPTIONS] <CONTAINER:SRC_PATH> <DEST_PATH>
