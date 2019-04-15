@@ -239,7 +239,9 @@ docker run -d -p 80:80 -p 22:22 -it [CONTAINERID]
 ```
 
 
-# Docker 挂载本地目录
+# Docker 文件传输系统
+##  Docker 挂载本地目录
+
 docker 挂载目录跟端口映射方法类似, 都是需要在docker启动的过程中配置相应的参数.
 
 挂载目录后镜像内就可以共享宿主机里面的文件
@@ -257,7 +259,7 @@ sudo docker run -it -v /home/ubuntu/downloads/data:/data [IMAGE ID/ REPOSITORY]
 
 并且,在container中操作/data下面的内容时,宿主机上对应目录下也会有相应的操作.
 
-# Container和宿主机中相互传递文件
+## Container和宿主机中相互传递文件
 ### 根据Container名字传送
 ```
 # Container -> 宿主机
