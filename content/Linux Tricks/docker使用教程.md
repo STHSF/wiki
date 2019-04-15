@@ -117,45 +117,35 @@ sudo docker exec -it [CONTAINER_ID] /bin/bash
 docker的常用命令
 ```
 # 创建Docker镜像
-
 docker build -t fensme:v1
 
 # 运行镜像
-
 docker run fensme
 
 # 运行镜像并进入
-
 docker run  -i -t fensme  /bin/bash
 
 # 登录镜像平台
-
 docker login --username=bsspirit --email=bsspirit@163.com
 
 # 增加镜像空间名
-
 docker tag 8496b10e857a bsspirit/fensme:latest
 
 # 提交镜像
-
 docker push bsspirit/fensme
 
 # 删除镜像
-
 docker rmi <image id>
 
 # 删除所有镜像
 docker rmi $(docker images  -q)
 
 # 进入镜像修改后，保存产生新镜像
-
 docker commit $(container id前三位) ubuntu_sshd_gerry:14.04
-
 就是将修改后的continer保存为image.
 
 # 停止所有的container
 docker  stop $(docker ps -a -q)
-
 stop 后面跟 container id 则为停止该container
 
 # 删除所有的contrainer
@@ -163,27 +153,19 @@ docker rm $(docker ps -a -q)
 
 # 进入正在运行的contrainer
 docker attach db3 
-
 docker attach d48b21a7e439
-
 attach 后面可以为container id 也可以是container name
 
 # SSH启动
-
 docker run -d -it -p 10022:22 vnpy:1.2 /usr/sbin/sshd -D
-
 注意, /usr/sbin/sshd是在linux环境下使用的, windows环境可能不使用
-
 上面的命令是将宿主机的10022端口和docker container的22端口做映射,并且在启动container的同时启动了ssh服务
 
 # 重启容器
-
 sudo docker restart ac01d678fcae
-
 restart 后面可以跟container id 或者container name
 
 # docker容器运行中添加端口映射
-
 https://my.oschina.net/u/266ΩΩΩ752/blog/541433
 ```
 
