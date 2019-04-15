@@ -67,7 +67,7 @@
 <li><a href="#docker_5">Docker 文件传输系统</a><ul>
 <li><a href="#docker_6">Docker 挂载本地目录</a></li>
 <li><a href="#docker_7">Docker 和宿主机中相互传递文件</a><ul>
-<li><a href="#container">根据Container名字传送</a></li>
+<li><a href="#container">根据container名字传送</a></li>
 <li><a href="#scp">通过scp传送</a></li>
 </ul>
 </li>
@@ -350,7 +350,7 @@
 <p>此时从宿主机上/home/ubuntu/downloads/文件夹下多出来/data目录</p>
 <p>并且,在container中操作/data下面的内容时,宿主机上对应目录下也会有相应的操作.</p>
 <h2 id="docker_7">Docker 和宿主机中相互传递文件</h2>
-<h3 id="container">根据Container名字传送</h3>
+<h3 id="container">根据container名字传送</h3>
 <div class="hlcode"><pre><span class="err">#</span> <span class="nx">Container</span> <span class="o">-&gt;</span> <span class="err">宿主机</span>
 <span class="nx">docker</span> <span class="nx">cp</span> <span class="err">[</span><span class="nx">OPTIONS</span><span class="cp">]</span> <span class="nt">&lt;CONTAINER:SRC</span><span class="na">_PATH</span><span class="nt">&gt;</span> <span class="nt">&lt;DEST</span><span class="na">_PATH</span><span class="nt">&gt;</span>
 
