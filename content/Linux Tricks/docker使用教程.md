@@ -166,11 +166,13 @@ docker rmi $(docker images  -q)
 ```
 docker commit $(container id前三位) ubuntu_sshd_gerry:14.04
 ```
+就是将修改后的continer保存为image.
 
-##### 停止所有的container
+#### 停止所有的container
 ```python
 docker  stop $(docker ps -a -q)
 ```
+stop 后面跟 container id 则为停止该container
 
 #### 删除所有的contrainer
 ```vim
