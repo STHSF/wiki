@@ -111,6 +111,8 @@ sudo docker exec -it [CONTAINER_ID] /bin/bash
 直接使用Ctrl +d 或者在container中运行exit
 ```
 
+如果想退出某个docker但是又不想停止docker运行,则可以使用```Ctrl + p + q```即可.
+
 # Docker常用命令
 docker的常用命令
 #### 创建Docker镜像
@@ -270,7 +272,7 @@ service iptables save
 这都意味着这个flag可以多次出现，所以此处可以多次指定端口映射规则。
 
 ```
-docker run -d -p 80:80 -p 22:22
+docker run -d -p 80:80 -p 22:22 -it [CONTAINERID]
 ```
 
 
