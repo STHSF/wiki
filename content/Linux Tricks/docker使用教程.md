@@ -167,7 +167,7 @@ docker rmi $(docker images  -q)
 docker commit $(container id前三位) ubuntu_sshd_gerry:14.04
 ```
 
-#### 停止所有的container
+##### 停止所有的container
 ```python
 docker  stop $(docker ps -a -q)
 ```
@@ -186,8 +186,11 @@ docker attach d48b21a7e439
 #### SSH启动
 
 ```
-docker run -d -it -p 1000:22 vnpy:1.2 /usr/sbin/sshd -D
+docker run -d -it -p 10022:22 vnpy:1.2 /usr/sbin/sshd -D
 ```
+注意, /usr/sbin/sshd是在linux环境下使用的, windows环境可能不使用
+
+上面的命令是将宿主机的10022端口和docker container的22端口做映射,并且在启动container的同时启动了ssh服务
 
 #### 重启容器
 
