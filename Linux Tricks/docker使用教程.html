@@ -66,8 +66,8 @@
 </li>
 <li><a href="#docker_5">Docker 文件传输系统</a><ul>
 <li><a href="#docker_6">Docker 挂载本地目录</a></li>
-<li><a href="#container">Container和宿主机中相互传递文件</a><ul>
-<li><a href="#container_1">根据Container名字传送</a></li>
+<li><a href="#docker_7">Docker 和宿主机中相互传递文件</a><ul>
+<li><a href="#container">根据Container名字传送</a></li>
 <li><a href="#scp">通过scp传送</a></li>
 </ul>
 </li>
@@ -80,7 +80,7 @@
 <li><a href="#_8">登录测试</a></li>
 </ul>
 </li>
-<li><a href="#docker_7">docker 添加用户</a></li>
+<li><a href="#docker_8">docker 添加用户</a></li>
 <li><a href="#_9">参考文献</a></li>
 </ul>
 </div>
@@ -349,8 +349,8 @@
 
 <p>此时从宿主机上/home/ubuntu/downloads/文件夹下多出来/data目录</p>
 <p>并且,在container中操作/data下面的内容时,宿主机上对应目录下也会有相应的操作.</p>
-<h2 id="container">Container和宿主机中相互传递文件</h2>
-<h3 id="container_1">根据Container名字传送</h3>
+<h2 id="docker_7">Docker 和宿主机中相互传递文件</h2>
+<h3 id="container">根据Container名字传送</h3>
 <div class="hlcode"><pre><span class="err">#</span> <span class="nx">Container</span> <span class="o">-&gt;</span> <span class="err">宿主机</span>
 <span class="nx">docker</span> <span class="nx">cp</span> <span class="err">[</span><span class="nx">OPTIONS</span><span class="cp">]</span> <span class="nt">&lt;CONTAINER:SRC</span><span class="na">_PATH</span><span class="nt">&gt;</span> <span class="nt">&lt;DEST</span><span class="na">_PATH</span><span class="nt">&gt;</span>
 
@@ -426,7 +426,7 @@ docker cp <span class="cp">[</span><span class="nx">OPTIONS</span><span class="c
 </pre></div>
 
 
-<h1 id="docker_7">docker 添加用户</h1>
+<h1 id="docker_8">docker 添加用户</h1>
 <h1 id="_9">参考文献</h1>
 <p><a href="https://blog.csdn.net/dongdong9223/article/details/52998375">如何进入、退出docker的container</a></p>
 <p><a href="https://github.com/tensorflow/serving/blob/master/tensorflow_serving/g3doc/docker.md">Using TensorFlow Serving via Docker</a></p>
