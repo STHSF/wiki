@@ -218,6 +218,7 @@
 </pre></div>
 
 
+<p>如果想退出某个docker但是又不想停止docker运行,则可以使用<code>Ctrl + p + q</code>即可.</p>
 <h1 id="docker_2">Docker常用命令</h1>
 <p>docker的常用命令</p>
 <h4 id="docker_3">创建Docker镜像</h4>
@@ -361,7 +362,7 @@
 -H=[]host<br />
 -p=[]portdirection<br />
 这都意味着这个flag可以多次出现，所以此处可以多次指定端口映射规则。</p>
-<div class="hlcode"><pre><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">d</span> <span class="o">-</span><span class="n">p</span> <span class="mi">80</span><span class="o">:</span><span class="mi">80</span> <span class="o">-</span><span class="n">p</span> <span class="mi">22</span><span class="o">:</span><span class="mi">22</span>
+<div class="hlcode"><pre><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">d</span> <span class="o">-</span><span class="n">p</span> <span class="mi">80</span><span class="o">:</span><span class="mi">80</span> <span class="o">-</span><span class="n">p</span> <span class="mi">22</span><span class="o">:</span><span class="mi">22</span> <span class="o">-</span><span class="n">it</span> <span class="p">[</span><span class="n">CONTAINERID</span><span class="p">]</span>
 </pre></div>
 
 
