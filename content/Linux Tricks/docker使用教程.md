@@ -175,15 +175,16 @@ docker  stop $(docker ps -a -q)
 stop 后面跟 container id 则为停止该container
 
 #### 删除所有的contrainer
-```vim
+```shell
 docker rm $(docker ps -a -q)
 ```
 
 #### 进入正在运行的contrainer
-```vim
+```shell
 docker attach db3 
 docker attach d48b21a7e439
 ```
+attach 后面可以为container id 也可以是container name
 
 #### SSH启动
 
@@ -195,10 +196,10 @@ docker run -d -it -p 10022:22 vnpy:1.2 /usr/sbin/sshd -D
 上面的命令是将宿主机的10022端口和docker container的22端口做映射,并且在启动container的同时启动了ssh服务
 
 #### 重启容器
-
 ```
-sudo docker restart ac01d678fcae Restart a running container
+sudo docker restart ac01d678fcae
 ```
+restart 后面可以跟container id 或者container name
 
 #### docker容器运行中添加端口映射
 
