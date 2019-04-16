@@ -1,0 +1,209 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <title>python基础知识--修饰函数(wraps) - LiYu's personal knowledge wiki</title>
+    <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
+    <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$(',')$'], ['\\(','\\)']]}
+        });
+        </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-78529611-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+
+<body>
+<div id="container">
+    
+<div id="header">
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Python">Python</a>&nbsp;»&nbsp;python基础知识--修饰函数(wraps)</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">python基础知识--修饰函数(wraps)</div>
+<div id="content">
+  <div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#_1">写在前面</a></li>
+<li><a href="#_2">使用技巧</a><ul>
+<li><a href="#_3">技巧一, 统计函数的运行时间</a></li>
+<li><a href="#log">技巧二, 函数运行前后的log输出</a></li>
+</ul>
+</li>
+<li><a href="#_4">参考文献</a></li>
+</ul>
+</div>
+<h1 id="_1">写在前面</h1>
+<p>修饰函数在某种程度上可以帮助程序员方便的代码复用等技巧, 灵活使用修饰函数可以起到事半功倍的效果.</p>
+<p>Python 装饰器中的@wraps的作用：<br />
+- 装饰器的作用:    在不改变原有功能代码的基础上,添加额外的功能,如统计时间, 打log等<br />
+- @wraps(view_func)的作用:     不改变使用装饰器原有函数的结构(如__name__, <strong>doc</strong>)<br />
+- 不使用wraps可能出现的ERROR:   view_func...endpoint...map...</p>
+<h1 id="_2">使用技巧</h1>
+<h2 id="_3">技巧一, 统计函数的运行时间</h2>
+<p>示例:</p>
+<div class="hlcode"><pre><span class="c">#!/usr/bin/env python</span>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+
+<span class="k">def</span> <span class="nf">wrap_timer</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="nd">@functools.wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">timer</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">t_begin</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">t_end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="k">print</span><span class="p">((</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">(</span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)))</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Time: </span><span class="si">%f</span><span class="s"> &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">t_end</span> <span class="o">-</span> <span class="n">t_begin</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">return</span> <span class="n">timer</span>
+
+<span class="c"># 类中使用</span>
+<span class="k">class</span> <span class="nc">ClassTest</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@wrap_timer</span>
+    <span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c"># 单个函数使用</span>
+<span class="nd">@wrap_timer</span>
+<span class="k">def</span> <span class="nf">test_func</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+
+<p>运行输出:</p>
+<div class="hlcode"><pre><span class="err">#</span> <span class="err">类测试</span>
+<span class="nx">test_mode</span> <span class="o">=</span> <span class="nx">ClassTest</span><span class="p">()</span>
+<span class="nx">test_mode</span><span class="p">.</span><span class="nx">test</span><span class="p">()</span>
+<span class="err">#</span> <span class="err">单函数测试</span>
+<span class="nx">test_func</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="o">&lt;</span><span class="kd">function</span> <span class="nx">ClassTest</span><span class="p">.</span><span class="nx">test</span> <span class="nx">at</span> <span class="mh">0x7f14400bb510</span><span class="o">&gt;</span><span class="p">((</span><span class="o">&lt;</span><span class="nx">__main__</span><span class="p">.</span><span class="nx">ClassTest</span> <span class="nx">object</span> <span class="nx">at</span> <span class="mh">0x7f144010d278</span><span class="o">&gt;</span><span class="p">,),</span> <span class="p">{})</span>
+<span class="nx">Time</span><span class="o">:</span> <span class="mf">10.010076</span> 
+<span class="o">&lt;</span><span class="kd">function</span> <span class="nx">test_func</span> <span class="nx">at</span> <span class="mh">0x7f144011c6a8</span><span class="o">&gt;</span><span class="p">((</span><span class="mi">5</span><span class="p">,),</span> <span class="p">{})</span>
+<span class="nx">Time</span><span class="o">:</span> <span class="mf">5.005338</span>
+</pre></div>
+
+
+<h2 id="log">技巧二, 函数运行前后的log输出</h2>
+<p>示例:</p>
+<div class="hlcode"><pre><span class="c">#!/usr/bin/env python</span>
+<span class="c"># -*- coding: utf-8 -*-</span>
+
+<span class="k">def</span> <span class="nf">wrap_logger</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="nd">@functools.wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">logger</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">((</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">(</span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)))</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;before execute&quot;</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;after execute&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">return</span> <span class="n">logger</span>
+
+<span class="c"># 类测试</span>
+<span class="k">class</span> <span class="nc">TestClass</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@wrap_logger</span>
+    <span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+
+<span class="c"># 单函数测试</span>
+<span class="nd">@wrap_logger</span>
+<span class="k">def</span> <span class="nf">test_func</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+
+<p>输出:</p>
+<div class="hlcode"><pre><span class="n">t</span> <span class="o">=</span> <span class="n">TestClass</span><span class="p">()</span>
+<span class="n">t</span><span class="o">.</span><span class="n">test</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+<span class="n">test_func</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="o">&lt;</span><span class="n">function</span> <span class="n">TestClass</span><span class="o">.</span><span class="n">test</span> <span class="n">at</span> <span class="mh">0x7f14400bb950</span><span class="o">&gt;</span><span class="p">((</span><span class="o">&lt;</span><span class="n">__main__</span><span class="o">.</span><span class="n">TestClass</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f14400cea90</span><span class="o">&gt;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">{})</span>
+<span class="n">before</span> <span class="n">execute</span>
+<span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span>
+<span class="n">after</span> <span class="n">execute</span>
+<span class="o">&lt;</span><span class="n">function</span> <span class="n">test_func</span> <span class="n">at</span> <span class="mh">0x7f1440360730</span><span class="o">&gt;</span><span class="p">((</span><span class="mi">5</span><span class="p">,),</span> <span class="p">{})</span>
+<span class="n">before</span> <span class="n">execute</span>
+<span class="n">after</span> <span class="n">execute</span>
+</pre></div>
+
+
+<h1 id="_4">参考文献</h1>
+<p><a href="https://blog.csdn.net/kongxx/article/details/51654751">使用functools模块wrap方法装饰函数</a></p>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2019-04-10 00:00 </span></div>
+<div id="comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script type="text/javascript">
+const gitment = new Gitment({
+  title: 'python基础知识--修饰函数(wraps)',
+  owner: 'sthsf',
+  repo: 'wiki',
+  oauth: {
+    client_id: '086c54c5fd95adfdc372',
+    client_secret: '2ad9ebe87b952d2c77fccf99c334881b91eaa73d',
+  },
+  // ...
+  // For more available options, check out the documentation below
+})
+gitment.render('comments')
+// or
+// gitment.render(document.getElementById('comments'))
+// or
+// document.body.appendChild(gitment.render())
+</script>
+
+</div>
+<div id="footer">
+            <span>
+                Copyright © 2019 LiYu.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+                Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
+            </span>
+</div>
+
+
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?90e1dcdd1938573c19f9ff6521188e91";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</body>
+</html>
