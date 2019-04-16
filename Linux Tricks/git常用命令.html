@@ -79,7 +79,16 @@
 <li>```git checkout &lt;分枝名&gt; 切换到分枝</li>
 <li><code>git checkout -b &lt;本地branch&gt; [-t &lt;远端别名&gt;/&lt;远端分枝&gt;]</code> -b新建本地分枝并切换到分枝, -t绑定远端分枝</li>
 </ul>
-<h2 id="_7">协同流程</h2>
+<h2 id="_7">删除远程仓库中的文件或者文件目录</h2>
+<div class="hlcode"><pre><span class="cp"># 删除的是本地仓库中的文件, 但是本地工作区的文件会保留且不再与远程仓库发生跟踪关系</span>
+<span class="n">git</span> <span class="n">rm</span> <span class="o">-</span><span class="n">r</span> <span class="o">--</span><span class="n">cached</span> <span class="p">[</span><span class="n">file</span><span class="p">]</span>  <span class="err">#</span> <span class="o">-</span><span class="n">r</span> <span class="err">删除文件目录</span>
+<span class="cp"># 如果连本地工作区中的文件也要删除</span>
+<span class="n">git</span> <span class="n">rm</span> <span class="p">[</span><span class="o">-</span><span class="n">r</span><span class="p">]</span> <span class="p">[</span><span class="n">file</span><span class="p">.</span><span class="n">txt</span><span class="p">]</span>
+</pre></div>
+
+
+<p>删除之后 再通过 <code>commit, push</code>等操作即可</p>
+<h2 id="_8">协同流程</h2>
 <ul>
 <li>首先fork远程项目</li>
 <li>把fork过去的项目也就是你的项目clone到你的本地</li>
@@ -92,7 +101,7 @@
 </ul>
 <h2 id="lib">管理公共第三方lib</h2>
 <p>git subtree</p>
-<h1 id="_8">参考文献</h1>
+<h1 id="_9">参考文献</h1>
 <p><a href="https://segmentfault.com/q/1010000000670427">Github 的项目怎么引用另一个项目？</a></p>
 <p><a href="https://mp.weixin.qq.com/s?__biz=MjM5NTg2NTU0Ng%3D%3D&amp;chksm=bd5dde3b8a2a572dd32802287436d6bf5048975cd22984a182a967c8d3c35b22ec314f7a3022&amp;idx=4&amp;mid=2656602270&amp;scene=0&amp;sn=5e3842c5850ea0fd425c7886a0591ce4&amp;xtrack=1#rd">Git使用教程：最详细、最傻瓜、最浅显、真正手把手教！</a></p>
 </div>
