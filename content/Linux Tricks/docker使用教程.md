@@ -259,6 +259,18 @@ sudo docker run -it -v /home/ubuntu/downloads/data:/data [IMAGE ID/ REPOSITORY]
 
 并且,在container中操作/data下面的内容时,宿主机上对应目录下也会有相应的操作.
 
+***注意***
+如果挂载的是windows下面的文件目录, 则需要设置Docker for windows Shared Drivers, 具体设置过程可以参考[docker 官网](https://blogs.msdn.microsoft.com/stevelasker/2016/06/14/configuring-docker-for-windows-volumes/), 设置完成之后挂在方式不变.
+
+错误提示如下:
+```shell
+>>> docker run -p 10080:80 -p 10022:22 -p 18080:8080 -p 18000:8000 -it -v C:\workshop:/home/jerry/workshop/venv 3cd92bc30026
+
+>>>
+docker: Error response from daemon: Drive has not been shared.
+See 'docker run --help'.
+```
+
 ## Docker 和宿主机中相互传递文件
 ### 根据docker中的container的名字传送
 ```
