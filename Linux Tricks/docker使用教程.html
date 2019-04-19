@@ -349,6 +349,17 @@
 
 <p>此时从宿主机上/home/ubuntu/downloads/文件夹下多出来/data目录</p>
 <p>并且,在container中操作/data下面的内容时,宿主机上对应目录下也会有相应的操作.</p>
+<p><strong><em>注意</em></strong><br />
+如果挂载的是windows下面的文件目录, 则需要设置Docker for windows Shared Drivers, 具体设置过程可以参考<a href="https://blogs.msdn.microsoft.com/stevelasker/2016/06/14/configuring-docker-for-windows-volumes/">docker 官网</a>, 设置完成之后挂在方式不变.</p>
+<p>错误提示如下:</p>
+<div class="hlcode"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">p</span> <span class="mi">10080</span><span class="o">:</span><span class="mi">80</span> <span class="o">-</span><span class="n">p</span> <span class="mi">10022</span><span class="o">:</span><span class="mi">22</span> <span class="o">-</span><span class="n">p</span> <span class="mi">18080</span><span class="o">:</span><span class="mi">8080</span> <span class="o">-</span><span class="n">p</span> <span class="mi">18000</span><span class="o">:</span><span class="mi">8000</span> <span class="o">-</span><span class="n">it</span> <span class="o">-</span><span class="n">v</span> <span class="n">C</span><span class="o">:</span><span class="err">\</span><span class="n">workshop</span><span class="o">:/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">venv</span> <span class="mi">3</span><span class="n">cd92bc30026</span>
+
+<span class="o">&gt;&gt;&gt;</span>
+<span class="nl">docker:</span> <span class="n">Error</span> <span class="n">response</span> <span class="n">from</span> <span class="n">daemon</span><span class="o">:</span> <span class="n">Drive</span> <span class="n">has</span> <span class="n">not</span> <span class="n">been</span> <span class="n">shared</span><span class="p">.</span>
+<span class="n">See</span> <span class="err">&#39;</span><span class="n">docker</span> <span class="n">run</span> <span class="o">--</span><span class="n">help</span><span class="err">&#39;</span><span class="p">.</span>
+</pre></div>
+
+
 <h2 id="docker_7">Docker 和宿主机中相互传递文件</h2>
 <h3 id="dockercontainer">根据docker中的container的名字传送</h3>
 <div class="hlcode"><pre><span class="err">#</span> <span class="nx">Container</span> <span class="o">-&gt;</span> <span class="err">宿主机</span>
