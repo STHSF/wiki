@@ -40,7 +40,24 @@
 <div class="clearfix"></div>
 <div id="title">pythonweb框架之flask</div>
 <div id="content">
-  <h1 id="_1">常用的负载均衡技术</h1>
+  <h1 id="dockerflask">docker下配置和使用flask</h1>
+<h1 id="_1">遇到的问题</h1>
+<p>docker下编写server的时候, app.run()中host应该改写为‘0.0.0.0’, 如果使用默认设置或者设置contenner的其他ip为host, docker宿主机将不能访问, 其中port已经做了映射, 所以感觉跟port没有关系, </p>
+<p>部分代码</p>
+<div class="hlcode"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">first_flask</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;hello word&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s">&#39;Hello, Word&#39;</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span>  <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="s">&#39;8000&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>浏览器中访问<code>192.168.79.1:18008</code>, 页面会返回Hello, Word, 其中‘192.168.79.1’为宿主机ip, 18008:8000为宿主机和docker的端口映射.</p>
 <h1 id="q">参考文献:q</h1>
 <p><a href="https://www.cnblogs.com/sss4/p/8097653.html">PythonWEB框架之Flask</a></p>
 </div>
