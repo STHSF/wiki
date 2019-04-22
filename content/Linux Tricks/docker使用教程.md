@@ -341,6 +341,11 @@ ssh -p 10022 [username]@[ip]
 
 # docker 添加用户
 
+# docker 三剑客
+## docker machine
+## docker swarm
+## docker compose
+
 
 
 
