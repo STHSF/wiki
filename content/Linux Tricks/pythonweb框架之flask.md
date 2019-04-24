@@ -27,3 +27,6 @@ if __name__ ==  '__main__':
 # 参考文献:q
 
 [PythonWEB框架之Flask](https://www.cnblogs.com/sss4/p/8097653.html)
+[Ubuntu16.04 部署Flask应用若干方法（Apache2、Nginx）](https://blog.csdn.net/tonydz0523/article/details/82701502)
+[Ubuntu16.04 将 Flaskapp 部署到Heroku 上](https://blog.csdn.net/tonydz0523/article/details/82707569)
+
