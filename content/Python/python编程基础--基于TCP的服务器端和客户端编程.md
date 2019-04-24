@@ -63,4 +63,4 @@ s.close()
 
 
 # 参考文献
-[使用Python完美管理和调度你的多个任务](https://blog.csdn.net/oh5W6HinUg43JvRhhB/article/details/78589009)
+[关于Python基于TCP的服务器端和客户端编程](https://blog.csdn.net/three_co/article/details/78347385)
