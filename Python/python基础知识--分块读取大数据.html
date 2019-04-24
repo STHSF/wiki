@@ -43,7 +43,10 @@
   <div class="toc"><span class="toctitle">Table of Contents</span><ul>
 <li><a href="#_1">写在前面</a></li>
 <li><a href="#_2">示例</a></li>
-<li><a href="#_3">参考文献</a></li>
+<li><a href="#python3">Python如何处理大数据？3个技巧效率提升攻略</a></li>
+<li><a href="#_3">不要用这种的</a></li>
+<li><a href="#_4">尽量用这种的</a></li>
+<li><a href="#_5">参考文献</a></li>
 </ul>
 </div>
 <h1 id="_1">写在前面</h1>
@@ -67,7 +70,63 @@
 </pre></div>
 
 
-<h1 id="_3">参考文献</h1>
+<h1 id="python3">Python如何处理大数据？3个技巧效率提升攻略</h1>
+<p>01、大型文件的读取效率</p>
+<p>面对100w行的大型数据，经过测试各种文件读取方式，得出结论：</p>
+<p>with open(filename,"rb") as f:<br />
+ for fLine in f:<br />
+ pass<br />
+方式最快，100w行全遍历2.7秒。</p>
+<p>基本满足中大型文件处理效率需求。如果rb改为r，慢6倍。但是此方式处理文件，fLine为bytes类型。但是python自行断行，仍旧能很好的以行为单位处理读取内容。</p>
+<p>02、文本处理效率问题</p>
+<p>这里举例ascii定长文件,因为这个也并不是分隔符文件，所以打算采用列表操作实现数据分割。但是问题是处理20w条数据，时间急剧上升到12s。本以为是byte.decode增加了时间。遂去除decode全程bytes处理。但是发现效率还是很差。</p>
+<p>最后用最简单方式测试，首次运行，最简单方式也要7.5秒100w次。</p>
+<p>想知道这个方式处理的完整代码是什么吗？扫描文末二维码，联系小编可以获取哦~</p>
+<p>那么关于python处理大文件的技巧，从网络整理三点：列表、文件属性、字典三个点来看看。</p>
+<p>1.列表处理</p>
+<p>def fun(x):尽量选择集合、字典数据类型，千万不要选择列表，列表的查询速度会超级慢，同样的，在已经使用集合或字典的情况下，不要再转化成列表进行操作，比如：<br />
+values_count = 0</p>
+<h1 id="_3">不要用这种的</h1>
+<p>if values in dict.values():<br />
+ values_count += 1</p>
+<h1 id="_4">尽量用这种的</h1>
+<p>if keys,values in dict:<br />
+ values_count += 1<br />
+后者的速度会比前者快好多好多。</p>
+<ol>
+<li>对于文件属性</li>
+</ol>
+<p>如果遇到某个文件，其中有属性相同的，但又不能进行去重操作，没有办法使用集合或字典时，可以增加属性，比如将原数据重新映射出一列计数属性，让每一条属性具有唯一性，从而可以用字典或集合处理：</p>
+<p>return '(' + str(x) + ', 1)'<br />
+list(map(fun,[1,2,3]))<br />
+使用map函数将多个相同属性增加不同项。</p>
+<ol>
+<li>对于字典</li>
+</ol>
+<p>多使用iteritems()少使用items()，iteritems()返回迭代器：</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>d = {'a':1,'b':2}<br />
+for i in d.items() :<br />
+.... print i<br />
+('a',1)<br />
+('b',2)<br />
+for k,v in d.iteritems() :<br />
+... print k,v<br />
+('a',1)<br />
+('b',2)<br />
+字典的items函数返回的是键值对的元组的列表,而iteritems使用的是键值对的generator，items当使用时会调用整个列表 iteritems当使用时只会调用值。</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>除了以下5个python使用模块，你还有什么技巧解决大文件运行效率的问题吗？深入了解更多Python实用模块，快速提升工作效率~</p>
+<p>读写文件技术，今后会用到测试数据的参数化和测试报告写作功能中~</p>
+<p>数据处理技术，今后测试脚本的测试数据处理过程可以用到~</p>
+<p>数据统计分析技术，今后会在测试结果分析中用到</p>
+<p>图表展示技术，在今后的测试框架中相关测试报告会用到</p>
+<p>程序自动触发技术，可用于测试脚本程序的自动执行。</p>
+<h1 id="_5">参考文献</h1>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2018-06-02 00:00 </span></div>
 <div id="comments"></div>
