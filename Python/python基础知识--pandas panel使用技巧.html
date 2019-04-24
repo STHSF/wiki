@@ -5,7 +5,7 @@
     <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
     <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
-    <title>python基础知识--pandas panel使用技巧.md - LiYu's personal knowledge wiki</title>
+    <title>python基础知识--pandas panel和multiindex使用技巧.md - LiYu's personal knowledge wiki</title>
     <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
     <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -35,14 +35,14 @@
 <div id="container">
     
 <div id="header">
-  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Python">Python</a>&nbsp;»&nbsp;python基础知识--pandas panel使用技巧.md</div>
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Python">Python</a>&nbsp;»&nbsp;python基础知识--pandas panel和multiindex使用技巧.md</div>
 </div>
 <div class="clearfix"></div>
-<div id="title">python基础知识--pandas panel使用技巧.md</div>
+<div id="title">python基础知识--pandas panel和multiindex使用技巧.md</div>
 <div id="content">
   <h1 id="_1">写在前面</h1>
-<p>我们可以将panel理解成是多个DataFrame的层叠,每个DataFrame的名称对应为Panel的Minor_axis, 对于每一层的DataFrame而言, DataFrame的index为pandel的Major_aixs, DataFram的keys为panel的Items</p>
-<h1 id="_2">使用技巧</h1>
+<p>我们可以将panel理解成是多个DataFrame的层叠,每个DataFrame的名称对应为Panel的Minor_axis, 对于每一层的DataFrame而言, DataFrame的index为pandel的Major_aixs, DataFram的keys为panel的Items, 聚宽上读取的股票行情数据就是Panel格式的.</p>
+<h1 id="panle">Panle使用技巧</h1>
 <h2 id="minor_axis">从Minor_axis轴比较数据</h2>
 <p>例如:</p>
 <div class="hlcode"><pre><span class="n">p1</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="err">&#39;</span><span class="n">stock1</span><span class="err">&#39;</span><span class="o">:</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="err">&#39;</span><span class="n">stock2</span><span class="err">&#39;</span><span class="o">:</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]},</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="err">&#39;</span><span class="mi">2010</span><span class="sc">&#39;,&#39;</span><span class="mi">2011</span><span class="sc">&#39;,&#39;</span><span class="mi">2012</span><span class="sc">&#39;,&#39;</span><span class="mi">2013</span><span class="err">&#39;</span><span class="p">])</span>
@@ -84,11 +84,49 @@
 </pre></div>
 
 
-<h1 id="_3">参考文献</h1>
-<p><a href="https://www.jb51.net/article/138584.htm">pandas apply 函数 实现多进程的示例讲解</a></p>
-<p><a href="https://stackoverflow.com/questions/26187759/parallelize-apply-after-pandas-groupby">Parallelize apply after pandas groupby</a></p>
-<p><a href="https://blog.csdn.net/Jerr__y/article/details/71425298?utm_source=blogxgwz1#commentBox">pandas apply 函数 多进程实现</a></p>
-<p><a href="https://blog.csdn.net/sinat_30353259/article/details/83818646">pandas apply应用并行进程，多核加快运行速度</a></p>
+<h1 id="multiindex">multiindex</h1>
+<p>但是最近在使用pannel的时候,系统提示Panel结构在未来会被弃用, 建议使用DataFrame的MultiIndex代替,详细warning如下:</p>
+<div class="hlcode"><pre><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">conda</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.6</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">jqresearch</span><span class="o">/</span><span class="n">api</span><span class="p">.</span><span class="n">py</span><span class="o">:</span><span class="mi">87</span><span class="o">:</span> <span class="n">FutureWarning</span><span class="o">:</span> 
+<span class="n">Panel</span> <span class="n">is</span> <span class="n">deprecated</span> <span class="n">and</span> <span class="n">will</span> <span class="n">be</span> <span class="n">removed</span> <span class="n">in</span> <span class="n">a</span> <span class="n">future</span> <span class="n">version</span><span class="p">.</span>
+<span class="n">The</span> <span class="n">recommended</span> <span class="n">way</span> <span class="n">to</span> <span class="n">represent</span> <span class="n">these</span> <span class="n">types</span> <span class="n">of</span> <span class="mi">3</span><span class="o">-</span><span class="n">dimensional</span> <span class="n">data</span> <span class="n">are</span> <span class="n">with</span> <span class="n">a</span> <span class="n">MultiIndex</span> <span class="n">on</span> <span class="n">a</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">via</span> <span class="n">the</span> <span class="n">Panel</span><span class="p">.</span><span class="n">to_frame</span><span class="p">()</span> <span class="n">method</span>
+<span class="n">Alternatively</span><span class="p">,</span> <span class="n">you</span> <span class="n">can</span> <span class="n">use</span> <span class="n">the</span> <span class="n">xarray</span> <span class="n">package</span> <span class="n">http</span><span class="o">:</span><span class="c1">//xarray.pydata.org/en/stable/.</span>
+<span class="n">Pandas</span> <span class="n">provides</span> <span class="n">a</span> <span class="err">`</span><span class="p">.</span><span class="n">to_xarray</span><span class="p">()</span><span class="err">`</span> <span class="n">method</span> <span class="n">to</span> <span class="n">help</span> <span class="n">automate</span> <span class="n">this</span> <span class="n">conversion</span><span class="p">.</span>
+</pre></div>
+
+
+<p>pandasde multiindex比Panel更加直观, 易于展示.</p>
+<p>multiindex创建比较简单, 只要将DataFrame中的某两列指定为index即可.</p>
+<div class="hlcode"><pre><span class="n">df1</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="err">&#39;课程&#39;</span><span class="o">:</span><span class="p">[</span><span class="err">&#39;语文</span><span class="sc">&#39;,&#39;</span><span class="err">语文</span><span class="sc">&#39;,&#39;</span><span class="err">数学</span><span class="sc">&#39;,&#39;</span><span class="err">数学&#39;</span><span class="p">],</span><span class="err">&#39;得分&#39;</span><span class="o">:</span><span class="p">[</span><span class="err">&#39;最高</span><span class="sc">&#39;,&#39;</span><span class="err">最低</span><span class="sc">&#39;,&#39;</span><span class="err">最高</span><span class="sc">&#39;,&#39;</span><span class="err">最低&#39;</span><span class="p">],</span><span class="err">&#39;分值&#39;</span><span class="o">:</span><span class="p">[</span><span class="mi">90</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">60</span><span class="p">]})</span>
+<span class="n">df2</span> <span class="o">=</span> <span class="n">df1</span><span class="p">.</span><span class="n">set_index</span><span class="p">([</span><span class="err">&#39;课程</span><span class="sc">&#39;,&#39;</span><span class="err">得分&#39;</span><span class="p">])</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">df1</span>
+
+<span class="err">课程</span>  <span class="err">得分</span>  <span class="err">分值</span>
+<span class="mi">0</span>   <span class="err">语文</span>  <span class="err">最高</span>  <span class="mi">90</span>
+<span class="mi">1</span>   <span class="err">语文</span>  <span class="err">最低</span>  <span class="mi">50</span>
+<span class="mi">2</span>   <span class="err">数学</span>  <span class="err">最高</span>  <span class="mi">100</span>
+<span class="mi">3</span>   <span class="err">数学</span>  <span class="err">最低</span>  <span class="mi">60</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">df2</span>
+            <span class="err">分值</span>
+<span class="err">课程</span>  <span class="err">得分</span>  
+<span class="err">语文</span>  <span class="err">最高</span>   <span class="mi">90</span>
+     <span class="err">最低</span> <span class="mi">50</span>
+<span class="err">数学</span>  <span class="err">最高</span>   <span class="mi">100</span>
+     <span class="err">最低</span> <span class="mi">60</span>
+</pre></div>
+
+
+<p>同样还可以使用DataFrame.stack和unstack来操作mutiindex</p>
+<p>DataFrame.reset_index(), 可以将multimindex转换成单个dataframe</p>
+<p>两个index互换可以通过DataFrame.swaplevel</p>
+<p>索引内部排序, DataFrame.sortlevel</p>
+<h1 id="_2">参考文献</h1>
+<p><a href="https://www.jianshu.com/p/0865813c590e">Pandas-4. Panel</a><br />
+<a href="https://www.jianshu.com/p/5aa6579f70b1">用一个月整理的Pandas的教程！最全面的教程没有之一！先收藏吧！</a><br />
+<a href="https://www.yiibai.com/pandas/python_pandas_panel.html">Pandas面板（Panel）</a></p>
+<p><a href="https://blog.csdn.net/PIPIXIU/article/details/80232805">在pandas多重索引multiIndex中选定指定索引的行</a><br />
+<a href="https://blog.csdn.net/wj1066/article/details/82261458">Pandas reshape相关函数介绍（pivot，pivot_table，stack，unstack，melt）</a></p>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2099-06-02 00:00 </span></div>
 <div id="comments"></div>
@@ -96,7 +134,7 @@
 <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script type="text/javascript">
 const gitment = new Gitment({
-  title: 'python基础知识--pandas panel使用技巧.md',
+  title: 'python基础知识--pandas panel和multiindex使用技巧.md',
   owner: 'sthsf',
   repo: 'wiki',
   oauth: {
