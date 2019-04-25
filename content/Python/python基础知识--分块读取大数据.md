@@ -96,3 +96,5 @@ list(map(fun,[1,2,3]))
 程序自动触发技术，可用于测试脚本程序的自动执行。
 
 # 参考文献
+
+[使用Python Pandas处理亿级数据](http://www.justinablog.com/archives/1357)
