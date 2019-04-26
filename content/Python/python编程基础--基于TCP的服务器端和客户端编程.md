@@ -64,3 +64,7 @@ s.close()
 
 # 参考文献
 [关于Python基于TCP的服务器端和客户端编程](https://blog.csdn.net/three_co/article/details/78347385)
+
+[Python中的TCP编程，实现客户端与服务器的聊天(socket)](https://blog.csdn.net/qq_31187881/article/details/79067644)
+
+[python实现的基于TCP的JSON数据通信](https://blog.csdn.net/fireroll/article/details/38865743)
