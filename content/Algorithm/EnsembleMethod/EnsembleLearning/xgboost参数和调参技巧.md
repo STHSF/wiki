@@ -271,3 +271,5 @@ alpha –> reg_alpha
 
 [Python超参数自动搜索模块GridSearchCV上手](https://www.cnblogs.com/nwpuxuezha/p/6618205.html)
 [Sklearn中的CV与KFold详解](https://blog.csdn.net/FontThrone/article/details/79220127)
+
+[史上最详细的XGBoost实战](https://blog.csdn.net/u013709270/article/details/78156207)

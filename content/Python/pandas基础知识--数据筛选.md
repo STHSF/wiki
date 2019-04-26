@@ -22,3 +22,5 @@ for index, item in enumerate(list1, 1):
 3 一个
 4 测试
 ```
+
+# 当用行号索引的时候, 尽量用 iloc 来进行索引; 而用标签索引的时候用 loc ,  ix 尽量别用。
