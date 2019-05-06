@@ -1,5 +1,5 @@
 ---
-title: "pandas基础知识--多进程.md"
+title: "python基础知识--多进程.md"
 layout: page
 date: 2018-01-30 13:00
 ---
@@ -74,3 +74,20 @@ python data_process_by_multiprocess.py message.txt
 
 # 参考文献
 [1](https://www.jb51.net/article/141528.htm)
+[Python multiprocessing.Pool与threadpool](https://blog.csdn.net/qq_37258787/article/details/79172916)
+
+[python 进程池（multiprocessing.Pool）和线程池（threadpool.ThreadPool）的区别与实例](https://blog.csdn.net/weixin_43692357/article/details/86026040)
+
+[python 进程池、线程池 与异步调用、回调机制](https://blog.csdn.net/weixin_42329277/article/details/80741589)
+
+[Selenium 使用 python 多进程模块 multiprocessing 并发执行测试用例](https://testerhome.com/topics/16106)
+
+[python写的多进程并发测试框架](https://blog.csdn.net/zhangtaolmq/article/details/54647214)
+
+[Python多进程 - 实现多进程的几种方式](https://blog.csdn.net/topleeyap/article/details/78981848)
+
+[Python3多进程(mutiprocessing)](https://blog.csdn.net/weixin_38611497/article/details/81490960)
+
+[python多进程并发](https://www.cnblogs.com/garfieldcgf/p/8324852.html)
+
+[多进程](https://www.liaoxuefeng.com/wiki/1016959663602400/1017628290184064)
