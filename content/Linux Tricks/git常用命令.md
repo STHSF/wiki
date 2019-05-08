@@ -43,13 +43,13 @@ git rm [-r] [file.txt]
 删除之后 再通过 ```commit, push```等操作即可
 
 ## 协同流程
-- 首先fork远程项目
-- 把fork过去的项目也就是你的项目clone到你的本地
-- 运行 git remote add <远端别名> <别人的远端分枝> 把别人的库添加为远端库
-- 运行 git pull <远端别名> <远端分枝> 拉取并合并到本地
-- 编辑内容
-- commit后push到自己的库（git push <自己的远端别名> <自己的远端分枝>）
-- 登陆Github在你首页可以看到一个 pull request 按钮，点击它，填写一些说明信息，然后提交即可。
+- 1、首先fork远程项目
+- 2、把fork过去的项目也就是你的项目clone到你的本地
+- 3、运行 git remote add <远端别名> <别人的远端分枝> 把别人的库添加为远端库
+- 4、运行 git pull <远端别名> <远端分枝> 拉取并合并到本地
+- 5、编辑内容
+- 6、add, commit后push到自己的库（git push <自己的远端别名> <自己的远端分枝>）
+- 7、登陆Github在你首页可以看到一个 pull request 按钮，点击它，填写一些说明信息，然后提交即可。
 **1~3是初始化操作，执行一次即可。在本地编辑内容前必须执行第4步同步别人的远端库（这样避免冲突），然后执行5~7既可。**
 
 ## 管理公共第三方lib
@@ -63,3 +63,5 @@ git subtree
 [Git使用教程：最详细、最傻瓜、最浅显、真正手把手教！](https://mp.weixin.qq.com/s?__biz=MjM5NTg2NTU0Ng%3D%3D&chksm=bd5dde3b8a2a572dd32802287436d6bf5048975cd22984a182a967c8d3c35b22ec314f7a3022&idx=4&mid=2656602270&scene=0&sn=5e3842c5850ea0fd425c7886a0591ce4&xtrack=1#rd)
 
 [git删除远程仓库的文件或目录](https://www.cnblogs.com/toward-the-sun/p/6015284.html)
+
+[使用GitHub进行团队合作](http://xiaocong.github.io/blog/2013/03/20/team-collaboration-with-github/)

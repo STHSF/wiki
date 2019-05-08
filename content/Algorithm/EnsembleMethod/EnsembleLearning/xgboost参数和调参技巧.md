@@ -250,11 +250,23 @@ lambda –> reg_lambda
 alpha –> reg_alpha
 
 
+# XGBoost调参技巧(实战经验)
+本节整理的是本人在实战过程中调惨的经验, 第一个建议就是在没有弄清每个参数对训练效果的影响时不要使用太多的参数, 刚开始就使用简单的一两个参数就好, 我在使用过程中刚开始只是指定objective和num_class即可.
+## max_depth
+max_depth对模型的收敛效果很明显, 刚开始我在调参过程中max_depth的值设置的比较小([0-6]之间选取), test-merror下降比较慢, 就算num_boost_round设置很大test-error也下降的很慢, 而且到一定程度就不下降了,值也比较大. 后来将max_depth设置到[20-30]之间后, train-error和test-error的值衰减的很快.所以在设置max_depth的时候不要局限在某一个范围之内.
+
+## learning_rate
+有的人为了提高训练进度, 刚开始就将learning_rate设置的比较小0.001,或者更小. 刚开始我在使用的过程也是, 但是训练的非常慢, 主要是对收敛效果没有很大的作用, 所以就暂时将这个参数去掉. 训练完成之后,将mlogloss-mean曲线和merror—mean曲线画出来之后发现一个问题, 如下图所示
+<center><img src="/wiki/static/images/essemble/xgboost/xgboost_1.png" alt="xgboost-1"/></center>
+
+
+
 
 
 # 参考文献
 [XGBoost-Python完全调参指南-介绍篇](https://blog.csdn.net/wzmsltw/article/details/50988430)
 [XGBoost-Python完全调参指南-参数解释篇](https://blog.csdn.net/wzmsltw/article/details/50994481)
+[XGboost数据比赛实战之调参篇(完整流程)](https://segmentfault.com/a/1190000014040317)
 [XGBoost python调参示例](https://blog.csdn.net/weiyongle1996/article/details/78360873)
 [XGBoost参数调优完全指南（附Python代码）](https://blog.csdn.net/u010657489/article/details/51952785)
 [xgboost原理及应用--转](https://www.cnblogs.com/zhouxiaohui888/p/6008368.html)
@@ -273,3 +285,5 @@ alpha –> reg_alpha
 [Sklearn中的CV与KFold详解](https://blog.csdn.net/FontThrone/article/details/79220127)
 
 [史上最详细的XGBoost实战](https://blog.csdn.net/u013709270/article/details/78156207)
+
+[XGBoost特征重要性以及CV](https://www.jianshu.com/p/0a8a5f80161e)

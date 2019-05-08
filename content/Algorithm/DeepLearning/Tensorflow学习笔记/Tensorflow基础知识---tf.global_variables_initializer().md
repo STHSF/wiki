@@ -16,3 +16,6 @@ tensorflow.python.framework.errors_impl.FailedPreconditionError: Attempting to u
 
 如果出现上面类似的错误，可能就需要检查下你所定义的变量是不是都在```tf.global_variables_initializer()```变量初始化之前。
 
+
+# 参考文献
+[fine-tune](https://blog.csdn.net/b876144622/article/details/79962759)
