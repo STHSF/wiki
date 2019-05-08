@@ -297,8 +297,10 @@ alpha –&gt; reg_alpha</p>
 <h2 id="max_depth">max_depth</h2>
 <p>max_depth对模型的收敛效果很明显, 刚开始我在调参过程中max_depth的值设置的比较小([0-6]之间选取), test-merror下降比较慢, 就算num_boost_round设置很大test-error也下降的很慢, 而且到一定程度就不下降了,值也比较大. 后来将max_depth设置到[20-30]之间后, train-error和test-error的值衰减的很快.所以在设置max_depth的时候不要局限在某一个范围之内.</p>
 <h2 id="learning_rate">learning_rate</h2>
-<p>有的人为了提高训练进度, 刚开始就将learning_rate设置的比较小0.001,或者更小. 刚开始我在使用的过程也是, 但是训练的非常慢, 主要是对收敛效果没有很大的作用, 所以就暂时将这个参数去掉. 训练完成之后,将mlogloss-mean曲线和merror—mean曲线画出来之后发现一个问题, 如下图所示<br />
+<p>有的人为了提高训练进度, 刚开始就将learning_rate设置的比较小0.001,或者更小. 刚开始我在使用的过程也是, 但是训练的非常慢, 主要是对收敛效果没有很大的作用, 所以就暂时将这个参数去掉. 训练完成之后,将mlogloss-mean曲线和merror—mean曲线画出来之后发现一个问题, 如下图所示, 我们只看test loss 和test merror, 你会发现test loss的曲线开始上翘, 而test merror的曲线还是在减小的, 理论上从train和test loss来看模型可能出现过拟合了, 但是为什么error会一致变小呢, <strong><em>后面我尝试调整learning_rate的大小, 速率往小了调, 这时候我发现 test merror下降的速度变快, 而且可以更小</em></strong><br />
 <center><img src="/wiki/static/images/essemble/xgboost/xgboost_1.png" alt="xgboost-1"/></center></p>
+<p>在我调整learning_rate之后, 训练结果如下: 图像上可以看出,设定learning_rate起到了效果, 而且设定在其他参数不变的情况的, 模型并没有过拟合.<br />
+<center><img src="/wiki/static/images/essemble/xgboost/xgboost_2.png" alt="xgboost-2"/></center></p>
 <h1 id="_2">参考文献</h1>
 <p><a href="https://blog.csdn.net/wzmsltw/article/details/50988430">XGBoost-Python完全调参指南-介绍篇</a><br />
 <a href="https://blog.csdn.net/wzmsltw/article/details/50994481">XGBoost-Python完全调参指南-参数解释篇</a><br />
