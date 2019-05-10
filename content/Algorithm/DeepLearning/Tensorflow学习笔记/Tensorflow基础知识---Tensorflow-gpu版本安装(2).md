@@ -226,6 +226,7 @@ Test passed!
 <center><img src="/wiki/static/images/tensorgpu/mnistdnn.png" alt="mnist"/></center>
 
 ##### **版本更新**
+**UPDATE20190510**
 更新到罪行版本, 对应的cuda和cudnn
 | NVIDIA driver | CUDA | CUDNN | 
 | :-------: |:---:| :--------:|
