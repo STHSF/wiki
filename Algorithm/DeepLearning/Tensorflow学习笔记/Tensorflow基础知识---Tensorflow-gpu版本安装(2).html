@@ -248,33 +248,37 @@
 <p>详细运行结果如下图所示：<br />
 <center><img src="/wiki/static/images/tensorgpu/mnistdnn.png" alt="mnist"/></center></p>
 <h5 id="_2"><strong>版本更新</strong></h5>
-<p>更新到罪行版本, 对应的cuda和cudnn</p>
-<div class="hlcode"><pre><span class="p">|</span> <span class="nv">NVIDIA</span> <span class="s-Atom">driver</span> <span class="p">|</span> <span class="nv">CUDA</span> <span class="p">|</span> <span class="nv">CUDNN</span> <span class="p">|</span> 
-<span class="p">|</span> <span class="p">:-</span><span class="s-Atom">------:</span> <span class="p">|:-</span><span class="s-Atom">--:</span><span class="p">|</span> <span class="p">:-</span><span class="s-Atom">-------:</span><span class="p">|</span>
-<span class="p">|</span><span class="m">418</span><span class="p">.</span><span class="m">74</span><span class="p">|</span> <span class="m">10</span><span class="p">.</span><span class="m">0</span> <span class="p">|</span><span class="m">7</span><span class="p">.</span><span class="m">4</span><span class="p">.</span><span class="m">2</span><span class="p">|</span>
-
-<span class="s-Atom">详细版本</span>
-<span class="s-Atom">#</span> <span class="nv">NVIDIA</span> <span class="nv">Driver</span>
-<span class="nv">NVIDIA</span><span class="o">-</span><span class="nv">Linux</span><span class="o">-</span><span class="s-Atom">x86_64</span><span class="o">-</span><span class="m">418</span><span class="p">.</span><span class="m">74</span><span class="p">.</span><span class="s-Atom">run</span> 
-
-<span class="p">[</span><span class="s-Atom">下载地址</span><span class="p">](</span><span class="nn">http</span><span class="p">:</span><span class="o">//</span><span class="s-Atom">www</span><span class="p">.</span><span class="s-Atom">nvidia</span><span class="p">.</span><span class="s-Atom">cn</span><span class="o">/</span><span class="nv">Download</span><span class="o">/</span><span class="s-Atom">index</span><span class="p">.</span><span class="s-Atom">aspx?lang</span><span class="o">=</span><span class="s-Atom">cn</span><span class="p">)</span>
-<span class="s-Atom">#</span> <span class="nv">CUDA</span>
-<span class="s-Atom">cuda_10</span><span class="p">.</span><span class="m">0</span><span class="p">.</span><span class="m">130</span><span class="k">_</span><span class="m">410</span><span class="p">.</span><span class="m">48</span><span class="k">_</span><span class="s-Atom">linux</span><span class="p">.</span><span class="s-Atom">run</span>
-
-<span class="p">[</span><span class="s-Atom">下载地址</span><span class="p">](</span><span class="nn">https</span><span class="p">:</span><span class="o">//</span><span class="s-Atom">developer</span><span class="p">.</span><span class="s-Atom">nvidia</span><span class="p">.</span><span class="s-Atom">com</span><span class="o">/</span><span class="s-Atom">cuda</span><span class="o">-</span><span class="m">10</span><span class="p">.</span><span class="m">0</span><span class="o">-</span><span class="s-Atom">download</span><span class="o">-</span><span class="s-Atom">archive</span><span class="p">)</span>
-<span class="s-Atom">#</span> <span class="nv">CUDNN</span>
-<span class="s-Atom">cudnn</span><span class="o">-</span><span class="m">10</span><span class="p">.</span><span class="m">0</span><span class="o">-</span><span class="s-Atom">linux</span><span class="o">-</span><span class="s-Atom">x64</span><span class="o">-</span><span class="s-Atom">v7</span><span class="p">.</span><span class="m">4</span><span class="p">.</span><span class="m">2</span><span class="p">.</span><span class="m">24</span><span class="p">.</span><span class="s-Atom">tgz</span>
-
-<span class="s-Atom">libcudnn7_7</span><span class="p">.</span><span class="m">4</span><span class="p">.</span><span class="m">2</span><span class="p">.</span><span class="m">24</span><span class="o">-</span><span class="m">1</span><span class="o">+</span><span class="s-Atom">cuda10</span><span class="p">.</span><span class="m">0</span><span class="k">_</span><span class="s-Atom">amd64</span><span class="p">.</span><span class="s-Atom">deb</span>
-
-<span class="s-Atom">libcudnn7</span><span class="o">-</span><span class="s-Atom">dev_7</span><span class="p">.</span><span class="m">4</span><span class="p">.</span><span class="m">2</span><span class="p">.</span><span class="m">24</span><span class="o">-</span><span class="m">1</span><span class="o">+</span><span class="s-Atom">cuda10</span><span class="p">.</span><span class="m">0</span><span class="k">_</span><span class="s-Atom">amd64</span><span class="p">.</span><span class="s-Atom">deb</span>
-
-<span class="s-Atom">libcudnn7</span><span class="o">-</span><span class="s-Atom">doc_7</span><span class="p">.</span><span class="m">4</span><span class="p">.</span><span class="m">2</span><span class="p">.</span><span class="m">24</span><span class="o">-</span><span class="m">1</span><span class="o">+</span><span class="s-Atom">cuda10</span><span class="p">.</span><span class="m">0</span><span class="k">_</span><span class="s-Atom">amd64</span><span class="p">.</span><span class="s-Atom">deb</span>
-
-<span class="p">[</span><span class="s-Atom">下载地址</span><span class="p">](</span><span class="nn">https</span><span class="p">:</span><span class="o">//</span><span class="s-Atom">developer</span><span class="p">.</span><span class="s-Atom">nvidia</span><span class="p">.</span><span class="s-Atom">com</span><span class="o">/</span><span class="s-Atom">rdp</span><span class="o">/</span><span class="s-Atom">cudnn</span><span class="o">-</span><span class="s-Atom">archive</span><span class="p">)</span>
-</pre></div>
-
-
+<p>更新到罪行版本, 对应的cuda和cudnn<br />
+| NVIDIA driver | CUDA | CUDNN | <br />
+| :-------: |:---:| :--------:|<br />
+|418.74| 10.0 |7.4.2|</p>
+<h3 id="_3">详细版本</h3>
+<h3 id="nvidia-driver">NVIDIA Driver</h3>
+<ul>
+<li>NVIDIA-Linux-x86_64-418.74.run </li>
+</ul>
+<p><a href="http://www.nvidia.cn/Download/index.aspx?lang=cn">下载地址</a></p>
+<h3 id="cuda_2">CUDA</h3>
+<ul>
+<li>cuda_10.0.130_410.48_linux.run</li>
+</ul>
+<p><a href="https://developer.nvidia.com/cuda-10.0-download-archive">下载地址</a></p>
+<h3 id="cudnn_2">CUDNN</h3>
+<ul>
+<li>
+<p>cudnn-10.0-linux-x64-v7.4.2.24.tgz</p>
+</li>
+<li>
+<p>libcudnn7_7.4.2.24-1+cuda10.0_amd64.deb</p>
+</li>
+<li>
+<p>libcudnn7-dev_7.4.2.24-1+cuda10.0_amd64.deb</p>
+</li>
+<li>
+<p>libcudnn7-doc_7.4.2.24-1+cuda10.0_amd64.deb</p>
+</li>
+</ul>
+<p><a href="https://developer.nvidia.com/rdp/cudnn-archive">下载地址</a></p>
 <h1 id="gputensorflow">四、安装gpu版tensorflow</h1>
 <p>本文使用的是virtualenv安装的tensorflow。<br />
 现在tensorflow越来越成熟了，所以在虚拟环境下直接可以用<code>pip install --upgrade tensorflow-gpu</code>即可安装成功。<br />
@@ -331,7 +335,7 @@
 <strong>注意，在安装cuda和dudnn的时候版本一定要一致。重装系统后，我装了cuda_9.0.176_384.81_linux和cudnn-9.0-linux-x64-v7.1，tensorflow的版本为1.7.0，安装过程中没有出现什么太大的问题，基本跟cuda8.0安装过程差不多。</strong></p>
 <h2 id="20181016">更新(2018.10.16)</h2>
 <p>在安装cudnn之后需要添加环境变量,上文提到了在/etc/profile中添加相应的语句,然后source.我在将tensorflow1.7升级到tensorflow1.10之后出现了问题一的情况,后面我将环境变量添加到~/.bashrc中,然后source之后问题没了.</p>
-<h1 id="_3">六、参考文献</h1>
+<h1 id="_4">六、参考文献</h1>
 <p><a href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html">CUDA官方安装教程</a><br />
 <a href="https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html#install-linux">cuDNN官方的安装和验证教程</a><br />
 <a href="https://sthsf.github.io/wiki/Algorithm/DeepLearning/Tensorflow学习笔记/Tensorflow基础知识---Tensorflow-gpu版本安装.html">ubuntu下安装安装CUDA、cuDNN和tensotflow-gpu版本流程和问题总结</a><br />
