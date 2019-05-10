@@ -227,31 +227,29 @@ Test passed!
 
 ##### **版本更新**
 更新到罪行版本, 对应的cuda和cudnn
-```
 | NVIDIA driver | CUDA | CUDNN | 
 | :-------: |:---:| :--------:|
 |418.74| 10.0 |7.4.2|
 
-详细版本
-# NVIDIA Driver
-NVIDIA-Linux-x86_64-418.74.run 
+### 详细版本
+### NVIDIA Driver
+- NVIDIA-Linux-x86_64-418.74.run 
 
 [下载地址](http://www.nvidia.cn/Download/index.aspx?lang=cn)
-# CUDA
-cuda_10.0.130_410.48_linux.run
+### CUDA
+- cuda_10.0.130_410.48_linux.run
 
 [下载地址](https://developer.nvidia.com/cuda-10.0-download-archive)
-# CUDNN
-cudnn-10.0-linux-x64-v7.4.2.24.tgz
+### CUDNN
+- cudnn-10.0-linux-x64-v7.4.2.24.tgz
 
-libcudnn7_7.4.2.24-1+cuda10.0_amd64.deb
+- libcudnn7_7.4.2.24-1+cuda10.0_amd64.deb
 
-libcudnn7-dev_7.4.2.24-1+cuda10.0_amd64.deb
+- libcudnn7-dev_7.4.2.24-1+cuda10.0_amd64.deb
 
-libcudnn7-doc_7.4.2.24-1+cuda10.0_amd64.deb
+- libcudnn7-doc_7.4.2.24-1+cuda10.0_amd64.deb
 
 [下载地址](https://developer.nvidia.com/rdp/cudnn-archive)
-```
 
 
 # 四、安装gpu版tensorflow
