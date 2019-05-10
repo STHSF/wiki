@@ -228,8 +228,9 @@ Test passed!
 ##### **版本更新**
 **UPDATE20190510**
 更新到罪行版本, 对应的cuda和cudnn
-| NVIDIA driver | CUDA | CUDNN | 
-| :-------: |:---:| :--------:|
+
+|NVIDIA driver|CUDA|CUDNN| 
+|:---:|:---:|:---:|
 |418.74| 10.0 |7.4.2|
 
 ### 详细版本
