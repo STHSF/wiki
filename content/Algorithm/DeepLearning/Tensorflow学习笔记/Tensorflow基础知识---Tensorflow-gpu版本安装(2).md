@@ -227,7 +227,7 @@ Test passed!
 
 ##### **版本更新**
 **UPDATE20190510**
-更新到罪行版本, 对应的cuda和cudnn
+升级tensorflow之后(tensorflow-gpu 1.13)更新版本, 对应的cuda和cudnn
 
 |NVIDIA driver|CUDA|CUDNN| 
 |:---:|:---:|:---:|
@@ -316,6 +316,9 @@ above this error message when asking for help.
 
 ## 更新(2018.10.16)
 在安装cudnn之后需要添加环境变量,上文提到了在/etc/profile中添加相应的语句,然后source.我在将tensorflow1.7升级到tensorflow1.10之后出现了问题一的情况,后面我将环境变量添加到~/.bashrc中,然后source之后问题没了.
+
+**UPDATE20190511**[tensorlfow cuda cudnn的版本对应](https://tensorflow.google.cn/install/source)
+
 
 # 六、参考文献
 [CUDA官方安装教程](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html)
