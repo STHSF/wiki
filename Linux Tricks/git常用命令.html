@@ -88,12 +88,45 @@
 
 
 <p>删除之后 再通过 <code>commit, push</code>等操作即可</p>
-<h2 id="_8">协同流程</h2>
+<h2 id="github">本地文件上传到github仓库</h2>
+<h3 id="_8">本地文件夹操作</h3>
+<p>1、 通过<code>git init</code>把当前目录变成git可以管理的仓库</p>
+<div class="hlcode"><pre><span class="cp"># 进入本地文件夹主文件目录下</span>
+<span class="n">git</span> <span class="n">init</span>
+</pre></div>
+
+
+<p>init 之后, 文件目录下会生成.git文件夹, 然后当前会出现在mater分支下.</p>
+<p>2、 执行 add, commit将文件提交到暂存区, 然后提交到仓库</p>
+<div class="hlcode"><pre><span class="n">git</span> <span class="n">add</span> <span class="p">.</span>  <span class="err">#</span> <span class="err">添加到暂存区</span>
+<span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="s">&quot;first commit&quot;</span>  <span class="err">#</span> <span class="err">提交到仓库</span>
+</pre></div>
+
+
+<h3 id="_9">关联远程仓库</h3>
+<p>1、如果不存在远程仓库, 则先在github上新建一个空的repo, 然后将本地仓库与远程仓库关联</p>
+<div class="hlcode"><pre><span class="n">git</span> <span class="n">remote</span> <span class="n">add</span> <span class="n">origin</span> <span class="err">新建的远程仓库</span>  
+<span class="cp"># 如 git remote add origin https:</span><span class="c1">//github.com/githubusername/demo.git</span>
+</pre></div>
+
+
+<p>2、如果远程仓库不为空, 除了关联远程仓库, 还必须做下面该步骤</p>
+<div class="hlcode"><pre><span class="n">git</span> <span class="n">pull</span> <span class="o">--</span><span class="n">rebase</span> <span class="n">origin</span> <span class="n">master</span>  <span class="err">#</span> <span class="err">获取远程仓库与本地仓库同步合并</span><span class="p">,</span> <span class="err">如果远程仓库不为空</span><span class="p">,</span><span class="err">则必须做这一步</span><span class="p">,</span> <span class="err">否则后面的提交会失败</span>
+</pre></div>
+
+
+<h3 id="_10">本地文件上传</h3>
+<div class="hlcode"><pre><span class="cp"># 把本地库的内容推送到远程，使用 git push命令，实际上是把当前分支master推送到远程。执行此命令后会要求输入用户名、密码，验证通过后即开始上传。</span>
+<span class="n">git</span> <span class="n">push</span> <span class="o">-</span><span class="n">u</span> <span class="n">origin</span> <span class="n">master</span>
+</pre></div>
+
+
+<h2 id="_11">协同流程</h2>
 <ul>
-<li>1、首先fork远程项目</li>
-<li>2、把fork过去的项目也就是你的项目clone到你的本地</li>
-<li>3、运行 git remote add &lt;远端别名&gt; &lt;别人的远端分枝&gt; 把别人的库添加为远端库</li>
-<li>4、运行 git pull &lt;远端别名&gt; &lt;远端分枝&gt; 拉取并合并到本地</li>
+<li>1、首先fork远程项目, 将远程仓库中的项目fork到本地仓库中,</li>
+<li>2、把fork过去的项目也就是你的本地仓库中的项目clone到你的本地</li>
+<li>3、运行 git remote add &lt;远程仓库别名&gt; &lt;别人的远程仓库地址&gt; 把别人的库添加为远端库, 并且取一个别名</li>
+<li>4、运行 git pull &lt;远程仓库别名&gt; &lt;远端分支&gt; 拉取并合并到本地</li>
 <li>5、编辑内容</li>
 <li>6、add, commit后push到自己的库（git push &lt;自己的远端别名&gt; &lt;自己的远端分枝&gt;）</li>
 <li>7、登陆Github在你首页可以看到一个 pull request 按钮，点击它，填写一些说明信息，然后提交即可。<br />
@@ -101,7 +134,7 @@
 </ul>
 <h2 id="lib">管理公共第三方lib</h2>
 <p>git subtree</p>
-<h1 id="_9">参考文献</h1>
+<h1 id="_12">参考文献</h1>
 <p><a href="https://segmentfault.com/q/1010000000670427">Github 的项目怎么引用另一个项目？</a></p>
 <p><a href="https://mp.weixin.qq.com/s?__biz=MjM5NTg2NTU0Ng%3D%3D&amp;chksm=bd5dde3b8a2a572dd32802287436d6bf5048975cd22984a182a967c8d3c35b22ec314f7a3022&amp;idx=4&amp;mid=2656602270&amp;scene=0&amp;sn=5e3842c5850ea0fd425c7886a0591ce4&amp;xtrack=1#rd">Git使用教程：最详细、最傻瓜、最浅显、真正手把手教！</a></p>
 <p><a href="https://www.cnblogs.com/toward-the-sun/p/6015284.html">git删除远程仓库的文件或目录</a></p>
