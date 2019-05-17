@@ -96,3 +96,21 @@ print match_build_pro(query_list, fields_list)
 # match_build_pro的输出结果:
 >>> [{'multi_match': {'query': u'yellow', 'type': 'phrase_prefix', 'fields': ['titles', 'summary']}}, {'multi_match': {'query': u'black', 'type': 'phrase_prefix', 'fields': ['titles', 'summary']}}]
 ```
+
+
+# OrderedDict中元素排序
+OrderedDict对象的字典对象，如果其顺序不同那么Python也会把他们当做是两个不同的对象
+
+```
+dd = {'banana': 3, 'apple':4, 'pear': 1, 'orange': 2}
+#按key排序
+kd = collections.OrderedDict(sorted(dd.items(), key=lambda t: t[0]))
+print kd
+#按照value排序
+vd = collections.OrderedDict(sorted(dd.items(),key=lambda t:t[1]))
+print vd
+
+#输出
+OrderedDict([('apple', 4), ('banana', 3), ('orange', 2), ('pear', 1)])
+OrderedDict([('pear', 1), ('orange', 2), ('banana', 3), ('apple', 4)])
+```

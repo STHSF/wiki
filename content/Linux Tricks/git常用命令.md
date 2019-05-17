@@ -42,11 +42,43 @@ git rm [-r] [file.txt]
 ```
 删除之后 再通过 ```commit, push```等操作即可
 
+## 本地文件上传到github仓库
+### 本地文件夹操作
+1、 通过```git init```把当前目录变成git可以管理的仓库
+```
+# 进入本地文件夹主文件目录下
+git init
+```
+init 之后, 文件目录下会生成.git文件夹, 然后当前会出现在mater分支下.
+
+2、 执行 add, commit将文件提交到暂存区, 然后提交到仓库
+```
+git add .  # 添加到暂存区
+git commit -m "first commit"  # 提交到仓库
+```
+### 关联远程仓库
+1、如果不存在远程仓库, 则先在github上新建一个空的repo, 然后将本地仓库与远程仓库关联
+```
+git remote add origin 新建的远程仓库  
+# 如 git remote add origin https://github.com/githubusername/demo.git
+```
+
+2、如果远程仓库不为空, 除了关联远程仓库, 还必须做下面该步骤
+```
+git pull --rebase origin master  # 获取远程仓库与本地仓库同步合并, 如果远程仓库不为空,则必须做这一步, 否则后面的提交会失败
+```
+
+### 本地文件上传
+```
+# 把本地库的内容推送到远程，使用 git push命令，实际上是把当前分支master推送到远程。执行此命令后会要求输入用户名、密码，验证通过后即开始上传。
+git push -u origin master
+```
+
 ## 协同流程
-- 1、首先fork远程项目
-- 2、把fork过去的项目也就是你的项目clone到你的本地
-- 3、运行 git remote add <远端别名> <别人的远端分枝> 把别人的库添加为远端库
-- 4、运行 git pull <远端别名> <远端分枝> 拉取并合并到本地
+- 1、首先fork远程项目, 将远程仓库中的项目fork到本地仓库中,
+- 2、把fork过去的项目也就是你的本地仓库中的项目clone到你的本地
+- 3、运行 git remote add <远程仓库别名> <别人的远程仓库地址> 把别人的库添加为远端库, 并且取一个别名
+- 4、运行 git pull <远程仓库别名> <远端分支> 拉取并合并到本地
 - 5、编辑内容
 - 6、add, commit后push到自己的库（git push <自己的远端别名> <自己的远端分枝>）
 - 7、登陆Github在你首页可以看到一个 pull request 按钮，点击它，填写一些说明信息，然后提交即可。
