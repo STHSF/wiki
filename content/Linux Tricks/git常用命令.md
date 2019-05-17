@@ -88,8 +88,10 @@ git push -u origin master
 git subtree
 
 
-# 参考文献
+## git 速查表
+<center><img src="/wiki/static/images/linuxtricks/gitcommand.png" alt="git-command"/></center>
 
+# 参考文献
 [Github 的项目怎么引用另一个项目？](https://segmentfault.com/q/1010000000670427)
 
 [Git使用教程：最详细、最傻瓜、最浅显、真正手把手教！](https://mp.weixin.qq.com/s?__biz=MjM5NTg2NTU0Ng%3D%3D&chksm=bd5dde3b8a2a572dd32802287436d6bf5048975cd22984a182a967c8d3c35b22ec314f7a3022&idx=4&mid=2656602270&scene=0&sn=5e3842c5850ea0fd425c7886a0591ce4&xtrack=1#rd)
@@ -97,3 +99,5 @@ git subtree
 [git删除远程仓库的文件或目录](https://www.cnblogs.com/toward-the-sun/p/6015284.html)
 
 [使用GitHub进行团队合作](http://xiaocong.github.io/blog/2013/03/20/team-collaboration-with-github/)
+
+[如何用命令将本地项目上传到git](https://www.cnblogs.com/eedc/p/6168430.html)
