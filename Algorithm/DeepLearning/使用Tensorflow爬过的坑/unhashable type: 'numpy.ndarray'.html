@@ -48,6 +48,7 @@
 </ul>
 </div>
 <h1 id="_1">写在前面</h1>
+<p>这个错误很蛋疼, 你会去检查feed数据的数据类型和palceholder的定义类型是否一致, 你会检查feed_dict的输入类型支不支持numpy.ndarray, 甚至于你还会去查unhashable的原因. 或者会试图把ndarray改写成list. 很有可能你会解决这个问题, 但是我的解决方式却非常的神奇, stackoverflow上有人剔骨类似的问题, 然后有人提示让你注意一下变量的名字, 然后我检查了一下我的代码, 发现定义的placeholder和输入变量的名字是一样的, 然后我尝试把两者使用不同的命名, 问题解决 </p>
 <h1 id="_2">错误提示</h1>
 <div class="hlcode"><pre><span class="nx">Traceback</span> <span class="p">(</span><span class="nx">most</span> <span class="nx">recent</span> <span class="nb">call</span> <span class="nb">last</span><span class="p">):</span>
   <span class="nb">File</span> <span class="s2">&quot;demo.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">193</span><span class="p">,</span> <span class="k">in</span> <span class="o">&lt;</span><span class="nx">module</span><span class="o">&gt;</span>
@@ -60,7 +61,18 @@
 
 <p>这是由于变量名与占位符名冲突导致的</p>
 <h1 id="_3">解决方法</h1>
+<div class="hlcode"><pre><span class="cp"># 部分代码</span>
+<span class="n">feature_map_np_p</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">None</span><span class="p">,</span> <span class="n">None</span><span class="p">,</span> <span class="mi">512</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="err">&#39;</span><span class="n">feature_map_np</span><span class="err">&#39;</span><span class="p">)</span>
+<span class="n">bbox</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="err">&#39;</span><span class="n">rol</span><span class="err">&#39;</span><span class="p">)</span>
+<span class="p">....</span>
+<span class="p">....</span>
+<span class="n">preds</span> <span class="o">=</span> <span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">decodes</span><span class="p">,</span> <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="n">bbox</span><span class="o">:</span><span class="n">roi</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">feature_map_np_p</span><span class="o">:</span> <span class="n">feature_map_np</span><span class="p">})</span>
+<span class="cp"># 注意placeholder那边也要修改</span>
+</pre></div>
+
+
 <h1 id="_4">参考文献</h1>
+<p><a href="https://stackoverflow.com/questions/43664985/typeerror-unhashable-type-numpy-ndarray-tensorflow">TypeError: unhashable type: 'numpy.ndarray' Tensorflow</a></p>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2019-05-20 23:30 </span></div>
 <div id="comments"></div>
