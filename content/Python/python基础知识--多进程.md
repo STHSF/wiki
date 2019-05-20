@@ -245,3 +245,5 @@ TypeError: can't pickle _thread._local objects
 [multiprocessing Basics](https://pymotw.com/2/multiprocessing/basics.html)
 
 [Communication Between Processes](https://pymotw.com/2/multiprocessing/communication.html)
+
+[python进程池multiprocessing.Pool和线程池multiprocessing.dummy.Pool实例](https://www.cnblogs.com/dylan9/p/9207366.html)
