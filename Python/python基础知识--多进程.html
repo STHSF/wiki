@@ -105,7 +105,153 @@
 </pre></div>
 
 
-<h1 id="_4">参考文献</h1>
+<h1 id="_4">类内多进程</h1>
+<div class="hlcode"><pre><span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="k">class</span> <span class="nc">someClass</span><span class="p">():</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">cal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">+</span><span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;f进程: </span><span class="si">%s</span><span class="s">d   父进程ID：</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">(),</span> <span class="n">os</span><span class="o">.</span><span class="n">getppid</span><span class="p">()))</span>
+        <span class="n">sent</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">sent</span><span class="p">[</span><span class="s">&#39;aa&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cal</span><span class="p">(</span><span class="n">param</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">])</span>
+        <span class="n">sent</span><span class="p">[</span><span class="s">&#39;bb&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sent</span><span class="p">[</span><span class="s">&#39;aa&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">sent</span><span class="p">[</span><span class="s">&#39;dd&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">param</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">param</span><span class="p">[</span><span class="s">&#39;y&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">sent</span>
+
+    <span class="k">def</span> <span class="nf">go</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;go进程: </span><span class="si">%s</span><span class="s">d   父进程ID：</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">(),</span> <span class="n">os</span><span class="o">.</span><span class="n">getppid</span><span class="p">()))</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>             
+        <span class="n">param_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">&#39;trade_date&#39;</span><span class="p">:</span> <span class="p">[</span> <span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">],</span>
+                      <span class="s">&#39;close&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span> <span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+                      <span class="s">&#39;returns&#39;</span><span class="p">:</span> <span class="p">[</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+                     <span class="p">})</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="n">dic</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">dic</span><span class="p">[</span><span class="s">&#39;index&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="n">dic</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
+            <span class="n">dic</span><span class="p">[</span><span class="s">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span> <span class="o">+</span><span class="mi">1</span>
+            <span class="n">param_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+        <span class="n">factor_list</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">,</span> <span class="n">param_list</span><span class="p">)</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">do</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">go</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">te</span> <span class="o">=</span> <span class="n">someClass</span><span class="p">()</span>
+    <span class="n">te</span><span class="o">.</span><span class="n">do</span><span class="p">()</span>
+</pre></div>
+
+
+<p>运行结果:</p>
+<div class="hlcode"><pre><span class="n">go</span><span class="err">进程</span><span class="o">:</span> <span class="mi">92817</span><span class="n">d</span>   <span class="err">父进程</span><span class="n">ID</span><span class="err">：</span><span class="mi">393</span>
+<span class="n">f</span><span class="err">进程</span><span class="o">:</span> <span class="mi">92819</span><span class="n">d</span>   <span class="err">父进程</span><span class="n">ID</span><span class="err">：</span><span class="mi">92817</span>
+<span class="n">f</span><span class="err">进程</span><span class="o">:</span> <span class="mi">92820</span><span class="n">d</span>   <span class="err">父进程</span><span class="n">ID</span><span class="err">：</span><span class="mi">92817</span>
+<span class="n">f</span><span class="err">进程</span><span class="o">:</span> <span class="mi">92821</span><span class="n">d</span>   <span class="err">父进程</span><span class="n">ID</span><span class="err">：</span><span class="mi">92817</span>
+<span class="n">f</span><span class="err">进程</span><span class="o">:</span> <span class="mi">92822</span><span class="n">d</span>   <span class="err">父进程</span><span class="n">ID</span><span class="err">：</span><span class="mi">92817</span>
+<span class="n">f</span><span class="err">进程</span><span class="o">:</span> <span class="mi">92819</span><span class="n">d</span>   <span class="err">父进程</span><span class="n">ID</span><span class="err">：</span><span class="mi">92817</span>
+<span class="n">f</span><span class="err">进程</span><span class="o">:</span> <span class="mi">92821</span><span class="n">d</span>   <span class="err">父进程</span><span class="n">ID</span><span class="err">：</span><span class="mi">92817</span>
+<span class="n">f</span><span class="err">进程</span><span class="o">:</span> <span class="mi">92820</span><span class="n">d</span>   <span class="err">父进程</span><span class="n">ID</span><span class="err">：</span><span class="mi">92817</span>
+<span class="n">f</span><span class="err">进程</span><span class="o">:</span> <span class="mi">92822</span><span class="n">d</span>   <span class="err">父进程</span><span class="n">ID</span><span class="err">：</span><span class="mi">92817</span>
+<span class="n">f</span><span class="err">进程</span><span class="o">:</span> <span class="mi">92819</span><span class="n">d</span>   <span class="err">父进程</span><span class="n">ID</span><span class="err">：</span><span class="mi">92817</span>
+<span class="n">f</span><span class="err">进程</span><span class="o">:</span> <span class="mi">92821</span><span class="n">d</span>   <span class="err">父进程</span><span class="n">ID</span><span class="err">：</span><span class="mi">92817</span>
+</pre></div>
+
+
+<h1 id="_5">错误类内调用多进程</h1>
+<div class="hlcode"><pre><span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">sqlalchemy</span> <span class="kn">as</span> <span class="nn">sa</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">sessionmaker</span>
+
+
+<span class="k">class</span> <span class="nc">baseClass</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">destination_db</span> <span class="o">=</span> <span class="s">&#39;&#39;&#39;mysql+mysqlconnector://{0}:{1}@{2}:{3}/{4}&#39;&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_destination</span> <span class="o">=</span> <span class="n">sa</span><span class="o">.</span><span class="n">create_engine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">destination_db</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dest_session</span> <span class="o">=</span> <span class="n">sessionmaker</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_destination</span><span class="p">,</span> <span class="n">autocommit</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">autoflush</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
+
+
+<span class="k">class</span> <span class="nc">someClass</span><span class="p">(</span><span class="n">baseClass</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">someClass</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">cal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;f进程: </span><span class="si">%s</span><span class="s">d   父进程ID：</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">(),</span> <span class="n">os</span><span class="o">.</span><span class="n">getppid</span><span class="p">()))</span>
+        <span class="n">sent</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">sent</span><span class="p">[</span><span class="s">&#39;aa&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cal</span><span class="p">(</span><span class="n">param</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">])</span>
+        <span class="n">sent</span><span class="p">[</span><span class="s">&#39;bb&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sent</span><span class="p">[</span><span class="s">&#39;aa&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">sent</span><span class="p">[</span><span class="s">&#39;dd&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">param</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">param</span><span class="p">[</span><span class="s">&#39;y&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">sent</span>
+
+    <span class="k">def</span> <span class="nf">go</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;go进程: </span><span class="si">%s</span><span class="s">d   父进程ID：</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">(),</span> <span class="n">os</span><span class="o">.</span><span class="n">getppid</span><span class="p">()))</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        <span class="n">param_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">&#39;trade_date&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+                             <span class="s">&#39;close&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                             <span class="s">&#39;returns&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+                             <span class="p">})</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="n">dic</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">dic</span><span class="p">[</span><span class="s">&#39;index&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="n">dic</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
+            <span class="n">dic</span><span class="p">[</span><span class="s">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">param_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+        <span class="n">factor_list</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">,</span> <span class="n">param_list</span><span class="p">)</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="c"># print(factor_list)</span>
+
+    <span class="k">def</span> <span class="nf">do</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">go</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">te</span> <span class="o">=</span> <span class="n">someClass</span><span class="p">(</span><span class="s">&#39;test&#39;</span><span class="p">)</span>
+    <span class="n">te</span><span class="o">.</span><span class="n">do</span><span class="p">()</span>
+</pre></div>
+
+
+<p>错误提示:</p>
+<div class="hlcode"><pre><span class="nx">Traceback</span> <span class="p">(</span><span class="nx">most</span> <span class="nx">recent</span> <span class="nb">call</span> <span class="nb">last</span><span class="p">):</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/MyRepository/RL/basic-data/factor/__init__.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">60</span><span class="p">,</span> <span class="k">in</span> <span class="o">&lt;</span><span class="nx">module</span><span class="o">&gt;</span>
+    <span class="nx">te.do</span><span class="p">()</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/MyRepository/RL/basic-data/factor/__init__.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">55</span><span class="p">,</span> <span class="k">in</span> <span class="k">do</span>
+    <span class="bp">self.</span><span class="nx">go</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/MyRepository/RL/basic-data/factor/__init__.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">49</span><span class="p">,</span> <span class="k">in</span> <span class="nx">go</span>
+    <span class="n">factor_list</span> <span class="o">=</span> <span class="nx">pool.map</span><span class="p">(</span><span class="bp">self.</span><span class="nb">f</span><span class="p">,</span> <span class="nx">param_list</span><span class="p">)</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/pool.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">268</span><span class="p">,</span> <span class="k">in</span> <span class="kt">map</span>
+    <span class="k">return</span> <span class="bp">self.</span><span class="nx">_map_async</span><span class="p">(</span><span class="nx">func</span><span class="p">,</span> <span class="nx">iterable</span><span class="p">,</span> <span class="nx">mapstar</span><span class="p">,</span> <span class="nx">chunksize</span><span class="p">)</span><span class="bp">.</span><span class="nb">get</span><span class="p">()</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/pool.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">657</span><span class="p">,</span> <span class="k">in</span> <span class="nb">get</span>
+    <span class="nx">raise</span> <span class="bp">self.</span><span class="nx">_value</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/pool.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">431</span><span class="p">,</span> <span class="k">in</span> <span class="nx">_handle_tasks</span>
+    <span class="nx">put</span><span class="p">(</span><span class="nx">task</span><span class="p">)</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/connection.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">206</span><span class="p">,</span> <span class="k">in</span> <span class="nb">send</span>
+    <span class="bp">self.</span><span class="nx">_send_bytes</span><span class="p">(</span><span class="nx">_ForkingPickler.dumps</span><span class="p">(</span><span class="nx">obj</span><span class="p">))</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/reduction.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">51</span><span class="p">,</span> <span class="k">in</span> <span class="nx">dumps</span>
+    <span class="nx">cls</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">protocol</span><span class="p">)</span><span class="bp">.</span><span class="nb">dump</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span>
+<span class="nx">TypeError</span><span class="p">:</span> <span class="nx">can</span><span class="s1">&#39;t pickle _thread._local objects</span>
+</pre></div>
+
+
+<h1 id="_6">参考文献</h1>
 <p><a href="https://www.jb51.net/article/141528.htm">1</a><br />
 <a href="https://blog.csdn.net/qq_37258787/article/details/79172916">Python multiprocessing.Pool与threadpool</a></p>
 <p><a href="https://blog.csdn.net/weixin_43692357/article/details/86026040">python 进程池（multiprocessing.Pool）和线程池（threadpool.ThreadPool）的区别与实例</a></p>
@@ -116,6 +262,9 @@
 <p><a href="https://blog.csdn.net/weixin_38611497/article/details/81490960">Python3多进程(mutiprocessing)</a></p>
 <p><a href="https://www.cnblogs.com/garfieldcgf/p/8324852.html">python多进程并发</a></p>
 <p><a href="https://www.liaoxuefeng.com/wiki/1016959663602400/1017628290184064">多进程</a></p>
+<p><a href="http://www.cnblogs.com/li-dp/p/5837823.html">Python多进程相关的坑</a></p>
+<p><a href="https://pymotw.com/2/multiprocessing/basics.html">multiprocessing Basics</a></p>
+<p><a href="https://pymotw.com/2/multiprocessing/communication.html">Communication Between Processes</a></p>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2018-01-30 13:00 </span></div>
 <div id="comments"></div>
