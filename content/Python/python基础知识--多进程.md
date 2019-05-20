@@ -72,6 +72,154 @@ if __name__ == "__main__":
 python data_process_by_multiprocess.py message.txt
 ```
 
+
+# 类内多进程
+
+```python
+import multiprocessing
+import pandas as pd
+import os
+
+class someClass():
+    def __init__(self):
+        pass
+    
+    def cal(self, x):
+        return x +1
+
+    def f(self, param):
+        print('f进程: %sd   父进程ID：%s' % (os.getpid(), os.getppid()))
+        sent = {}
+        sent['aa'] = self.cal(param['x'])
+        sent['bb'] = sent['aa'] - 1
+        sent['dd'] = param['x']*param['x'] + param['y']
+        return sent
+
+    def go(self, n):
+        print('go进程: %sd   父进程ID：%s' % (os.getpid(), os.getppid()))
+        pool = multiprocessing.Pool(processes=4)             
+        param_list = []
+        data = pd.DataFrame({'trade_date': [ 1,2,3,4,5,6,7,8,9,10],
+                      'close': [1,1 ,1,1,1,1,1,1,1,1],
+                      'returns': [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+                     })
+        for i in range(n):
+            dic = {}
+            dic['index'] = i
+            dic['x'] = data
+            dic['y'] = data +1
+            param_list.append(dic)
+        factor_list = pool.map(self.f, param_list)
+        pool.close()
+        pool.join()
+    def do(self):
+        self.go(10)
+if __name__ == '__main__':
+    te = someClass()
+    te.do()
+```
+运行结果:
+```shell
+go进程: 92817d   父进程ID：393
+f进程: 92819d   父进程ID：92817
+f进程: 92820d   父进程ID：92817
+f进程: 92821d   父进程ID：92817
+f进程: 92822d   父进程ID：92817
+f进程: 92819d   父进程ID：92817
+f进程: 92821d   父进程ID：92817
+f进程: 92820d   父进程ID：92817
+f进程: 92822d   父进程ID：92817
+f进程: 92819d   父进程ID：92817
+f进程: 92821d   父进程ID：92817
+```
+
+# 错误类内调用多进程
+```python
+import multiprocessing
+import pandas as pd
+import os
+import os
+import sys
+import numpy as np
+import pandas as pd
+import sqlalchemy as sa
+from sqlalchemy.orm import sessionmaker
+
+
+class baseClass(object):
+    def __init__(self, name):
+        self.destination_db = '''mysql+mysqlconnector://{0}:{1}@{2}:{3}/{4}'''.format(1, 2, 3, 4, 5)
+        self._destination = sa.create_engine(self.destination_db)
+        self._dest_session = sessionmaker(bind=self._destination, autocommit=False, autoflush=True)
+        self._name = name
+
+
+class someClass(baseClass):
+    def __init__(self, name):
+        super(someClass, self).__init__(name)
+
+    def cal(self, x):
+        return x + 1
+
+    def f(self, param):
+        print('f进程: %sd   父进程ID：%s' % (os.getpid(), os.getppid()))
+        sent = {}
+        sent['aa'] = self.cal(param['x'])
+        sent['bb'] = sent['aa'] - 1
+        sent['dd'] = param['x'] * param['x'] + param['y']
+        return sent
+
+    def go(self, n):
+        print('go进程: %sd   父进程ID：%s' % (os.getpid(), os.getppid()))
+        pool = multiprocessing.Pool(processes=4)
+        param_list = []
+        data = pd.DataFrame({'trade_date': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                             'close': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                             'returns': [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+                             })
+        for i in range(n):
+            dic = {}
+            dic['index'] = i
+            dic['x'] = data
+            dic['y'] = data + 1
+            param_list.append(dic)
+        factor_list = pool.map(self.f, param_list)
+        pool.close()
+        pool.join()
+        # print(factor_list)
+
+    def do(self):
+        self.go(10)
+
+
+if __name__ == '__main__':
+    te = someClass('test')
+    te.do()
+```
+错误提示:
+```
+Traceback (most recent call last):
+  File "/Users/li/workshop/MyRepository/RL/basic-data/factor/__init__.py", line 60, in <module>
+    te.do()
+  File "/Users/li/workshop/MyRepository/RL/basic-data/factor/__init__.py", line 55, in do
+    self.go(10)
+  File "/Users/li/workshop/MyRepository/RL/basic-data/factor/__init__.py", line 49, in go
+    factor_list = pool.map(self.f, param_list)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/pool.py", line 268, in map
+    return self._map_async(func, iterable, mapstar, chunksize).get()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/pool.py", line 657, in get
+    raise self._value
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/pool.py", line 431, in _handle_tasks
+    put(task)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/connection.py", line 206, in send
+    self._send_bytes(_ForkingPickler.dumps(obj))
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/multiprocessing/reduction.py", line 51, in dumps
+    cls(buf, protocol).dump(obj)
+TypeError: can't pickle _thread._local objects
+```
+
+
+
 # 参考文献
 [1](https://www.jb51.net/article/141528.htm)
 [Python multiprocessing.Pool与threadpool](https://blog.csdn.net/qq_37258787/article/details/79172916)
@@ -91,3 +239,9 @@ python data_process_by_multiprocess.py message.txt
 [python多进程并发](https://www.cnblogs.com/garfieldcgf/p/8324852.html)
 
 [多进程](https://www.liaoxuefeng.com/wiki/1016959663602400/1017628290184064)
+
+[Python多进程相关的坑](http://www.cnblogs.com/li-dp/p/5837823.html)
+
+[multiprocessing Basics](https://pymotw.com/2/multiprocessing/basics.html)
+
+[Communication Between Processes](https://pymotw.com/2/multiprocessing/communication.html)
