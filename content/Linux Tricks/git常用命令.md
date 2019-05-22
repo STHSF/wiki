@@ -101,3 +101,13 @@ git subtree
 [使用GitHub进行团队合作](http://xiaocong.github.io/blog/2013/03/20/team-collaboration-with-github/)
 
 [如何用命令将本地项目上传到git](https://www.cnblogs.com/eedc/p/6168430.html)
+
+[提交 Merge Request 申请进行code review](https://blog.csdn.net/liuchunming033/article/details/87195568)
+
+[git 使用流程规范（merge-request)](https://segmentfault.com/a/1190000007701719)
+
+[GitLab 创建 merge request](https://blog.csdn.net/enlyhua/article/details/82875286)
+
+[如何加入别人的Git项目——Git Fork指南](https://www.cnblogs.com/dky20155212/p/6821634.html?utm_source=itdadao&utm_medium=referral)
+
+[git常用命令以及如何与fork别人的仓库保持同步](https://www.cnblogs.com/-walker/p/7278951.html)

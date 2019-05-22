@@ -290,3 +290,9 @@ max_depth对模型的收敛效果很明显, 刚开始我在调参过程中max_de
 [史上最详细的XGBoost实战](https://blog.csdn.net/u013709270/article/details/78156207)
 
 [XGBoost特征重要性以及CV](https://www.jianshu.com/p/0a8a5f80161e)
+
+[XGBoost 核心数据结构和API(速查表)](https://blog.csdn.net/maerdym/article/details/84863113)
+
+[XGBoost和LightGBM的参数以及调参](https://www.jianshu.com/p/1100e333fcab)
+
+[实战微博互动预测之三_xgboost答疑解惑](http://www.voidcn.com/article/p-zxyduztr-brm.html)
