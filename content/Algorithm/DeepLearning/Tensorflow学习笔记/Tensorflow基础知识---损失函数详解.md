@@ -119,7 +119,8 @@ Function(softmax_cross_entropy_with_logits) result=
 其中tf.clip_by_calue()函数可将一个tensor的元素数值限制在指定的范围内，这样可以防止一些错误运算，起到数值检查的作用。
 从结果可以看出softmax_cross_entropy_with_logits()与我们个公式逻辑是相符合的，整个过程可以大概了解到softmax_cross_entropy_with_logits()的操作情况。
 
-## tf.nn.sparse_softmax_cross_entropy_with_logits(logits, labels, name=None)
+## sparse_softmax_cross_entropy_with_logits
+tf.nn.sparse_softmax_cross_entropy_with_logits(logits, labels, name=None)
 ```python
 def sparse_softmax_cross_entropy_with_logits(_sentinel=None,  # pylint: disable=invalid-name
                                              labels=None, 
@@ -172,22 +173,29 @@ def cost_compute(logits, target_inputs, num_classes):
 ```
 完整代码请参考[bi_lstm_advanced.py](https://github.com/STHSF/DeepNaturalLanguageProcessing/tree/develop/ChineseSegmentation/src)
 
-## tf.nn.sigmoid_cross_entropy_with_logits(logits, targets, name=None)
+## sigmoid_cross_entropy_with_logits
+tf.nn.sigmoid_cross_entropy_with_logits(logits, targets, name=None)
 sigmoid_cross_entropy_with_logits是TensorFlow最早实现的交叉熵算法。这个函数的输入是logits和labels，logits就是神经网络模型中的 W * X矩阵，注意不需要经过sigmoid，而labels的shape和logits相同，就是正确的标签值，例如这个模型一次要判断100张图是否包含10种动物，这两个输入的shape都是[100, 10]。注释中还提到这10个分类之间是独立的、不要求是互斥，这种问题我们称为多目标（多标签）分类，例如判断图片中是否包含10种动物中的一种或几种，标签值可以包含多个1或0个1。
 
-## tf.nn.weighted_cross_entropy_with_logits(logits, targets, pos_weight, name=None)	
+## weighted_cross_entropy_with_logits
+tf.nn.weighted_cross_entropy_with_logits(logits, targets, pos_weight, name=None)	
 weighted_sigmoid_cross_entropy_with_logits是sigmoid_cross_entropy_with_logits的拓展版，多支持一个pos_weight参数，在传统基于sigmoid的交叉熵算法上，正样本算出的值乘以某个系数。
 
-## tf.nn.log_softmax(logits, name=None)	
+## log_softmax
+tf.nn.log_softmax(logits, name=None)	
 
 
 # sampled loss functions
-## tf.nn.nce_loss(weights, biases, inputs, labels, num_sampled,num_classes, num_true=1, sampled_values=None,remove_accidental_hits=False, partition_strategy=’mod’,name=’nce_loss’)
-## tf.nn.sampled_softmax_loss(weights, biases, inputs, labels, num_sampled, num_classes, num_true=1, sampled_values=None,remove_accidental_hits=True, partition_strategy=’mod’, name=’sampled_softmax_loss’)
+## nce_loss
+ tf.nn.nce_loss(weights, biases, inputs, labels, num_sampled,num_classes, num_true=1, sampled_values=None,remove_accidental_hits=False, partition_strategy=’mod’,name=’nce_loss’)
+## sampled_softmax_loss
+tf.nn.sampled_softmax_loss(weights, biases, inputs, labels, num_sampled, num_classes, num_true=1, sampled_values=None,remove_accidental_hits=True, partition_strategy=’mod’, name=’sampled_softmax_loss’)
 
 # sequence to sequence中的loss function
-## sequence_loss_by_example(logits, targets, weights)
-## tf.contrib.legacy_seq2seq.sequence_loss_by_example
+## sampled_softmax_loss
+sequence_loss_by_example(logits, targets, weights)
+## legacy_seq2seq
+tf.contrib.legacy_seq2seq.sequence_loss_by_example
 
 # 参考文献
 [1](http://blog.csdn.net/marsjhao/article/details/72630147)
