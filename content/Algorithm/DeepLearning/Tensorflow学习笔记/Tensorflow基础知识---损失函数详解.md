@@ -203,3 +203,7 @@ tf.contrib.legacy_seq2seq.sequence_loss_by_example
 [sequence_loss_by_example(logits, targets, weights）](http://blog.csdn.net/appleml/article/details/54017873)
 
 [机器学习中常见的几种损失函数](https://www.cnblogs.com/hejunlin1992/p/8158933.html)
+
+[一文读懂机器学习常用损失函数](http://www.mamicode.com/info-detail-2346633.html)
+
+[机器学习中的损失函数](http://www.itongji.cn/detail?type=1040)
