@@ -27,6 +27,22 @@ $$
 
 一般来说，对于分类或者回归模型进行评估时，需要使得模型在训练数据上的损失函数值最小，即使得经验风险函数(Empirical risk)最小化，但是如果只考虑经验风险，容易出现过拟合，因此还需要考虑模型的泛化性，一般常用的方法就是在目标函数中加上正则项，有损失项（loss term）加上正则项（regularization term）构成结构风险（Structural risk）.
 
+# 0-1损失函数和绝对值损失
+
+
+# log对数损失函数
+
+
+# 平方损失函数
+
+
+# 指数损失函数
+
+
+# Hinge损失函数
+
+
+
 # Tensorflow中的loss function实现
 
 ## `cross_entropy`交叉熵
@@ -178,3 +194,4 @@ weighted_sigmoid_cross_entropy_with_logits是sigmoid_cross_entropy_with_logits�
 [tensorflow学习笔记（三）：损失函数](http://blog.csdn.net/u012436149/article/details/52874718)
 [sequence_loss_by_example(logits, targets, weights）](http://blog.csdn.net/appleml/article/details/54017873)
 
+[机器学习中常见的几种损失函数](https://www.cnblogs.com/hejunlin1992/p/8158933.html)
