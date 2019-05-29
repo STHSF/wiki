@@ -122,9 +122,32 @@ $$ x^{y^z}=(1+{\rm e}^x)^{-2xy^w} $$
 # 常见的表达式
 
 - 分数：$$\frac{a+1}{a-1}$$
-语法： \frac{a+1}{a-1} 
+语法：
+
+``` 
+$$\frac{a+1}{a-1}$$
+``` 
 - $$\sum_{i=0}^n {i^2} ={\frac{(i+1)(i^2+6)}{i-1}}$$
 语法：\sum_{i=0}^n {i^2} ={\frac{(i+1)(i^2+6)}{i-1}}
+
+- 分段函数
+
+语法: 
+```
+$$函数名=\begin{cases}
+公式1 & 条件1 \\
+公式2 & 条件2 \\
+公式3 & 条件3 
+\end{cases}$$
+```
+$$
+函数名 = \begin{cases}
+公式1 & 条件1 \\
+公式2 & 条件2 \\
+公式3 & 条件3
+\end{cases}
+$$
+
 
 # 参考文献
 [MarkDown(LaTex) 数学公式](http://blog.csdn.net/Linear_Luo/article/details/52224996)
