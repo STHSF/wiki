@@ -78,7 +78,7 @@ hello word
 
 # Docker简易搭建kafka
 为了快速检验docker下使用kafka的可能性, 另外自己写dockerFile比较慢, 所以选择下载第三方镜像, 然后直接使用.
-1、docker search zookeeper和kafka
+#### 1、docker search zookeeper和kafka
 ```
 # zookeeper
 NAME                           DESCRIPTION                                     STARS     OFFICIAL        AUTOMATED
@@ -110,11 +110,11 @@ REPOSITORY                   TAG                 IMAGE ID            CREATED    
 zookeeper                    latest              55c28ddb9786        4 days ago          211MB
 wurstmeister/kafka           latest              c364cbed5b86        6 weeks ago         421MB
 ```
-2、启动zookeeper容器
+#### 2、启动zookeeper容器
 ```
 docker run -itd --name zookeeper -p 2181:2181 -t zookeeper
 ```
-3、启动kafka容器
+#### 3、启动kafka容器
 
 ```
 docker run -d --name kafka --publish 9092:9092 --link zookeeper --env KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181 --env KAFKA_ADVERTISED_HOST_NAME=[你的宿主ip] --env KAFKA_ADVERTISED_PORT=9092 --volume /etc/localtime:/etc/localtime wurstmeister/kafka:latest
@@ -125,7 +125,7 @@ CONTAINER ID        IMAGE                                 COMMAND               
 ec19c784fa15        wurstmeister/kafka:latest             "start-kafka.sh"         5 hours ago         Up 4 hours                  0.0.0.0:9092->9092/tcp                       kafka
 5d8dcd2f4ca6        zookeeper                             "/docker-entrypoint.…"   5 hours ago         Up 4 hours                  2888/tcp, 0.0.0.0:2181->2181/tcp, 3888/tcp   zookeeper
 ```
-4、生产者消费者测试
+#### 4、生产者消费者测试
 使用宿主机上的kafka进行测试. 链接kafka容器, 使用的是主机与容器的端口映射
 - 生产消息
 ```
@@ -138,5 +138,5 @@ bin/kafka-console-consumer.sh --topic=test02 --bootstrap-server 10.15.5.164:9092
 hello word
 ```
 
-**疑点**
+### **疑点**
 关于docker下创建topic, 进入kafka容器后创建topic理论上和实际操作上是没有问题的, 在宿主机上也是可以查看到创建的topic的, 但是如何在容器外部创建topic呢, 暂时没找到解决方案, 但是如果宿主机上部署了kafka, 在没有启动kafka的情况下也是可以通过```bin/kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic test01 ```创建topic的. 同样, 查看topic列表时, 所有的topic都能现实. 如果宿主机上没有kafka, 如何创建topic?
