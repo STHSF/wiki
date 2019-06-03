@@ -40,10 +40,10 @@
 <div class="clearfix"></div>
 <div id="title">kafka快速搭建和使用</div>
 <div id="content">
-  <h1 id="_1">写在前面</h1>
+  <h1 id="1">1、写在前面</h1>
 <p>使用virtualenv创建虚拟环境,如果环境中又安装了conda,在使用source activate的时候可能会遇到不可遇见的问题,比如说环境混乱,特别是在使用复制过来的venv时很容易出错,所以建议一般使用requirement.txt重新安装.</p>
-<h1 id="_2">本地搭建</h1>
-<h2 id="_3">本地环境</h2>
+<h1 id="2">2、本地搭建</h1>
+<h2 id="_1">本地环境</h2>
 <div class="hlcode"><pre><span class="mi">1</span><span class="err">、</span><span class="n">Ubuntu</span><span class="err">版本</span>
 <span class="mf">16.04.10</span>
 <span class="mi">2</span><span class="err">、</span> <span class="n">Java</span><span class="err">版本</span>
@@ -55,7 +55,7 @@
 </pre></div>
 
 
-<h2 id="_4">本地搭建(单例)</h2>
+<h2 id="_2">本地搭建(单例)</h2>
 <p>1、首先从<a href="https://www.apache.org/dyn/closer.cgi?path=/kafka/2.2.0/kafka_2.12-2.2.0.tgz">官网</a>上下载kafka压缩包, 下载完成之后解压缩</p>
 <div class="hlcode"><pre><span class="n">tar</span> <span class="o">-</span><span class="n">xzf</span> <span class="n">kafka_2</span><span class="mf">.12</span><span class="o">-</span><span class="mf">2.2.0</span><span class="p">.</span><span class="n">tgz</span>
 </pre></div>
@@ -116,7 +116,7 @@
 
 
 <p><strong>如果上面的过程都有对应的输出结果, 没有出错的话. 一套简单的单例kafka就搭建完成了</strong></p>
-<h1 id="dockerkafka">Docker简易搭建kafka</h1>
+<h1 id="3dockerkafka">3、Docker简易搭建kafka</h1>
 <p>为了快速检验docker下使用kafka的可能性, 另外自己写dockerFile比较慢, 所以选择下载第三方镜像, 然后直接使用.</p>
 <h4 id="1docker-search-zookeeperkafka">1、docker search zookeeper和kafka</h4>
 <div class="hlcode"><pre><span class="cp"># zookeeper</span>
@@ -168,7 +168,24 @@
 </pre></div>
 
 
-<h4 id="4">4、生产者消费者测试</h4>
+<h4 id="4kafka">4、kafka容器内部操作</h4>
+<p>我们可以通过<code>docker exec -it [your kafka container id] /bin/bash</code></p>
+<p>然后进入<code>/ope/kafka_2.12-2.1.0</code>, 如下图所示.<br />
+<center><img src="/wiki/static/images/message/docker_kafka.jpg" alt="git-command"/></center></p>
+<p>container内创建一个topic. 名字为topic_docker_test</p>
+<div class="hlcode"><pre><span class="n">bin</span><span class="o">/</span><span class="n">kafka</span><span class="o">-</span><span class="n">topics</span><span class="p">.</span><span class="n">sh</span> <span class="o">--</span><span class="n">create</span> <span class="o">--</span><span class="n">zookeeper</span> <span class="n">zookeeper</span><span class="o">:</span><span class="mi">2181</span> <span class="o">--</span><span class="n">replication</span><span class="o">-</span><span class="n">factor</span> <span class="mi">1</span> <span class="o">--</span><span class="n">partitions</span> <span class="mi">1</span> <span class="o">--</span><span class="n">topic</span> <span class="n">topic_docker_test</span>
+</pre></div>
+
+
+<p>查看topic list</p>
+<div class="hlcode"><pre><span class="n">bin</span><span class="o">/</span><span class="n">kafka</span><span class="o">-</span><span class="n">topics</span><span class="p">.</span><span class="n">sh</span> <span class="o">--</span><span class="n">list</span> <span class="o">--</span><span class="n">zookeeper</span> <span class="n">zookeeper</span><span class="o">:</span><span class="mi">2181</span>  <span class="c1">//查看我们的topic列表</span>
+</pre></div>
+
+
+<p><strong>注,topic的创建和查看中的<code>zookeeper:2181</code>可以替换成<code>[宿主机ip:2181]</code>如<code>10.15.5.14:2181</code></strong></p>
+<h4 id="5container">5、container内生产者消费者测试</h4>
+<p>container内部的生产者和消费者测试与本地(单例)模式下的测试一模一样, 这么不赘述.</p>
+<h4 id="6">6、生产者消费者测试</h4>
 <p>使用宿主机上的kafka进行测试. 链接kafka容器, 使用的是主机与容器的端口映射<br />
 - 生产消息</p>
 <div class="hlcode"><pre><span class="n">bin</span><span class="o">/</span><span class="n">kafka</span><span class="o">-</span><span class="n">console</span><span class="o">-</span><span class="n">producer</span><span class="p">.</span><span class="n">sh</span> <span class="o">--</span><span class="n">topic</span><span class="o">=</span><span class="n">test02</span> <span class="o">--</span><span class="n">broker</span><span class="o">-</span><span class="n">list</span> <span class="mf">10.15.5.164</span><span class="o">:</span><span class="mi">9092</span>
@@ -184,8 +201,13 @@
 </pre></div>
 
 
-<h3 id="_5"><strong>疑点</strong></h3>
+<h3 id="_3"><strong>疑点</strong></h3>
 <p>关于docker下创建topic, 进入kafka容器后创建topic理论上和实际操作上是没有问题的, 在宿主机上也是可以查看到创建的topic的, 但是如何在容器外部创建topic呢, 暂时没找到解决方案, 但是如果宿主机上部署了kafka, 在没有启动kafka的情况下也是可以通过<code>bin/kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic test01</code>创建topic的. 同样, 查看topic列表时, 所有的topic都能现实. 如果宿主机上没有kafka, 如何创建topic?</p>
+<h5 id="_4">参考文献</h5>
+<p><a href="https://blog.icocoro.me/2018/12/17/1812-docker-zookeeper-kafka/">使用Docker快速搭建Zookeeper和kafka集群</a></p>
+<p><a href="https://blog.csdn.net/belonghuang157405/article/details/82149257">docker简易搭建kafka</a></p>
+<p><a href="https://baijiahao.baidu.com/s?id=1619850826376520795&amp;wfr=spider&amp;for=pc">Zookeeper和Kafka集群配置，非常详细的参数解读</a></p>
+<p><a href="https://blog.csdn.net/lblblblblzdx/article/details/80548294">使用docker安装kafka</a></p>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2019-06-03 10:00 </span></div>
 <div id="comments"></div>
