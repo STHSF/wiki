@@ -183,7 +183,8 @@ for n in client.brokers:
 2、创建简单的生产者
 producer.py
 ```python
-#!/usr/bin/python                                                                                                                        # coding:utf-8
+#!/usr/bin/python  
+# coding:utf-8
  
 from kafka import KafkaProducer
 
