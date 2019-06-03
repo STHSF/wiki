@@ -12,9 +12,11 @@ date: 2019-06-03 10:00
 ```
 1、Ubuntu版本
 16.04.10
-2、zookeeper版本
+2、 Java版本
+"1.8.0_161"
+3、zookeeper版本
 zookeeper-3.4.14
-3、kafka版本
+4、kafka版本
 kafka_2.12-2.2.0
 ```
 ## 本地搭建(单例)
@@ -113,3 +115,28 @@ wurstmeister/kafka           latest              c364cbed5b86        6 weeks ago
 docker run -itd --name zookeeper -p 2181:2181 -t zookeeper
 ```
 3、启动kafka容器
+
+```
+docker run -d --name kafka --publish 9092:9092 --link zookeeper --env KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181 --env KAFKA_ADVERTISED_HOST_NAME=[你的宿主ip] --env KAFKA_ADVERTISED_PORT=9092 --volume /etc/localtime:/etc/localtime wurstmeister/kafka:latest
+```
+启动后查看容器信息
+```
+CONTAINER ID        IMAGE                                 COMMAND                  CREATED             STATUS                      PORTS                                        NAMES
+ec19c784fa15        wurstmeister/kafka:latest             "start-kafka.sh"         5 hours ago         Up 4 hours                  0.0.0.0:9092->9092/tcp                       kafka
+5d8dcd2f4ca6        zookeeper                             "/docker-entrypoint.…"   5 hours ago         Up 4 hours                  2888/tcp, 0.0.0.0:2181->2181/tcp, 3888/tcp   zookeeper
+```
+4、生产者消费者测试
+使用宿主机上的kafka进行测试. 链接kafka容器, 使用的是主机与容器的端口映射
+- 生产消息
+```
+bin/kafka-console-producer.sh --topic=test02 --broker-list 10.15.5.164:9092
+>hello word
+```
+- 消费消息
+```
+bin/kafka-console-consumer.sh --topic=test02 --bootstrap-server 10.15.5.164:9092 --from-beginning
+hello word
+```
+
+**疑点**
+关于docker下创建topic, 进入kafka容器后创建topic理论上和实际操作上是没有问题的, 在宿主机上也是可以查看到创建的topic的, 但是如何在容器外部创建topic呢, 暂时没找到解决方案, 但是如果宿主机上部署了kafka, 在没有启动kafka的情况下也是可以通过```bin/kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic test01 ```创建topic的. 同样, 查看topic列表时, 所有的topic都能现实. 如果宿主机上没有kafka, 如何创建topic?
