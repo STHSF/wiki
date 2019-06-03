@@ -4,10 +4,10 @@ layout: page
 date: 2019-06-03 10:00
 ---
 
-# 写在前面
+# 1、写在前面
 使用virtualenv创建虚拟环境,如果环境中又安装了conda,在使用source activate的时候可能会遇到不可遇见的问题,比如说环境混乱,特别是在使用复制过来的venv时很容易出错,所以建议一般使用requirement.txt重新安装.
 
-# 本地搭建
+# 2、本地搭建
 ## 本地环境
 ```
 1、Ubuntu版本
@@ -76,7 +76,7 @@ hello word
 ```
 **如果上面的过程都有对应的输出结果, 没有出错的话. 一套简单的单例kafka就搭建完成了**
 
-# Docker简易搭建kafka
+# 3、Docker简易搭建kafka
 为了快速检验docker下使用kafka的可能性, 另外自己写dockerFile比较慢, 所以选择下载第三方镜像, 然后直接使用.
 #### 1、docker search zookeeper和kafka
 ```
@@ -125,7 +125,27 @@ CONTAINER ID        IMAGE                                 COMMAND               
 ec19c784fa15        wurstmeister/kafka:latest             "start-kafka.sh"         5 hours ago         Up 4 hours                  0.0.0.0:9092->9092/tcp                       kafka
 5d8dcd2f4ca6        zookeeper                             "/docker-entrypoint.…"   5 hours ago         Up 4 hours                  2888/tcp, 0.0.0.0:2181->2181/tcp, 3888/tcp   zookeeper
 ```
-#### 4、生产者消费者测试
+#### 4、kafka容器内部操作
+我们可以通过```docker exec -it [your kafka container id] /bin/bash```
+
+然后进入```/ope/kafka_2.12-2.1.0```, 如下图所示.
+<center><img src="/wiki/static/images/message/docker_kafka.jpg" alt="git-command"/></center>
+
+container内创建一个topic. 名字为topic_docker_test
+```
+bin/kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic topic_docker_test
+```
+
+查看topic list
+```
+bin/kafka-topics.sh --list --zookeeper zookeeper:2181  //查看我们的topic列表
+```
+**注,topic的创建和查看中的```zookeeper:2181```可以替换成```[宿主机ip:2181]```如```10.15.5.14:2181```**
+
+#### 5、container内生产者消费者测试
+container内部的生产者和消费者测试与本地(单例)模式下的测试一模一样, 这么不赘述.
+
+#### 6、生产者消费者测试
 使用宿主机上的kafka进行测试. 链接kafka容器, 使用的是主机与容器的端口映射
 - 生产消息
 ```
@@ -140,3 +160,13 @@ hello word
 
 ### **疑点**
 关于docker下创建topic, 进入kafka容器后创建topic理论上和实际操作上是没有问题的, 在宿主机上也是可以查看到创建的topic的, 但是如何在容器外部创建topic呢, 暂时没找到解决方案, 但是如果宿主机上部署了kafka, 在没有启动kafka的情况下也是可以通过```bin/kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic test01 ```创建topic的. 同样, 查看topic列表时, 所有的topic都能现实. 如果宿主机上没有kafka, 如何创建topic?
+
+##### 参考文献
+[使用Docker快速搭建Zookeeper和kafka集群](https://blog.icocoro.me/2018/12/17/1812-docker-zookeeper-kafka/)
+
+[docker简易搭建kafka](https://blog.csdn.net/belonghuang157405/article/details/82149257)
+
+[Zookeeper和Kafka集群配置，非常详细的参数解读](https://baijiahao.baidu.com/s?id=1619850826376520795&wfr=spider&for=pc)
+
+[使用docker安装kafka](https://blog.csdn.net/lblblblblzdx/article/details/80548294)
+
