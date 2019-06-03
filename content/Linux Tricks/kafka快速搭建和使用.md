@@ -20,15 +20,17 @@ zookeeper-3.4.14
 kafka_2.12-2.2.0
 ```
 ## 本地搭建(单例)
-1、首先从[官网](https://www.apache.org/dyn/closer.cgi?path=/kafka/2.2.0/kafka_2.12-2.2.0.tgz)上下载kafka压缩包, 下载完成之后解压缩
+#### 1、下载kafka
+首先从[官网](https://www.apache.org/dyn/closer.cgi?path=/kafka/2.2.0/kafka_2.12-2.2.0.tgz)上下载kafka压缩包, 下载完成之后解压缩
 ```
 tar -xzf kafka_2.12-2.2.0.tgz
 ```
-2、由于kafka是用zookeeper调度的, 所以在使用kafka之前必须下载安装zookeeper, [官网地址](http://mirror.bit.edu.cn/apache/zookeeper/zookeeper-3.4.14/), 下载完成之后解压缩.
+#### 2、下载zookeeper
+由于kafka是用zookeeper调度的, 所以在使用kafka之前必须下载安装zookeeper, [官网地址](http://mirror.bit.edu.cn/apache/zookeeper/zookeeper-3.4.14/), 下载完成之后解压缩.
 ```
 tar -xzf zookeeper-3.4.14.tar.gz
 ```
-3、zookeeper简单配置
+#### 3、zookeeper简单配置
 ```
 cd zookeeper-3.4.14/conf  # 进入配置文件目录
 cp zoo_sample.cfg zoo.cfg  # 生成一个配置文件模版
@@ -45,7 +47,7 @@ dataLogDir=/home/jerry/workshop/virtualenv/zookeeper/zookeeper-3.4.14/logs  # �
 运行结果:
 <center><img src="/wiki/static/images/message/zookeeper.jpg" alt="git-command"/></center>
 
-4、启动kafka服务器
+#### 4、启动kafka服务器
 
 ```
 bin/kafka-server-start.sh config/server.properties
@@ -53,7 +55,7 @@ bin/kafka-server-start.sh config/server.properties
 运行结果:
 <center><img src="/wiki/static/images/message/kafka.jpg" alt="git-command"/></center>
 
-5、创建topic
+#### 5、创建topic
 ```
 bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic test
 ```
@@ -61,14 +63,14 @@ bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-fac
 ```
 bin/kafka-topics.sh --list --bootstrap-server localhost:9092
 ```
-6、生产者发送消息
+#### 6、生产者发送消息
 新建一个terminal, 
 ```
 bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test
 > hello word
 ```
 
-7、消费者接受消息
+#### 7、消费者接受消息
 
 ```
 bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning
@@ -158,8 +160,57 @@ bin/kafka-console-consumer.sh --topic=test02 --bootstrap-server 10.15.5.164:9092
 hello word
 ```
 
+##### 7、python操作kafka测试
+
+1、topic查看
+```python
+#!/usr/bin/python                                                                                                                       
+ 
+from pykafka import KafkaClient
+
+client = KafkaClient(hosts="10.15.5.164:9092")
+#查看主题
+print(client.topics)
+#查看brokers
+print(client.brokers)
+topic = client.topics['mySendTopic']
+for n in client.brokers:
+    host = client.brokers[n].host
+    port = client.brokers[n].port
+    id = client.brokers[n].port
+    print("host=%s |port=%s|broker.id=%s" %(host,port,id))
+```
+2、创建简单的生产者
+producer.py
+```python
+#!/usr/bin/python                                                                                                                        # coding:utf-8
+ 
+from kafka import KafkaProducer
+
+producer = KafkaProducer(bootstrap_servers=['10.15.5.164:9092'])
+for i in range(100):
+     msg = "msg : %s" % i
+     producer.send('topic_docker_test', bytes(msg, encoding='utf-8'))
+producer.close()
+```
+3、创建简单的消费者
+consumer.py
+```python
+#!/usr/bin/python
+# coding:utf-8
+
+from kafka import KafkaConsumer
+ 
+consumer = KafkaConsumer('topic_docker_test', bootstrap_servers=['10.15.5.164:9092'],)
+for message in consumer:
+    print ("%s:%d:%d: key=%s value=%s" % (message.topic, message.partition, message.offset, message.key, message.value))
+```
+
 ### **疑点**
 关于docker下创建topic, 进入kafka容器后创建topic理论上和实际操作上是没有问题的, 在宿主机上也是可以查看到创建的topic的, 但是如何在容器外部创建topic呢, 暂时没找到解决方案, 但是如果宿主机上部署了kafka, 在没有启动kafka的情况下也是可以通过```bin/kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic test01 ```创建topic的. 同样, 查看topic列表时, 所有的topic都能现实. 如果宿主机上没有kafka, 如何创建topic?
+
+### **注**
+1、本地搭载和docker搭载使用的版本不一致.
 
 ##### 参考文献
 [使用Docker快速搭建Zookeeper和kafka集群](https://blog.icocoro.me/2018/12/17/1812-docker-zookeeper-kafka/)
@@ -170,3 +221,8 @@ hello word
 
 [使用docker安装kafka](https://blog.csdn.net/lblblblblzdx/article/details/80548294)
 
+[python操作kafka实践](https://www.cnblogs.com/small-office/p/9399907.html)
+
+[使用Docker快速搭建Kafka开发环境](https://www.jianshu.com/p/ac03f126980e)
+
+[Docker搭建kafka和zookeeper](https://blog.csdn.net/qq_42595077/article/details/87450034)
