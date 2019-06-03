@@ -79,27 +79,27 @@ hello word
 1、docker search zookeeper和kafka
 ```
 # zookeeper
-NAME                               DESCRIPTION                                     STARS               OFFICIAL            AUTOMATED
-zookeeper                          Apache ZooKeeper is an open-source server wh…   657                 [OK]                
-jplock/zookeeper                   Builds a docker image for Zookeeper version …   162                                     [OK]
-wurstmeister/zookeeper                                                             85                                      [OK]
-mesoscloud/zookeeper               ZooKeeper                                       73                                      [OK]
-mbabineau/zookeeper-exhibitor                                                      24                                      [OK]
-digitalwonderland/zookeeper        Latest Zookeeper - clusterable                  19                                      [OK]
-bitnami/zookeeper                  ZooKeeper is a centralized service for distr…   16                                      [OK]
-confluent/zookeeper                                                                13                                      [OK]
+NAME                           DESCRIPTION                                     STARS           OFFICIAL          AUTOMATED
+zookeeper                      Apache ZooKeeper is an open-source server wh…   657             [OK]              
+jplock/zookeeper               Builds a docker image for Zookeeper version …   162                               [OK]
+wurstmeister/zookeeper                                                         85                                [OK]
+mesoscloud/zookeeper           ZooKeeper                                       73                                [OK]
+mbabineau/zookeeper-exhibitor                                                  24                                [OK]
+digitalwonderland/zookeeper    Latest Zookeeper - clusterable                  19                                [OK]
+bitnami/zookeeper              ZooKeeper is a centralized service for distr…   16                                [OK]
+confluent/zookeeper                                                            13                                [OK]
 # kafka
-NAME                                      DESCRIPTION                                     STARS               OFFICIAL            AUTOMATED
-wurstmeister/kafka                        Multi-Broker Apache Kafka Image                 919                                     [OK]
-spotify/kafka                             A simple docker image with both Kafka and Zo…   352                                     [OK]
-sheepkiller/kafka-manager                 kafka-manager                                   163                                     [OK]
-ches/kafka                                Apache Kafka. Tagged versions. JMX. Cluster-…   112                                     [OK]
-bitnami/kafka                             Apache Kafka is a distributed streaming plat…   52                                      [OK]
-hlebalbau/kafka-manager                   Kafka Manager Docker Images Build.              37                                      [OK]
-landoop/kafka-topics-ui                   UI for viewing Kafka Topics config and data …   26                                      [OK]
-solsson/kafka                             http://kafka.apache.org/documentation.html#q…   14                                      [OK]
-landoop/kafka-lenses-dev                  Lenses with Kafka. +Connect +Generators +Con…   14                                      [OK]
-debezium/kafka                            Kafka image required when running the Debezi…   13                                      [OK]
+NAME                           DESCRIPTION                                     STARS         OFFICIAL            AUTOMATED
+wurstmeister/kafka             Multi-Broker Apache Kafka Image                 919                               [OK]
+spotify/kafka                  A simple docker image with both Kafka and Zo…   352                               [OK]
+sheepkiller/kafka-manager      kafka-manager                                   163                               [OK]
+ches/kafka                     Apache Kafka. Tagged versions. JMX. Cluster-…   112                               [OK]
+bitnami/kafka                  Apache Kafka is a distributed streaming plat…   52                                [OK]
+hlebalbau/kafka-manager        Kafka Manager Docker Images Build.              37                                [OK]
+landoop/kafka-topics-ui        UI for viewing Kafka Topics config and data …   26                                [OK]
+solsson/kafka                  http://kafka.apache.org/documentation.html#q…   14                                [OK]
+landoop/kafka-lenses-dev       Lenses with Kafka. +Connect +Generators +Con…   14                                [OK]
+debezium/kafka                 Kafka image required when running the Debezi…   13                                [OK]
 
 ```
 docker pull 了两个stars最高的两个
@@ -108,4 +108,8 @@ REPOSITORY                   TAG                 IMAGE ID            CREATED    
 zookeeper                    latest              55c28ddb9786        4 days ago          211MB
 wurstmeister/kafka           latest              c364cbed5b86        6 weeks ago         421MB
 ```
-
+2、启动zookeeper容器
+```
+docker run -itd --name zookeeper -p 2181:2181 -t zookeeper
+```
+3、启动kafka容器
