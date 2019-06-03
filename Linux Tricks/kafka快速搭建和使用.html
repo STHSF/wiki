@@ -1,0 +1,165 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <title>kafka快速搭建和使用 - LiYu's personal knowledge wiki</title>
+    <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
+    <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$(',')$'], ['\\(','\\)']]}
+        });
+        </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-78529611-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+
+<body>
+<div id="container">
+    
+<div id="header">
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Linux Tricks">Linux Tricks</a>&nbsp;»&nbsp;kafka快速搭建和使用</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">kafka快速搭建和使用</div>
+<div id="content">
+  <h1 id="_1">写在前面</h1>
+<p>使用virtualenv创建虚拟环境,如果环境中又安装了conda,在使用source activate的时候可能会遇到不可遇见的问题,比如说环境混乱,特别是在使用复制过来的venv时很容易出错,所以建议一般使用requirement.txt重新安装.</p>
+<h1 id="_2">本地搭建</h1>
+<h2 id="_3">本地环境</h2>
+<div class="hlcode"><pre><span class="mi">1</span><span class="err">、</span><span class="n">Ubuntu</span><span class="err">版本</span>
+<span class="mf">16.04.10</span>
+<span class="mi">2</span><span class="err">、</span><span class="n">zookeeper</span><span class="err">版本</span>
+<span class="n">zookeeper</span><span class="o">-</span><span class="mf">3.4.14</span>
+<span class="mi">3</span><span class="err">、</span><span class="n">kafka</span><span class="err">版本</span>
+<span class="n">kafka_2</span><span class="mf">.12</span><span class="o">-</span><span class="mf">2.2.0</span>
+</pre></div>
+
+
+<h2 id="_4">本地搭建(单例)</h2>
+<p>1、首先从<a href="https://www.apache.org/dyn/closer.cgi?path=/kafka/2.2.0/kafka_2.12-2.2.0.tgz">官网</a>上下载kafka压缩包, 下载完成之后解压缩</p>
+<div class="hlcode"><pre><span class="n">tar</span> <span class="o">-</span><span class="n">xzf</span> <span class="n">kafka_2</span><span class="mf">.12</span><span class="o">-</span><span class="mf">2.2.0</span><span class="p">.</span><span class="n">tgz</span>
+</pre></div>
+
+
+<p>2、由于kafka是用zookeeper调度的, 所以在使用kafka之前必须下载安装zookeeper, <a href="http://mirror.bit.edu.cn/apache/zookeeper/zookeeper-3.4.14/">官网地址</a>, 下载完成之后解压缩.</p>
+<div class="hlcode"><pre><span class="n">tar</span> <span class="o">-</span><span class="n">xzf</span> <span class="n">zookeeper</span><span class="o">-</span><span class="mf">3.4.14</span><span class="p">.</span><span class="n">tar</span><span class="p">.</span><span class="n">gz</span>
+</pre></div>
+
+
+<p>3、zookeeper简单配置</p>
+<div class="hlcode"><pre><span class="n">cd</span> <span class="n">zookeeper</span><span class="o">-</span><span class="mf">3.4.14</span><span class="o">/</span><span class="n">conf</span>  <span class="err">#</span> <span class="err">进入配置文件目录</span>
+<span class="n">cp</span> <span class="n">zoo_sample</span><span class="p">.</span><span class="n">cfg</span> <span class="n">zoo</span><span class="p">.</span><span class="n">cfg</span>  <span class="err">#</span> <span class="err">生成一个配置文件模版</span>
+</pre></div>
+
+
+<p>在配置文件中修改和添加以下内容:</p>
+<div class="hlcode"><pre><span class="n">dataDir</span><span class="o">=/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">-</span><span class="mf">3.4.14</span><span class="o">/</span><span class="n">data</span>  <span class="err">#</span> <span class="err">数据存储目录</span>
+<span class="n">dataLogDir</span><span class="o">=/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">-</span><span class="mf">3.4.14</span><span class="o">/</span><span class="n">logs</span>  <span class="err">#</span> <span class="err">日志存储目录</span>
+</pre></div>
+
+
+<p>简单的配置之后, 启动zookeeper</p>
+<div class="hlcode"><pre><span class="p">.</span><span class="o">/</span><span class="n">conf</span><span class="o">/</span><span class="n">zkServer</span><span class="p">.</span><span class="n">sh</span> <span class="n">start</span>  <span class="err">#</span> <span class="err">需要在</span><span class="n">root</span><span class="err">权限下运行</span>
+</pre></div>
+
+
+<p>运行结果:<br />
+<center><img src="/wiki/static/images/message/zookeeper.jpg" alt="git-command"/></center></p>
+<p>4、启动kafka服务器</p>
+<div class="hlcode"><pre><span class="n">bin</span><span class="o">/</span><span class="n">kafka</span><span class="o">-</span><span class="n">server</span><span class="o">-</span><span class="n">start</span><span class="p">.</span><span class="n">sh</span> <span class="n">config</span><span class="o">/</span><span class="n">server</span><span class="p">.</span><span class="n">properties</span>
+</pre></div>
+
+
+<p>运行结果:<br />
+<center><img src="/wiki/static/images/message/kafka.jpg" alt="git-command"/></center></p>
+<p>5、创建topic</p>
+<div class="hlcode"><pre><span class="n">bin</span><span class="o">/</span><span class="n">kafka</span><span class="o">-</span><span class="n">topics</span><span class="p">.</span><span class="n">sh</span> <span class="o">--</span><span class="n">create</span> <span class="o">--</span><span class="n">bootstrap</span><span class="o">-</span><span class="n">server</span> <span class="n">localhost</span><span class="o">:</span><span class="mi">9092</span> <span class="o">--</span><span class="n">replication</span><span class="o">-</span><span class="n">factor</span> <span class="mi">1</span> <span class="o">--</span><span class="n">partitions</span> <span class="mi">1</span> <span class="o">--</span><span class="n">topic</span> <span class="n">test</span>
+</pre></div>
+
+
+<p>如果topic创建成功, 可以通过下面的命令查看topic 列表</p>
+<div class="hlcode"><pre><span class="n">bin</span><span class="o">/</span><span class="n">kafka</span><span class="o">-</span><span class="n">topics</span><span class="p">.</span><span class="n">sh</span> <span class="o">--</span><span class="n">list</span> <span class="o">--</span><span class="n">bootstrap</span><span class="o">-</span><span class="n">server</span> <span class="n">localhost</span><span class="o">:</span><span class="mi">9092</span>
+</pre></div>
+
+
+<p>6、生产者发送消息<br />
+新建一个terminal, </p>
+<div class="hlcode"><pre><span class="n">bin</span><span class="o">/</span><span class="n">kafka</span><span class="o">-</span><span class="n">console</span><span class="o">-</span><span class="n">producer</span><span class="p">.</span><span class="n">sh</span> <span class="o">--</span><span class="n">broker</span><span class="o">-</span><span class="n">list</span> <span class="n">localhost</span><span class="o">:</span><span class="mi">9092</span> <span class="o">--</span><span class="n">topic</span> <span class="n">test</span>
+<span class="o">&gt;</span> <span class="n">hello</span> <span class="n">word</span>
+</pre></div>
+
+
+<p>7、消费者接受消息</p>
+<div class="hlcode"><pre><span class="n">bin</span><span class="o">/</span><span class="n">kafka</span><span class="o">-</span><span class="n">console</span><span class="o">-</span><span class="n">consumer</span><span class="p">.</span><span class="n">sh</span> <span class="o">--</span><span class="n">bootstrap</span><span class="o">-</span><span class="n">server</span> <span class="n">localhost</span><span class="o">:</span><span class="mi">9092</span> <span class="o">--</span><span class="n">topic</span> <span class="n">test</span> <span class="o">--</span><span class="n">from</span><span class="o">-</span><span class="n">beginning</span>
+<span class="n">hello</span> <span class="n">word</span>
+</pre></div>
+
+
+<p><strong>如果上面的过程都有对应的输出结果, 没有出错的话. 一套简单的单例kafka就搭建完成了</strong></p>
+<h1 id="docker">Docker搭建</h1>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2019-06-03 10:00 </span></div>
+<div id="comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script type="text/javascript">
+const gitment = new Gitment({
+  title: 'kafka快速搭建和使用',
+  owner: 'sthsf',
+  repo: 'wiki',
+  oauth: {
+    client_id: '086c54c5fd95adfdc372',
+    client_secret: '2ad9ebe87b952d2c77fccf99c334881b91eaa73d',
+  },
+  // ...
+  // For more available options, check out the documentation below
+})
+gitment.render('comments')
+// or
+// gitment.render(document.getElementById('comments'))
+// or
+// document.body.appendChild(gitment.render())
+</script>
+
+</div>
+<div id="footer">
+            <span>
+                Copyright © 2019 LiYu.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+                Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
+            </span>
+</div>
+
+
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?90e1dcdd1938573c19f9ff6521188e91";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</body>
+</html>
