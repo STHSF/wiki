@@ -118,7 +118,7 @@
 
 
 <p><strong>如果上面的过程都有对应的输出结果, 没有出错的话. 一套简单的单例kafka就搭建完成了</strong></p>
-<h1 id="3dockerkafka">3、Docker简易搭建kafka</h1>
+<h1 id="3dockerkafka">3、Docker简易搭建kafka(单节点)</h1>
 <p>为了快速检验docker下使用kafka的可能性, 另外自己写dockerFile比较慢, 所以选择下载第三方镜像, 然后直接使用.</p>
 <h4 id="1docker-search-zookeeperkafka">1、docker search zookeeper和kafka</h4>
 <div class="hlcode"><pre><span class="cp"># zookeeper</span>
@@ -255,7 +255,170 @@ consumer.py</p>
 <p>关于docker下创建topic, 进入kafka容器后创建topic理论上和实际操作上是没有问题的, 在宿主机上也是可以查看到创建的topic的, 但是如何在容器外部创建topic呢, 暂时没找到解决方案, 但是如果宿主机上部署了kafka, 在没有启动kafka的情况下也是可以通过<code>bin/kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic test01</code>创建topic的. 同样, 查看topic列表时, 所有的topic都能现实. 如果宿主机上没有kafka, 如何创建topic?</p>
 <h3 id="_4"><strong>注</strong></h3>
 <p>1、本地搭载和docker搭载使用的版本不一致.</p>
-<h5 id="_5">参考文献</h5>
+<h1 id="4dockerzookeeper">4、docker搭建zookeeper集群</h1>
+<p>在开发环境中，大家应该都用的是zookeeper单点吧，但是在生产环境中我相信没有人敢用单点的，应该都是用的集群，因为万一单点挂掉的话，我们的应用也就自然而然的ConnectionException。那么，接下来我就记录一下我自己用docker搭建zookeeper集群。</p>
+<p>这里准备利用三个zookeeper节点组成一个集群，并且三个节点都在同一台主机上，如果需要节点原型在不同的主机上，修改对应的ip和端口即可.</p>
+<h3 id="1_1">1、创建节点文件夹</h3>
+<p>为每个节点创建节点文件夹, 用于存放zookeeper的配置信息, 以及对应节点的数据和log</p>
+<p>节点目录列表<br />
+- /zookeeper<br />
+    - /zookeeper1<br />
+        - /conf<br />
+        - /data<br />
+        - /logdata<br />
+    - /zookeeper2<br />
+        - /conf<br />
+        - /data<br />
+        - /logdata<br />
+    - /zookeeper3<br />
+        - /conf<br />
+        - /data<br />
+        - /logdata</p>
+<p>其中, /conf下面最重要的配置文件zoo.cfg配置如下</p>
+<div class="hlcode"><pre><span class="n">tickTime</span><span class="o">=</span><span class="mi">2000</span>
+<span class="n">initLimit</span><span class="o">=</span><span class="mi">10</span>
+<span class="n">syncLimit</span><span class="o">=</span><span class="mi">5</span>
+<span class="n">dataDir</span><span class="o">=/</span><span class="n">data</span>
+<span class="n">dataLogDir</span><span class="o">=/</span><span class="n">datalog</span>
+<span class="n">clientPort</span><span class="o">=</span><span class="mi">2181</span>
+<span class="n">server</span><span class="mf">.1</span><span class="o">=</span><span class="n">zookeeper1</span><span class="o">:</span><span class="mi">2888</span><span class="o">:</span><span class="mi">3888</span>
+<span class="n">server</span><span class="mf">.2</span><span class="o">=</span><span class="n">zookeeper2</span><span class="o">:</span><span class="mi">2888</span><span class="o">:</span><span class="mi">3888</span>
+<span class="n">server</span><span class="mf">.3</span><span class="o">=</span><span class="n">zookeeper3</span><span class="o">:</span><span class="mi">2888</span><span class="o">:</span><span class="mi">3888</span>
+</pre></div>
+
+
+<p>/data文件夹下, 新建对应的myid配置文件, 文件中记录的是节点编号, 其值在1~255之间.</p>
+<ul>
+<li>节点编号对应的关系</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">host</th>
+<th align="center">ID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">zookeeper1</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">zookeeper2</td>
+<td align="center">2</td>
+</tr>
+<tr>
+<td align="center">zookeeper3</td>
+<td align="center">3</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>配置方法</li>
+</ul>
+<div class="hlcode"><pre><span class="n">mkdir</span> <span class="n">data</span>
+<span class="n">vim</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">myid</span>
+<span class="mi">1</span>
+</pre></div>
+
+
+<p><strong>注, 其中的dataDir和dataLogDir配置与本地zookeeper配置不一样, 这是由所pull的zookeeper docker里面的内容决定的</strong></p>
+<h3 id="2docker">2、启动docker</h3>
+<p>按照如下的命令在服务器上运行zookeeper容器, 建立节点zookeeper1, zookeeper2, zookeeper3.</p>
+<div class="hlcode"><pre><span class="cp"># zookeeper1</span>
+<span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">itd</span> \
+<span class="o">--</span><span class="n">restart</span> <span class="n">always</span> \
+<span class="o">--</span><span class="n">name</span> <span class="n">zookeeper2</span> \
+<span class="o">--</span><span class="n">network</span><span class="o">=</span><span class="n">zk_test_default</span> \
+<span class="o">--</span><span class="n">hostname</span> <span class="n">zookeeper2</span> \
+<span class="o">-</span><span class="n">p</span> <span class="mi">22181</span><span class="o">:</span><span class="mi">2181</span> \
+<span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper2</span><span class="o">/</span><span class="n">conf</span><span class="o">:/</span><span class="n">conf</span> \
+<span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper2</span><span class="o">/</span><span class="n">data</span><span class="o">:/</span><span class="n">data</span> \
+<span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper2</span><span class="o">/</span><span class="n">logdata</span><span class="o">:/</span><span class="n">datalog</span> \
+<span class="nl">zookeeper:</span><span class="mf">3.4</span>
+
+<span class="cp"># zookeeper2</span>
+<span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">itd</span> \
+<span class="o">--</span><span class="n">restart</span> <span class="n">always</span> \
+<span class="o">--</span><span class="n">name</span> <span class="n">zookeeper3</span> \
+<span class="o">--</span><span class="n">network</span><span class="o">=</span><span class="n">zk_test_default</span> \
+<span class="o">--</span><span class="n">hostname</span> <span class="n">zookeeper3</span> \
+<span class="o">-</span><span class="n">p</span> <span class="mi">32181</span><span class="o">:</span><span class="mi">2181</span> \
+<span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper3</span><span class="o">/</span><span class="n">conf</span><span class="o">:/</span><span class="n">conf</span> \
+<span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper3</span><span class="o">/</span><span class="n">data</span><span class="o">:/</span><span class="n">data</span> \
+<span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper3</span><span class="o">/</span><span class="n">logdata</span><span class="o">:/</span><span class="n">datalog</span> \
+<span class="nl">zookeeper:</span><span class="mf">3.4</span>
+
+<span class="cp"># zookeeper3</span>
+<span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">itd</span> \
+<span class="o">--</span><span class="n">restart</span> <span class="n">always</span> \
+<span class="o">--</span><span class="n">name</span> <span class="n">zookeeper1</span> \
+<span class="o">--</span><span class="n">hostname</span> <span class="n">zookeeper1</span> \
+<span class="o">-</span><span class="n">p</span> <span class="mi">12181</span><span class="o">:</span><span class="mi">2181</span> \
+<span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper1</span><span class="o">/</span><span class="n">conf</span><span class="o">:/</span><span class="n">conf</span> \
+<span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper1</span><span class="o">/</span><span class="n">data</span><span class="o">:/</span><span class="n">data</span> \
+<span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper1</span><span class="o">/</span><span class="n">logdata</span><span class="o">:/</span><span class="n">datalog</span> \
+<span class="nl">zookeeper:</span><span class="mf">3.4</span>
+</pre></div>
+
+
+<p>依次执行上面的命令之后,三个container启动, </p>
+<div class="hlcode"><pre><span class="n">CONTAINER</span> <span class="n">ID</span>        <span class="n">IMAGE</span>               <span class="n">COMMAND</span>                  <span class="n">CREATED</span>             <span class="n">STATUS</span>              <span class="n">PORTS</span>                                         <span class="n">NAMES</span>
+<span class="n">e6257ba1f952</span>        <span class="n">zookeeper</span><span class="o">:</span><span class="mf">3.4</span>       <span class="s">&quot;/docker-entrypoint.…&quot;</span>   <span class="n">About</span> <span class="n">an</span> <span class="n">hour</span> <span class="n">ago</span>   <span class="n">Up</span> <span class="n">About</span> <span class="n">an</span> <span class="n">hour</span>    <span class="mi">2888</span><span class="o">/</span><span class="n">tcp</span><span class="p">,</span> <span class="mi">3888</span><span class="o">/</span><span class="n">tcp</span><span class="p">,</span> <span class="mf">0.0.0.0</span><span class="o">:</span><span class="mi">32181</span><span class="o">-&gt;</span><span class="mi">2181</span><span class="o">/</span><span class="n">tcp</span>   <span class="n">zookeeper3</span>
+<span class="n">fd7db9617b02</span>        <span class="n">zookeeper</span><span class="o">:</span><span class="mf">3.4</span>       <span class="s">&quot;/docker-entrypoint.…&quot;</span>   <span class="n">About</span> <span class="n">an</span> <span class="n">hour</span> <span class="n">ago</span>   <span class="n">Up</span> <span class="n">About</span> <span class="n">an</span> <span class="n">hour</span>    <span class="mi">2888</span><span class="o">/</span><span class="n">tcp</span><span class="p">,</span> <span class="mi">3888</span><span class="o">/</span><span class="n">tcp</span><span class="p">,</span> <span class="mf">0.0.0.0</span><span class="o">:</span><span class="mi">22181</span><span class="o">-&gt;</span><span class="mi">2181</span><span class="o">/</span><span class="n">tcp</span>   <span class="n">zookeeper2</span>
+<span class="n">cbef96c80e83</span>        <span class="n">zookeeper</span><span class="o">:</span><span class="mf">3.4</span>       <span class="s">&quot;/docker-entrypoint.…&quot;</span>   <span class="n">About</span> <span class="n">an</span> <span class="n">hour</span> <span class="n">ago</span>   <span class="n">Up</span> <span class="n">About</span> <span class="n">an</span> <span class="n">hour</span>    <span class="mi">2888</span><span class="o">/</span><span class="n">tcp</span><span class="p">,</span> <span class="mi">3888</span><span class="o">/</span><span class="n">tcp</span><span class="p">,</span> <span class="mf">0.0.0.0</span><span class="o">:</span><span class="mi">12181</span><span class="o">-&gt;</span><span class="mi">2181</span><span class="o">/</span><span class="n">tcp</span>   <span class="n">zookeeper1</span>
+</pre></div>
+
+
+<h3 id="_5">测试</h3>
+<p>查看各个container的ip地址</p>
+<div class="hlcode"><pre><span class="cp"># 查看zookeeper1的ip地址</span>
+<span class="n">docker</span> <span class="n">inspect</span> <span class="n">zookeeper1</span>
+<span class="cp"># 输出的信息中有IPAddress的字样, 表示当前container的IP地址</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="mf">172.18.0.2</span>
+</pre></div>
+
+
+<p>通过如下命令测试集群是否联网正常</p>
+<div class="hlcode"><pre><span class="n">echo</span> <span class="n">stat</span> <span class="o">|</span> <span class="n">nc</span> <span class="mf">172.18.0.2</span> <span class="mi">2181</span>
+</pre></div>
+
+
+<p>测试结果</p>
+<div class="hlcode"><pre><span class="n">Zookeeper</span> <span class="n">version</span><span class="o">:</span> <span class="mf">3.4.14</span><span class="o">-</span><span class="mi">4</span><span class="n">c25d480e66aadd371de8bd2fd8da255ac140bcf</span><span class="p">,</span> <span class="n">built</span> <span class="n">on</span> <span class="mo">03</span><span class="o">/</span><span class="mo">06</span><span class="o">/</span><span class="mi">2019</span> <span class="mi">16</span><span class="o">:</span><span class="mi">18</span> <span class="n">GMT</span>
+<span class="nl">Clients:</span>
+ <span class="o">/</span><span class="mf">172.18.0.1</span><span class="o">:</span><span class="mi">56616</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="n">queued</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">recved</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">sent</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">Latency</span> <span class="n">min</span><span class="o">/</span><span class="n">avg</span><span class="o">/</span><span class="n">max</span><span class="o">:</span> <span class="mi">0</span><span class="o">/</span><span class="mi">0</span><span class="o">/</span><span class="mi">0</span>
+<span class="nl">Received:</span> <span class="mi">3</span>
+<span class="nl">Sent:</span> <span class="mi">2</span>
+<span class="nl">Connections:</span> <span class="mi">1</span>
+<span class="nl">Outstanding:</span> <span class="mi">0</span>
+<span class="nl">Zxid:</span> <span class="mh">0x200000000</span>
+<span class="nl">Mode:</span> <span class="n">follower</span>
+<span class="n">Node</span> <span class="n">count</span><span class="o">:</span> <span class="mi">4</span>
+</pre></div>
+
+
+<p>同样还有一种方式, 进入container中, 然后执行下面的命令</p>
+<div class="hlcode"><pre><span class="cp"># 进入zookeeper1</span>
+<span class="n">docker</span> <span class="n">exec</span> <span class="o">-</span><span class="n">it</span> <span class="n">zookeeper1</span> <span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">bash</span>
+
+<span class="cp"># container中输入</span>
+<span class="p">.</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">zkServer</span><span class="p">.</span><span class="n">sh</span> <span class="n">status</span>
+</pre></div>
+
+
+<p>输出结果</p>
+<div class="hlcode"><pre><span class="n">root</span><span class="err">@</span><span class="n">zookeeper1</span><span class="o">:/</span><span class="n">zookeeper</span><span class="o">-</span><span class="mf">3.4.14</span><span class="err">#</span> <span class="p">.</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">zkServer</span><span class="p">.</span><span class="n">sh</span> <span class="n">status</span>
+<span class="n">ZooKeeper</span> <span class="n">JMX</span> <span class="n">enabled</span> <span class="n">by</span> <span class="k">default</span>
+<span class="n">Using</span> <span class="n">config</span><span class="o">:</span> <span class="o">/</span><span class="n">conf</span><span class="o">/</span><span class="n">zoo</span><span class="p">.</span><span class="n">cfg</span>
+<span class="nl">Mode:</span> <span class="n">follower</span>
+</pre></div>
+
+
+<h1 id="5dockerkafka">5、docker下搭建kafka集群</h1>
+<h5 id="_6">参考文献</h5>
 <p><a href="https://blog.icocoro.me/2018/12/17/1812-docker-zookeeper-kafka/">使用Docker快速搭建Zookeeper和kafka集群</a></p>
 <p><a href="https://blog.csdn.net/belonghuang157405/article/details/82149257">docker简易搭建kafka</a></p>
 <p><a href="https://baijiahao.baidu.com/s?id=1619850826376520795&amp;wfr=spider&amp;for=pc">Zookeeper和Kafka集群配置，非常详细的参数解读</a></p>
