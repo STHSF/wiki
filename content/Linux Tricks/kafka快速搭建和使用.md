@@ -78,7 +78,7 @@ hello word
 ```
 **如果上面的过程都有对应的输出结果, 没有出错的话. 一套简单的单例kafka就搭建完成了**
 
-# 3、Docker简易搭建kafka
+# 3、Docker简易搭建kafka(单节点)
 为了快速检验docker下使用kafka的可能性, 另外自己写dockerFile比较慢, 所以选择下载第三方镜像, 然后直接使用.
 #### 1、docker search zookeeper和kafka
 ```
@@ -212,6 +212,154 @@ for message in consumer:
 
 ### **注**
 1、本地搭载和docker搭载使用的版本不一致.
+
+
+# 4、docker搭建zookeeper集群
+在开发环境中，大家应该都用的是zookeeper单点吧，但是在生产环境中我相信没有人敢用单点的，应该都是用的集群，因为万一单点挂掉的话，我们的应用也就自然而然的ConnectionException。那么，接下来我就记录一下我自己用docker搭建zookeeper集群。
+
+这里准备利用三个zookeeper节点组成一个集群，并且三个节点都在同一台主机上，如果需要节点原型在不同的主机上，修改对应的ip和端口即可.
+### 1、创建节点文件夹
+为每个节点创建节点文件夹, 用于存放zookeeper的配置信息, 以及对应节点的数据和log
+
+节点目录列表
+- /zookeeper
+    - /zookeeper1
+        - /conf
+        - /data
+        - /logdata
+    - /zookeeper2
+        - /conf
+        - /data
+        - /logdata
+    - /zookeeper3
+        - /conf
+        - /data
+        - /logdata
+
+其中, /conf下面最重要的配置文件zoo.cfg配置如下
+```
+tickTime=2000
+initLimit=10
+syncLimit=5
+dataDir=/data
+dataLogDir=/datalog
+clientPort=2181
+server.1=zookeeper1:2888:3888
+server.2=zookeeper2:2888:3888
+server.3=zookeeper3:2888:3888
+```
+
+/data文件夹下, 新建对应的myid配置文件, 文件中记录的是节点编号, 其值在1~255之间.
+
+- 节点编号对应的关系
+
+|host|ID|
+|:---:|:---:|
+|zookeeper1|1|
+|zookeeper2|2|
+|zookeeper3|3|
+
+- 配置方法
+```
+mkdir data
+vim /data/myid
+1
+```
+
+**注, 其中的dataDir和dataLogDir配置与本地zookeeper配置不一样, 这是由所pull的zookeeper docker里面的内容决定的**
+
+
+### 2、启动docker
+按照如下的命令在服务器上运行zookeeper容器, 建立节点zookeeper1, zookeeper2, zookeeper3.
+```
+# zookeeper1
+docker run -itd \
+--restart always \
+--name zookeeper2 \
+--network=zk_test_default \
+--hostname zookeeper2 \
+-p 22181:2181 \
+-v /home/jerry/workshop/virtualenv/zookeeper/zookeeper/zookeeper2/conf:/conf \
+-v /home/jerry/workshop/virtualenv/zookeeper/zookeeper/zookeeper2/data:/data \
+-v /home/jerry/workshop/virtualenv/zookeeper/zookeeper/zookeeper2/logdata:/datalog \
+zookeeper:3.4
+
+# zookeeper2
+docker run -itd \
+--restart always \
+--name zookeeper3 \
+--network=zk_test_default \
+--hostname zookeeper3 \
+-p 32181:2181 \
+-v /home/jerry/workshop/virtualenv/zookeeper/zookeeper/zookeeper3/conf:/conf \
+-v /home/jerry/workshop/virtualenv/zookeeper/zookeeper/zookeeper3/data:/data \
+-v /home/jerry/workshop/virtualenv/zookeeper/zookeeper/zookeeper3/logdata:/datalog \
+zookeeper:3.4
+
+# zookeeper3
+docker run -itd \
+--restart always \
+--name zookeeper1 \
+--hostname zookeeper1 \
+-p 12181:2181 \
+-v /home/jerry/workshop/virtualenv/zookeeper/zookeeper/zookeeper1/conf:/conf \
+-v /home/jerry/workshop/virtualenv/zookeeper/zookeeper/zookeeper1/data:/data \
+-v /home/jerry/workshop/virtualenv/zookeeper/zookeeper/zookeeper1/logdata:/datalog \
+zookeeper:3.4
+```
+
+依次执行上面的命令之后,三个container启动, 
+```
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                                         NAMES
+e6257ba1f952        zookeeper:3.4       "/docker-entrypoint.…"   About an hour ago   Up About an hour    2888/tcp, 3888/tcp, 0.0.0.0:32181->2181/tcp   zookeeper3
+fd7db9617b02        zookeeper:3.4       "/docker-entrypoint.…"   About an hour ago   Up About an hour    2888/tcp, 3888/tcp, 0.0.0.0:22181->2181/tcp   zookeeper2
+cbef96c80e83        zookeeper:3.4       "/docker-entrypoint.…"   About an hour ago   Up About an hour    2888/tcp, 3888/tcp, 0.0.0.0:12181->2181/tcp   zookeeper1
+``` 
+### 测试
+查看各个container的ip地址
+```
+# 查看zookeeper1的ip地址
+docker inspect zookeeper1
+# 输出的信息中有IPAddress的字样, 表示当前container的IP地址
+>>> 172.18.0.2
+```
+通过如下命令测试集群是否联网正常
+```
+echo stat | nc 172.18.0.2 2181
+```
+测试结果
+```
+Zookeeper version: 3.4.14-4c25d480e66aadd371de8bd2fd8da255ac140bcf, built on 03/06/2019 16:18 GMT
+Clients:
+ /172.18.0.1:56616[0](queued=0,recved=1,sent=0)
+
+Latency min/avg/max: 0/0/0
+Received: 3
+Sent: 2
+Connections: 1
+Outstanding: 0
+Zxid: 0x200000000
+Mode: follower
+Node count: 4
+```
+同样还有一种方式, 进入container中, 然后执行下面的命令
+```
+# 进入zookeeper1
+docker exec -it zookeeper1 /bin/bash
+
+# container中输入
+./bin/zkServer.sh status
+```
+输出结果
+```
+root@zookeeper1:/zookeeper-3.4.14# ./bin/zkServer.sh status
+ZooKeeper JMX enabled by default
+Using config: /conf/zoo.cfg
+Mode: follower
+```
+
+# 5、docker下搭建kafka集群
+
 
 ##### 参考文献
 [使用Docker快速搭建Zookeeper和kafka集群](https://blog.icocoro.me/2018/12/17/1812-docker-zookeeper-kafka/)
