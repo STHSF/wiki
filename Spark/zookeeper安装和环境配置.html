@@ -41,6 +41,193 @@
 <div id="title">zookeeper安装和环境配置</div>
 <div id="content">
   <h1 id="_1">写在前面</h1>
+<div class="hlcode"><pre><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">itd</span> <span class="o">--</span><span class="n">restart</span> <span class="n">always</span> <span class="o">--</span><span class="n">network</span><span class="o">=</span><span class="n">zk_test_default</span> <span class="o">--</span><span class="n">name</span> <span class="n">zookeeper1</span> <span class="o">-</span><span class="n">p</span> <span class="mi">12181</span><span class="o">:</span><span class="mi">2181</span> <span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper1</span><span class="o">/</span><span class="n">conf</span><span class="o">:/</span><span class="n">apache</span><span class="o">-</span><span class="n">zookeeper</span><span class="o">-</span><span class="mf">3.5.5</span><span class="o">-</span><span class="n">bin</span><span class="o">/</span><span class="n">conf</span> <span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper1</span><span class="o">/</span><span class="n">data</span><span class="o">:/</span><span class="n">data</span> <span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper1</span><span class="o">/</span><span class="n">logdata</span><span class="o">:/</span><span class="n">datalog</span> <span class="n">zookeeper</span>
+
+
+<span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">itd</span> <span class="o">--</span><span class="n">restart</span> <span class="n">always</span> <span class="o">--</span><span class="n">network</span><span class="o">=</span><span class="n">zk_test_default</span> <span class="o">--</span><span class="n">name</span> <span class="n">zookeeper2</span> <span class="o">--</span><span class="n">hostname</span> <span class="n">zookeeper2</span> <span class="o">-</span><span class="n">p</span> <span class="mi">12181</span><span class="o">:</span><span class="mi">2181</span> <span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper2</span><span class="o">/</span><span class="n">conf</span><span class="o">:/</span><span class="n">apache</span><span class="o">-</span><span class="n">zookeeper</span><span class="o">-</span><span class="mf">3.5.5</span><span class="o">-</span><span class="n">bin</span><span class="o">/</span><span class="n">conf</span> <span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper2</span><span class="o">/</span><span class="n">data</span><span class="o">:/</span><span class="n">data</span> <span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper2</span><span class="o">/</span><span class="n">logdata</span><span class="o">:/</span><span class="n">datalog</span> <span class="n">zookeeper</span>
+
+
+<span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">itd</span> <span class="o">--</span><span class="n">restart</span> <span class="n">always</span> <span class="o">--</span><span class="n">network</span><span class="o">=</span><span class="n">zk_test_default</span> <span class="o">--</span><span class="n">name</span> <span class="n">zookeeper3</span> <span class="o">--</span><span class="n">hostname</span> <span class="n">zookeeper3</span> <span class="o">-</span><span class="n">p</span> <span class="mi">12181</span><span class="o">:</span><span class="mi">2181</span> <span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper3</span><span class="o">/</span><span class="n">conf</span><span class="o">:/</span><span class="n">apache</span><span class="o">-</span><span class="n">zookeeper</span><span class="o">-</span><span class="mf">3.5.5</span><span class="o">-</span><span class="n">bin</span><span class="o">/</span><span class="n">conf</span> <span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper3</span><span class="o">/</span><span class="n">data</span><span class="o">:/</span><span class="n">data</span> <span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper3</span><span class="o">/</span><span class="n">logdata</span><span class="o">:/</span><span class="n">datalog</span> <span class="n">zookeeper</span>
+
+
+<span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">itd</span> \
+<span class="o">--</span><span class="n">restart</span> <span class="n">always</span> \
+<span class="o">--</span><span class="n">name</span> <span class="n">zookeeper1</span> \
+<span class="o">--</span><span class="n">network</span><span class="o">=</span><span class="n">zk_test_default</span> \
+<span class="o">--</span><span class="n">hostname</span> <span class="n">zookeeper1</span> \
+<span class="o">-</span><span class="n">p</span> <span class="mi">12181</span><span class="o">:</span><span class="mi">2181</span> \
+<span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper1</span><span class="o">/</span><span class="n">conf</span><span class="o">:/</span><span class="n">conf</span> \
+<span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper1</span><span class="o">/</span><span class="n">data</span><span class="o">:/</span><span class="n">data</span> \
+<span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper1</span><span class="o">/</span><span class="n">logdata</span><span class="o">:/</span><span class="n">datalog</span> \
+<span class="nl">zookeeper:</span><span class="mf">3.4</span>
+
+
+<span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">itd</span> \
+<span class="o">--</span><span class="n">restart</span> <span class="n">always</span> \
+<span class="o">--</span><span class="n">name</span> <span class="n">zookeeper2</span> \
+<span class="o">--</span><span class="n">network</span><span class="o">=</span><span class="n">zk_test_default</span> \
+<span class="o">--</span><span class="n">hostname</span> <span class="n">zookeeper2</span> \
+<span class="o">-</span><span class="n">p</span> <span class="mi">22181</span><span class="o">:</span><span class="mi">2181</span> \
+<span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper2</span><span class="o">/</span><span class="n">conf</span><span class="o">:/</span><span class="n">conf</span> \
+<span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper2</span><span class="o">/</span><span class="n">data</span><span class="o">:/</span><span class="n">data</span> \
+<span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper2</span><span class="o">/</span><span class="n">logdata</span><span class="o">:/</span><span class="n">datalog</span> \
+<span class="nl">zookeeper:</span><span class="mf">3.4</span>
+
+
+<span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">itd</span> \
+<span class="o">--</span><span class="n">restart</span> <span class="n">always</span> \
+<span class="o">--</span><span class="n">name</span> <span class="n">zookeeper3</span> \
+<span class="o">--</span><span class="n">network</span><span class="o">=</span><span class="n">zk_test_default</span> \
+<span class="o">--</span><span class="n">hostname</span> <span class="n">zookeeper3</span> \
+<span class="o">-</span><span class="n">p</span> <span class="mi">32181</span><span class="o">:</span><span class="mi">2181</span> \
+<span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper3</span><span class="o">/</span><span class="n">conf</span><span class="o">:/</span><span class="n">conf</span> \
+<span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper3</span><span class="o">/</span><span class="n">data</span><span class="o">:/</span><span class="n">data</span> \
+<span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper3</span><span class="o">/</span><span class="n">logdata</span><span class="o">:/</span><span class="n">datalog</span> \
+<span class="nl">zookeeper:</span><span class="mf">3.4</span>
+
+
+<span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">itd</span> \
+<span class="o">--</span><span class="n">restart</span> <span class="n">always</span> \
+<span class="o">--</span><span class="n">name</span> <span class="n">zookeeper1</span> \
+<span class="o">--</span><span class="n">hostname</span> <span class="n">zookeeper1</span> \
+<span class="o">-</span><span class="n">p</span> <span class="mi">12181</span><span class="o">:</span><span class="mi">2181</span> \
+<span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper1</span><span class="o">/</span><span class="n">conf</span><span class="o">:/</span><span class="n">conf</span> \
+<span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper1</span><span class="o">/</span><span class="n">data</span><span class="o">:/</span><span class="n">data</span> \
+<span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper1</span><span class="o">/</span><span class="n">logdata</span><span class="o">:/</span><span class="n">datalog</span> \
+<span class="nl">zookeeper:</span><span class="mf">3.4</span>
+
+
+<span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">itd</span> \
+<span class="o">--</span><span class="n">restart</span> <span class="n">always</span> \
+<span class="o">--</span><span class="n">name</span> <span class="n">zookeeper2</span> \
+<span class="o">--</span><span class="n">hostname</span> <span class="n">zookeeper2</span> \
+<span class="o">-</span><span class="n">p</span> <span class="mi">22181</span><span class="o">:</span><span class="mi">2181</span> \
+<span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper2</span><span class="o">/</span><span class="n">conf</span><span class="o">:/</span><span class="n">conf</span> \
+<span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper2</span><span class="o">/</span><span class="n">data</span><span class="o">:/</span><span class="n">data</span> \
+<span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper2</span><span class="o">/</span><span class="n">logdata</span><span class="o">:/</span><span class="n">datalog</span> \
+<span class="nl">zookeeper:</span><span class="mf">3.4</span>
+
+
+<span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">itd</span> \
+<span class="o">--</span><span class="n">restart</span> <span class="n">always</span> \
+<span class="o">--</span><span class="n">name</span> <span class="n">zookeeper3</span> \
+<span class="o">--</span><span class="n">hostname</span> <span class="n">zookeeper3</span> \
+<span class="o">-</span><span class="n">p</span> <span class="mi">32181</span><span class="o">:</span><span class="mi">2181</span> \
+<span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper3</span><span class="o">/</span><span class="n">conf</span><span class="o">:/</span><span class="n">conf</span> \
+<span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper3</span><span class="o">/</span><span class="n">data</span><span class="o">:/</span><span class="n">data</span> \
+<span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper</span><span class="o">/</span><span class="n">zookeeper3</span><span class="o">/</span><span class="n">logdata</span><span class="o">:/</span><span class="n">datalog</span> \
+<span class="nl">zookeeper:</span><span class="mf">3.4</span>
+
+
+<span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">itd</span> \
+<span class="o">--</span><span class="n">restart</span> <span class="n">always</span> \
+<span class="o">--</span><span class="n">name</span> <span class="n">kafka1</span> \
+<span class="o">--</span><span class="n">hostname</span><span class="o">=</span><span class="n">kafka1</span> \
+<span class="o">--</span><span class="n">network</span> <span class="n">zk_test_default</span> \
+<span class="o">--</span><span class="n">publish</span> <span class="mi">19092</span><span class="o">:</span><span class="mi">9092</span> <span class="o">--</span><span class="n">publish</span> <span class="mi">19999</span><span class="o">:</span><span class="mi">9999</span> \
+<span class="o">--</span><span class="n">env</span> <span class="n">JMX_PORT</span><span class="o">=</span><span class="mi">9999</span> \
+<span class="o">--</span><span class="n">env</span> <span class="n">KAFKA_ADVERTISED_HOST_NAME</span><span class="o">=</span><span class="n">kafka1</span> \
+<span class="o">--</span><span class="n">env</span> <span class="n">KAFKA_ADVERTISED_PORT</span><span class="o">=</span><span class="mi">19092</span> \
+<span class="o">--</span><span class="n">env</span> <span class="n">KAFKA_LISTENERS</span><span class="o">=</span><span class="n">PLAINTEXT</span><span class="o">:</span><span class="c1">//0.0.0.0:9092 \</span>
+<span class="c1">--env KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://10.15.5.164:19092 \</span>
+<span class="c1">--env KAFKA_ZOOKEEPER_CONNECT=zookeeper1:2181,zookeeper2:2181,zookeeper3:2181 \</span>
+<span class="c1">--env KAFKA_BROKER_ID=1 \</span>
+<span class="c1">wurstmeister/kafka:latest</span>
+
+<span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">itd</span> \
+<span class="o">--</span><span class="n">restart</span> <span class="n">always</span> \
+<span class="o">--</span><span class="n">name</span> <span class="n">kafka2</span> \
+<span class="o">--</span><span class="n">hostname</span><span class="o">=</span><span class="n">kafka2</span> \
+<span class="o">--</span><span class="n">network</span> <span class="n">zk_test_default</span> \
+<span class="o">--</span><span class="n">publish</span> <span class="mi">29092</span><span class="o">:</span><span class="mi">9092</span> <span class="o">--</span><span class="n">publish</span> <span class="mi">29999</span><span class="o">:</span><span class="mi">9999</span> \
+<span class="o">--</span><span class="n">env</span> <span class="n">JMX_PORT</span><span class="o">=</span><span class="mi">9999</span> \
+<span class="o">--</span><span class="n">env</span> <span class="n">KAFKA_ADVERTISED_HOST_NAME</span><span class="o">=</span><span class="n">kafka2</span> \
+<span class="o">--</span><span class="n">env</span> <span class="n">KAFKA_ADVERTISED_PORT</span><span class="o">=</span><span class="mi">29092</span> \
+<span class="o">--</span><span class="n">env</span> <span class="n">KAFKA_LISTENERS</span><span class="o">=</span><span class="n">PLAINTEXT</span><span class="o">:</span><span class="c1">//0.0.0.0:9092 \</span>
+<span class="c1">--env KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://10.15.5.164:29092 \</span>
+<span class="c1">--env KAFKA_ZOOKEEPER_CONNECT=zookeeper1:2181,zookeeper2:2181,zookeeper3:2181 \</span>
+<span class="c1">--env KAFKA_BROKER_ID=2 \</span>
+<span class="c1">wurstmeister/kafka:latest</span>
+
+<span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">itd</span> \
+<span class="o">--</span><span class="n">restart</span> <span class="n">always</span> \
+<span class="o">--</span><span class="n">name</span> <span class="n">kafka3</span> \
+<span class="o">--</span><span class="n">hostname</span><span class="o">=</span><span class="n">kafka3</span> \
+<span class="o">--</span><span class="n">network</span> <span class="n">zk_test_default</span> \
+<span class="o">--</span><span class="n">publish</span> <span class="mi">39092</span><span class="o">:</span><span class="mi">9092</span> <span class="o">--</span><span class="n">publish</span> <span class="mi">39999</span><span class="o">:</span><span class="mi">9999</span> \
+<span class="o">--</span><span class="n">env</span> <span class="n">JMX_PORT</span><span class="o">=</span><span class="mi">9999</span> \
+<span class="o">--</span><span class="n">env</span> <span class="n">KAFKA_ADVERTISED_HOST_NAME</span><span class="o">=</span><span class="n">kafka3</span> \
+<span class="o">--</span><span class="n">env</span> <span class="n">KAFKA_ADVERTISED_PORT</span><span class="o">=</span><span class="mi">39092</span> \
+<span class="o">--</span><span class="n">env</span> <span class="n">KAFKA_LISTENERS</span><span class="o">=</span><span class="n">PLAINTEXT</span><span class="o">:</span><span class="c1">//0.0.0.0:9092 \</span>
+<span class="c1">--env KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://10.15.5.164:39092 \</span>
+<span class="c1">--env KAFKA_ZOOKEEPER_CONNECT=zookeeper1:2181,zookeeper2:2181,zookeeper3:2181 \</span>
+<span class="c1">--env KAFKA_BROKER_ID=3 \</span>
+<span class="c1">wurstmeister/kafka:latest</span>
+
+
+<span class="n">bin</span><span class="o">/</span><span class="n">kafka</span><span class="o">-</span><span class="n">topics</span><span class="p">.</span><span class="n">sh</span> <span class="o">--</span><span class="n">create</span> <span class="o">--</span><span class="n">zookeeper</span> <span class="mf">10.15.5.164</span><span class="o">:</span><span class="mi">12181</span><span class="p">,</span><span class="mf">10.15.5.164</span><span class="o">:</span><span class="mi">22181</span><span class="p">,</span><span class="mf">10.15.5.164</span><span class="o">:</span><span class="mi">32181</span> <span class="o">--</span><span class="n">replication</span><span class="o">-</span><span class="n">factor</span> <span class="mi">1</span> <span class="o">--</span><span class="n">partitions</span> <span class="mi">1</span> <span class="o">--</span><span class="n">topic</span> <span class="n">topic_docker_test</span>
+
+<span class="n">bin</span><span class="o">/</span><span class="n">kafka</span><span class="o">-</span><span class="n">topics</span><span class="p">.</span><span class="n">sh</span> <span class="o">--</span><span class="n">list</span> <span class="o">--</span><span class="n">zookeeper</span> <span class="mf">10.15.5.164</span><span class="o">:</span><span class="mi">12181</span><span class="p">,</span><span class="mf">10.15.5.164</span><span class="o">:</span><span class="mi">22181</span><span class="p">,</span><span class="mf">10.15.5.164</span><span class="o">:</span><span class="mi">32181</span>
+
+<span class="n">bin</span><span class="o">/</span><span class="n">kafka</span><span class="o">-</span><span class="n">console</span><span class="o">-</span><span class="n">producer</span><span class="p">.</span><span class="n">sh</span> \
+<span class="o">--</span><span class="n">topic</span><span class="o">=</span><span class="n">topic_docker_test1</span> \
+<span class="o">--</span><span class="n">broker</span><span class="o">-</span><span class="n">list</span> <span class="n">localhost</span><span class="o">:</span><span class="mi">19092</span><span class="p">,</span><span class="n">localhost</span><span class="o">:</span><span class="mi">29092</span><span class="p">,</span><span class="n">localhost</span><span class="o">:</span><span class="mi">39092</span>
+
+<span class="n">bin</span><span class="o">/</span><span class="n">kafka</span><span class="o">-</span><span class="n">console</span><span class="o">-</span><span class="n">producer</span><span class="p">.</span><span class="n">sh</span> \
+<span class="o">--</span><span class="n">topic</span><span class="o">=</span><span class="n">topic_docker_test1</span> \
+<span class="o">--</span><span class="n">broker</span><span class="o">-</span><span class="n">list</span> <span class="mf">10.15.5.164</span><span class="o">:</span><span class="mi">19092</span><span class="p">,</span><span class="mf">10.15.5.164</span><span class="o">:</span><span class="mi">29092</span><span class="p">,</span><span class="mf">10.15.5.164</span><span class="o">:</span><span class="mi">39092</span>
+
+<span class="n">bin</span><span class="o">/</span><span class="n">kafka</span><span class="o">-</span><span class="n">console</span><span class="o">-</span><span class="n">consumer</span><span class="p">.</span><span class="n">sh</span> \
+<span class="o">--</span><span class="n">topic</span><span class="o">=</span><span class="n">topic_docker_test1</span> \
+<span class="o">--</span><span class="n">bootstrap</span><span class="o">-</span><span class="n">server</span> <span class="n">localhost</span><span class="o">:</span><span class="mi">19092</span><span class="p">,</span><span class="n">localhost</span><span class="o">:</span><span class="mi">29092</span><span class="p">,</span><span class="n">localhost</span><span class="o">:</span><span class="mi">39092</span> \
+<span class="o">--</span><span class="n">from</span><span class="o">-</span><span class="n">beginning</span>
+
+
+
+<span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">itd</span> \
+<span class="o">--</span><span class="n">restart</span> <span class="n">always</span> \
+<span class="o">--</span><span class="n">name</span> <span class="n">kafka1</span> \
+<span class="o">--</span><span class="n">hostname</span><span class="o">=</span><span class="n">kafka1</span> \
+<span class="o">--</span><span class="n">network</span> <span class="n">zk_test_default</span> \
+<span class="o">--</span><span class="n">publish</span> <span class="mi">19092</span><span class="o">:</span><span class="mi">9092</span> <span class="o">--</span><span class="n">publish</span> <span class="mi">19999</span><span class="o">:</span><span class="mi">9999</span> \
+<span class="o">--</span><span class="n">env</span> <span class="n">JMX_PORT</span><span class="o">=</span><span class="mi">9999</span> \
+<span class="o">--</span><span class="n">env</span> <span class="n">KAFKA_ADVERTISED_HOST_NAME</span><span class="o">=</span><span class="n">kafka1</span> \
+<span class="o">--</span><span class="n">env</span> <span class="n">KAFKA_LISTENERS</span><span class="o">=</span><span class="n">PLAINTEXT</span><span class="o">:</span><span class="c1">//0.0.0.0:9092 \</span>
+<span class="c1">--env KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://10.15.5.164:19092 \</span>
+<span class="c1">--env KAFKA_ZOOKEEPER_CONNECT=zookeeper1:2181,zookeeper2:2181,zookeeper3:2181 \</span>
+<span class="c1">--env KAFKA_BROKER_ID=1 \</span>
+<span class="c1">wurstmeister/kafka:latest</span>
+
+<span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">itd</span> \
+<span class="o">--</span><span class="n">restart</span> <span class="n">always</span> \
+<span class="o">--</span><span class="n">name</span> <span class="n">kafka2</span> \
+<span class="o">--</span><span class="n">hostname</span><span class="o">=</span><span class="n">kafka2</span> \
+<span class="o">--</span><span class="n">network</span> <span class="n">zk_test_default</span> \
+<span class="o">--</span><span class="n">publish</span> <span class="mi">29092</span><span class="o">:</span><span class="mi">9092</span> <span class="o">--</span><span class="n">publish</span> <span class="mi">29999</span><span class="o">:</span><span class="mi">9999</span> \
+<span class="o">--</span><span class="n">env</span> <span class="n">JMX_PORT</span><span class="o">=</span><span class="mi">9999</span> \
+<span class="o">--</span><span class="n">env</span> <span class="n">KAFKA_ADVERTISED_HOST_NAME</span><span class="o">=</span><span class="n">kafka2</span> \
+<span class="o">--</span><span class="n">env</span> <span class="n">KAFKA_LISTENERS</span><span class="o">=</span><span class="n">PLAINTEXT</span><span class="o">:</span><span class="c1">//0.0.0.0:9092 \</span>
+<span class="c1">--env KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://10.15.5.164:29092 \</span>
+<span class="c1">--env KAFKA_ZOOKEEPER_CONNECT=zookeeper1:2181,zookeeper2:2181,zookeeper3:2181 \</span>
+<span class="c1">--env KAFKA_BROKER_ID=2 \</span>
+<span class="c1">wurstmeister/kafka:latest</span>
+
+<span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">itd</span> \
+<span class="o">--</span><span class="n">restart</span> <span class="n">always</span> \
+<span class="o">--</span><span class="n">name</span> <span class="n">kafka3</span> \
+<span class="o">--</span><span class="n">hostname</span><span class="o">=</span><span class="n">kafka3</span> \
+<span class="o">--</span><span class="n">network</span> <span class="n">zk_test_default</span> \
+<span class="o">--</span><span class="n">publish</span> <span class="mi">39092</span><span class="o">:</span><span class="mi">9092</span> <span class="o">--</span><span class="n">publish</span> <span class="mi">39999</span><span class="o">:</span><span class="mi">9999</span> \
+<span class="o">--</span><span class="n">env</span> <span class="n">JMX_PORT</span><span class="o">=</span><span class="mi">9999</span> \
+<span class="o">--</span><span class="n">env</span> <span class="n">KAFKA_ADVERTISED_HOST_NAME</span><span class="o">=</span><span class="n">kafka3</span> \
+<span class="o">--</span><span class="n">env</span> <span class="n">KAFKA_LISTENERS</span><span class="o">=</span><span class="n">PLAINTEXT</span><span class="o">:</span><span class="c1">//0.0.0.0:9092 \</span>
+<span class="c1">--env KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://10.15.5.164:39092 \</span>
+<span class="c1">--env KAFKA_ZOOKEEPER_CONNECT=zookeeper1:2181,zookeeper2:2181,zookeeper3:2181 \</span>
+<span class="c1">--env KAFKA_BROKER_ID=3 \</span>
+<span class="c1">wurstmeister/kafka:latest</span>
+</pre></div>
+
+
 <h1 id="_2">参考文献</h1>
 <p><a href="https://www.cnblogs.com/iforever/p/9130983.html">kafka环境搭建和使用(python API)</a><br />
 <a href="https://www.cnblogs.com/wonglu/p/8687488.html">Kafka单机配置部署</a></p>
