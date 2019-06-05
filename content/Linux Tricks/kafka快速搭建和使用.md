@@ -360,13 +360,15 @@ Mode: follower
 
 # 5、docker下搭建kafka集群
 
-
+# 6、docker-compose.yml编写
 ##### 参考文献
 [使用Docker快速搭建Zookeeper和kafka集群](https://blog.icocoro.me/2018/12/17/1812-docker-zookeeper-kafka/)
 
 [docker简易搭建kafka](https://blog.csdn.net/belonghuang157405/article/details/82149257)
 
 [Zookeeper和Kafka集群配置，非常详细的参数解读](https://baijiahao.baidu.com/s?id=1619850826376520795&wfr=spider&for=pc)
+
+[图文详解使用Docker容器，进行Kafka单点和集群配置](https://cloud.tencent.com/developer/news/371290)
 
 [使用docker安装kafka](https://blog.csdn.net/lblblblblzdx/article/details/80548294)
 
@@ -375,3 +377,13 @@ Mode: follower
 [使用Docker快速搭建Kafka开发环境](https://www.jianshu.com/p/ac03f126980e)
 
 [Docker搭建kafka和zookeeper](https://blog.csdn.net/qq_42595077/article/details/87450034)
+
+[Docker中搭建Kafka集群以及让外网访问](https://blog.csdn.net/qq_41587243/article/details/80452343)
+
+[docker极速搭建kafka 外网可以访问-已测试](https://blog.csdn.net/jiangkai16001519/article/details/83383865)
+
+[使用docker安装kafka](https://blog.csdn.net/lblblblblzdx/article/details/80548294)
+
+[docker容器搭建kafka集群](https://blog.51cto.com/13520772/2155004)
+
+[单台centos7主机做zookeeper和kafka集群](https://blog.csdn.net/softmaker_tao/article/details/80395711)
