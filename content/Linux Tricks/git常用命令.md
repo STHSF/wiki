@@ -40,7 +40,7 @@ git rm -r --cached [file]  # -r 删除文件目录
 # 如果连本地工作区中的文件也要删除
 git rm [-r] [file.txt]
 ```
-删除之后 再通过 ```commit, push```等操作即可
+删除之后 再通过 ```commit, push```等操作即可, **注意, 执行 git rm之后, 只需要继续执行```git commit``` 和```git push```, 不需要执行```git add```. 否则```git rm```无效**
 
 ## 本地文件上传到github仓库
 ### 本地文件夹操作
