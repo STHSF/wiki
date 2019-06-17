@@ -221,20 +221,21 @@ for message in consumer:
 ### 1、创建节点文件夹
 为每个节点创建节点文件夹, 用于存放zookeeper的配置信息, 以及对应节点的数据和log
 
-节点目录列表
-- /zookeeper
-    - /zookeeper1
-        - /conf
-        - /data
-        - /logdata
-    - /zookeeper2
-        - /conf
-        - /data
-        - /logdata
-    - /zookeeper3
-        - /conf
-        - /data
-        - /logdata
+节点目录列表:
+
+    |-- zookeeper
+        |--zookeeper1
+            |-- conf
+            |-- data
+            |-- logdata
+        |-- zookeeper2
+            |-- conf
+            |-- data
+            |-- logdata
+        |-- zookeeper3
+            |-- conf
+            |-- data
+            |-- logdata
 
 其中, /conf下面最重要的配置文件zoo.cfg配置如下
 ```
