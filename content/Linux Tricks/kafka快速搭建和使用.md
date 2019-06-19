@@ -214,7 +214,7 @@ for message in consumer:
 1、本地搭载和docker搭载使用的版本不一致.
 
 
-# 4、docker搭建zookeeper集群
+# 4、单服务器搭建docker的zookeeper集群
 在开发环境中，大家应该都用的是zookeeper单点吧，但是在生产环境中我相信没有人敢用单点的，应该都是用的集群，因为万一单点挂掉的话，我们的应用也就自然而然的ConnectionException。那么，接下来我就记录一下我自己用docker搭建zookeeper集群。
 
 这里准备利用三个zookeeper节点组成一个集群，并且三个节点都在同一台主机上，如果需要节点原型在不同的主机上，修改对应的ip和端口即可.
@@ -359,7 +359,7 @@ Using config: /conf/zoo.cfg
 Mode: follower
 ```
 
-# 5、docker下搭建kafka集群
+# 5、单服务器搭建docker版kafka集群
 
 # 6、docker-compose.yml编写
 ##### 参考文献
