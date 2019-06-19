@@ -255,7 +255,7 @@ consumer.py</p>
 <p>关于docker下创建topic, 进入kafka容器后创建topic理论上和实际操作上是没有问题的, 在宿主机上也是可以查看到创建的topic的, 但是如何在容器外部创建topic呢, 暂时没找到解决方案, 但是如果宿主机上部署了kafka, 在没有启动kafka的情况下也是可以通过<code>bin/kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic test01</code>创建topic的. 同样, 查看topic列表时, 所有的topic都能现实. 如果宿主机上没有kafka, 如何创建topic?</p>
 <h3 id="_4"><strong>注</strong></h3>
 <p>1、本地搭载和docker搭载使用的版本不一致.</p>
-<h1 id="4dockerzookeeper">4、docker搭建zookeeper集群</h1>
+<h1 id="4dockerzookeeper">4、单服务器搭建docker的zookeeper集群</h1>
 <p>在开发环境中，大家应该都用的是zookeeper单点吧，但是在生产环境中我相信没有人敢用单点的，应该都是用的集群，因为万一单点挂掉的话，我们的应用也就自然而然的ConnectionException。那么，接下来我就记录一下我自己用docker搭建zookeeper集群。</p>
 <p>这里准备利用三个zookeeper节点组成一个集群，并且三个节点都在同一台主机上，如果需要节点原型在不同的主机上，修改对应的ip和端口即可.</p>
 <h3 id="1_1">1、创建节点文件夹</h3>
@@ -420,7 +420,7 @@ consumer.py</p>
 </pre></div>
 
 
-<h1 id="5dockerkafka">5、docker下搭建kafka集群</h1>
+<h1 id="5dockerkafka">5、单服务器搭建docker版kafka集群</h1>
 <h1 id="6docker-composeyml">6、docker-compose.yml编写</h1>
 <h5 id="_6">参考文献</h5>
 <p><a href="https://blog.icocoro.me/2018/12/17/1812-docker-zookeeper-kafka/">使用Docker快速搭建Zookeeper和kafka集群</a></p>
