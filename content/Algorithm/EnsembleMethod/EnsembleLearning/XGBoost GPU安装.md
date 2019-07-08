@@ -6,8 +6,9 @@ date: 2019-07-08 00:00
 [TOC]
 
 # 写在前面
-
+随着业务场景的慢慢深入, 数据量的逐步增大, 模型的训练时间不断的变长, 导致模型训练成本逐步增大. 所以需要更加高效的提高硬件计算资源的利用率, 本文主要介绍安装GPU版本的XGBoost.
 # 安装过程
+安装前提是需要GPU驱动, cudnn等安装正确, 如果这步没有安装, 请参见[Ubuntu16.04下安装安装CUDA9.0、cuDNN7.0和tensotflow-gpu 1.8.0以上的版本流程和问题总结](https://sthsf.github.io/wiki/Algorithm/DeepLearning/Tensorflow%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Tensorflow%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86---Tensorflow-gpu%E7%89%88%E6%9C%AC%E5%AE%89%E8%A3%85(2).html)的具体安装方式.
 ### 1、下载源码
 在git clone下来的xgboost中执行
 ```
@@ -29,7 +30,7 @@ cmake .. -DUSE_CUDA=ON
 执行结果如下图所示:
 <center><img src="/wiki/static/images/essemble/xgboost/xgboost_3.jpg" alt="xgboost-3"/></center>
 
-### make
+### 4、make
 执行make
 ```
 make -j4
@@ -41,7 +42,7 @@ make -j4
 
 ***PS***很多教程中提到, 在make的过程中不需要用到-j4中的4, 他的解释是使用后会自动生成build目录, 但是我的理解是在新建的build目录下执行上面的命令, 所以不太理解他的做法, 另外我在pull源码下来后, 源码里事先没有build文件目录, 需要手动新建.
 
-### virtualenv中更新XGBoost
+## virtualenv中更新XGBoost
 一般的, 为了不污染原始环境, 我们都会使用虚拟环境隔离开发环境, 比如virtualenv或conda. 我使用的是vitrualenv, 所以介绍virtualenv中如何更新, 其实方式比较简单.
 
 直接```pip uninstall XGBoost```先卸载掉原始的XGBoost 然后重新安装即可. 虚拟环境下可以完美调用GPU运行XGBoost.
