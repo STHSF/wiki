@@ -42,44 +42,44 @@
 <div id="content">
   <div class="toc"><span class="toctitle">Table of Contents</span><ul>
 <li><a href="#_1">写在前面</a></li>
-<li><a href="#_2">主要步骤</a><ul>
-<li><a href="#step-1">step 1</a></li>
-<li><a href="#step-2">step 2</a></li>
-<li><a href="#step-3">step 3</a></li>
-<li><a href="#step-4">step 4</a></li>
-</ul>
-</li>
+<li><a href="#_2">主要步骤</a></li>
 <li><a href="#_3">注意点</a></li>
 <li><a href="#_4">参考文献</a></li>
 </ul>
 </div>
 <h1 id="_1">写在前面</h1>
 <h1 id="_2">主要步骤</h1>
-<h2 id="step-1">step 1</h2>
-<p>在git clone下来的xgboost中执行</p>
+<ul>
+<li>step 1<br />
+在git clone下来的xgboost中执行</li>
+</ul>
 <div class="hlcode"><pre><span class="n">git</span> <span class="n">submodule</span> <span class="n">init</span>
 <span class="n">git</span> <span class="n">submodule</span> <span class="n">update</span>
 </pre></div>
 
 
-<p>更新子依赖</p>
-<h2 id="step-2">step 2</h2>
-<p>在/xgboost, 目录下新建/build文件夹</p>
+<p>更新子依赖<br />
+- step 2<br />
+在/xgboost, 目录下新建/build文件夹</p>
 <div class="hlcode"><pre><span class="n">cd</span> <span class="n">xgboost</span>
 <span class="n">mkdir</span> <span class="n">build</span>
 </pre></div>
 
 
-<h2 id="step-3">step 3</h2>
-<p>执行cmake</p>
+<ul>
+<li>step 3<br />
+执行cmake</li>
+</ul>
 <div class="hlcode"><pre><span class="n">cmake</span> <span class="p">..</span> <span class="o">-</span><span class="n">DUSE_CUDA</span><span class="o">=</span><span class="n">ON</span>
 </pre></div>
 
 
 <p>执行结果如下图所示:<br />
 <center><img src="/wiki/static/images/essemble/xgboost/xgboost_3.jpg" alt="xgboost-3"/></center></p>
-<h2 id="step-4">step 4</h2>
-<p>执行make</p>
+<ul>
+<li>step 4<br />
+执行make</li>
+</ul>
 <div class="hlcode"><pre><span class="n">make</span> <span class="o">-</span><span class="n">j4</span>
 </pre></div>
 
