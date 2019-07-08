@@ -9,20 +9,20 @@ date: 2019-07-08 00:00
 
 # 主要步骤
 
-## step 1
+- step 1
 在git clone下来的xgboost中执行
 ```
 git submodule init
 git submodule update
 ```
 更新子依赖
-## step 2
+- step 2
 在/xgboost, 目录下新建/build文件夹
 ```
 cd xgboost
 mkdir build
 ```
-## step 3
+- step 3
 执行cmake
 ```
 cmake .. -DUSE_CUDA=ON
@@ -30,7 +30,7 @@ cmake .. -DUSE_CUDA=ON
 执行结果如下图所示:
 <center><img src="/wiki/static/images/essemble/xgboost/xgboost_3.jpg" alt="xgboost-3"/></center>
 
-## step 4
+- step 4
 执行make
 ```
 make -j4
