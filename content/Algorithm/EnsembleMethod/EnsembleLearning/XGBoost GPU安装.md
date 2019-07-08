@@ -48,6 +48,8 @@ make -j4
 调用情况如下:
 <center><img src="/wiki/static/images/essemble/xgboost/xgboost_6.jpg" alt="xgboost-6"/></center>
 
+# XGBoost的多GPU部署
+待更新.....
 
 # 注意点
 ### 1、cmake 版本更新
