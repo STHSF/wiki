@@ -76,5 +76,10 @@ RuntimeError: Python version >= 3.5 required.
 
 
 # 参考文献
+[Installation Guide](https://xgboost.readthedocs.io/en/latest/build.html#building-with-gpu-support)
 
 [linux下安装XGBoost并支持GPU（anaconda3）](https://blog.csdn.net/wl2858623940/article/details/80546140)
+
+[ubuntu安装xgboost，CPU版和GPU版配置](https://blog.csdn.net/u011587516/article/details/78995186)
+
+[xgboost 多gpu支持 编译](https://www.cnblogs.com/kdyi/p/10636988.html)
