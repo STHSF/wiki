@@ -48,6 +48,8 @@ make -j4
 调用情况如下:
 <center><img src="/wiki/static/images/essemble/xgboost/xgboost_6.jpg" alt="xgboost-6"/></center>
 
+annaconda下面没有测试过, 可能也需要重新安装.
+
 # XGBoost的多GPU部署
 待更新.....
 
@@ -83,5 +85,9 @@ RuntimeError: Python version >= 3.5 required.
 [linux下安装XGBoost并支持GPU（anaconda3）](https://blog.csdn.net/wl2858623940/article/details/80546140)
 
 [ubuntu安装xgboost，CPU版和GPU版配置](https://blog.csdn.net/u011587516/article/details/78995186)
+
+[GPU加速xgboost——win10下配置](https://blog.csdn.net/voidfaceless/article/details/78338678)
+
+[Ubuntu16.04安装GPU版xgboost](https://blog.csdn.net/Perfect_Accepted/article/details/81989486)
 
 [xgboost 多gpu支持 编译](https://www.cnblogs.com/kdyi/p/10636988.html)
