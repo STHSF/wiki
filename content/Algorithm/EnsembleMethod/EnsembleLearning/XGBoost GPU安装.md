@@ -28,7 +28,7 @@ mkdir build
 cmake .. -DUSE_CUDA=ON
 ```
 执行结果如下图所示:
-<center><img src="/wiki/static/images/essemble/xgboost/xgboost_3.png" alt="xgboost-3"/></center>
+<center><img src="/wiki/static/images/essemble/xgboost/xgboost_3.jpg" alt="xgboost-3"/></center>
 
 ## step 4
 执行make
@@ -36,9 +36,9 @@ cmake .. -DUSE_CUDA=ON
 make -j4
 ```
 执行过程和执行结果如下图:
-<center><img src="/wiki/static/images/essemble/xgboost/xgboost_4.png" alt="xgboost-4"/></center>
+<center><img src="/wiki/static/images/essemble/xgboost/xgboost_4.jpg" alt="xgboost-4"/></center>
 
-<center><img src="/wiki/static/images/essemble/xgboost/xgboost_5.png" alt="xgboost-5"/></center>
+<center><img src="/wiki/static/images/essemble/xgboost/xgboost_5.jpg" alt="xgboost-5"/></center>
 
 # 注意点
 1、cmake 版本更新
