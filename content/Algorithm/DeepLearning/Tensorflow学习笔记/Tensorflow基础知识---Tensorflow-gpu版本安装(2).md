@@ -318,6 +318,9 @@ above this error message when asking for help.
 在安装cudnn之后需要添加环境变量,上文提到了在/etc/profile中添加相应的语句,然后source.我在将tensorflow1.7升级到tensorflow1.10之后出现了问题一的情况,后面我将环境变量添加到~/.bashrc中,然后source之后问题没了.
 
 **UPDATE20190511**[tensorlfow cuda cudnn的版本对应](https://tensorflow.google.cn/install/source)
+部分截图(UPGDATE20190710):
+<center><img src="/wiki/static/images/tensorgpu/version.jpg" alt="version"/></center>
+
 
 
 # 六、参考文献
