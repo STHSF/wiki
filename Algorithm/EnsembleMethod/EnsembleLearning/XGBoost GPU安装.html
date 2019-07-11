@@ -50,7 +50,7 @@
 <li><a href="#virtualenvxgboost">virtualenv中更新XGBoost</a></li>
 </ul>
 </li>
-<li><a href="#xgboostgpu">XGBoost的多GPU部署</a></li>
+<li><a href="#xgboostgpu">XGBoost的分布式GPU部署</a></li>
 <li><a href="#_3">注意点</a><ul>
 <li><a href="#1cmake">1、cmake 版本更新</a></li>
 <li><a href="#2xgboost-gpu-python35">2、安装XGBoost gpu版本, python的版本必须大于3.5</a></li>
@@ -103,8 +103,18 @@
 调用情况如下:<br />
 <center><img src="/wiki/static/images/essemble/xgboost/xgboost_6.jpg" alt="xgboost-6"/></center></p>
 <p>annaconda下面没有测试过, 可能也需要重新安装.</p>
-<h1 id="xgboostgpu">XGBoost的多GPU部署</h1>
-<p>待更新.....</p>
+<h1 id="xgboostgpu">XGBoost的分布式GPU部署</h1>
+<p>[UPDATE20190710]<br />
+上面的初始化过程中, 是不能使用分布式GPU进行计算的, 而且只能使用单个的GPU, 为了能够使用分布式GPU训练, 需要设置USE_NCCL=ON, 另外, 分布式GPU训练依赖Nvidia的<a href="https://developer.nvidia.com/nccl">NCCL2</a>, 需要另外安装. 特别的, 目前NCCL2只支持linux系统, 所以分布式GPU训练只支持linux系统.</p>
+<p>详细的安装方式:</p>
+<div class="hlcode"><pre><span class="n">mkdir</span> <span class="n">build</span>
+<span class="n">cd</span> <span class="n">build</span>
+<span class="n">cmake</span> <span class="p">..</span> <span class="o">-</span><span class="n">DUSE_CUDA</span><span class="o">=</span><span class="n">ON</span> <span class="o">-</span><span class="n">DUSE_NCCL</span><span class="o">=</span><span class="n">ON</span> <span class="o">-</span><span class="n">DNCCL_ROOT</span><span class="o">=/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">nccl2</span>
+<span class="n">make</span> <span class="o">-</span><span class="n">j4</span>
+</pre></div>
+
+
+<p><strong>PS</strong>, 这里的分布式GPU训练, 笔者认为是单服务器多GPU训练, 并不是我们所谓的分布式服务器的方式, 不过暂时还没有验证.</p>
 <h1 id="_3">注意点</h1>
 <h3 id="1cmake">1、cmake 版本更新</h3>
 <p>在编译过程中,可能会出现下面的问题, 原因是cmake的版本太低, 需要更新cmake版本.</p>
