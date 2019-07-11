@@ -321,6 +321,7 @@ above this error message when asking for help.
 部分截图(UPGDATE20190710):
 <center><img src="/wiki/static/images/tensorgpu/version.jpg" alt="version"/></center>
 
+**UPDATE20190710***
 
 
 # 六、参考文献
