@@ -78,10 +78,15 @@
 <li><a href="#_7">修改配置文件</a></li>
 <li><a href="#ssh">启动ssh服务</a></li>
 <li><a href="#_8">登录测试</a></li>
+<li><a href="#docker_8">Docker镜像跨服务器迁移</a><ul>
+<li><a href="#1save">1、save</a></li>
+<li><a href="#2export">2、export</a></li>
 </ul>
 </li>
-<li><a href="#docker_8">docker 添加用户</a></li>
-<li><a href="#docker_9">docker 三剑客</a><ul>
+</ul>
+</li>
+<li><a href="#docker_9">docker 添加用户</a></li>
+<li><a href="#docker_10">docker 三剑客</a><ul>
 <li><a href="#docker-machine">docker machine</a></li>
 <li><a href="#docker-swarm">docker swarm</a></li>
 <li><a href="#docker-compose">docker compose</a></li>
@@ -443,8 +448,42 @@ docker cp <span class="cp">[</span><span class="nx">OPTIONS</span><span class="c
 </pre></div>
 
 
-<h1 id="docker_8">docker 添加用户</h1>
-<h1 id="docker_9">docker 三剑客</h1>
+<h2 id="docker_8">Docker镜像跨服务器迁移</h2>
+<p>Docker的备份方式有export和save两种。</p>
+<h3 id="1save">1、save</h3>
+<p>1)、镜像保存</p>
+<p>登陆到已经部署好镜像的服务器上面，执行以下命令进行导出</p>
+<div class="hlcode"><pre><span class="n">docker</span> <span class="n">save</span> <span class="p">[</span><span class="n">IMAGE_ID</span><span class="err">前三位</span><span class="p">]</span> <span class="o">&gt;</span> <span class="p">[</span><span class="n">IMAGE_NAME</span><span class="p">].</span><span class="n">tar</span>
+<span class="n">or</span>
+<span class="n">docker</span> <span class="n">save</span> <span class="o">-</span><span class="n">o</span> <span class="p">.</span><span class="o">/</span><span class="p">[</span><span class="kt">FILE</span> <span class="n">NAME</span><span class="p">].</span><span class="n">tar</span> <span class="p">[</span><span class="n">REPOSITORY</span><span class="o">:</span><span class="n">TAG</span><span class="p">]</span>
+</pre></div>
+
+
+<p>2)、镜像导入</p>
+<p>将刚才导出的镜像上传到你要导入的那台服务器上(使用scp), 执行以下命令镜像导入</p>
+<div class="hlcode"><pre><span class="n">docker</span> <span class="n">load</span> <span class="o">&lt;</span> <span class="p">[</span><span class="n">IMAGE_NAME</span><span class="p">].</span><span class="n">tar</span>
+<span class="err">然后使用</span>
+<span class="n">docker</span> <span class="n">tag</span> <span class="p">[</span><span class="n">IMAGE_ID</span><span class="err">前三位</span><span class="p">]</span> <span class="p">[</span><span class="n">REPOSITORY</span><span class="p">]</span><span class="o">:</span><span class="p">[</span><span class="n">TAG</span><span class="p">]</span>
+<span class="err">对新</span><span class="n">load</span><span class="err">的</span><span class="n">image</span><span class="err">重新命名</span>
+</pre></div>
+
+
+<h3 id="2export">2、export</h3>
+<p>1) 导出容器</p>
+<div class="hlcode"><pre><span class="n">docker</span> <span class="n">ps</span> <span class="o">-</span><span class="n">a</span>
+<span class="n">docker</span> <span class="n">export</span> <span class="p">[</span><span class="n">CONTAINER</span> <span class="n">ID</span><span class="p">]</span> <span class="o">&gt;</span> <span class="p">[</span><span class="kt">FILE</span> <span class="n">NMAE</span><span class="p">].</span><span class="n">tar</span>
+</pre></div>
+
+
+<p>2) 导入到指定的服务器</p>
+<p>同样需要将刚才的导出的容器备份上传到目标服务器上，执行下面的命令</p>
+<div class="hlcode"><pre><span class="n">cat</span> <span class="p">[</span><span class="kt">FILE</span> <span class="n">NMAE</span><span class="p">].</span><span class="n">tar</span> <span class="o">|</span><span class="n">docker</span> <span class="n">import</span> <span class="o">-</span> <span class="p">[</span><span class="n">REPOSITORY</span><span class="p">]]</span><span class="o">:</span><span class="p">[</span><span class="n">TAG</span><span class="p">]</span>
+</pre></div>
+
+
+<p><strong><em>注意：运行导入的镜像的时候必须带command(/bin/bash)，否则启动报如下错误</em></strong></p>
+<h1 id="docker_9">docker 添加用户</h1>
+<h1 id="docker_10">docker 三剑客</h1>
 <h2 id="docker-machine">docker machine</h2>
 <h2 id="docker-swarm">docker swarm</h2>
 <h2 id="docker-compose">docker compose</h2>
