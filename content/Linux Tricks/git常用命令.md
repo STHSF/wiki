@@ -85,8 +85,13 @@ git push -u origin master
 **1~3是初始化操作，执行一次即可。在本地编辑内容前必须执行第4步同步别人的远端库（这样避免冲突），然后执行5~7既可。**
 
 ## 管理公共第三方lib
+```
 git subtree
-
+```
+## 实现代码自动部署
+```
+git hook
+```
 
 ## git 速查表
 <center><img src="/wiki/static/images/linuxtricks/gitcommand.png" alt="git-command"/></center>

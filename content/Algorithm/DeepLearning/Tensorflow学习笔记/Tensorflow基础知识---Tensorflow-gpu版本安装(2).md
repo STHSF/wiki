@@ -322,7 +322,7 @@ above this error message when asking for help.
 <center><img src="/wiki/static/images/tensorgpu/version.jpg" alt="version"/></center>
 
 **UPDATE20190710***
-
+## 安装NCCL2
 
 # 六、参考文献
 [CUDA官方安装教程](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html)
