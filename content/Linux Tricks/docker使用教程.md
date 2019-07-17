@@ -331,12 +331,12 @@ service ssh start
 ```
 我们也可以在启动docker的时候同时启动ssh
 ```
-docker run -d -it -p 10022:22 [IMAGE_NAME] /usr/sbin/sshd -D
+docker run -d -it -p 10022:22 <IMAGE_NAME> /usr/sbin/sshd -D
 ```
 ### 登录测试
 在宿主机或者其他机器上输入对应的username和ip地址,测试是否可以连接
 ```
-ssh -p 10022 [username]@[ip]
+ssh -p 10022 <username>@<ip>
 ```
 ## Docker镜像跨服务器迁移
 Docker的备份方式有export和save两种。
@@ -345,30 +345,35 @@ Docker的备份方式有export和save两种。
 
 登陆到已经部署好镜像的服务器上面，执行以下命令进行导出
 ```
-docker save [IMAGE_ID前三位] > [IMAGE_NAME].tar
+docker save <IMAGE_ID前三位> > <IMAGE_NAME>.tar
+```
 or
-docker save -o ./[FILE NAME].tar [REPOSITORY:TAG]
+```
+docker save -o ./<FILE NAME>.tar <EPOSITORY:TAG>
 ```
 2)、镜像导入
 
 将刚才导出的镜像上传到你要导入的那台服务器上(使用scp), 执行以下命令镜像导入
 ```
-docker load < [IMAGE_NAME].tar
-然后使用
-docker tag [IMAGE_ID前三位] [REPOSITORY]:[TAG]
-对新load的image重新命名
+docker load < <IMAGE_NAME>.tar
 ```
+使用```docker images```查看你会发现load的镜像的TREPOSITORY和TAG为空, 可以使用下面的命令
+```
+docker tag <IMAGE_ID前三位> <REPOSITORY>:<TAG>
+```
+对新load的image重新命名
+
 ### 2、export
 1) 导出容器
 ```
 docker ps -a
-docker export [CONTAINER ID] > [FILE NMAE].tar
+docker export <CONTAINER ID> > <FILE NMAE>.tar
 ```
 2) 导入到指定的服务器
 
 同样需要将刚才的导出的容器备份上传到目标服务器上，执行下面的命令
 ```
-cat [FILE NMAE].tar |docker import - [REPOSITORY]]:[TAG]
+cat <FILE NMAE>.tar |docker import - <REPOSITORY>:<TAG>
 ```
 ***注意：运行导入的镜像的时候必须带command(/bin/bash)，否则启动报如下错误***
 
