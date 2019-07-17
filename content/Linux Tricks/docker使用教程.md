@@ -304,7 +304,7 @@ scp -P 10022 jerry.zip jerry@192.168.79.1:/home/jerry/workshop/work
 ```
 
 
-# docker开启ssh服务
+## Docker开启ssh服务
 ### 修改root密码,安装openssh服务
 ```
 apt-get update
@@ -340,7 +340,6 @@ ssh -p 10022 [username]@[ip]
 ```
 ## Docker镜像跨服务器迁移
 Docker的备份方式有export和save两种。
-
 ### 1、save
 1)、镜像保存
 
