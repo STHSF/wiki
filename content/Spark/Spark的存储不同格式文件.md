@@ -26,7 +26,6 @@ df_csv.write.csv('../output/rating.csv', header = True, mode = 'error') #保存�
 ## 2、将文档保存在一个文件夹中
 ```shell
 !ls -lh ../output/rating.csv  #根据数量保存多个文件
-
 !head ../output/rating.csv/part-00001-aece805c-20a7-4225-b152-40316bc8fc5e-c000.csv
 ```
 ```python
