@@ -74,17 +74,36 @@ from pyspark.sql import SparkSession</p>
 <p>spark = SparkSession.builder.master("local[2]").appName("test").enableHiveSupport().getOrCreate()<br />
 sc = spark.sparkContext</p>
 <h2 id="1csv">1、存储为csv格式</h2>
-<p>df_csv = spark.read.csv("../data/ratings.csv", header=True)<br />
-df_csv.show()<br />
-df_csv.write.csv('../output/rating.csv', header = True, mode = 'error') #保存数据</p>
+<div class="hlcode"><pre><span class="n">df_csv</span> <span class="k">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">csv</span><span class="o">(</span><span class="s">&quot;../data/ratings.csv&quot;</span><span class="o">,</span> <span class="n">header</span><span class="k">=</span><span class="nc">True</span><span class="o">)</span>
+<span class="n">df_csv</span><span class="o">.</span><span class="n">show</span><span class="o">()</span>
+<span class="n">df_csv</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">csv</span><span class="o">(</span><span class="err">&#39;</span><span class="o">../</span><span class="n">output</span><span class="o">/</span><span class="n">rating</span><span class="o">.</span><span class="n">csv</span><span class="err">&#39;</span><span class="o">,</span> <span class="n">header</span> <span class="k">=</span> <span class="nc">True</span><span class="o">,</span> <span class="n">mode</span> <span class="k">=</span> <span class="-Symbol">&#39;error</span><span class="err">&#39;</span><span class="o">)</span> <span class="o">#</span><span class="n">保存数据</span>
+</pre></div>
+
+
 <h2 id="2">2、将文档保存在一个文件夹中</h2>
-<p>!ls -lh ../output/rating.csv   #根据数量保存多个文件<br />
-!head ../output/rating.csv/part-00001-aece805c-20a7-4225-b152-40316bc8fc5e-c000.csv   <br />
-df_csv.coalesce(1).write.csv('../output/rating2.csv', header = True)<br />
-!ls -lh ../output/rating.csv  </p>
+<div class="hlcode"><pre><span class="sx">!ls -lh ../output/rating.csv  #根据数量保存多个文件</span>
+
+<span class="sx">!head ../output/rating.csv/part-00001-aece805c-20a7-4225-b152-40316bc8fc5e-c000.csv</span>
+</pre></div>
+
+
+<div class="hlcode"><pre><span class="n">df_csv</span><span class="o">.</span><span class="n">coalesce</span><span class="o">(</span><span class="mi">1</span><span class="o">).</span><span class="n">write</span><span class="o">.</span><span class="n">csv</span><span class="o">(</span><span class="err">&#39;</span><span class="o">../</span><span class="n">output</span><span class="o">/</span><span class="n">rating2</span><span class="o">.</span><span class="n">csv</span><span class="err">&#39;</span><span class="o">,</span> <span class="n">header</span> <span class="k">=</span> <span class="nc">True</span><span class="o">)</span>
+</pre></div>
+
+
+<div class="hlcode"><pre><span class="sx">!ls -lh ../output/rating.csv</span>
+</pre></div>
+
+
 <h2 id="3json">3、存储为json格式</h2>
-<p>df_csv.write.json('../output/rating.json',mode = 'overwrite')<br />
-!ls -lh ../output/rating.json   #根据数量保存多个文件</p>
+<div class="hlcode"><pre><span class="n">df_csv</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">json</span><span class="o">(</span><span class="err">&#39;</span><span class="o">../</span><span class="n">output</span><span class="o">/</span><span class="n">rating</span><span class="o">.</span><span class="n">json</span><span class="err">&#39;</span><span class="o">,</span><span class="n">mode</span> <span class="k">=</span> <span class="-Symbol">&#39;overwrite</span><span class="err">&#39;</span><span class="o">)</span>
+</pre></div>
+
+
+<div class="hlcode"><pre><span class="sx">!ls -lh ../output/rating.json   #根据数量保存多个文件</span>
+</pre></div>
+
+
 <h2 id="jsoncsv">注意：其中json的内存要比csv大（存储空间）</h2>
 <h2 id="4parquet">4、存储为parquet格式</h2>
 <p>df_csv.write.parquet('../output/rating.parquet',mode = 'overwrite')<br />
@@ -216,12 +235,21 @@ df_csv.coalesce(1).write.csv('../output/rating2.csv', header = True)<br />
 <h3 id="fastparquet">fastparquet</h3>
 <p><a href="https://pypi.org/project/fastparquet/">fastparquet</a></p>
 <h2 id="5compression-">5、存储为compression格式---压缩</h2>
-<p>df_csv.write.csv('../output/rating_gzip.csv', header = True, compression = 'gzip')<br />
-!ls -lh ../output/rating_gzip.csv  #根据数量保存多个文件</p>
+<div class="hlcode"><pre><span class="n">df_csv</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">csv</span><span class="o">(</span><span class="err">&#39;</span><span class="o">../</span><span class="n">output</span><span class="o">/</span><span class="n">rating_gzip</span><span class="o">.</span><span class="n">csv</span><span class="err">&#39;</span><span class="o">,</span> <span class="n">header</span> <span class="k">=</span> <span class="nc">True</span><span class="o">,</span> <span class="n">compression</span> <span class="k">=</span> <span class="-Symbol">&#39;gzip</span><span class="err">&#39;</span><span class="o">)</span>
+</pre></div>
+
+
+<div class="hlcode"><pre><span class="sx">!ls -lh ../output/rating_gzip.csv  #根据数量保存多个文件</span>
+</pre></div>
+
+
 <h2 id="6table">6、存储为table</h2>
-<p>spark.sql('show tables').show()<br />
-df_csv.write.saveAsTable('rating_csv')<br />
-spark.sql("select * from ratings_csv").show()</p>
+<div class="hlcode"><pre><span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="o">(</span><span class="-Symbol">&#39;show</span> <span class="n">tables</span><span class="err">&#39;</span><span class="o">).</span><span class="n">show</span><span class="o">()</span>
+<span class="n">df_csv</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">saveAsTable</span><span class="o">(</span><span class="-Symbol">&#39;rating_csv</span><span class="err">&#39;</span><span class="o">)</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="o">(</span><span class="s">&quot;select * from ratings_csv&quot;</span><span class="o">).</span><span class="n">show</span><span class="o">()</span>
+</pre></div>
+
+
 <h2 id="_3">参考文献</h2>
 <p><a href="https://blog.csdn.net/xingxing1839381/article/details/81273351">PySpark的存储不同格式文件</a></p>
 <p><a href="https://cloud.tencent.com/developer/article/1356771">parquet常用操作</a></p>
