@@ -67,16 +67,22 @@
 </div>
 <h1 id="_1">写在前面</h1>
 <p><strong><em>PySpark的存储不同格式文件，如：存储为csv格式、json格式、parquet格式、compression格式、table</em></strong></p>
-<p>from <strong>future</strong> import print_function, division<br />
-from pyspark import SparkConf, SparkContext<br />
-from pyspark.sql import SparkSession</p>
+<div class="hlcode"><pre><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span>
+<span class="kn">from</span> <span class="nn">pyspark</span> <span class="kn">import</span> <span class="n">SparkConf</span><span class="p">,</span> <span class="n">SparkContext</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+</pre></div>
+
+
 <h2 id="spark">启动 Spark （如果你已经启动就不需要）</h2>
-<p>spark = SparkSession.builder.master("local[2]").appName("test").enableHiveSupport().getOrCreate()<br />
-sc = spark.sparkContext</p>
+<div class="hlcode"><pre><span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">master</span><span class="p">(</span><span class="s">&quot;local[2]&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s">&quot;test&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">enableHiveSupport</span><span class="p">()</span><span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+<span class="n">sc</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">sparkContext</span>
+</pre></div>
+
+
 <h2 id="1csv">1、存储为csv格式</h2>
-<div class="hlcode"><pre><span class="n">df_csv</span> <span class="k">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">csv</span><span class="o">(</span><span class="s">&quot;../data/ratings.csv&quot;</span><span class="o">,</span> <span class="n">header</span><span class="k">=</span><span class="nc">True</span><span class="o">)</span>
-<span class="n">df_csv</span><span class="o">.</span><span class="n">show</span><span class="o">()</span>
-<span class="n">df_csv</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">csv</span><span class="o">(</span><span class="err">&#39;</span><span class="o">../</span><span class="n">output</span><span class="o">/</span><span class="n">rating</span><span class="o">.</span><span class="n">csv</span><span class="err">&#39;</span><span class="o">,</span> <span class="n">header</span> <span class="k">=</span> <span class="nc">True</span><span class="o">,</span> <span class="n">mode</span> <span class="k">=</span> <span class="-Symbol">&#39;error</span><span class="err">&#39;</span><span class="o">)</span> <span class="o">#</span><span class="n">保存数据</span>
+<div class="hlcode"><pre><span class="n">df_csv</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="s">&quot;../data/ratings.csv&quot;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">df_csv</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">df_csv</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="s">&#39;../output/rating.csv&#39;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s">&#39;error&#39;</span><span class="p">)</span> <span class="c">#保存数据</span>
 </pre></div>
 
 
@@ -87,7 +93,7 @@ sc = spark.sparkContext</p>
 </pre></div>
 
 
-<div class="hlcode"><pre><span class="n">df_csv</span><span class="o">.</span><span class="n">coalesce</span><span class="o">(</span><span class="mi">1</span><span class="o">).</span><span class="n">write</span><span class="o">.</span><span class="n">csv</span><span class="o">(</span><span class="err">&#39;</span><span class="o">../</span><span class="n">output</span><span class="o">/</span><span class="n">rating2</span><span class="o">.</span><span class="n">csv</span><span class="err">&#39;</span><span class="o">,</span> <span class="n">header</span> <span class="k">=</span> <span class="nc">True</span><span class="o">)</span>
+<div class="hlcode"><pre><span class="n">df_csv</span><span class="o">.</span><span class="n">coalesce</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="s">&#39;../output/rating2.csv&#39;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
 </pre></div>
 
 
@@ -96,7 +102,7 @@ sc = spark.sparkContext</p>
 
 
 <h2 id="3json">3、存储为json格式</h2>
-<div class="hlcode"><pre><span class="n">df_csv</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">json</span><span class="o">(</span><span class="err">&#39;</span><span class="o">../</span><span class="n">output</span><span class="o">/</span><span class="n">rating</span><span class="o">.</span><span class="n">json</span><span class="err">&#39;</span><span class="o">,</span><span class="n">mode</span> <span class="k">=</span> <span class="-Symbol">&#39;overwrite</span><span class="err">&#39;</span><span class="o">)</span>
+<div class="hlcode"><pre><span class="n">df_csv</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="s">&#39;../output/rating.json&#39;</span><span class="p">,</span><span class="n">mode</span> <span class="o">=</span> <span class="s">&#39;overwrite&#39;</span><span class="p">)</span>
 </pre></div>
 
 
@@ -106,8 +112,14 @@ sc = spark.sparkContext</p>
 
 <h2 id="jsoncsv">注意：其中json的内存要比csv大（存储空间）</h2>
 <h2 id="4parquet">4、存储为parquet格式</h2>
-<p>df_csv.write.parquet('../output/rating.parquet',mode = 'overwrite')<br />
-!ls -lh ../output/rating.parquet  #根据数量保存多个文件</p>
+<div class="hlcode"><pre><span class="n">df_csv</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">parquet</span><span class="p">(</span><span class="s">&#39;../output/rating.parquet&#39;</span><span class="p">,</span><span class="n">mode</span> <span class="o">=</span> <span class="s">&#39;overwrite&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="hlcode"><pre><span class="sx">!ls -lh ../output/rating.parquet  #根据数量保存多个文件</span>
+</pre></div>
+
+
 <h3 id="_2">列式存储</h3>
 <p>列式存储和行式存储相比有哪些优势呢？</p>
 <p>1、可以跳过不符合条件的数据，只读取需要的数据，降低 IO 数据量。</p>
@@ -235,7 +247,7 @@ sc = spark.sparkContext</p>
 <h3 id="fastparquet">fastparquet</h3>
 <p><a href="https://pypi.org/project/fastparquet/">fastparquet</a></p>
 <h2 id="5compression-">5、存储为compression格式---压缩</h2>
-<div class="hlcode"><pre><span class="n">df_csv</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">csv</span><span class="o">(</span><span class="err">&#39;</span><span class="o">../</span><span class="n">output</span><span class="o">/</span><span class="n">rating_gzip</span><span class="o">.</span><span class="n">csv</span><span class="err">&#39;</span><span class="o">,</span> <span class="n">header</span> <span class="k">=</span> <span class="nc">True</span><span class="o">,</span> <span class="n">compression</span> <span class="k">=</span> <span class="-Symbol">&#39;gzip</span><span class="err">&#39;</span><span class="o">)</span>
+<div class="hlcode"><pre><span class="n">df_csv</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="s">&#39;../output/rating_gzip.csv&#39;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">compression</span> <span class="o">=</span> <span class="s">&#39;gzip&#39;</span><span class="p">)</span>
 </pre></div>
 
 
@@ -244,9 +256,9 @@ sc = spark.sparkContext</p>
 
 
 <h2 id="6table">6、存储为table</h2>
-<div class="hlcode"><pre><span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="o">(</span><span class="-Symbol">&#39;show</span> <span class="n">tables</span><span class="err">&#39;</span><span class="o">).</span><span class="n">show</span><span class="o">()</span>
-<span class="n">df_csv</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">saveAsTable</span><span class="o">(</span><span class="-Symbol">&#39;rating_csv</span><span class="err">&#39;</span><span class="o">)</span>
-<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="o">(</span><span class="s">&quot;select * from ratings_csv&quot;</span><span class="o">).</span><span class="n">show</span><span class="o">()</span>
+<div class="hlcode"><pre><span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s">&#39;show tables&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">df_csv</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">saveAsTable</span><span class="p">(</span><span class="s">&#39;rating_csv&#39;</span><span class="p">)</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s">&quot;select * from ratings_csv&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
 
