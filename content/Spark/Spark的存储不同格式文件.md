@@ -17,19 +17,30 @@ spark = SparkSession.builder.master("local[2]").appName("test").enableHiveSuppor
 sc = spark.sparkContext
 
 ## 1、存储为csv格式
+```scala
 df_csv = spark.read.csv("../data/ratings.csv", header=True)
 df_csv.show()
 df_csv.write.csv('../output/rating.csv', header = True, mode = 'error') #保存数据
-
+```
 ## 2、将文档保存在一个文件夹中
-!ls -lh ../output/rating.csv   #根据数量保存多个文件
-!head ../output/rating.csv/part-00001-aece805c-20a7-4225-b152-40316bc8fc5e-c000.csv   
-df_csv.coalesce(1).write.csv('../output/rating2.csv', header = True)
-!ls -lh ../output/rating.csv  
+```shell
+!ls -lh ../output/rating.csv  #根据数量保存多个文件
 
+!head ../output/rating.csv/part-00001-aece805c-20a7-4225-b152-40316bc8fc5e-c000.csv
+```
+```scala
+df_csv.coalesce(1).write.csv('../output/rating2.csv', header = True)
+```
+```shell
+!ls -lh ../output/rating.csv
+```
 ## 3、存储为json格式
+```scala
 df_csv.write.json('../output/rating.json',mode = 'overwrite')
+```
+```shell
 !ls -lh ../output/rating.json   #根据数量保存多个文件
+```
 ##注意：其中json的内存要比csv大（存储空间）
 
 ## 4、存储为parquet格式
@@ -172,14 +183,18 @@ if __name__ == "__main__":
 [fastparquet](https://pypi.org/project/fastparquet/)
 
 ## 5、存储为compression格式---压缩
+```scala
 df_csv.write.csv('../output/rating_gzip.csv', header = True, compression = 'gzip')
+```
+```shell
 !ls -lh ../output/rating_gzip.csv  #根据数量保存多个文件
-
+```
 ## 6、存储为table
+```scala
 spark.sql('show tables').show()
 df_csv.write.saveAsTable('rating_csv')
 spark.sql("select * from ratings_csv").show()
-
+```
 
 
 ## 参考文献
