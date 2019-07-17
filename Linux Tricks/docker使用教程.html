@@ -438,13 +438,13 @@ docker cp <span class="cp">[</span><span class="nx">OPTIONS</span><span class="c
 
 
 <p>我们也可以在启动docker的时候同时启动ssh</p>
-<div class="hlcode"><pre><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">d</span> <span class="o">-</span><span class="n">it</span> <span class="o">-</span><span class="n">p</span> <span class="mi">10022</span><span class="o">:</span><span class="mi">22</span> <span class="p">[</span><span class="n">IMAGE_NAME</span><span class="p">]</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">sshd</span> <span class="o">-</span><span class="n">D</span>
+<div class="hlcode"><pre><span class="nx">docker</span> <span class="nb">run</span> <span class="na">-d</span> <span class="na">-it</span> <span class="na">-p</span> <span class="mi">10022</span><span class="p">:</span><span class="mi">22</span> <span class="o">&lt;</span><span class="nx">IMAGE_NAME</span><span class="o">&gt;</span> <span class="p">/</span><span class="nx">usr</span><span class="p">/</span><span class="nx">sbin</span><span class="p">/</span><span class="nx">sshd</span> <span class="na">-D</span>
 </pre></div>
 
 
 <h3 id="_8">登录测试</h3>
 <p>在宿主机或者其他机器上输入对应的username和ip地址,测试是否可以连接</p>
-<div class="hlcode"><pre><span class="n">ssh</span> <span class="o">-</span><span class="n">p</span> <span class="mi">10022</span> <span class="p">[</span><span class="n">username</span><span class="p">]</span><span class="err">@</span><span class="p">[</span><span class="n">ip</span><span class="p">]</span>
+<div class="hlcode"><pre><span class="nx">ssh</span> <span class="na">-p</span> <span class="mi">10022</span> <span class="o">&lt;</span><span class="nx">username</span><span class="o">&gt;</span><span class="p">@</span><span class="o">&lt;</span><span class="nx">ip</span><span class="o">&gt;</span>
 </pre></div>
 
 
@@ -453,31 +453,37 @@ docker cp <span class="cp">[</span><span class="nx">OPTIONS</span><span class="c
 <h3 id="1save">1、save</h3>
 <p>1)、镜像保存</p>
 <p>登陆到已经部署好镜像的服务器上面，执行以下命令进行导出</p>
-<div class="hlcode"><pre><span class="n">docker</span> <span class="n">save</span> <span class="p">[</span><span class="n">IMAGE_ID</span><span class="err">前三位</span><span class="p">]</span> <span class="o">&gt;</span> <span class="p">[</span><span class="n">IMAGE_NAME</span><span class="p">].</span><span class="n">tar</span>
-<span class="n">or</span>
-<span class="n">docker</span> <span class="n">save</span> <span class="o">-</span><span class="n">o</span> <span class="p">.</span><span class="o">/</span><span class="p">[</span><span class="kt">FILE</span> <span class="n">NAME</span><span class="p">].</span><span class="n">tar</span> <span class="p">[</span><span class="n">REPOSITORY</span><span class="o">:</span><span class="n">TAG</span><span class="p">]</span>
+<div class="hlcode"><pre><span class="nx">docker</span> <span class="nb">save</span> <span class="o">&lt;</span><span class="nx">IMAGE_ID</span><span class="err">前三位</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="o">&lt;</span><span class="nx">IMAGE_NAME</span><span class="o">&gt;</span><span class="bp">.</span><span class="nx">tar</span>
+</pre></div>
+
+
+<p>or</p>
+<div class="hlcode"><pre><span class="n">docker</span> <span class="n">save</span> <span class="o">-</span><span class="n">o</span> <span class="p">.</span><span class="o">/&lt;</span><span class="kt">FILE</span> <span class="n">NAME</span><span class="o">&gt;</span><span class="p">.</span><span class="n">tar</span> <span class="o">&lt;</span><span class="n">EPOSITORY</span><span class="o">:</span><span class="n">TAG</span><span class="o">&gt;</span>
 </pre></div>
 
 
 <p>2)、镜像导入</p>
 <p>将刚才导出的镜像上传到你要导入的那台服务器上(使用scp), 执行以下命令镜像导入</p>
-<div class="hlcode"><pre><span class="n">docker</span> <span class="n">load</span> <span class="o">&lt;</span> <span class="p">[</span><span class="n">IMAGE_NAME</span><span class="p">].</span><span class="n">tar</span>
-<span class="err">然后使用</span>
-<span class="n">docker</span> <span class="n">tag</span> <span class="p">[</span><span class="n">IMAGE_ID</span><span class="err">前三位</span><span class="p">]</span> <span class="p">[</span><span class="n">REPOSITORY</span><span class="p">]</span><span class="o">:</span><span class="p">[</span><span class="n">TAG</span><span class="p">]</span>
-<span class="err">对新</span><span class="n">load</span><span class="err">的</span><span class="n">image</span><span class="err">重新命名</span>
+<div class="hlcode"><pre><span class="nx">docker</span> <span class="nx">load</span> <span class="o">&lt;</span> <span class="o">&lt;</span><span class="nx">IMAGE_NAME</span><span class="o">&gt;</span><span class="bp">.</span><span class="nx">tar</span>
 </pre></div>
 
 
+<p>使用<code>docker images</code>查看你会发现load的镜像的TREPOSITORY和TAG为空, 可以使用下面的命令</p>
+<div class="hlcode"><pre><span class="nx">docker</span> <span class="kt">tag</span> <span class="o">&lt;</span><span class="nx">IMAGE_ID</span><span class="err">前三位</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="nx">REPOSITORY</span><span class="o">&gt;</span><span class="p">:</span><span class="o">&lt;</span><span class="kt">TAG</span><span class="o">&gt;</span>
+</pre></div>
+
+
+<p>对新load的image重新命名</p>
 <h3 id="2export">2、export</h3>
 <p>1) 导出容器</p>
 <div class="hlcode"><pre><span class="n">docker</span> <span class="n">ps</span> <span class="o">-</span><span class="n">a</span>
-<span class="n">docker</span> <span class="n">export</span> <span class="p">[</span><span class="n">CONTAINER</span> <span class="n">ID</span><span class="p">]</span> <span class="o">&gt;</span> <span class="p">[</span><span class="kt">FILE</span> <span class="n">NMAE</span><span class="p">].</span><span class="n">tar</span>
+<span class="n">docker</span> <span class="n">export</span> <span class="o">&lt;</span><span class="n">CONTAINER</span> <span class="n">ID</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="o">&lt;</span><span class="kt">FILE</span> <span class="n">NMAE</span><span class="o">&gt;</span><span class="p">.</span><span class="n">tar</span>
 </pre></div>
 
 
 <p>2) 导入到指定的服务器</p>
 <p>同样需要将刚才的导出的容器备份上传到目标服务器上，执行下面的命令</p>
-<div class="hlcode"><pre><span class="n">cat</span> <span class="p">[</span><span class="kt">FILE</span> <span class="n">NMAE</span><span class="p">].</span><span class="n">tar</span> <span class="o">|</span><span class="n">docker</span> <span class="n">import</span> <span class="o">-</span> <span class="p">[</span><span class="n">REPOSITORY</span><span class="p">]]</span><span class="o">:</span><span class="p">[</span><span class="n">TAG</span><span class="p">]</span>
+<div class="hlcode"><pre><span class="nx">cat</span> <span class="o">&lt;</span><span class="nb">FILE</span> <span class="nx">NMAE</span><span class="o">&gt;</span><span class="bp">.</span><span class="nx">tar</span> <span class="o">|</span><span class="nx">docker</span> <span class="k">import</span> <span class="o">-</span> <span class="o">&lt;</span><span class="nx">REPOSITORY</span><span class="o">&gt;</span><span class="p">:</span><span class="o">&lt;</span><span class="kt">TAG</span><span class="o">&gt;</span>
 </pre></div>
 
 
