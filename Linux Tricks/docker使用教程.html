@@ -92,6 +92,15 @@
 <li><a href="#docker-compose">docker compose</a></li>
 </ul>
 </li>
+<li><a href="#centosdocker">centos下安装docker</a><ul>
+<li><a href="#docker-ce">安装docker-ce</a><ul>
+<li><a href="#1">方法 1</a></li>
+<li><a href="#2">方法2</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#centosnvidia-docker2">centos下安装nvidia-docker2</a></li>
 <li><a href="#_9">参考文献</a></li>
 </ul>
 </div>
@@ -494,6 +503,121 @@ docker cp <span class="cp">[</span><span class="nx">OPTIONS</span><span class="c
 <h2 id="docker-swarm">docker swarm</h2>
 <h2 id="docker-compose">docker compose</h2>
 <p><a href="https://docs.docker.com/compose/gettingstarted/">Get started with Docker Compose</a></p>
+<h1 id="centosdocker">centos下安装docker</h1>
+<p>在使用<code>yum -y install docker</code>和```yum -y install docker-io````失败之后使用</p>
+<div class="hlcode"><pre><span class="n">yum</span> <span class="n">install</span> <span class="n">https</span><span class="o">:</span><span class="c1">//get.docker.com/rpm/1.7.1/centos-6/RPMS/x86_64/docker-engine-1.7.1-1.el6.x86_64.rpm</span>
+</pre></div>
+
+
+<p>安装成功, <code>service docker start</code>启动dokcer即可.</p>
+<h3 id="docker-ce">安装docker-ce</h3>
+<h4 id="1">方法 1</h4>
+<p>安装最新版<br />
+// 1. 安装必要的一些系统工具<br />
+sudo yum install -y yum-utils device-mapper-persistent-data lvm2</p>
+<p>// 2. 添加软件源信息<br />
+sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo</p>
+<p>// 3. 更新并安装 Docker-CE<br />
+sudo yum makecache fast<br />
+sudo yum -y install docker-ce<br />
+出现的问题,截图</p>
+<div class="hlcode"><pre><span class="n">Public</span> <span class="n">key</span> <span class="k">for</span> <span class="n">docker</span><span class="o">-</span><span class="n">ce</span><span class="o">-</span><span class="n">cli</span><span class="o">-</span><span class="mf">18.09.7</span><span class="o">-</span><span class="mf">3.</span><span class="n">el7</span><span class="p">.</span><span class="n">x86_64</span><span class="p">.</span><span class="n">rpm</span> <span class="n">is</span> <span class="n">not</span> <span class="n">installed</span>
+<span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span><span class="o">:</span> <span class="n">docker</span><span class="o">-</span><span class="n">ce</span><span class="o">-</span><span class="n">cli</span><span class="o">-</span><span class="mf">18.09.7</span><span class="o">-</span><span class="mf">3.</span><span class="n">el7</span><span class="p">.</span><span class="n">x86_64</span><span class="p">.</span><span class="n">rpm</span>                                                       <span class="o">|</span>  <span class="mi">14</span> <span class="n">MB</span>  <span class="mo">00</span><span class="o">:</span><span class="mo">00</span><span class="o">:</span><span class="mi">09</span>
+<span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span><span class="o">:</span> <span class="n">docker</span><span class="o">-</span><span class="n">ce</span><span class="o">-</span><span class="mf">18.09.7</span><span class="o">-</span><span class="mf">3.</span><span class="n">el7</span><span class="p">.</span><span class="n">x86_64</span><span class="p">.</span><span class="n">rpm</span>                                                           <span class="o">|</span>  <span class="mi">19</span> <span class="n">MB</span>  <span class="mo">00</span><span class="o">:</span><span class="mo">00</span><span class="o">:</span><span class="mo">02</span>
+<span class="n">containerd</span><span class="p">.</span><span class="n">io</span><span class="o">-</span><span class="mf">1.2.6</span><span class="o">-</span><span class="mf">3.3</span><span class="p">.</span><span class="n">el7</span><span class="p">.</span><span class="n">x8</span> <span class="n">FAILED</span>                                          <span class="o">=========</span> <span class="p">]</span> <span class="mf">1.9</span> <span class="n">kB</span><span class="o">/</span><span class="n">s</span> <span class="o">|</span>  <span class="mi">57</span> <span class="n">MB</span>  <span class="mo">00</span><span class="o">:</span><span class="mi">10</span><span class="o">:</span><span class="mi">17</span> <span class="n">ETA</span>
+<span class="nl">https:</span><span class="c1">//mirrors.aliyun.com/docker-ce/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm: [Errno 12] Timeout on https://mirrors.aliyun.com/docker-ce/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm: (28, &#39;Operation too slow. Less than 1000 bytes/sec transferred the last 30 seconds&#39;)</span>
+<span class="n">Trying</span> <span class="n">other</span> <span class="n">mirror</span><span class="p">.</span>
+<span class="n">containerd</span><span class="p">.</span><span class="n">io</span><span class="o">-</span><span class="mf">1.2.6</span><span class="o">-</span><span class="mf">3.3</span><span class="p">.</span><span class="n">el7</span><span class="p">.</span><span class="n">x8</span> <span class="n">FAILED</span>
+<span class="nl">https:</span><span class="c1">//mirrors.aliyun.com/docker-ce/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm: [Errno 14] curl#6 - &quot;Could not resolve host: mirrors.aliyun.com; Unknown error&quot;</span>
+<span class="n">Trying</span> <span class="n">other</span> <span class="n">mirror</span><span class="p">.</span>
+
+
+<span class="n">Error</span> <span class="n">downloading</span> <span class="n">packages</span><span class="o">:</span>
+  <span class="n">containerd</span><span class="p">.</span><span class="n">io</span><span class="o">-</span><span class="mf">1.2.6</span><span class="o">-</span><span class="mf">3.3</span><span class="p">.</span><span class="n">el7</span><span class="p">.</span><span class="n">x86_64</span><span class="o">:</span> <span class="p">[</span><span class="n">Errno</span> <span class="mi">256</span><span class="p">]</span> <span class="n">No</span> <span class="n">more</span> <span class="n">mirrors</span> <span class="n">to</span> <span class="n">try</span><span class="p">.</span>
+</pre></div>
+
+
+<p>网上的解决方法:<code>yum clean all````后使用</code>yun install docker-ce```, 未成功, 错误截图</p>
+<div class="hlcode"><pre><span class="n">Error</span> <span class="n">downloading</span> <span class="n">packages</span><span class="o">:</span>
+  <span class="mi">2</span><span class="o">:</span><span class="n">container</span><span class="o">-</span><span class="n">selinux</span><span class="o">-</span><span class="mf">2.99</span><span class="o">-</span><span class="mf">1.</span><span class="n">el7_6</span><span class="p">.</span><span class="n">noarch</span><span class="o">:</span> <span class="p">[</span><span class="n">Errno</span> <span class="mi">256</span><span class="p">]</span> <span class="n">No</span> <span class="n">more</span> <span class="n">mirrors</span> <span class="n">to</span> <span class="n">try</span><span class="p">.</span>
+  <span class="mi">3</span><span class="o">:</span><span class="n">docker</span><span class="o">-</span><span class="n">ce</span><span class="o">-</span><span class="mf">18.09.7</span><span class="o">-</span><span class="mf">3.</span><span class="n">el7</span><span class="p">.</span><span class="n">x86_64</span><span class="o">:</span> <span class="p">[</span><span class="n">Errno</span> <span class="mi">256</span><span class="p">]</span> <span class="n">No</span> <span class="n">more</span> <span class="n">mirrors</span> <span class="n">to</span> <span class="n">try</span><span class="p">.</span>
+  <span class="n">containerd</span><span class="p">.</span><span class="n">io</span><span class="o">-</span><span class="mf">1.2.6</span><span class="o">-</span><span class="mf">3.3</span><span class="p">.</span><span class="n">el7</span><span class="p">.</span><span class="n">x86_64</span><span class="o">:</span> <span class="p">[</span><span class="n">Errno</span> <span class="mi">256</span><span class="p">]</span> <span class="n">No</span> <span class="n">more</span> <span class="n">mirrors</span> <span class="n">to</span> <span class="n">try</span><span class="p">.</span>
+  <span class="mi">1</span><span class="o">:</span><span class="n">docker</span><span class="o">-</span><span class="n">ce</span><span class="o">-</span><span class="n">cli</span><span class="o">-</span><span class="mf">18.09.7</span><span class="o">-</span><span class="mf">3.</span><span class="n">el7</span><span class="p">.</span><span class="n">x86_64</span><span class="o">:</span> <span class="p">[</span><span class="n">Errno</span> <span class="mi">256</span><span class="p">]</span> <span class="n">No</span> <span class="n">more</span> <span class="n">mirrors</span> <span class="n">to</span> <span class="n">try</span><span class="p">.</span>
+</pre></div>
+
+
+<p>// 4. 开启Docker服务(未到这一步)<br />
+sudo service docker start</p>
+<h4 id="2">方法2</h4>
+<ul>
+<li>SET UP THE REPOSITORY</li>
+</ul>
+<p>Install required packages. yum-utils provides the yum-config-manager utility, and device-mapper-persistent-data and lvm2 are required by the devicemapper storage driver.</p>
+<div class="hlcode"><pre><span class="err">$</span> <span class="n">sudo</span> <span class="n">yum</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="n">yum</span><span class="o">-</span><span class="n">utils</span> \
+  <span class="n">device</span><span class="o">-</span><span class="n">mapper</span><span class="o">-</span><span class="n">persistent</span><span class="o">-</span><span class="n">data</span> \
+  <span class="n">lvm2</span>
+</pre></div>
+
+
+<p>Use the following command to set up the stable repository.</p>
+<div class="hlcode"><pre><span class="err">$</span> <span class="n">sudo</span> <span class="n">yum</span><span class="o">-</span><span class="n">config</span><span class="o">-</span><span class="n">manager</span> \
+    <span class="o">--</span><span class="n">add</span><span class="o">-</span><span class="n">repo</span> \
+    <span class="nl">https:</span><span class="c1">//download.docker.com/linux/centos/docker-ce.repo</span>
+</pre></div>
+
+
+<p>Optional: Enable the nightly or test repositories.</p>
+<p>These repositories are included in the docker.repo file above but are disabled by default. You can enable them alongside the stable repository. The following command enables the nightly repository.</p>
+<div class="hlcode"><pre><span class="err">$</span> <span class="n">sudo</span> <span class="n">yum</span><span class="o">-</span><span class="n">config</span><span class="o">-</span><span class="n">manager</span> <span class="o">--</span><span class="n">enable</span> <span class="n">docker</span><span class="o">-</span><span class="n">ce</span><span class="o">-</span><span class="n">nightly</span>
+</pre></div>
+
+
+<p>To enable the test channel, run the following command:</p>
+<div class="hlcode"><pre><span class="err">$</span> <span class="n">sudo</span> <span class="n">yum</span><span class="o">-</span><span class="n">config</span><span class="o">-</span><span class="n">manager</span> <span class="o">--</span><span class="n">enable</span> <span class="n">docker</span><span class="o">-</span><span class="n">ce</span><span class="o">-</span><span class="n">test</span>
+</pre></div>
+
+
+<p>You can disable the nightly or test repository by running the yum-config-manager command with the --disable flag. To re-enable it, use the --enable flag. The following command disables the nightly repository.</p>
+<div class="hlcode"><pre><span class="err">$</span> <span class="n">sudo</span> <span class="n">yum</span><span class="o">-</span><span class="n">config</span><span class="o">-</span><span class="n">manager</span> <span class="o">--</span><span class="n">disable</span> <span class="n">docker</span><span class="o">-</span><span class="n">ce</span><span class="o">-</span><span class="n">nightly</span>
+</pre></div>
+
+
+<p>Learn about nightly and test channels.</p>
+<ul>
+<li>INSTALL DOCKER CE</li>
+</ul>
+<p>Install the latest version of Docker CE and containerd, or go to the next step to install a specific version:</p>
+<div class="hlcode"><pre><span class="err">$</span> <span class="n">sudo</span> <span class="n">yum</span> <span class="n">install</span> <span class="n">docker</span><span class="o">-</span><span class="n">ce</span> <span class="n">docker</span><span class="o">-</span><span class="n">ce</span><span class="o">-</span><span class="n">cli</span> <span class="n">containerd</span><span class="p">.</span><span class="n">io</span>
+</pre></div>
+
+
+<p><strong><em>目前还是没有安装成功</em></strong><br />
+失败截图:</p>
+<div class="hlcode"><pre><span class="n">Error</span> <span class="n">downloading</span> <span class="n">packages</span><span class="o">:</span>
+  <span class="mi">1</span><span class="o">:</span><span class="n">docker</span><span class="o">-</span><span class="n">ce</span><span class="o">-</span><span class="n">cli</span><span class="o">-</span><span class="mf">19.03.0</span><span class="o">-</span><span class="mf">2.3</span><span class="p">.</span><span class="n">rc3</span><span class="p">.</span><span class="n">el7</span><span class="p">.</span><span class="n">x86_64</span><span class="o">:</span> <span class="p">[</span><span class="n">Errno</span> <span class="mi">256</span><span class="p">]</span> <span class="n">No</span> <span class="n">more</span> <span class="n">mirrors</span> <span class="n">to</span> <span class="n">try</span><span class="p">.</span>
+  <span class="n">containerd</span><span class="p">.</span><span class="n">io</span><span class="o">-</span><span class="mf">1.2.6</span><span class="o">-</span><span class="mf">3.3</span><span class="p">.</span><span class="n">el7</span><span class="p">.</span><span class="n">x86_64</span><span class="o">:</span> <span class="p">[</span><span class="n">Errno</span> <span class="mi">256</span><span class="p">]</span> <span class="n">No</span> <span class="n">more</span> <span class="n">mirrors</span> <span class="n">to</span> <span class="n">try</span><span class="p">.</span>
+</pre></div>
+
+
+<h1 id="centosnvidia-docker2">centos下安装nvidia-docker2</h1>
+<div class="hlcode"><pre><span class="cp"># If you have nvidia-docker 1.0 installed: we need to remove it and all existing GPU containers</span>
+<span class="n">docker</span> <span class="n">volume</span> <span class="n">ls</span> <span class="o">-</span><span class="n">q</span> <span class="o">-</span><span class="n">f</span> <span class="n">driver</span><span class="o">=</span><span class="n">nvidia</span><span class="o">-</span><span class="n">docker</span> <span class="o">|</span> <span class="n">xargs</span> <span class="o">-</span><span class="n">r</span> <span class="o">-</span><span class="n">I</span><span class="p">{}</span> <span class="o">-</span><span class="n">n1</span> <span class="n">docker</span> <span class="n">ps</span> <span class="o">-</span><span class="n">q</span> <span class="o">-</span><span class="n">a</span> <span class="o">-</span><span class="n">f</span> <span class="n">volume</span><span class="o">=</span><span class="p">{}</span> <span class="o">|</span> <span class="n">xargs</span> <span class="o">-</span><span class="n">r</span> <span class="n">docker</span> <span class="n">rm</span> <span class="o">-</span><span class="n">f</span>
+<span class="n">sudo</span> <span class="n">yum</span> <span class="n">remove</span> <span class="n">nvidia</span><span class="o">-</span><span class="n">docker</span>
+
+<span class="cp"># Add the package repositories</span>
+<span class="n">distribution</span><span class="o">=</span><span class="err">$</span><span class="p">(.</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">os</span><span class="o">-</span><span class="n">release</span><span class="p">;</span><span class="n">echo</span> <span class="err">$</span><span class="n">ID</span><span class="err">$</span><span class="n">VERSION_ID</span><span class="p">)</span>
+<span class="n">curl</span> <span class="o">-</span><span class="n">s</span> <span class="o">-</span><span class="n">L</span> <span class="n">https</span><span class="o">:</span><span class="c1">//nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.repo | \</span>
+<span class="c1">  sudo tee /etc/yum.repos.d/nvidia-docker.repo</span>
+
+<span class="cp"># Install nvidia-docker2 and reload the Docker daemon configuration</span>
+<span class="n">sudo</span> <span class="n">yum</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="n">nvidia</span><span class="o">-</span><span class="n">docker2</span>
+<span class="n">sudo</span> <span class="n">pkill</span> <span class="o">-</span><span class="n">SIGHUP</span> <span class="n">dockerd</span>
+
+<span class="cp"># Test nvidia-smi with the latest official CUDA image</span>
+<span class="n">docker</span> <span class="n">run</span> <span class="o">--</span><span class="n">runtime</span><span class="o">=</span><span class="n">nvidia</span> <span class="o">--</span><span class="n">rm</span> <span class="n">nvidia</span><span class="o">/</span><span class="n">cuda</span><span class="o">:</span><span class="mf">9.0</span><span class="o">-</span><span class="n">base</span> <span class="n">nvidia</span><span class="o">-</span><span class="n">smi</span>
+</pre></div>
+
+
 <h1 id="_9">参考文献</h1>
 <p><a href="https://blog.csdn.net/dongdong9223/article/details/52998375">如何进入、退出docker的container</a></p>
 <p><a href="https://github.com/tensorflow/serving/blob/master/tensorflow_serving/g3doc/docker.md">Using TensorFlow Serving via Docker</a></p>
@@ -508,6 +632,7 @@ docker cp <span class="cp">[</span><span class="nx">OPTIONS</span><span class="c
 <p><a href="https://www.cnblogs.com/jie-fang/p/7928406.html">Docker实战-为镜像添加SSH服务</a></p>
 <p><a href="https://blog.csdn.net/hpf247/article/details/80078240">Linux系统安装docker并用ssh登录docker容器</a></p>
 <p><a href="https://blog.csdn.net/qq_39626154/article/details/82856865">Docker 容器开启ssh登录</a></p>
+<p><a href="https://github.com/NVIDIA/nvidia-docker">NVIDIA Container Runtime for Docker</a></p>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2018-07-25 10:00 </span></div>
 <div id="comments"></div>
