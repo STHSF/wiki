@@ -169,8 +169,7 @@ restart 后面可以跟container id 或者container name
 https://my.oschina.net/u/266ΩΩΩ752/blog/541433
 ```
 
-#### docker下安装vim 、telnet、ifconfig命令
-
+#### Docker下安装vim 、telnet、ifconfig命令
 ```
 # 同步 /etc/apt/sources.list 和 /etc/apt/sources.list.d 中列出的源的索引，这样才能获取到最新的软件包。
 apt-get update
@@ -422,7 +421,7 @@ Trying other mirror.
 Error downloading packages:
   containerd.io-1.2.6-3.3.el7.x86_64: [Errno 256] No more mirrors to try.
 ```
-网上的解决方法:```yum clean all````后使用```yun install docker-ce```, 未成功, 错误截图
+网上的解决方法:```yum clean all```后使用```yun install docker-ce```, 未成功, 错误截图
 ```
 Error downloading packages:
   2:container-selinux-2.99-1.el7_6.noarch: [Errno 256] No more mirrors to try.
