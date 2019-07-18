@@ -52,7 +52,7 @@
 <li><a href="#imagecontainer">运行image实例container</a></li>
 <li><a href="#imagecontainer_1">启动和停止某个image的container</a></li>
 <li><a href="#docker_2">Docker常用命令</a><ul>
-<li><a href="#dockervim-telnetifconfig">docker下安装vim 、telnet、ifconfig命令</a></li>
+<li><a href="#dockervim-telnetifconfig">Docker下安装vim 、telnet、ifconfig命令</a></li>
 <li><a href="#docker-commitdocker-push">通过容器提交镜像（docker commit）以及推送镜像（docker push)</a></li>
 </ul>
 </li>
@@ -283,7 +283,7 @@
 </pre></div>
 
 
-<h4 id="dockervim-telnetifconfig">docker下安装vim 、telnet、ifconfig命令</h4>
+<h4 id="dockervim-telnetifconfig">Docker下安装vim 、telnet、ifconfig命令</h4>
 <div class="hlcode"><pre><span class="cp"># 同步 /etc/apt/sources.list 和 /etc/apt/sources.list.d 中列出的源的索引，这样才能获取到最新的软件包。</span>
 <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">update</span>
 <span class="cp"># 安装telnet</span>
@@ -537,7 +537,7 @@ sudo yum -y install docker-ce<br />
 </pre></div>
 
 
-<p>网上的解决方法:<code>yum clean all````后使用</code>yun install docker-ce```, 未成功, 错误截图</p>
+<p>网上的解决方法:<code>yum clean all</code>后使用<code>yun install docker-ce</code>, 未成功, 错误截图</p>
 <div class="hlcode"><pre><span class="n">Error</span> <span class="n">downloading</span> <span class="n">packages</span><span class="o">:</span>
   <span class="mi">2</span><span class="o">:</span><span class="n">container</span><span class="o">-</span><span class="n">selinux</span><span class="o">-</span><span class="mf">2.99</span><span class="o">-</span><span class="mf">1.</span><span class="n">el7_6</span><span class="p">.</span><span class="n">noarch</span><span class="o">:</span> <span class="p">[</span><span class="n">Errno</span> <span class="mi">256</span><span class="p">]</span> <span class="n">No</span> <span class="n">more</span> <span class="n">mirrors</span> <span class="n">to</span> <span class="n">try</span><span class="p">.</span>
   <span class="mi">3</span><span class="o">:</span><span class="n">docker</span><span class="o">-</span><span class="n">ce</span><span class="o">-</span><span class="mf">18.09.7</span><span class="o">-</span><span class="mf">3.</span><span class="n">el7</span><span class="p">.</span><span class="n">x86_64</span><span class="o">:</span> <span class="p">[</span><span class="n">Errno</span> <span class="mi">256</span><span class="p">]</span> <span class="n">No</span> <span class="n">more</span> <span class="n">mirrors</span> <span class="n">to</span> <span class="n">try</span><span class="p">.</span>
