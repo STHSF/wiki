@@ -386,7 +386,117 @@ cat <FILE NMAE>.tar |docker import - <REPOSITORY>:<TAG>
 ## docker compose
 [Get started with Docker Compose](https://docs.docker.com/compose/gettingstarted/)
 
+# centos下安装docker
+在使用```yum -y install docker```和```yum -y install docker-io````失败之后使用
+```
+yum install https://get.docker.com/rpm/1.7.1/centos-6/RPMS/x86_64/docker-engine-1.7.1-1.el6.x86_64.rpm
+```
+安装成功, ```service docker start```启动dokcer即可.
 
+### 安装docker-ce
+
+#### 方法 1
+安装最新版
+// 1. 安装必要的一些系统工具
+sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+
+// 2. 添加软件源信息
+sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+
+// 3. 更新并安装 Docker-CE
+sudo yum makecache fast
+sudo yum -y install docker-ce
+出现的问题,截图
+```
+Public key for docker-ce-cli-18.09.7-3.el7.x86_64.rpm is not installed
+(1/3): docker-ce-cli-18.09.7-3.el7.x86_64.rpm                                                       |  14 MB  00:00:09
+(2/3): docker-ce-18.09.7-3.el7.x86_64.rpm                                                           |  19 MB  00:00:02
+containerd.io-1.2.6-3.3.el7.x8 FAILED                                          ========= ] 1.9 kB/s |  57 MB  00:10:17 ETA
+https://mirrors.aliyun.com/docker-ce/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm: [Errno 12] Timeout on https://mirrors.aliyun.com/docker-ce/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm: (28, 'Operation too slow. Less than 1000 bytes/sec transferred the last 30 seconds')
+Trying other mirror.
+containerd.io-1.2.6-3.3.el7.x8 FAILED
+https://mirrors.aliyun.com/docker-ce/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm: [Errno 14] curl#6 - "Could not resolve host: mirrors.aliyun.com; Unknown error"
+Trying other mirror.
+
+
+Error downloading packages:
+  containerd.io-1.2.6-3.3.el7.x86_64: [Errno 256] No more mirrors to try.
+```
+网上的解决方法:```yum clean all````后使用```yun install docker-ce```, 未成功, 错误截图
+```
+Error downloading packages:
+  2:container-selinux-2.99-1.el7_6.noarch: [Errno 256] No more mirrors to try.
+  3:docker-ce-18.09.7-3.el7.x86_64: [Errno 256] No more mirrors to try.
+  containerd.io-1.2.6-3.3.el7.x86_64: [Errno 256] No more mirrors to try.
+  1:docker-ce-cli-18.09.7-3.el7.x86_64: [Errno 256] No more mirrors to try.
+```
+
+// 4. 开启Docker服务(未到这一步)
+sudo service docker start
+
+#### 方法2
+- SET UP THE REPOSITORY
+  
+Install required packages. yum-utils provides the yum-config-manager utility, and device-mapper-persistent-data and lvm2 are required by the devicemapper storage driver.
+```
+$ sudo yum install -y yum-utils \
+  device-mapper-persistent-data \
+  lvm2
+```
+Use the following command to set up the stable repository.
+```
+$ sudo yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+```
+Optional: Enable the nightly or test repositories.
+
+These repositories are included in the docker.repo file above but are disabled by default. You can enable them alongside the stable repository. The following command enables the nightly repository.
+```
+$ sudo yum-config-manager --enable docker-ce-nightly
+```
+To enable the test channel, run the following command:
+```
+$ sudo yum-config-manager --enable docker-ce-test
+```
+You can disable the nightly or test repository by running the yum-config-manager command with the --disable flag. To re-enable it, use the --enable flag. The following command disables the nightly repository.
+```
+$ sudo yum-config-manager --disable docker-ce-nightly
+```
+Learn about nightly and test channels.
+
+- INSTALL DOCKER CE
+  
+Install the latest version of Docker CE and containerd, or go to the next step to install a specific version:
+```
+$ sudo yum install docker-ce docker-ce-cli containerd.io
+```
+***目前还是没有安装成功***
+失败截图:
+```
+Error downloading packages:
+  1:docker-ce-cli-19.03.0-2.3.rc3.el7.x86_64: [Errno 256] No more mirrors to try.
+  containerd.io-1.2.6-3.3.el7.x86_64: [Errno 256] No more mirrors to try.
+```
+
+# centos下安装nvidia-docker2
+```
+# If you have nvidia-docker 1.0 installed: we need to remove it and all existing GPU containers
+docker volume ls -q -f driver=nvidia-docker | xargs -r -I{} -n1 docker ps -q -a -f volume={} | xargs -r docker rm -f
+sudo yum remove nvidia-docker
+
+# Add the package repositories
+distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.repo | \
+  sudo tee /etc/yum.repos.d/nvidia-docker.repo
+
+# Install nvidia-docker2 and reload the Docker daemon configuration
+sudo yum install -y nvidia-docker2
+sudo pkill -SIGHUP dockerd
+
+# Test nvidia-smi with the latest official CUDA image
+docker run --runtime=nvidia --rm nvidia/cuda:9.0-base nvidia-smi
+```
 
 
 # 参考文献
@@ -415,3 +525,5 @@ cat <FILE NMAE>.tar |docker import - <REPOSITORY>:<TAG>
 [Linux系统安装docker并用ssh登录docker容器](https://blog.csdn.net/hpf247/article/details/80078240)
 
 [Docker 容器开启ssh登录](https://blog.csdn.net/qq_39626154/article/details/82856865)
+
+[NVIDIA Container Runtime for Docker](https://github.com/NVIDIA/nvidia-docker)
