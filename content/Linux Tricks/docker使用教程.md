@@ -464,6 +464,12 @@ $ sudo yum-config-manager --disable docker-ce-nightly
 ```
 Learn about nightly and test channels.
 
+后面运行的过程中,系统提示会出现下面的提示
+
+```
+$ sudo yum-config-manager --save --setopt=docker-ce-nightly.skip_if_unavailable=true
+```
+
 - INSTALL DOCKER CE
   
 Install the latest version of Docker CE and containerd, or go to the next step to install a specific version:
@@ -476,6 +482,162 @@ $ sudo yum install docker-ce docker-ce-cli containerd.io
 Error downloading packages:
   1:docker-ce-cli-19.03.0-2.3.rc3.el7.x86_64: [Errno 256] No more mirrors to try.
   containerd.io-1.2.6-3.3.el7.x86_64: [Errno 256] No more mirrors to try.
+```
+目前能找到的原因应该是网络的原因, yum安装失败的主要原因都是网络问题.
+
+第二天早上来运行安装命令, 尝试了两遍之后, 运行成功
+
+第一遍:
+```
+[root@localhost psdz]# sudo yum install docker-ce docker-ce-cli containerd.io
+Loaded plugins: fastestmirror, langpacks
+Repository base is listed more than once in the configuration
+Repository updates is listed more than once in the configuration
+Repository extras is listed more than once in the configuration
+Repository centosplus is listed more than once in the configuration
+Existing lock /var/run/yum.pid: another copy is running as pid 40267.
+Another app is currently holding the yum lock; waiting for it to exit...
+  The other application is: PackageKit
+    Memory :  44 M RSS (386 MB VSZ)
+    Started: Thu Jul 18 17:44:11 2019 - 00:01 ago
+    State  : Sleeping, pid: 40267
+Another app is currently holding the yum lock; waiting for it to exit...
+  The other application is: PackageKit
+    Memory :  44 M RSS (386 MB VSZ)
+    Started: Thu Jul 18 17:44:11 2019 - 00:03 ago
+    State  : Sleeping, pid: 40267
+Another app is currently holding the yum lock; waiting for it to exit...
+  The other application is: PackageKit
+    Memory :  44 M RSS (386 MB VSZ)
+    Started: Thu Jul 18 17:44:11 2019 - 00:05 ago
+    State  : Sleeping, pid: 40267
+Loading mirror speeds from cached hostfile
+http://mirrors.163.com/centos/7/os/x86_64/repodata/repomd.xml: [Errno 14] curl#6 - "Could not resolve host: mirrors.163.com; Unknown error"
+Trying other mirror.
+https://download.docker.com/linux/centos/7/x86_64/stable/repodata/repomd.xml: [Errno 14] curl#6 - "Could not resolve host:download.docker.com; Unknown error"
+Trying other mirror.
+docker-ce-test                                                                                      | 3.5 kB  00:00:00
+extras                                                                                              | 3.4 kB  00:00:00
+libnvidia-container/x86_64/signature                                                                |  488 B  00:00:00
+libnvidia-container/x86_64/signature                                                                | 2.0 kB  00:00:00 !!!
+nvidia-container-runtime/x86_64/signature                                                           |  488 B  00:00:00
+nvidia-container-runtime/x86_64/signature                                                           | 2.0 kB  00:00:00 !!!
+nvidia-docker/x86_64/signature                                                                      |  488 B  00:00:00
+nvidia-docker/x86_64/signature                                                                      | 2.0 kB  00:00:00 !!!
+updates                                                                                             | 3.4 kB  00:00:00
+Resolving Dependencies
+--> Running transaction check
+---> Package containerd.io.x86_64 0:1.2.6-3.3.el7 will be installed
+--> Processing Dependency: container-selinux >= 2:2.74 for package: containerd.io-1.2.6-3.3.el7.x86_64
+---> Package docker-ce.x86_64 3:19.03.0-2.3.rc3.el7 will be installed
+---> Package docker-ce-cli.x86_64 1:19.03.0-2.3.rc3.el7 will be installed
+--> Running transaction check
+---> Package container-selinux.noarch 2:2.99-1.el7_6 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+===========================================================================================================================
+ Package                        Arch                Version                            Repository                     Size
+===========================================================================================================================
+Installing:
+ containerd.io                  x86_64              1.2.6-3.3.el7                      docker-ce-stable               26 M
+ docker-ce                      x86_64              3:19.03.0-2.3.rc3.el7              docker-ce-test                 24 M
+ docker-ce-cli                  x86_64              1:19.03.0-2.3.rc3.el7              docker-ce-test                 39 M
+Installing for dependencies:
+ container-selinux              noarch              2:2.99-1.el7_6                     extras                         39 k
+
+Transaction Summary
+===========================================================================================================================
+Install  3 Packages (+1 Dependent package)
+
+Total size: 90 M
+Total download size: 39 M
+Installed size: 368 M
+Is this ok [y/d/N]: y
+Downloading packages:
+No Presto metadata available for docker-ce-test
+docker-ce-cli-19.03.0-2.3.rc3. FAILED                                                    ]  478 B/s |  28 MB  06:47:55 ETA
+https://download.docker.com/linux/centos/7/x86_64/test/Packages/docker-ce-cli-19.03.0-2.3.rc3.el7.x86_64.rpm: [Errno 12] Timeout on https://download.docker.com/linux/centos/7/x86_64/test/Packages/docker-ce-cli-19.03.0-2.3.rc3.el7.x86_64.rpm: (28, 'Operation too slow. Less than 1000 bytes/sec transferred the last 30 seconds')
+Trying other mirror.
+warning: /var/cache/yum/x86_64/7/docker-ce-test/packages/docker-ce-cli-19.03.0-2.3.rc3.el7.x86_64.rpm: Header V4 RSA/SHA512 Signature, key ID 621e9f35: NOKEY
+Public key for docker-ce-cli-19.03.0-2.3.rc3.el7.x86_64.rpm is not installed
+docker-ce-cli-19.03.0-2.3.rc3.el7.x86_64.rpm                                                        |  39 MB  00:00:12
+Retrieving key from https://download.docker.com/linux/centos/gpg
+
+
+GPG key retrieval failed: [Errno 14] curl#7 - "Failed to connect to 2600:9000:2016:a800:3:db06:4200:93a1: Network is unreachable"
+```
+
+第二遍:
+```
+[root@localhost psdz]# sudo yum install docker-ce docker-ce-cli containerd.io
+Loaded plugins: fastestmirror, langpacks
+Repository base is listed more than once in the configuration
+Repository updates is listed more than once in the configuration
+Repository extras is listed more than once in the configuration
+Repository centosplus is listed more than once in the configuration
+Loading mirror speeds from cached hostfile
+base                                                                                                | 3.6 kB  00:00:00
+docker-ce-stable                                                                                    | 3.5 kB  00:00:00
+Resolving Dependencies
+--> Running transaction check
+---> Package containerd.io.x86_64 0:1.2.6-3.3.el7 will be installed
+--> Processing Dependency: container-selinux >= 2:2.74 for package: containerd.io-1.2.6-3.3.el7.x86_64
+---> Package docker-ce.x86_64 3:19.03.0-2.3.rc3.el7 will be installed
+---> Package docker-ce-cli.x86_64 1:19.03.0-2.3.rc3.el7 will be installed
+--> Running transaction check
+---> Package container-selinux.noarch 2:2.99-1.el7_6 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+===========================================================================================================================
+ Package                        Arch                Version                            Repository                     Size
+===========================================================================================================================
+Installing:
+ containerd.io                  x86_64              1.2.6-3.3.el7                      docker-ce-stable               26 M
+ docker-ce                      x86_64              3:19.03.0-2.3.rc3.el7              docker-ce-test                 24 M
+ docker-ce-cli                  x86_64              1:19.03.0-2.3.rc3.el7              docker-ce-test                 39 M
+Installing for dependencies:
+ container-selinux              noarch              2:2.99-1.el7_6                     extras                         39 k
+
+Transaction Summary
+===========================================================================================================================
+Install  3 Packages (+1 Dependent package)
+
+Total size: 90 M
+Installed size: 368 M
+Is this ok [y/d/N]: y
+Is this ok [y/d/N]: y
+Downloading packages:
+warning: /var/cache/yum/x86_64/7/docker-ce-test/packages/docker-ce-cli-19.03.0-2.3.rc3.el7.x86_64.rpm: Header V4 RSA/SHA512 Signature, key ID 621e9f35: NOKEY
+Retrieving key from https://download.docker.com/linux/centos/gpg
+Importing GPG key 0x621E9F35:
+ Userid     : "Docker Release (CE rpm) <docker@docker.com>"
+ Fingerprint: 060a 61c5 1b55 8a7f 742b 77aa c52f eb6b 621e 9f35
+ From       : https://download.docker.com/linux/centos/gpg
+Is this ok [y/N]: y
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : 2:container-selinux-2.99-1.el7_6.noarch                                                                 1/4
+  Installing : containerd.io-1.2.6-3.3.el7.x86_64                                                                      2/4
+  Installing : 1:docker-ce-cli-19.03.0-2.3.rc3.el7.x86_64                                                              3/4
+  Installing : 3:docker-ce-19.03.0-2.3.rc3.el7.x86_64                                                                  4/4
+  Verifying  : 1:docker-ce-cli-19.03.0-2.3.rc3.el7.x86_64                                                              1/4
+  Verifying  : 3:docker-ce-19.03.0-2.3.rc3.el7.x86_64                                                                  2/4
+  Verifying  : containerd.io-1.2.6-3.3.el7.x86_64                                                                      3/4
+  Verifying  : 2:container-selinux-2.99-1.el7_6.noarch                                                                 4/4
+
+Installed:
+  containerd.io.x86_64 0:1.2.6-3.3.el7  docker-ce.x86_64 3:19.03.0-2.3.rc3.el7  docker-ce-cli.x86_64 1:19.03.0-2.3.rc3.el7
+
+Dependency Installed:
+  container-selinux.noarch 2:2.99-1.el7_6
+
+Complete!
 ```
 
 # centos下安装nvidia-docker2
@@ -492,6 +654,41 @@ curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.re
 # Install nvidia-docker2 and reload the Docker daemon configuration
 sudo yum install -y nvidia-docker2
 sudo pkill -SIGHUP dockerd
+安装过程中, 系统会出现以下提示
+
+```
+```
+ One of the configured repositories failed (nvidia-container-runtime),
+ and yum doesn't have enough cached data to continue. At this point the only
+ safe thing yum can do is fail. There are a few ways to work "fix" this:
+
+     1. Contact the upstream for the repository and get them to fix the problem.
+
+     2. Reconfigure the baseurl/etc. for the repository, to point to a working
+        upstream. This is most often useful if you are using a newer
+        distribution release than is supported by the repository (and the
+        packages for the previous distribution release still work).
+
+     3. Run the command with the repository temporarily disabled
+            yum --disablerepo=nvidia-container-runtime ...
+
+     4. Disable the repository permanently, so yum won't use it by default. Yum
+        will then just ignore the repository until you permanently enable it
+        again or use --enablerepo for temporary usage:
+
+            yum-config-manager --disable nvidia-container-runtime
+        or
+            subscription-manager repos --disable=nvidia-container-runtime
+
+     5. Configure the failing repository to be skipped, if it is unavailable.
+        Note that yum will try to contact the repo. when it runs most commands,
+        so will have to try and fail each time (and thus. yum will be be much
+        slower). If it is a very temporary problem though, this is often a nice
+        compromise:
+
+            yum-config-manager --save --setopt=nvidia-container-runtime.skip_if_unavailable=true
+```
+```
 
 # Test nvidia-smi with the latest official CUDA image
 docker run --runtime=nvidia --rm nvidia/cuda:9.0-base nvidia-smi
