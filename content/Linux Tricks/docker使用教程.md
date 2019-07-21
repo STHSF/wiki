@@ -622,14 +622,14 @@ Running transaction check
 Running transaction test
 Transaction test succeeded
 Running transaction
-  Installing : 2:container-selinux-2.99-1.el7_6.noarch                                                                 1/4
-  Installing : containerd.io-1.2.6-3.3.el7.x86_64                                                                      2/4
-  Installing : 1:docker-ce-cli-19.03.0-2.3.rc3.el7.x86_64                                                              3/4
-  Installing : 3:docker-ce-19.03.0-2.3.rc3.el7.x86_64                                                                  4/4
-  Verifying  : 1:docker-ce-cli-19.03.0-2.3.rc3.el7.x86_64                                                              1/4
-  Verifying  : 3:docker-ce-19.03.0-2.3.rc3.el7.x86_64                                                                  2/4
-  Verifying  : containerd.io-1.2.6-3.3.el7.x86_64                                                                      3/4
-  Verifying  : 2:container-selinux-2.99-1.el7_6.noarch                                                                 4/4
+  Installing : 2:container-selinux-2.99-1.el7_6.noarch       1/4
+  Installing : containerd.io-1.2.6-3.3.el7.x86_64            2/4
+  Installing : 1:docker-ce-cli-19.03.0-2.3.rc3.el7.x86_64    3/4
+  Installing : 3:docker-ce-19.03.0-2.3.rc3.el7.x86_64        4/4
+  Verifying  : 1:docker-ce-cli-19.03.0-2.3.rc3.el7.x86_64    1/4
+  Verifying  : 3:docker-ce-19.03.0-2.3.rc3.el7.x86_64        2/4
+  Verifying  : containerd.io-1.2.6-3.3.el7.x86_64            3/4
+  Verifying  : 2:container-selinux-2.99-1.el7_6.noarch       4/4
 
 Installed:
   containerd.io.x86_64 0:1.2.6-3.3.el7  docker-ce.x86_64 3:19.03.0-2.3.rc3.el7  docker-ce-cli.x86_64 1:19.03.0-2.3.rc3.el7
@@ -654,9 +654,10 @@ curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.re
 # Install nvidia-docker2 and reload the Docker daemon configuration
 sudo yum install -y nvidia-docker2
 sudo pkill -SIGHUP dockerd
-安装过程中, 系统会出现以下提示
 
 ```
+安装过程中, 系统会出现以下提示
+
 ```
  One of the configured repositories failed (nvidia-container-runtime),
  and yum doesn't have enough cached data to continue. At this point the only
