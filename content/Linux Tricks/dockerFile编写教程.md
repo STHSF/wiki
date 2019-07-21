@@ -107,10 +107,12 @@ CMD ["python", "/opt/workshop/jerry/src/hello.py"]
 # 4、kubernetes管理容器
 
 # 参考文献
+[Docker Dockerfile 定制镜像](https://blog.csdn.net/wo18237095579/article/details/80540571)
+
 [将应用制作成镜像发布到服务器k8s上作为容器微服务运行](https://blog.csdn.net/luanpeng825485697/article/details/81256680)
 
-[]()
+[python项目打包成docker镜像并发布](https://blog.csdn.net/bocai_xiaodaidai/article/details/92838984)
 
-[]()
+[python项目代码打包成Docker镜像](https://www.cnblogs.com/sammy1989/p/9406899.html)
 
 []()
