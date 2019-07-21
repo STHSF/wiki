@@ -138,8 +138,31 @@ apt-get update <span class="o">&amp;&amp;</span> apt-get install -y  python3-pip
 
 
 <p>这样,就可以生成一个基础镜像了.</p>
-<p>当然, 也可以有另外的方式进行安装, 比如, 我们可以直接pull一个纯净的镜像, 然后启动镜像, 在contanier中执行所需要的安装, 安装完成之后可以直接push成image, 这个image跟</p>
+<p>当然, 也可以有另外的方式进行安装, 比如, 我们可以直接pull一个纯净的镜像, 然后启动镜像, 在contanier中执行所需要的安装, 安装完成之后可以直接push成image, 这个image跟上面Dockerfile启动的基本上应该没什么区别</p>
 <h1 id="2">2、项目镜像</h1>
+<p>基础镜像中包含了通用的一些信息, 这些信息大部分项目中都可能会用到, 或者需要跟某些正式环境中相互一致的信息, 而项目镜像中则需要根据不同项目的需求安装自己的库.比如某个项目需要使用到http和tcp服务等. 同时还可以把自己的项目代码通过Dockerfile复制到容器内, 熟练使用将会非常方便的部署Docker</p>
+<p>项目镜像的Dockerfile：</p>
+<div class="hlcode"><pre><span class="cp">#基础镜像</span>
+<span class="n">FROM</span> <span class="n">ubuntu_base</span><span class="o">:</span><span class="mf">1.2</span>
+
+<span class="cp">#语言编码设置</span>
+<span class="n">RUN</span> <span class="n">localedef</span> <span class="o">-</span><span class="n">c</span> <span class="o">-</span><span class="n">f</span> <span class="n">UTF</span><span class="o">-</span><span class="mi">8</span> <span class="o">-</span><span class="n">i</span> <span class="n">zh_CN</span> <span class="n">zh_CN</span><span class="p">.</span><span class="n">utf8</span>
+<span class="n">ENV</span> <span class="n">LC_ALL</span> <span class="n">zh_CN</span><span class="p">.</span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span>
+
+<span class="cp">#将项目目录文件复制到镜像中,CODE_DIR是在基础镜像中定义的</span>
+<span class="n">COPY</span> <span class="p">.</span><span class="o">/</span><span class="n">jerry</span> <span class="err">$</span><span class="n">CODE_DIR</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span>
+
+<span class="cp">#安装项目依赖包</span>
+<span class="n">RUN</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="err">$</span><span class="n">CODE_DIR</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">requirements</span><span class="p">.</span><span class="n">txt</span>
+
+<span class="cp">#暴露端口</span>
+<span class="n">EXPOSE</span> <span class="mi">8989</span>
+
+<span class="cp">#启动项目</span>
+<span class="n">CMD</span> <span class="p">[</span><span class="s">&quot;python&quot;</span><span class="p">,</span> <span class="s">&quot;/opt/workshop/jerry/src/hello.py&quot;</span><span class="p">]</span>
+</pre></div>
+
+
 <h1 id="3">3、容器管理</h1>
 <h1 id="4kubernetes">4、kubernetes管理容器</h1>
 <h1 id="_2">参考文献</h1>
