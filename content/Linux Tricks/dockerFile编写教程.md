@@ -74,8 +74,33 @@ docker build -t <REPOSITORY>:<TAG>
 ```
 这样,就可以生成一个基础镜像了.
 
-当然, 也可以有另外的方式进行安装, 比如, 我们可以直接pull一个纯净的镜像, 然后启动镜像, 在contanier中执行所需要的安装, 安装完成之后可以直接push成image, 这个image跟
+当然, 也可以有另外的方式进行安装, 比如, 我们可以直接pull一个纯净的镜像, 然后启动镜像, 在contanier中执行所需要的安装, 安装完成之后可以直接push成image, 这个image跟上面Dockerfile启动的基本上应该没什么区别
 # 2、项目镜像
+基础镜像中包含了通用的一些信息, 这些信息大部分项目中都可能会用到, 或者需要跟某些正式环境中相互一致的信息, 而项目镜像中则需要根据不同项目的需求安装自己的库.比如某个项目需要使用到http和tcp服务等. 同时还可以把自己的项目代码通过Dockerfile复制到容器内, 熟练使用将会非常方便的部署Docker
+
+项目镜像的Dockerfile：
+```
+#基础镜像
+FROM ubuntu_base:1.2
+ 
+#语言编码设置
+RUN localedef -c -f UTF-8 -i zh_CN zh_CN.utf8
+ENV LC_ALL zh_CN.UTF-8
+ 
+#将项目目录文件复制到镜像中,CODE_DIR是在基础镜像中定义的
+COPY ./jerry $CODE_DIR/jerry/
+ 
+#安装项目依赖包
+RUN pip install -r $CODE_DIR/jerry/requirements.txt
+ 
+#暴露端口
+EXPOSE 8989
+
+#启动项目
+CMD ["python", "/opt/workshop/jerry/src/hello.py"]
+```
+
+
 
 # 3、容器管理
 
