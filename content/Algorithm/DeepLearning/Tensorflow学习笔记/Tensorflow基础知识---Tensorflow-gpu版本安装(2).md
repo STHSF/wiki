@@ -333,7 +333,7 @@ NCCL的[官网下载地址](https://developer.nvidia.com/nccl/nccl-download)
 <center><img src="/wiki/static/images/tensorgpu/https-::developer.nvidia.com:nccl:nccl-download.jpg" alt="NCCL2"/></center>
 
 ### 安装
-
+官网也给出了安装[installation guide](https://docs.nvidia.com/deeplearning/sdk/nccl-install-guide/index.html)
 #### step 1
 ```
 dpkg -i nccl-repo-ubuntu1604-2.4.7-ga-cuda10.0_1-1_amd64.deb
