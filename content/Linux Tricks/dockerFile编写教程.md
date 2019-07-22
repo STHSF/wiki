@@ -5,9 +5,9 @@ date: 2019-06-02 00:00
 ---
 [TOC]
 
-# 写在前面
-# Dockerfile基础知识
-## 1) 常用命令列表
+# 1、写在前面
+# 2、Dockerfile基础知识
+## 2.1 常用命令列表
 |||
 |---|---|
 部分|命令
@@ -16,18 +16,18 @@ date: 2019-06-02 00:00
 镜像操作指令|RUN、COPY、ADD、EXPOSE、WORKDIR、ONBUILD、USER、VOLUME等
 容器启动时执行指令|CMD、ENTRYPOINT
 
-## 2) 各命令详解
-### FROM
+## 2.2 各命令详解
+### 2.2.1 FROM
 指定一个镜像作为当前镜像的基础镜像, 如:
 ```
 FROM ubuntu:16.04
 ```
-###  MAINTAINER
+### 2.2.2 MAINTAINER
 指明该镜像的作者和电子邮件, 如:
 ```
 MAINTAINER <aiministrator> <aimin@163.com>
 ```
-### RUN
+### 2.2.3 RUN
 在新镜像内部运行对应的命令, 主要用于新建文件, 文件目录, 安装软件, 配置一些基础信息等, 如:
 ```bash
 RUN mkdir /home/work/workspace \
@@ -41,27 +41,27 @@ RUN mkdir /home/work/workspace \
 ```
 RUN ["apt-get", "-y", "nginx"]
 ```
-### COPY
+### 2.2.4 COPY
 将主机的文件复制到镜像内, 如果目的位置不存在, Docker会自动创建所需要的目录结构, 但是COPY操作只是进行单纯的复制操作, 如:
 ```
 COPY configure.conf /home/work/workspace/src/
 ```
 **注意：需要复制的目录一定要放在Dockerfile文件的同级目录下**
-### ADD
+### 2.2.5 ADD
 将主机的文件复制到镜像内, 与COPY的使用方式一样, 唯一不同的就是, ADD会对压缩文件（tar, gzip, bzip2, etc）做提取和解压操作.
-### EXPOSE
+### 2.2.6 EXPOSE
 暴露镜像的端口供主机映射使用, 启动镜像时, 使用-P参数镜像指定的端口和主机的某一个端口做映射. expose可以指定多个, 如:
 ```
 EXPOSE 22
 EXPOSE 8080
 EXPOSE 8989
 ```
-### USER
+### 2.2.7 USER
 指定该镜像以什么样的用户去执行, 如:
 ```
 USER mongo
 ```
-### WORKDIR
+### 2.2.8 WORKDIR
 在构建镜像时, 指定工作目录, 之后的所有命令都是基于此工作目录, 如果不存在则会自动创建, 如:
 ```
 WORKDIR /home/work
@@ -69,20 +69,20 @@ WORKDIR src
 RUN echo "hello word" > text.txt
 # 最终会在/home/work/src/下面生成一个text.txt文件.
 ```
-### ENV
+### 2.2.9 ENV
 设置docker的环境变量, 如
 ```
 ENV CORE_DIR=/home/work/src
 ENV SCRIPT_DIR=$CORE_DIR/script
 RUN $SCRIPT_DIR/run.sh
 ```
-### VOLUME
+### 2.2.10 VOLUME
 用来向基于镜像创建的容器添加卷. 比如, 你可以将mongodb镜像中的存储数据的data文件指定为主机的某个文件.
 ```
 # VOLUME 主机目录 容器目录
 VOLUME data/db /data/onfigdb
 ```
-### CMD
+### 2.2.11 CMD
 容器启动时需要执行的命令, 如
 ```
 CMD bin/bash
@@ -92,7 +92,7 @@ CMD bin/bash
 CMD ["bin/bash"]
 ```
 **当有多个CMD时, 只有最后一个生效**
-### ENTRYPOINT
+### 2.2.12 ENTRYPOINT
 与CMD的用法一样, 但是CMD和ENTRYPOINT同样作为容器启动时执行的命令,会有以下的区别:
 - CMD的命令会被docker run 命令所覆盖, 但是ECTRYPOINT不会. 而是把docker run 后面的命令当作ENTRYPOINT执行命令的参数
   
@@ -120,7 +120,7 @@ CMD ["bin/bash"]
   - 使用```docker run -it <iamge> "word"```
     输出```hello i am word```
 
-### 简单的demo
+### 2.2.13 简单的demo
 ```
 FROM ubuntu:16.04
 MAINTAINER jerry jerry@163.com
@@ -180,11 +180,11 @@ src
 注意, docekr的用户名和RUN产生的结果.
 
 
-# 1、基础镜像制作
+# 3、基础镜像制作
 基础镜像是镜像中运行的项目或者启动的一些服务，都要在一个基础镜像之上才能运行这些服务，比如一个django项目或者mysql数据库等，都要在Linux操作系统之上来运行，所以打包我们自己的项目时，必须要有个基础镜像来当作我们项目运行的基础环境。
 
 基础镜像一般为某个linux操作系统, 比如centos, ubuntu等. 里面可以包含一些通用的服务, 比如python版本,等等
-## 基础镜像的Dockerfile
+## 3.1 基础镜像的Dockerfile
 首先我们看一下本地机器的文件目录如下:
 ```bash
 root@jerry:/home/jerry/workshop/projects/docker# ll
@@ -249,7 +249,7 @@ docker build -t <REPOSITORY>:<TAG>
 这样,就可以生成一个基础镜像了.
 
 当然, 也可以有另外的方式进行安装, 比如, 我们可以直接pull一个纯净的镜像, 然后启动镜像, 在contanier中执行所需要的安装, 安装完成之后可以直接push成image, 这个image跟上面Dockerfile启动的基本上应该没什么区别
-# 2、项目镜像
+# 4、项目镜像
 基础镜像中包含了通用的一些信息, 这些信息大部分项目中都可能会用到, 或者需要跟某些正式环境中相互一致的信息, 而项目镜像中则需要根据不同项目的需求安装自己的库.比如某个项目需要使用到http和tcp服务等. 同时还可以把自己的项目代码通过Dockerfile复制到容器内, 熟练使用将会非常方便的部署Docker
 
 项目镜像的Dockerfile：
@@ -276,11 +276,11 @@ CMD ["python", "/opt/workshop/jerry/src/hello.py"]
 
 
 
-# 3、容器管理
+# 5、容器管理
 
-# 4、kubernetes管理容器
+# 6、kubernetes管理容器
 
-# 参考文献
+# 7、参考文献
 [Docker Dockerfile 定制镜像](https://blog.csdn.net/wo18237095579/article/details/80540571)
 
 [将应用制作成镜像发布到服务器k8s上作为容器微服务运行](https://blog.csdn.net/luanpeng825485697/article/details/81256680)
