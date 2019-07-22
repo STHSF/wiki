@@ -112,7 +112,18 @@ $$</p>
 <a href="https://blog.csdn.net/cherdw/article/details/54986863">Sklearn-CrossValidation交叉验证</a><br />
 <a href="https://blog.csdn.net/jasonding1354/article/details/50562513">交叉验证及其用于参数选择、模型选择、特征选择的例子</a><br />
 <a href="http://www.mtcnn.com/?p=517">tensorflow数据归一化，z-score,min-max几种方法</a></p>
-<h1 id="_4">参考文献</h1>
+<h1 id="_4">特征选择</h1>
+<p>特征选择防止模型过拟合降低模型的泛化误差, 可以减少硬件资源的损耗, 降低模型的开发成本, 减少训练时间.</p>
+<h3 id="_5">过拟合</h3>
+<p>如果一个模型在训练集上的表现明显高于测试集上, 则说明模型可能过拟合了.</p>
+<p>过拟合是指模型的参数对于对于训练数据的特定观测值拟合的非常接近, 而训练数据的分布与真实数据的分布并不一致, 所以模型具有较高的方差.</p>
+<p>产生过拟合的原因是对于训练集上的模型过于复杂.</p>
+<p>降低模型过拟合的方法<br />
+- 准备更多的训练数据<br />
+- 引入正则化惩罚项<br />
+- 降低模型的复杂度, 选择一个模型参数相对较少的模型<br />
+- 降低数据的维度</p>
+<h1 id="_6">参考文献</h1>
 <p>https://www.cnblogs.com/sddai/p/6250094.html</p>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2017-07-18 14:00 </span></div>

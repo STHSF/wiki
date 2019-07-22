@@ -58,36 +58,17 @@
 <p>基础镜像一般为某个linux操作系统, 比如centos, ubuntu等. 里面可以包含一些通用的服务, 比如python版本,等等</p>
 <h2 id="dockerfile">基础镜像的Dockerfile</h2>
 <p>首先我们看一下本地机器的文件目录如下:</p>
-<div class="hlcode"><pre><span class="n">root</span><span class="err">@</span><span class="n">jerry</span><span class="o">:/</span><span class="n">home</span><span class="o">/</span><span class="n">jerry</span><span class="o">/</span><span class="n">workshop</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="n">docker</span><span class="err">#</span> <span class="n">ll</span>
-<span class="n">total</span> <span class="mi">12</span>
-<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">3</span> <span class="n">root</span>  <span class="n">root</span>  <span class="mi">4096</span> <span class="n">Jul</span> <span class="mi">18</span> <span class="mi">20</span><span class="o">:</span><span class="mi">08</span> <span class="p">.</span><span class="o">/</span>
-<span class="n">drwxrwxrwx</span> <span class="mi">31</span> <span class="n">jerry</span> <span class="n">jerry</span> <span class="mi">4096</span> <span class="n">Jul</span> <span class="mi">18</span> <span class="mi">20</span><span class="o">:</span><span class="mo">00</span> <span class="p">..</span><span class="o">/</span>
-<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">root</span>  <span class="n">root</span>     <span class="mi">0</span> <span class="n">Jul</span> <span class="mi">18</span> <span class="mi">20</span><span class="o">:</span><span class="mo">01</span> <span class="n">Dockerfile</span>
-<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">2</span> <span class="n">root</span>  <span class="n">root</span>  <span class="mi">4096</span> <span class="n">Jul</span> <span class="mi">18</span> <span class="mi">20</span><span class="o">:</span><span class="mi">08</span> <span class="n">scripts</span><span class="o">/</span>
+<div class="hlcode"><pre>root@jerry:/home/jerry/workshop/projects/docker# ll
+total 12
+drwxr-xr-x  3 root  root  4096 Jul 18 20:08 ./
+drwxrwxrwx 31 jerry jerry 4096 Jul 18 20:00 ../
+-rw-r--r--  1 root  root     0 Jul 18 20:01 Dockerfile
+drwxr-xr-x  2 root  root  4096 Jul 18 20:08 scripts/
 </pre></div>
 
 
 <p>scripts/目录下保存的是run.sh文件, 文件内容为:</p>
-<table class="hlcodetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20</pre></div></td><td class="code"><div class="hlcode"><pre><span class="c">#!/bin/bash</span>
+<div class="hlcode"><pre><span class="c">#!/bin/bash</span>
 
 apt-get update
 apt-get install -y gcc make <span class="se">\</span>
@@ -95,7 +76,7 @@ apt-get install -y gcc make <span class="se">\</span>
                 -y net-tools <span class="se">\</span>
                 -y inetutils-ping <span class="se">\</span>
                 -y apt-utils
-<span class="c">#python3.5</span>
+<span class="c"># python3.5</span>
 wget https://www.python.org/ftp/python/3.5.4/Python-3.5.4.tgz
 tar -zxvf Python-3.5.4.tgz
 <span class="nb">cd </span>Python-3.5.4
@@ -105,27 +86,27 @@ make <span class="o">&amp;&amp;</span> make install
 ln -s /usr/bin/python3 /usr/bin/python
 rm -rf Python-3.5.4*
 
-<span class="c">#pip3</span>
+<span class="c"># pip3</span>
 apt-get update <span class="o">&amp;&amp;</span> apt-get install -y  python3-pip
 </pre></div>
-</td></tr></table>
+
 
 <p>实际上就是简单的安装python3和pip3的过程</p>
 <p>下面是一个比较简单的Dockerfile, 主要功能是基于基础镜像, 在基础镜像的基础上执行run.sh中的内容.</p>
-<div class="hlcode"><pre><span class="cp">#基础镜像为centos，版本为7，build镜像时会自动下载</span>
+<div class="hlcode"><pre><span class="cp"># 基础镜像为ubuntu，版本为16.04，build镜像时会自动下载</span>
 <span class="n">FROM</span> <span class="n">ubuntu</span><span class="o">:</span><span class="mf">16.04</span>
 
-<span class="cp">#制作者信息</span>
-<span class="n">MAINTAINER</span> <span class="n">liyu52577</span><span class="err">@</span><span class="mf">163.</span><span class="n">com</span>
+<span class="cp"># 制作者信息</span>
+<span class="n">MAINTAINER</span> <span class="n">liyu</span> <span class="n">liyu52577</span><span class="err">@</span><span class="mf">163.</span><span class="n">com</span>
 
-<span class="cp">#设置环境变量</span>
+<span class="cp"># 设置环境变量</span>
 <span class="n">ENV</span> <span class="n">CODE_DIR</span><span class="o">=/</span><span class="n">opt</span><span class="o">/</span><span class="n">workshop</span>
 <span class="n">ENV</span> <span class="n">DOCKER_SCRIPTS</span><span class="o">=</span><span class="err">$</span><span class="n">CODE_DIR</span><span class="o">/</span><span class="n">base_image</span><span class="o">/</span><span class="n">scripts</span>
 
-<span class="cp">#将scripts下的文件复制到镜像中的DOCKER_SCRIPTS目录</span>
+<span class="cp"># 将scripts下的文件复制到镜像中的DOCKER_SCRIPTS目录</span>
 <span class="n">COPY</span> <span class="p">.</span><span class="o">/</span><span class="n">scripts</span><span class="o">/*</span> <span class="err">$</span><span class="n">DOCKER_SCRIPTS</span><span class="o">/</span>
 
-<span class="cp">#执行镜像中的provision.sh脚本</span>
+<span class="cp"># 执行镜像中的provision.sh脚本</span>
 <span class="n">RUN</span> <span class="n">chmod</span> <span class="n">a</span><span class="o">+</span><span class="n">x</span> <span class="err">$</span><span class="n">DOCKER_SCRIPTS</span><span class="o">/*</span>
 <span class="n">RUN</span> <span class="err">$</span><span class="n">DOCKER_SCRIPTS</span><span class="o">/</span><span class="n">run</span><span class="p">.</span><span class="n">sh</span>
 </pre></div>
@@ -133,7 +114,7 @@ apt-get update <span class="o">&amp;&amp;</span> apt-get install -y  python3-pip
 
 <p>其中, run.sh脚本里面的内通, 当然,你也可以直接在dockerfile里面使用RUN编写一些安装过程</p>
 <p>Dockerfile文件编写完成之后,执行下面的命令</p>
-<div class="hlcode"><pre><span class="nx">docker</span> <span class="nx">build</span> <span class="na">-t</span> <span class="o">&lt;</span><span class="nx">REPOSITORY</span><span class="o">&gt;</span><span class="p">:</span><span class="o">&lt;</span><span class="kt">TAG</span><span class="o">&gt;</span>
+<div class="hlcode"><pre>docker build -t &lt;REPOSITORY&gt;:&lt;TAG&gt;
 </pre></div>
 
 
