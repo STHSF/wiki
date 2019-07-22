@@ -94,6 +94,7 @@ CMD ["bin/bash"]
 **当有多个CMD时, 只有最后一个生效**
 ### 2.2.12 ENTRYPOINT
 与CMD的用法一样, 但是CMD和ENTRYPOINT同样作为容器启动时执行的命令,会有以下的区别:
+
 - CMD的命令会被docker run 命令所覆盖, 但是ECTRYPOINT不会. 而是把docker run 后面的命令当作ENTRYPOINT执行命令的参数
   
   如 DOckerfile中有:
@@ -108,6 +109,7 @@ CMD ["bin/bash"]
   ```
   /usr/sbin/nginx -g "daemon off"
   ```
+
 - CMD和ENTRYPOINT同时存在时, CMD的指令会变成ENTRYPOINT的参数，并且此CMD提供的参数会被 docker run 后面的命令覆盖，如
   ```
   ENTRYPOINT ["echo", "hello", "i am"]
