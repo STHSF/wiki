@@ -15,6 +15,7 @@ date: 2019-06-02 00:00
 维护者信息|MAINTAINER
 镜像操作指令|RUN、COPY、ADD、EXPOSE、WORKDIR、ONBUILD、USER、VOLUME等
 容器启动时执行指令|CMD、ENTRYPOINT
+
 ## 2) 各命令详解
 ### FROM
 指定一个镜像作为当前镜像的基础镜像, 如:
@@ -179,7 +180,7 @@ src
 注意, docekr的用户名和RUN产生的结果.
 
 
-# 1、基础镜像
+# 1、基础镜像制作
 基础镜像是镜像中运行的项目或者启动的一些服务，都要在一个基础镜像之上才能运行这些服务，比如一个django项目或者mysql数据库等，都要在Linux操作系统之上来运行，所以打包我们自己的项目时，必须要有个基础镜像来当作我们项目运行的基础环境。
 
 基础镜像一般为某个linux操作系统, 比如centos, ubuntu等. 里面可以包含一些通用的服务, 比如python版本,等等
@@ -287,5 +288,3 @@ CMD ["python", "/opt/workshop/jerry/src/hello.py"]
 [python项目打包成docker镜像并发布](https://blog.csdn.net/bocai_xiaodaidai/article/details/92838984)
 
 [python项目代码打包成Docker镜像](https://www.cnblogs.com/sammy1989/p/9406899.html)
-
-[]()
