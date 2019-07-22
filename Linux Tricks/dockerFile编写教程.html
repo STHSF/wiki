@@ -66,7 +66,10 @@
 <li><a href="#31-dockerfile">3.1 基础镜像的Dockerfile</a></li>
 </ul>
 </li>
-<li><a href="#4">4、项目镜像</a></li>
+<li><a href="#4">4、项目镜像</a><ul>
+<li><a href="#41-dockerfile">4.1 项目镜像的Dockerfile：</a></li>
+</ul>
+</li>
 <li><a href="#5">5、容器管理</a></li>
 <li><a href="#6kubernetes">6、kubernetes管理容器</a></li>
 <li><a href="#7">7、参考文献</a></li>
@@ -341,7 +344,7 @@ apt-get update <span class="o">&amp;&amp;</span> apt-get install -y  python3-pip
 <p>当然, 也可以有另外的方式进行安装, 比如, 我们可以直接pull一个纯净的镜像, 然后启动镜像, 在contanier中执行所需要的安装, 安装完成之后可以直接push成image, 这个image跟上面Dockerfile启动的基本上应该没什么区别</p>
 <h1 id="4">4、项目镜像</h1>
 <p>基础镜像中包含了通用的一些信息, 这些信息大部分项目中都可能会用到, 或者需要跟某些正式环境中相互一致的信息, 而项目镜像中则需要根据不同项目的需求安装自己的库.比如某个项目需要使用到http和tcp服务等. 同时还可以把自己的项目代码通过Dockerfile复制到容器内, 熟练使用将会非常方便的部署Docker</p>
-<p>项目镜像的Dockerfile：</p>
+<h2 id="41-dockerfile">4.1 项目镜像的Dockerfile：</h2>
 <div class="hlcode"><pre><span class="cp">#基础镜像</span>
 <span class="n">FROM</span> <span class="n">ubuntu_base</span><span class="o">:</span><span class="mf">1.2</span>
 
