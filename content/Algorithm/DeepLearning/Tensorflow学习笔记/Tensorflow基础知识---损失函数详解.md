@@ -8,8 +8,20 @@ date: 2017-07-06 11:40
 # 写在前面
 本文先介绍loss function的基本概念，然后主要归纳一下tensorflow中的loss_function.
 
+
+
 # Loss function
 在机器学习中，loss function（损失函数）也称cost function（代价函数），是用来计算预测值和真实值的差距。然后以loss function的最小值作为目标函数进行反向传播迭代计算模型中的参数，这个让loss function的值不断变小的过程称为优化。
+
+# 目标函数、损失函数、代价函数之间的关系与区别
+有的书本上将其混为一类, 认为三者指代同一类. 但是实际上他们有一些差别的
+- 损失函数(loss funciton): 单体
+- 代价函数(cost function): 总体
+- 目标函数(object function): 更泛化的术语
+
+从整体上来讲, 损失函数是代价函数的一部分, 代价函数是目标函数其中的一种. 详细的讲, 损失函数是针对单个训练样本而言的, 也就是算一个样本的误差. 代价函数是定义在整个训练集上的, 就是所有训练样本误差总和的平均, 也就是损失函数总和的平均. 但是, 有没有平均对后面参数的求解没有什么影响.
+
+
 
 通常机器学习的每个算法中都会有一个目标函数, 算法的求解过程是通过对这个目标函数优化的过程, 损失函数越好, 通常模型的性能越好, 不同的算法使用的损失函数不一样.
 
@@ -229,15 +241,39 @@ tf.nn.weighted_cross_entropy_with_logits(logits, targets, pos_weight, name=None)
 weighted_sigmoid_cross_entropy_with_logits是sigmoid_cross_entropy_with_logits的拓展版，多支持一个pos_weight参数，在传统基于sigmoid的交叉熵算法上，正样本算出的值乘以某个系数。
 
 ## log_softmax
+```python 
 tf.nn.log_softmax(logits, name=None)	
-
+```
 
 # sampled loss functions
 ## nce_loss
- tf.nn.nce_loss(weights, biases, inputs, labels, num_sampled,num_classes, num_true=1, sampled_values=None,remove_accidental_hits=False, partition_strategy=’mod’,name=’nce_loss’)
+```python
+tf.nn.nce_loss(weights, 
+               biases, 
+               inputs, 
+               labels, 
+               num_sampled,
+               num_classes, 
+               num_true=1, 
+               sampled_values=None,
+               remove_accidental_hits=False, 
+               partition_strategy=’mod’,
+               name=’nce_loss’)
+```
 ## sampled_softmax_loss
-tf.nn.sampled_softmax_loss(weights, biases, inputs, labels, num_sampled, num_classes, num_true=1, sampled_values=None,remove_accidental_hits=True, partition_strategy=’mod’, name=’sampled_softmax_loss’)
-
+```python
+tf.nn.sampled_softmax_loss(weights,
+                          biases,
+                          inputs, 
+                          labels, 
+                          num_sampled, 
+                          num_classes, 
+                          num_true=1, 
+                          sampled_values=None,
+                          remove_accidental_hits=True, 
+                          partition_strategy=’mod’, 
+                          name=’sampled_softmax_loss’)
+```
 # sequence to sequence中的loss function
 ## sampled_softmax_loss
 sequence_loss_by_example(logits, targets, weights)
@@ -245,6 +281,8 @@ sequence_loss_by_example(logits, targets, weights)
 tf.contrib.legacy_seq2seq.sequence_loss_by_example
 
 # 参考文献
+[Objective function, cost function, loss function: are they the same thing?](https://stats.stackexchange.com/questions/179026/objective-function-cost-function-loss-function-are-they-the-same-thing/179027)
+
 [1](http://blog.csdn.net/marsjhao/article/details/72630147)
 [tensorflow学习笔记（三）：损失函数](http://blog.csdn.net/u012436149/article/details/52874718)
 [sequence_loss_by_example(logits, targets, weights）](http://blog.csdn.net/appleml/article/details/54017873)

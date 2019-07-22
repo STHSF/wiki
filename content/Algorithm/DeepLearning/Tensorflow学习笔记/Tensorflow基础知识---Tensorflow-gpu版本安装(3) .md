@@ -182,7 +182,7 @@ cudnn-9.0-linux-x64-v7.1.tar   # the cuDNN package
 
 libcudnn7_7.1.3.16-1+cuda9.0_amd64-2.deb   # runtime library
 
-libcudnn7-dev_7.1.3.16-1+cuda9.0_amd64-2.deb   # runtime library
+libcudnn7-dev_7.1.3.16-1+cuda9.0_amd64-2.deb   # developer library
 
 libcudnn7-doc_7.1.3.16-1+cuda9.0_amd64.deb   # the code samples and the cuDNN Library User Guide 
 ```
