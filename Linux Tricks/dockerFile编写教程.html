@@ -43,7 +43,9 @@
   <div class="toc"><span class="toctitle">Table of Contents</span><ul>
 <li><a href="#_1">写在前面</a></li>
 <li><a href="#dockerfile">Dockerfile基础知识</a><ul>
-<li><a href="#1">1) 常用命令列表</a><ul>
+<li><a href="#1">1) 常用命令列表</a></li>
+<li><a href="#2">2) 各命令详解</a><ul>
+<li><a href="#from">FROM</a></li>
 <li><a href="#maintainer">MAINTAINER</a></li>
 <li><a href="#run">RUN</a></li>
 <li><a href="#copy">COPY</a></li>
@@ -60,11 +62,11 @@
 </li>
 </ul>
 </li>
-<li><a href="#1_1">1、基础镜像</a><ul>
+<li><a href="#1_1">1、基础镜像制作</a><ul>
 <li><a href="#dockerfile_1">基础镜像的Dockerfile</a></li>
 </ul>
 </li>
-<li><a href="#2">2、项目镜像</a></li>
+<li><a href="#2_1">2、项目镜像</a></li>
 <li><a href="#3">3、容器管理</a></li>
 <li><a href="#4kubernetes">4、kubernetes管理容器</a></li>
 <li><a href="#_2">参考文献</a></li>
@@ -101,20 +103,11 @@
 <td>容器启动时执行指令</td>
 <td>CMD、ENTRYPOINT</td>
 </tr>
-<tr>
-<td>## 2) 各命令详解</td>
-<td></td>
-</tr>
-<tr>
-<td>### FROM</td>
-<td></td>
-</tr>
-<tr>
-<td>指定一个镜像作为当前镜像的基础镜像, 如:</td>
-<td></td>
-</tr>
 </tbody>
 </table>
+<h2 id="2">2) 各命令详解</h2>
+<h3 id="from">FROM</h3>
+<p>指定一个镜像作为当前镜像的基础镜像, 如:</p>
 <div class="hlcode"><pre><span class="n">FROM</span> <span class="n">ubuntu</span><span class="o">:</span><span class="mf">16.04</span>
 </pre></div>
 
@@ -279,7 +272,7 @@ src
 
 
 <p>注意, docekr的用户名和RUN产生的结果.</p>
-<h1 id="1_1">1、基础镜像</h1>
+<h1 id="1_1">1、基础镜像制作</h1>
 <p>基础镜像是镜像中运行的项目或者启动的一些服务，都要在一个基础镜像之上才能运行这些服务，比如一个django项目或者mysql数据库等，都要在Linux操作系统之上来运行，所以打包我们自己的项目时，必须要有个基础镜像来当作我们项目运行的基础环境。</p>
 <p>基础镜像一般为某个linux操作系统, 比如centos, ubuntu等. 里面可以包含一些通用的服务, 比如python版本,等等</p>
 <h2 id="dockerfile_1">基础镜像的Dockerfile</h2>
@@ -346,7 +339,7 @@ apt-get update <span class="o">&amp;&amp;</span> apt-get install -y  python3-pip
 
 <p>这样,就可以生成一个基础镜像了.</p>
 <p>当然, 也可以有另外的方式进行安装, 比如, 我们可以直接pull一个纯净的镜像, 然后启动镜像, 在contanier中执行所需要的安装, 安装完成之后可以直接push成image, 这个image跟上面Dockerfile启动的基本上应该没什么区别</p>
-<h1 id="2">2、项目镜像</h1>
+<h1 id="2_1">2、项目镜像</h1>
 <p>基础镜像中包含了通用的一些信息, 这些信息大部分项目中都可能会用到, 或者需要跟某些正式环境中相互一致的信息, 而项目镜像中则需要根据不同项目的需求安装自己的库.比如某个项目需要使用到http和tcp服务等. 同时还可以把自己的项目代码通过Dockerfile复制到容器内, 熟练使用将会非常方便的部署Docker</p>
 <p>项目镜像的Dockerfile：</p>
 <div class="hlcode"><pre><span class="cp">#基础镜像</span>
@@ -377,7 +370,6 @@ apt-get update <span class="o">&amp;&amp;</span> apt-get install -y  python3-pip
 <p><a href="https://blog.csdn.net/luanpeng825485697/article/details/81256680">将应用制作成镜像发布到服务器k8s上作为容器微服务运行</a></p>
 <p><a href="https://blog.csdn.net/bocai_xiaodaidai/article/details/92838984">python项目打包成docker镜像并发布</a></p>
 <p><a href="https://www.cnblogs.com/sammy1989/p/9406899.html">python项目代码打包成Docker镜像</a></p>
-<p><a href=""></a></p>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2019-06-02 00:00 </span></div>
 <div id="comments"></div>
