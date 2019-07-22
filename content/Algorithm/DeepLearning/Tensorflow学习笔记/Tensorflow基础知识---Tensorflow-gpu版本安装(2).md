@@ -322,7 +322,15 @@ above this error message when asking for help.
 <center><img src="/wiki/static/images/tensorgpu/version.jpg" alt="version"/></center>
 
 **UPDATE20190710***
-## 安装NCCL2
+## NCCL2
+NCCL是Nvidia Collective multi-GPU Communication Library的简称，它是一个实现多GPU的collective communication通信（all-gather, reduce, broadcast）库，Nvidia做了很多优化，以在PCIe、Nvlink、InfiniBand上实现较高的通信速度。
+
+## 下载安装
+NCCL的[官网下载地址](https://developer.nvidia.com/nccl/nccl-download)
+
+需要根据本机系统的linux系统和cuda版本选择下载对应的NCCL版本.如下图所示.
+
+<center><img src="/wiki/static/images/tensorgpu/https-::developer.nvidia.com:nccl:nccl-download.jpg" alt="NCCL2"/></center>
 
 # 六、参考文献
 [CUDA官方安装教程](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html)
