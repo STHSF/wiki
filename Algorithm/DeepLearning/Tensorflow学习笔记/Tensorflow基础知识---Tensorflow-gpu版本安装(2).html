@@ -355,11 +355,101 @@
 <p><strong>UPDATE20190710</strong>*</p>
 <h2 id="nccl2">NCCL2</h2>
 <p>NCCL是Nvidia Collective multi-GPU Communication Library的简称，它是一个实现多GPU的collective communication通信（all-gather, reduce, broadcast）库，Nvidia做了很多优化，以在PCIe、Nvlink、InfiniBand上实现较高的通信速度。</p>
-<h2 id="_4">下载安装</h2>
+<h3 id="_4">下载</h3>
 <p>NCCL的<a href="https://developer.nvidia.com/nccl/nccl-download">官网下载地址</a></p>
 <p>需要根据本机系统的linux系统和cuda版本选择下载对应的NCCL版本.如下图所示.</p>
 <p><center><img src="/wiki/static/images/tensorgpu/https-::developer.nvidia.com:nccl:nccl-download.jpg" alt="NCCL2"/></center></p>
-<h1 id="_5">六、参考文献</h1>
+<h3 id="_5">安装</h3>
+<h4 id="step-1">step 1</h4>
+<div class="hlcode"><pre><span class="n">dpkg</span> <span class="o">-</span><span class="n">i</span> <span class="n">nccl</span><span class="o">-</span><span class="n">repo</span><span class="o">-</span><span class="n">ubuntu1604</span><span class="o">-</span><span class="mf">2.4.7</span><span class="o">-</span><span class="n">ga</span><span class="o">-</span><span class="n">cuda10</span><span class="mf">.0</span><span class="n">_1</span><span class="o">-</span><span class="mi">1</span><span class="n">_amd64</span><span class="p">.</span><span class="n">deb</span>
+</pre></div>
+
+
+<p>运行结果如下:</p>
+<div class="hlcode"><pre><span class="n">Selecting</span> <span class="n">previously</span> <span class="n">unselected</span> <span class="n">package</span> <span class="n">nccl</span><span class="o">-</span><span class="n">repo</span><span class="o">-</span><span class="n">ubuntu1604</span><span class="o">-</span><span class="mf">2.4.7</span><span class="o">-</span><span class="n">ga</span><span class="o">-</span><span class="n">cuda10</span><span class="mf">.0</span><span class="p">.</span>
+<span class="p">(</span><span class="n">Reading</span> <span class="n">database</span> <span class="p">...</span> <span class="mi">181960</span> <span class="n">files</span> <span class="n">and</span> <span class="n">directories</span> <span class="n">currently</span> <span class="n">installed</span><span class="p">.)</span>
+<span class="n">Preparing</span> <span class="n">to</span> <span class="n">unpack</span> <span class="n">nccl</span><span class="o">-</span><span class="n">repo</span><span class="o">-</span><span class="n">ubuntu1604</span><span class="o">-</span><span class="mf">2.4.7</span><span class="o">-</span><span class="n">ga</span><span class="o">-</span><span class="n">cuda10</span><span class="mf">.0</span><span class="n">_1</span><span class="o">-</span><span class="mi">1</span><span class="n">_amd64</span><span class="p">.</span><span class="n">deb</span> <span class="p">...</span>
+<span class="n">Unpacking</span> <span class="n">nccl</span><span class="o">-</span><span class="n">repo</span><span class="o">-</span><span class="n">ubuntu1604</span><span class="o">-</span><span class="mf">2.4.7</span><span class="o">-</span><span class="n">ga</span><span class="o">-</span><span class="n">cuda10</span><span class="mf">.0</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">...</span>
+<span class="n">Setting</span> <span class="n">up</span> <span class="n">nccl</span><span class="o">-</span><span class="n">repo</span><span class="o">-</span><span class="n">ubuntu1604</span><span class="o">-</span><span class="mf">2.4.7</span><span class="o">-</span><span class="n">ga</span><span class="o">-</span><span class="n">cuda10</span><span class="mf">.0</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">...</span>
+
+<span class="n">The</span> <span class="n">public</span> <span class="n">CUDA</span> <span class="n">GPG</span> <span class="n">key</span> <span class="n">does</span> <span class="n">not</span> <span class="n">appear</span> <span class="n">to</span> <span class="n">be</span> <span class="n">installed</span><span class="p">.</span>
+<span class="n">To</span> <span class="n">install</span> <span class="n">the</span> <span class="n">key</span><span class="p">,</span> <span class="n">run</span> <span class="n">this</span> <span class="n">command</span><span class="o">:</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">key</span> <span class="n">add</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">nccl</span><span class="o">-</span><span class="n">repo</span><span class="o">-</span><span class="mf">2.4.7</span><span class="o">-</span><span class="n">ga</span><span class="o">-</span><span class="n">cuda10</span><span class="mf">.0</span><span class="o">/</span><span class="mf">7f</span><span class="n">a2af80</span><span class="p">.</span><span class="n">pub</span>
+</pre></div>
+
+
+<p>结果中提示CUDA GPG key没有安装, 需要执行下面的命令, 按照提示进行安装, 会返回一个OK:</p>
+<div class="hlcode"><pre><span class="n">apt</span><span class="o">-</span><span class="n">key</span> <span class="n">add</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">nccl</span><span class="o">-</span><span class="n">repo</span><span class="o">-</span><span class="mf">2.4.7</span><span class="o">-</span><span class="n">ga</span><span class="o">-</span><span class="n">cuda10</span><span class="mf">.0</span><span class="o">/</span><span class="mf">7f</span><span class="n">a2af80</span><span class="p">.</span><span class="n">pub</span>
+</pre></div>
+
+
+<p>然后重新安装, 运行结果如下:</p>
+<div class="hlcode"><pre><span class="p">(</span><span class="n">Reading</span> <span class="n">database</span> <span class="p">...</span> <span class="mi">181970</span> <span class="n">files</span> <span class="n">and</span> <span class="n">directories</span> <span class="n">currently</span> <span class="n">installed</span><span class="p">.)</span>
+<span class="n">Preparing</span> <span class="n">to</span> <span class="n">unpack</span> <span class="n">nccl</span><span class="o">-</span><span class="n">repo</span><span class="o">-</span><span class="n">ubuntu1604</span><span class="o">-</span><span class="mf">2.4.7</span><span class="o">-</span><span class="n">ga</span><span class="o">-</span><span class="n">cuda10</span><span class="mf">.0</span><span class="n">_1</span><span class="o">-</span><span class="mi">1</span><span class="n">_amd64</span><span class="p">.</span><span class="n">deb</span> <span class="p">...</span>
+<span class="n">Unpacking</span> <span class="n">nccl</span><span class="o">-</span><span class="n">repo</span><span class="o">-</span><span class="n">ubuntu1604</span><span class="o">-</span><span class="mf">2.4.7</span><span class="o">-</span><span class="n">ga</span><span class="o">-</span><span class="n">cuda10</span><span class="mf">.0</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">over</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">...</span>
+<span class="n">Setting</span> <span class="n">up</span> <span class="n">nccl</span><span class="o">-</span><span class="n">repo</span><span class="o">-</span><span class="n">ubuntu1604</span><span class="o">-</span><span class="mf">2.4.7</span><span class="o">-</span><span class="n">ga</span><span class="o">-</span><span class="n">cuda10</span><span class="mf">.0</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">...</span>
+</pre></div>
+
+
+<h4 id="step-2">step 2</h4>
+<p>通过apt-get安装licnccl2, 如果需要使用NCCL编译程序, 还需要安装libnccl-dev.<br />
+- 方法一<br />
+使用下面的方式安装, 但是这种安装方式会<strong><em>将你的CUDA升级到最新版本</em></strong>(慎用).</p>
+<div class="hlcode"><pre><span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">libnccl2</span> <span class="n">libnccl</span><span class="o">-</span><span class="n">dev</span>
+</pre></div>
+
+
+<ul>
+<li>方法二<br />
+如果需要下载cuda对应版本的libnccl, 可以去下载NCCL的官网对应的cuda版本下面有指定的安装方式, 如下图所示:<br />
+<center><img src="/wiki/static/images/tensorgpu/libnccl.jpg" alt="libnccl"/></center></li>
+</ul>
+<div class="hlcode"><pre><span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">libnccl2</span><span class="o">=</span><span class="mf">2.4.7</span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="n">cuda10</span><span class="mf">.0</span> <span class="n">libnccl</span><span class="o">-</span><span class="n">dev</span><span class="o">=</span><span class="mf">2.4.7</span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="n">cuda10</span><span class="mf">.0</span>
+</pre></div>
+
+
+<p>可能会出现下面的问题:</p>
+<div class="hlcode"><pre><span class="n">Reading</span> <span class="n">package</span> <span class="n">lists</span><span class="p">...</span> <span class="n">Done</span>
+<span class="n">Building</span> <span class="n">dependency</span> <span class="n">tree</span>
+<span class="n">Reading</span> <span class="n">state</span> <span class="n">information</span><span class="p">...</span> <span class="n">Done</span>
+<span class="nl">E:</span> <span class="n">Unable</span> <span class="n">to</span> <span class="n">locate</span> <span class="n">package</span> <span class="n">libnccl2</span>
+<span class="nl">E:</span> <span class="n">Unable</span> <span class="n">to</span> <span class="n">locate</span> <span class="n">package</span> <span class="n">libnccl</span><span class="o">-</span><span class="n">dev</span>
+</pre></div>
+
+
+<p>可以执行下面的命令, 官网也有提示:</p>
+<div class="hlcode"><pre><span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">update</span>
+</pre></div>
+
+
+<p>更新apt完成之后, 重新执行上一步的命令, 则会出现下面的运行结果.</p>
+<div class="hlcode"><pre>root@gpyz-Super-Server:/home/gpyz/soft/li# apt-get install <span class="nv">libnccl2</span><span class="o">=</span>2.4.7-1+cuda10.0 libnccl-dev<span class="o">=</span>2.4.7-1+cuda10.0
+
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+The following NEW packages will be installed:
+  libnccl-dev libnccl2
+0 upgraded, 2 newly installed, 0 to remove and 236 not upgraded.
+Need to get 0 B/51.4 MB of archives.
+After this operation, 220 MB of additional disk space will be used.
+Get:1 file:/var/nccl-repo-2.4.7-ga-cuda10.0  libnccl2 2.4.7-1+cuda10.0 <span class="o">[</span>26.0 MB<span class="o">]</span>
+Get:2 file:/var/nccl-repo-2.4.7-ga-cuda10.0  libnccl-dev 2.4.7-1+cuda10.0 <span class="o">[</span>25.4 MB<span class="o">]</span>
+Selecting previously unselected package libnccl2.
+<span class="o">(</span>Reading database ... 181970 files and directories currently installed.<span class="o">)</span>
+Preparing to unpack .../libnccl2_2.4.7-1+cuda10.0_amd64.deb ...
+Unpacking libnccl2 <span class="o">(</span>2.4.7-1+cuda10.0<span class="o">)</span> ...
+Selecting previously unselected package libnccl-dev.
+Preparing to unpack .../libnccl-dev_2.4.7-1+cuda10.0_amd64.deb ...
+Unpacking libnccl-dev <span class="o">(</span>2.4.7-1+cuda10.0<span class="o">)</span> ...
+Processing triggers <span class="k">for </span>libc-bin <span class="o">(</span>2.23-0ubuntu11<span class="o">)</span> ...
+Setting up libnccl2 <span class="o">(</span>2.4.7-1+cuda10.0<span class="o">)</span> ...
+Setting up libnccl-dev <span class="o">(</span>2.4.7-1+cuda10.0<span class="o">)</span> ...
+Processing triggers <span class="k">for </span>libc-bin <span class="o">(</span>2.23-0ubuntu11<span class="o">)</span> ...
+</pre></div>
+
+
+<h1 id="_6">六、参考文献</h1>
 <p><a href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html">CUDA官方安装教程</a><br />
 <a href="https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html#install-linux">cuDNN官方的安装和验证教程</a><br />
 <a href="https://sthsf.github.io/wiki/Algorithm/DeepLearning/Tensorflow学习笔记/Tensorflow基础知识---Tensorflow-gpu版本安装.html">ubuntu下安装安装CUDA、cuDNN和tensotflow-gpu版本流程和问题总结</a><br />
