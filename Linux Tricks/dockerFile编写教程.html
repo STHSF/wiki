@@ -42,8 +42,18 @@
 <div id="content">
   <div class="toc"><span class="toctitle">Table of Contents</span><ul>
 <li><a href="#_1">写在前面</a></li>
-<li><a href="#1">1、基础镜像</a><ul>
-<li><a href="#dockerfile">基础镜像的Dockerfile</a></li>
+<li><a href="#dockerfile">Dockerfile基础知识</a><ul>
+<li><a href="#1">1) 常用命令列表</a><ul>
+<li><a href="#maintainer">MAINTAINER</a></li>
+<li><a href="#run">RUN</a></li>
+<li><a href="#copy">COPY</a></li>
+<li><a href="#add">ADD</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#1_1">1、基础镜像</a><ul>
+<li><a href="#dockerfile_1">基础镜像的Dockerfile</a></li>
 </ul>
 </li>
 <li><a href="#2">2、项目镜像</a></li>
@@ -53,10 +63,88 @@
 </ul>
 </div>
 <h1 id="_1">写在前面</h1>
-<h1 id="1">1、基础镜像</h1>
+<h1 id="dockerfile">Dockerfile基础知识</h1>
+<h2 id="1">1) 常用命令列表</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>部分</td>
+<td>命令</td>
+</tr>
+<tr>
+<td>基础镜像信息</td>
+<td>FROM</td>
+</tr>
+<tr>
+<td>维护者信息</td>
+<td>MAINTAINER</td>
+</tr>
+<tr>
+<td>镜像操作指令</td>
+<td>RUN、COPY、ADD、EXPOSE、WORKDIR、ONBUILD、USER、VOLUME等</td>
+</tr>
+<tr>
+<td>容器启动时执行指令</td>
+<td>CMD、ENTRYPOINT</td>
+</tr>
+<tr>
+<td>## 2) 各命令详解</td>
+<td></td>
+</tr>
+<tr>
+<td>### FROM</td>
+<td></td>
+</tr>
+<tr>
+<td>指定一个镜像作为当前镜像的基础镜像, 如:</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div class="hlcode"><pre><span class="n">FROM</span> <span class="n">ubuntu</span><span class="o">:</span><span class="mf">16.04</span>
+</pre></div>
+
+
+<h3 id="maintainer">MAINTAINER</h3>
+<p>指明该镜像的作者和电子邮件, 如:</p>
+<div class="hlcode"><pre><span class="nx">MAINTAINER</span> <span class="o">&lt;</span><span class="nx">aiministrator</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="nx">aimin</span><span class="p">@</span><span class="mi">163</span><span class="bp">.</span><span class="nx">com</span><span class="o">&gt;</span>
+</pre></div>
+
+
+<h3 id="run">RUN</h3>
+<p>在新镜像内部运行对应的命令, 主要用于新建文件, 文件目录, 安装软件, 配置一些基础信息等, 如:</p>
+<div class="hlcode"><pre>RUN mkdir /home/work/workspace <span class="se">\</span>
+    <span class="nb">echo</span> <span class="s2">&quot;hello word&quot;</span> &gt; <span class="se">\ </span>
+    /home/work/hello.txt <span class="se">\</span>
+    apt-get install -y python3.5
+</pre></div>
+
+
+<p>可以使用换行符<code>\</code>来进行换行操作.</p>
+<p>当然, 也可以使用exec的格式的命令, 如:"RUN ["executable", "param1", "param2"]", 其中, executable是命令, 后面的param是参数.</p>
+<div class="hlcode"><pre><span class="n">RUN</span> <span class="p">[</span><span class="s">&quot;apt-get&quot;</span><span class="p">,</span> <span class="s">&quot;-y&quot;</span><span class="p">,</span> <span class="s">&quot;nginx&quot;</span><span class="p">]</span>
+</pre></div>
+
+
+<h3 id="copy">COPY</h3>
+<p>将主机的文件复制到镜像内, 如果目的位置不存在, Docker会自动创建所需要的目录结构, 但是COPY操作只是进行单纯的复制操作, 如:</p>
+<div class="hlcode"><pre><span class="n">COPY</span> <span class="n">configure</span><span class="p">.</span><span class="n">conf</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">workspace</span><span class="o">/</span><span class="n">src</span><span class="o">/</span>
+</pre></div>
+
+
+<p><strong>注意：需要复制的目录一定要放在Dockerfile文件的同级目录下</strong></p>
+<h3 id="add">ADD</h3>
+<p>将主机的文件复制到镜像内, </p>
+<h1 id="1_1">1、基础镜像</h1>
 <p>基础镜像是镜像中运行的项目或者启动的一些服务，都要在一个基础镜像之上才能运行这些服务，比如一个django项目或者mysql数据库等，都要在Linux操作系统之上来运行，所以打包我们自己的项目时，必须要有个基础镜像来当作我们项目运行的基础环境。</p>
 <p>基础镜像一般为某个linux操作系统, 比如centos, ubuntu等. 里面可以包含一些通用的服务, 比如python版本,等等</p>
-<h2 id="dockerfile">基础镜像的Dockerfile</h2>
+<h2 id="dockerfile_1">基础镜像的Dockerfile</h2>
 <p>首先我们看一下本地机器的文件目录如下:</p>
 <div class="hlcode"><pre>root@jerry:/home/jerry/workshop/projects/docker# ll
 total 12

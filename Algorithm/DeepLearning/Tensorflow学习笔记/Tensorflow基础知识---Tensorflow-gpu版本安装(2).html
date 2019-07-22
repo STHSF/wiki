@@ -128,7 +128,7 @@
 <p>我安装的是CUDA9.0的版本，到<a href="https://developer.nvidia.com/cuda-downloads?target_os=Linux&amp;target_arch=x86_64&amp;target_distro=Ubuntu&amp;target_version=1604&amp;target_type=runfilelocal">nvidia开发者社区</a>根据选项挑选对应的安装版本，如下图所示。<br />
 <center><img src="/wiki/static/images/tensorgpu/CUDA Toolkit 9.0 Downloads.png" alt="nvidia-driver"/></center><br />
 本文下载的cuda.run文件版本为: <strong>cuda_9.0.176_384.81_linux.run</strong></p>
-<div class="hlcode"><pre><span class="n">sudo</span> <span class="n">sh</span> <span class="n">cuda_9</span><span class="mf">.0.176</span><span class="n">_384</span><span class="mf">.81</span><span class="n">_linux</span><span class="p">.</span><span class="n">run</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">opengl</span><span class="o">-</span><span class="n">libs</span>
+<div class="hlcode"><pre>sudo sh cuda_9.0.176_384.81_linux.run --no-opengl-libs
 </pre></div>
 
 
@@ -450,18 +450,25 @@ Processing triggers <span class="k">for </span>libc-bin <span class="o">(</span>
 </pre></div>
 
 
+<p>安装完成之后链接到正常位置</p>
+<div class="hlcode"><pre><span class="n">sudo</span> <span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span><span class="o">/</span><span class="n">nccl</span><span class="o">/</span><span class="n">lib</span>
+<span class="n">sudo</span> <span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">x86_64</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">gnu</span><span class="o">/</span><span class="n">libnccl</span><span class="p">.</span><span class="n">so</span><span class="mf">.2</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span><span class="o">/</span><span class="n">nccl</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span>
+</pre></div>
+
+
 <h1 id="_6">六、参考文献</h1>
-<p><a href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html">CUDA官方安装教程</a><br />
-<a href="https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html#install-linux">cuDNN官方的安装和验证教程</a><br />
-<a href="https://sthsf.github.io/wiki/Algorithm/DeepLearning/Tensorflow学习笔记/Tensorflow基础知识---Tensorflow-gpu版本安装.html">ubuntu下安装安装CUDA、cuDNN和tensotflow-gpu版本流程和问题总结</a><br />
-<a href="https://www.cnblogs.com/gaowengang/p/6068788.html">Ubuntu 14.04 安装 CUDA 问题及解决</a><br />
-<a href="http://blog.csdn.net/autocyz/article/details/52299889/">Ubuntu16.04+cuda8.0+caffe安装教程</a><br />
-<a href="http://developer2.download.nvidia.com/compute/machine-learning/cudnn/secure/v7.0.5/prod/Doc/cuDNN-Installation-Guide.pdf?1RL9HfeGELbC3I_J6F0c5RpXvy64oKHaWa0lZVIHWvzPbVKxDtV4_ivmxT2kIC6z1lE_h2bxuVgKEhGGW6R5n_GHnem5SFsA9jQI6LWMt68_sjV_HuOFBYO3EHzSwncT9iu1uUqar7UMgfrEOjgjE6hYCZcNNzBLgWrFa5VCRa2DsE1G8htULohvZqErOvFXRw">CUDNN Installation Guide</a><br />
-<a href="https://segmentfault.com/a/1190000008234390">Ubuntu16.04 下安装GPU版TensorFlow（包括Cuda和Cudnn）</a><br />
-<a href="http://blog.csdn.net/u014696921/article/details/60140264">"libcudnn.so.5 cannot open shared object file: No such file or directory" </a><br />
-<a href="http://blog.csdn.net/liukun321/article/details/6908635">ldconfig提示is not a symbolic link警告的去除方法 </a><br />
-<a href="http://blog.csdn.net/binglel/article/details/70230276">Ubuntu16.04.1如何安装TensorFlow1.1.0（GPU版）</a><br />
-<a href="https://github.com/tensorflow/tensorflow/issues/394">failed call to cuInit: CUDA_ERROR_UNKNOWN in python programs using Ubuntu bumblebee</a></p>
+<p><a href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html">CUDA官方安装教程</a></p>
+<p><a href="https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html#install-linux">cuDNN官方的安装和验证教程</a></p>
+<p><a href="https://sthsf.github.io/wiki/Algorithm/DeepLearning/Tensorflow学习笔记/Tensorflow基础知识---Tensorflow-gpu版本安装.html">ubuntu下安装安装CUDA、cuDNN和tensotflow-gpu版本流程和问题总结</a></p>
+<p><a href="https://www.cnblogs.com/gaowengang/p/6068788.html">Ubuntu 14.04 安装 CUDA 问题及解决</a></p>
+<p><a href="http://blog.csdn.net/autocyz/article/details/52299889/">Ubuntu16.04+cuda8.0+caffe安装教程</a></p>
+<p><a href="http://developer2.download.nvidia.com/compute/machine-learning/cudnn/secure/v7.0.5/prod/Doc/cuDNN-Installation-Guide.pdf?1RL9HfeGELbC3I_J6F0c5RpXvy64oKHaWa0lZVIHWvzPbVKxDtV4_ivmxT2kIC6z1lE_h2bxuVgKEhGGW6R5n_GHnem5SFsA9jQI6LWMt68_sjV_HuOFBYO3EHzSwncT9iu1uUqar7UMgfrEOjgjE6hYCZcNNzBLgWrFa5VCRa2DsE1G8htULohvZqErOvFXRw">CUDNN Installation Guide</a></p>
+<p><a href="https://segmentfault.com/a/1190000008234390">Ubuntu16.04 下安装GPU版TensorFlow（包括Cuda和Cudnn）</a></p>
+<p><a href="http://blog.csdn.net/u014696921/article/details/60140264">"libcudnn.so.5 cannot open shared object file: No such file or directory" </a></p>
+<p><a href="http://blog.csdn.net/liukun321/article/details/6908635">ldconfig提示is not a symbolic link警告的去除方法 </a></p>
+<p><a href="http://blog.csdn.net/binglel/article/details/70230276">Ubuntu16.04.1如何安装TensorFlow1.1.0（GPU版）</a></p>
+<p><a href="https://github.com/tensorflow/tensorflow/issues/394">failed call to cuInit: CUDA_ERROR_UNKNOWN in python programs using Ubuntu bumblebee</a></p>
+<p><a href="https://www.ncnynl.com/archives/201905/3061.html">深度学习入门教程-Ubuntu18.04系统安装cuDNN7和NCCL2</a></p>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2018-06-01 03:00 </span></div>
 <div id="comments"></div>
