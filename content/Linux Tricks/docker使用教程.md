@@ -204,15 +204,16 @@ run [-P][-p]
 - ip:hostPort:containerPort: 指定ip、宿主机端口以及容器端口.
 
 例如:
-```
-docker run -p 80 -i -t ubuntu /bin/bash
-docker run -p 8080:80 -i -t ubuntu /bin/bash
-docker run -p 0.0.0.0::80 -i -t ubuntu /bin/bash
-docker run -p 0.0.0.0:8080:80 -i -t ubuntu /bin/bash
+```bash
+$ docker run -p 80 -i -t ubuntu /bin/bash
+$ docker run -p 8080:80 -i -t ubuntu /bin/bash
+$ docker run -p 0.0.0.0::80 -i -t ubuntu /bin/bash
+$ docker run -p 0.0.0.0:8080:80 -i -t ubuntu /bin/bash
 ```
 另外在容器上也是可以看到对应的端口是否被docker容器监听
-```
-netstat -tunlp
+```bash
+$ netstat -tunlp
+
 Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
 tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      778/sshd
 tcp6       0      0 :::22                   :::*                    LISTEN      778/sshd
@@ -222,9 +223,9 @@ tcp6       0      0 :::22                   :::*                    LISTEN      
 如果宿主机没有开启 ip 转发功能，会导致外部网络访问宿主机对应端口时没能转发到 Docker Container 所对应的端口上.
 
 如果存在这种情况,则说明宿主机的这些端口对外是关闭的,则需要我们手动去打开.
-```
-iptables -A INPUT -p tcp --dport [8080] -j ACCEPT
-service iptables save
+```bash
+$ iptables -A INPUT -p tcp --dport [8080] -j ACCEPT
+$ service iptables save
 ```
 
 ### docker 多端口映射多卷映射
@@ -233,8 +234,8 @@ service iptables save
 -p=[]portdirection
 这都意味着这个flag可以多次出现，所以此处可以多次指定端口映射规则。
 
-```
-docker run -d -p 80:80 -p 22:22 -it [CONTAINERID]
+```bash
+$ docker run -d -p 80:80 -p 22:22 -it [CONTAINERID]
 ```
 
 
@@ -272,70 +273,70 @@ See 'docker run --help'.
 
 ## Docker 和宿主机中相互传递文件
 ### 根据docker中的container的名字传送
-```
+```bash
 # Container -> 宿主机
-docker cp [OPTIONS] <CONTAINER:SRC_PATH> <DEST_PATH>
+$ docker cp [OPTIONS] <CONTAINER:SRC_PATH> <DEST_PATH>
 
 # 宿主机 -> Container
-docker cp [OPTIONS] <SRC_PATH> <CONTAINER:DEST_PATH>
+$ docker cp [OPTIONS] <SRC_PATH> <CONTAINER:DEST_PATH>
 ```
 示例
 将宿主机中 /File_kk目录 拷贝到Container 3000202323dcf 的/home/work目录下.
-```
-docker cp File_kk 3000202323dcf:/home/cloude
+```bash
+$ docker cp File_kk 3000202323dcf:/home/cloude
 ```
 将Container 3000202323dcf 的/home/work/File_kk目录 拷贝到宿主机中 /work目录下
-```
-docker cp 3000202323dcf:/home/cloude/File_kk /work
+```bash
+$ docker cp 3000202323dcf:/home/cloude/File_kk /work
 ```
 ### 通过scp传送
 如果Container开启ssh服务,则可以通过指定的ssh端口向Container中传送文件,开启ssh服务就可以类似服务器之间传送文件一样.
-```
-scp -P <port> <SRC_PATH> <USER_NAME>@<IP>:<DEST_PATH>
+```bash
+$ scp -P <port> <SRC_PATH> <USER_NAME>@<IP>:<DEST_PATH>
 
 # 注,传输文件和文件目录参照scp规则
 ```
 
 示例
 假设Container开启了ssh服务,并且与宿主机的端口映射为10022, 现在将jerry.zip复制到Container的/home/jerry/workshop/work
-```
-scp -P 10022 jerry.zip jerry@192.168.79.1:/home/jerry/workshop/work
+```bash
+$ scp -P 10022 jerry.zip jerry@192.168.79.1:/home/jerry/workshop/work
 ```
 
 
 ## Docker开启ssh服务
 ### 修改root密码,安装openssh服务
-```
-apt-get update
-apt-get install vim
-apt-get install openssh-server
-apt-get net-tools
+```bash
+$ apt-get update
+$ apt-get install vim
+$ apt-get install openssh-server
+$ apt-get net-tools
 ```
 ### 修改配置文件
 安装成功之后,修改容器的配置文件,使得可以直接使用root登陆
-```
-vim  /etc/ssh/sshd_config
+```bash
+$ vim  /etc/ssh/sshd_config
 ```
 - 在配置文件中找到```#PermitRootLogin prohibit-password```,修改成```PermitRootLogin yes```
 - 将```UsePAM yes```, 修改成```UsePAM no```
-```
-vi /etc/ssh/sshd_config 
-PermitRootLogin yes  #允许root用户ssh登录
-UsePAM no            ##禁用PAM
+```bash
+$ vi /etc/ssh/sshd_config 
+$ PermitRootLogin yes  #允许root用户ssh登录
+$ UsePAM no            ##禁用PAM
 ```
 **注, 如果容器内配置文件不修改,容器可能会拒绝访问,卡在lastlogin提示, 同时还要保证宿主机开启了需要监听的端口**
 ### 启动ssh服务
-```
-service ssh start
+```bash
+$ service ssh start
 ```
 我们也可以在启动docker的时候同时启动ssh
-```
-docker run -d -it -p 10022:22 <IMAGE_NAME> /usr/sbin/sshd -D
+```bash
+$ docker run -d -it -p 10022:22 <IMAGE_NAME> /usr/sbin/sshd -D
 ```
 ### 登录测试
 在宿主机或者其他机器上输入对应的username和ip地址,测试是否可以连接
-```
-ssh -p 10022 <username>@<ip>
+```bash
+$ ssh -p 10022 <username>@<ip>
 ```
 ## Docker镜像跨服务器迁移
 Docker的备份方式有export和save两种。
@@ -343,36 +344,36 @@ Docker的备份方式有export和save两种。
 1)、镜像保存
 
 登陆到已经部署好镜像的服务器上面，执行以下命令进行导出
-```
-docker save <IMAGE_ID前三位> > <IMAGE_NAME>.tar
+```bash
+$ docker save <IMAGE_ID前三位> > <IMAGE_NAME>.tar
 ```
 or
-```
-docker save -o ./<FILE NAME>.tar <EPOSITORY:TAG>
+```bash
+$ docker save -o ./<FILE NAME>.tar <EPOSITORY:TAG>
 ```
 2)、镜像导入
 
 将刚才导出的镜像上传到你要导入的那台服务器上(使用scp), 执行以下命令镜像导入
-```
-docker load < <IMAGE_NAME>.tar
+```bash
+$ docker load < <IMAGE_NAME>.tar
 ```
 使用```docker images```查看你会发现load的镜像的TREPOSITORY和TAG为空, 可以使用下面的命令
-```
-docker tag <IMAGE_ID前三位> <REPOSITORY>:<TAG>
+```bash
+$ docker tag <IMAGE_ID前三位> <REPOSITORY>:<TAG>
 ```
 对新load的image重新命名
 
 ### 2、export
 1) 导出容器
-```
-docker ps -a
-docker export <CONTAINER ID> > <FILE NMAE>.tar
+```bash
+$ docker ps -a
+$ docker export <CONTAINER ID> > <FILE NMAE>.tar
 ```
 2) 导入到指定的服务器
 
 同样需要将刚才的导出的容器备份上传到目标服务器上，执行下面的命令
-```
-cat <FILE NMAE>.tar |docker import - <REPOSITORY>:<TAG>
+```bash
+$ cat <FILE NMAE>.tar |docker import - <REPOSITORY>:<TAG>
 ```
 ***注意：运行导入的镜像的时候必须带command(/bin/bash)，否则启动报如下错误***
 
@@ -387,7 +388,8 @@ cat <FILE NMAE>.tar |docker import - <REPOSITORY>:<TAG>
 
 # centos下安装docker
 在使用```yum -y install docker```和```yum -y install docker-io````失败之后使用
-```
+
+```bash
 yum install https://get.docker.com/rpm/1.7.1/centos-6/RPMS/x86_64/docker-engine-1.7.1-1.el6.x86_64.rpm
 ```
 安装成功, ```service docker start```启动dokcer即可.
@@ -396,17 +398,22 @@ yum install https://get.docker.com/rpm/1.7.1/centos-6/RPMS/x86_64/docker-engine-
 
 #### 方法 1
 安装最新版
-// 1. 安装必要的一些系统工具
-sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+1) 安装必要的一些系统工具
+```bash
+$ sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+```
+2) 添加软件源信息
+```bash
+$ sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+```
 
-// 2. 添加软件源信息
-sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
-
-// 3. 更新并安装 Docker-CE
+3) 更新并安装 Docker-CE
+```bash
 sudo yum makecache fast
 sudo yum -y install docker-ce
-出现的问题,截图
 ```
+出现的问题,截图如下
+```bash
 Public key for docker-ce-cli-18.09.7-3.el7.x86_64.rpm is not installed
 (1/3): docker-ce-cli-18.09.7-3.el7.x86_64.rpm                                                       |  14 MB  00:00:09
 (2/3): docker-ce-18.09.7-3.el7.x86_64.rpm                                                           |  19 MB  00:00:02
@@ -422,7 +429,7 @@ Error downloading packages:
   containerd.io-1.2.6-3.3.el7.x86_64: [Errno 256] No more mirrors to try.
 ```
 网上的解决方法:```yum clean all```后使用```yun install docker-ce```, 未成功, 错误截图
-```
+```bash
 Error downloading packages:
   2:container-selinux-2.99-1.el7_6.noarch: [Errno 256] No more mirrors to try.
   3:docker-ce-18.09.7-3.el7.x86_64: [Errno 256] No more mirrors to try.
@@ -437,13 +444,13 @@ sudo service docker start
 - SET UP THE REPOSITORY
   
 Install required packages. yum-utils provides the yum-config-manager utility, and device-mapper-persistent-data and lvm2 are required by the devicemapper storage driver.
-```
+```bash
 $ sudo yum install -y yum-utils \
   device-mapper-persistent-data \
   lvm2
 ```
 Use the following command to set up the stable repository.
-```
+```bash
 $ sudo yum-config-manager \
     --add-repo \
     https://download.docker.com/linux/centos/docker-ce.repo
@@ -451,45 +458,45 @@ $ sudo yum-config-manager \
 Optional: Enable the nightly or test repositories.
 
 These repositories are included in the docker.repo file above but are disabled by default. You can enable them alongside the stable repository. The following command enables the nightly repository.
-```
+```bash
 $ sudo yum-config-manager --enable docker-ce-nightly
 ```
 To enable the test channel, run the following command:
-```
+```bash
 $ sudo yum-config-manager --enable docker-ce-test
 ```
 You can disable the nightly or test repository by running the yum-config-manager command with the --disable flag. To re-enable it, use the --enable flag. The following command disables the nightly repository.
-```
+```bash
 $ sudo yum-config-manager --disable docker-ce-nightly
 ```
 Learn about nightly and test channels.
 
 后面运行的过程中,系统提示会出现下面的提示
 
-```
+```bash
 $ sudo yum-config-manager --save --setopt=docker-ce-nightly.skip_if_unavailable=true
 ```
 
 - INSTALL DOCKER CE
   
 Install the latest version of Docker CE and containerd, or go to the next step to install a specific version:
-```
+```bash
 $ sudo yum install docker-ce docker-ce-cli containerd.io
 ```
 ***目前还是没有安装成功***
 失败截图:
-```
+```bash
 Error downloading packages:
   1:docker-ce-cli-19.03.0-2.3.rc3.el7.x86_64: [Errno 256] No more mirrors to try.
   containerd.io-1.2.6-3.3.el7.x86_64: [Errno 256] No more mirrors to try.
 ```
-目前能找到的原因应该是网络的原因, yum安装失败的主要原因都是网络问题.
+目前能找到的原因应该是网络的原因, yum安装失败的大部分原因都是网络问题.
 
 第二天早上来运行安装命令, 尝试了两遍之后, 运行成功
 
 第一遍:
-```
-[root@localhost psdz]# sudo yum install docker-ce docker-ce-cli containerd.io
+```bash
+[root@localhost psdz]$ sudo yum install docker-ce docker-ce-cli containerd.io
 Loaded plugins: fastestmirror, langpacks
 Repository base is listed more than once in the configuration
 Repository updates is listed more than once in the configuration
@@ -570,8 +577,8 @@ GPG key retrieval failed: [Errno 14] curl#7 - "Failed to connect to 2600:9000:20
 ```
 
 第二遍:
-```
-[root@localhost psdz]# sudo yum install docker-ce docker-ce-cli containerd.io
+```bash
+[root@localhost psdz]$ sudo yum install docker-ce docker-ce-cli containerd.io
 Loaded plugins: fastestmirror, langpacks
 Repository base is listed more than once in the configuration
 Repository updates is listed more than once in the configuration
@@ -641,24 +648,22 @@ Complete!
 ```
 
 # centos下安装nvidia-docker2
-```
+```bash
 # If you have nvidia-docker 1.0 installed: we need to remove it and all existing GPU containers
-docker volume ls -q -f driver=nvidia-docker | xargs -r -I{} -n1 docker ps -q -a -f volume={} | xargs -r docker rm -f
+$ docker volume ls -q -f driver=nvidia-docker | xargs -r -I{} -n1 docker ps -q -a -f volume={} | xargs -r docker rm -f
 sudo yum remove nvidia-docker
 
 # Add the package repositories
-distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
-curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.repo | \
+$ distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+$ curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.repo | \
   sudo tee /etc/yum.repos.d/nvidia-docker.repo
 
 # Install nvidia-docker2 and reload the Docker daemon configuration
-sudo yum install -y nvidia-docker2
-sudo pkill -SIGHUP dockerd
-
+$ sudo yum install -y nvidia-docker2
+$ sudo pkill -SIGHUP dockerd
 ```
 安装过程中, 系统会出现以下提示
-
-```
+```bash
  One of the configured repositories failed (nvidia-container-runtime),
  and yum doesn't have enough cached data to continue. At this point the only
  safe thing yum can do is fail. There are a few ways to work "fix" this:
@@ -689,10 +694,9 @@ sudo pkill -SIGHUP dockerd
 
             yum-config-manager --save --setopt=nvidia-container-runtime.skip_if_unavailable=true
 ```
-```
-
+```bash
 # Test nvidia-smi with the latest official CUDA image
-docker run --runtime=nvidia --rm nvidia/cuda:9.0-base nvidia-smi
+$ docker run --runtime=nvidia --rm nvidia/cuda:9.0-base nvidia-smi
 ```
 
 

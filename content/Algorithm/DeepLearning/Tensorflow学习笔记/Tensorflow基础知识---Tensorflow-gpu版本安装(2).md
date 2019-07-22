@@ -172,7 +172,7 @@ export LD_LIBRARY_PATH
 # 三、安装cudnn
 
 ## 1、cudnn 下载
-cudnn的下载需要注册之后才能下载。
+cudnn的下载需要注册之后才能下载。[官网下载地址](https://developer.nvidia.com/rdp/cudnn-archive)
 
 在CUDA安装好之后，CUDNN安装相对比较容易，根据官网教程，首先从官网上下载四个文件。如下图所示：
 <center><img src="/wiki/static/images/tensorgpu/cudnndownload.png" alt="cudnn"/></center>
@@ -182,7 +182,7 @@ cudnn-9.0-linux-x64-v7.1.tar   # the cuDNN package
 
 libcudnn7_7.1.3.16-1+cuda9.0_amd64-2.deb   # runtime library
 
-libcudnn7-dev_7.1.3.16-1+cuda9.0_amd64-2.deb   # runtime library
+libcudnn7-dev_7.1.3.16-1+cuda9.0_amd64-2.deb   # developer library
 
 libcudnn7-doc_7.1.3.16-1+cuda9.0_amd64.deb   # the code samples and the cuDNN Library User Guide 
 ```
