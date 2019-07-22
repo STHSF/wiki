@@ -49,9 +49,13 @@
 <li><a href="#copy">COPY</a></li>
 <li><a href="#add">ADD</a></li>
 <li><a href="#expose">EXPOSE</a></li>
+<li><a href="#user">USER</a></li>
 <li><a href="#workdir">WORKDIR</a></li>
 <li><a href="#env">ENV</a></li>
 <li><a href="#volume">VOLUME</a></li>
+<li><a href="#cmd">CMD</a></li>
+<li><a href="#entrypoint">ENTRYPOINT</a></li>
+<li><a href="#demo">简单的demo</a></li>
 </ul>
 </li>
 </ul>
@@ -153,6 +157,12 @@
 </pre></div>
 
 
+<h3 id="user">USER</h3>
+<p>指定该镜像以什么样的用户去执行, 如:</p>
+<div class="hlcode"><pre><span class="n">USER</span> <span class="n">mongo</span>
+</pre></div>
+
+
 <h3 id="workdir">WORKDIR</h3>
 <p>在构建镜像时, 指定工作目录, 之后的所有命令都是基于此工作目录, 如果不存在则会自动创建, 如:</p>
 <div class="hlcode"><pre><span class="n">WORKDIR</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">work</span>
@@ -177,6 +187,98 @@
 </pre></div>
 
 
+<h3 id="cmd">CMD</h3>
+<p>容器启动时需要执行的命令, 如</p>
+<div class="hlcode"><pre><span class="n">CMD</span> <span class="n">bin</span><span class="o">/</span><span class="n">bash</span>
+</pre></div>
+
+
+<p>同样可以使用exec的写法,</p>
+<div class="hlcode"><pre><span class="n">CMD</span> <span class="p">[</span><span class="s">&quot;bin/bash&quot;</span><span class="p">]</span>
+</pre></div>
+
+
+<p><strong>当有多个CMD时, 只有最后一个生效</strong></p>
+<h3 id="entrypoint">ENTRYPOINT</h3>
+<p>与CMD的用法一样, 但是CMD和ENTRYPOINT同样作为容器启动时执行的命令,会有以下的区别:<br />
+- CMD的命令会被docker run 命令所覆盖, 但是ECTRYPOINT不会. 而是把docker run 后面的命令当作ENTRYPOINT执行命令的参数</p>
+<p>如 DOckerfile中有:<br />
+<code>ENTRYPOINT ["/usr/sbin/nginx"]</code><br />
+  然后通过启动build之后的容器<br />
+<code>docker run -it &lt;image&gt; -g "daemon off"</code><br />
+  此时, <code>-g "daemon off"</code>会被当作参数传递给ENTRYPOINT, 最后执行的命令变成了<br />
+<code>/usr/sbin/nginx -g "daemon off"</code><br />
+- CMD和ENTRYPOINT同时存在时, CMD的指令会变成ENTRYPOINT的参数，并且此CMD提供的参数会被 docker run 后面的命令覆盖，如<br />
+<code>ENTRYPOINT ["echo", "hello", "i am"]
+  CMD ["docker]</code><br />
+  之后启动构建之后的容器</p>
+<ul>
+<li>使用<code>docker run -it &lt;image&gt;</code><br />
+    输出 hello i am docker</li>
+<li>使用<code>docker run -it &lt;iamge&gt; "word"</code><br />
+    输出<code>hello i am word</code></li>
+</ul>
+<h3 id="demo">简单的demo</h3>
+<div class="hlcode"><pre><span class="n">FROM</span> <span class="n">ubuntu</span><span class="o">:</span><span class="mf">16.04</span>
+<span class="n">MAINTAINER</span> <span class="n">jerry</span> <span class="n">jerry</span><span class="err">@</span><span class="mf">163.</span><span class="n">com</span>
+
+<span class="n">WORKDIR</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">docker</span>
+<span class="n">EXPOSE</span> <span class="mi">22</span>
+<span class="n">RUN</span> <span class="n">groupadd</span> <span class="o">-</span><span class="n">r</span> <span class="n">jerry</span> <span class="o">&amp;&amp;</span> <span class="n">useradd</span> <span class="o">-</span><span class="n">r</span> <span class="o">-</span><span class="n">g</span> <span class="n">jerry</span> <span class="n">jerry</span>
+<span class="n">RUN</span> <span class="n">mkdir</span> <span class="p">.</span><span class="o">/</span><span class="n">src</span>
+<span class="n">USER</span> <span class="n">jerry</span>
+
+<span class="n">ENTRYPOINT</span> <span class="p">[</span><span class="s">&quot;/bin/bash&quot;</span><span class="p">]</span>
+</pre></div>
+
+
+<p>build过程</p>
+<div class="hlcode"><pre><span class="n">jerry</span><span class="err">@</span><span class="n">jerry</span><span class="o">:~/</span><span class="n">workshop</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="n">docker_test</span><span class="err">$</span> <span class="n">sudo</span> <span class="n">docker</span> <span class="n">build</span> <span class="o">-</span><span class="n">t</span> <span class="n">dockertest</span><span class="o">:</span><span class="mf">1.0</span> <span class="p">.</span>
+<span class="p">[</span><span class="n">sudo</span><span class="p">]</span> <span class="n">password</span> <span class="k">for</span> <span class="n">jerry</span><span class="o">:</span>
+<span class="n">Sending</span> <span class="n">build</span> <span class="n">context</span> <span class="n">to</span> <span class="n">Docker</span> <span class="n">daemon</span>  <span class="mf">2.048</span><span class="n">kB</span>
+<span class="n">Step</span> <span class="mi">1</span><span class="o">/</span><span class="mi">8</span> <span class="o">:</span> <span class="n">FROM</span> <span class="n">ubuntu</span><span class="o">:</span><span class="mf">16.04</span>
+ <span class="o">---&gt;</span> <span class="mf">7e87</span><span class="n">e2b3bf7a</span>
+<span class="n">Step</span> <span class="mi">2</span><span class="o">/</span><span class="mi">8</span> <span class="o">:</span> <span class="n">MAINTAINER</span> <span class="n">jerry</span> <span class="n">jerry</span><span class="err">@</span><span class="mf">163.</span><span class="n">com</span>
+ <span class="o">---&gt;</span> <span class="n">Running</span> <span class="n">in</span> <span class="mi">5</span><span class="n">b2c4c331bc9</span>
+<span class="n">Removing</span> <span class="n">intermediate</span> <span class="n">container</span> <span class="mi">5</span><span class="n">b2c4c331bc9</span>
+ <span class="o">---&gt;</span> <span class="mi">73189</span><span class="n">b8ceeec</span>
+<span class="n">Step</span> <span class="mi">3</span><span class="o">/</span><span class="mi">8</span> <span class="o">:</span> <span class="n">WORKDIR</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">docker</span>
+ <span class="o">---&gt;</span> <span class="n">Running</span> <span class="n">in</span> <span class="mi">8</span><span class="n">ddfcbe19c73</span>
+<span class="n">Removing</span> <span class="n">intermediate</span> <span class="n">container</span> <span class="mi">8</span><span class="n">ddfcbe19c73</span>
+ <span class="o">---&gt;</span> <span class="mi">6</span><span class="n">a49fe822d3f</span>
+<span class="n">Step</span> <span class="mi">4</span><span class="o">/</span><span class="mi">8</span> <span class="o">:</span> <span class="n">EXPOSE</span> <span class="mi">22</span>
+ <span class="o">---&gt;</span> <span class="n">Running</span> <span class="n">in</span> <span class="n">b481784335cc</span>
+<span class="n">Removing</span> <span class="n">intermediate</span> <span class="n">container</span> <span class="n">b481784335cc</span>
+ <span class="o">---&gt;</span> <span class="mi">9</span><span class="n">b990c863e69</span>
+<span class="n">Step</span> <span class="mi">5</span><span class="o">/</span><span class="mi">8</span> <span class="o">:</span> <span class="n">RUN</span> <span class="n">groupadd</span> <span class="o">-</span><span class="n">r</span> <span class="n">jerry</span> <span class="o">&amp;&amp;</span> <span class="n">useradd</span> <span class="o">-</span><span class="n">r</span> <span class="o">-</span><span class="n">g</span> <span class="n">jerry</span> <span class="n">jerry</span>
+ <span class="o">---&gt;</span> <span class="n">Running</span> <span class="n">in</span> <span class="n">c0a84adf513f</span>
+<span class="n">Removing</span> <span class="n">intermediate</span> <span class="n">container</span> <span class="n">c0a84adf513f</span>
+ <span class="o">---&gt;</span> <span class="mi">8</span><span class="n">a8ea468875a</span>
+<span class="n">Step</span> <span class="mi">6</span><span class="o">/</span><span class="mi">8</span> <span class="o">:</span> <span class="n">RUN</span> <span class="n">mkdir</span> <span class="p">.</span><span class="o">/</span><span class="n">src</span>
+ <span class="o">---&gt;</span> <span class="n">Running</span> <span class="n">in</span> <span class="n">ebde8480c3c6</span>
+<span class="n">Removing</span> <span class="n">intermediate</span> <span class="n">container</span> <span class="n">ebde8480c3c6</span>
+ <span class="o">---&gt;</span> <span class="mf">47f</span><span class="mi">29299</span><span class="n">b140</span>
+<span class="n">Step</span> <span class="mi">7</span><span class="o">/</span><span class="mi">8</span> <span class="o">:</span> <span class="n">USER</span> <span class="n">jerry</span>
+ <span class="o">---&gt;</span> <span class="n">Running</span> <span class="n">in</span> <span class="n">cb74c81ea036</span>
+<span class="n">Removing</span> <span class="n">intermediate</span> <span class="n">container</span> <span class="n">cb74c81ea036</span>
+ <span class="o">---&gt;</span> <span class="mi">24</span><span class="n">d938766125</span>
+<span class="n">Step</span> <span class="mi">8</span><span class="o">/</span><span class="mi">8</span> <span class="o">:</span> <span class="n">ENTRYPOINT</span> <span class="p">[</span><span class="s">&quot;/bin/bash&quot;</span><span class="p">]</span>
+ <span class="o">---&gt;</span> <span class="n">Running</span> <span class="n">in</span> <span class="mi">17</span><span class="n">c9e3dca85d</span>
+<span class="n">Removing</span> <span class="n">intermediate</span> <span class="n">container</span> <span class="mi">17</span><span class="n">c9e3dca85d</span>
+ <span class="o">---&gt;</span> <span class="n">bd07ab03e9d9</span>
+<span class="n">Successfully</span> <span class="n">built</span> <span class="n">bd07ab03e9d9</span>
+<span class="n">Successfully</span> <span class="n">tagged</span> <span class="n">dockertest</span><span class="o">:</span><span class="mf">1.0</span>
+</pre></div>
+
+
+<p>进入docker之后,注意一些变化</p>
+<div class="hlcode"><pre>root@jerry:/home/jerry/workshop/projects/docker_test# docker run -it ba0
+jerry@051e0e29e94f:/usr/local/docker<span class="nv">$ </span>ls
+src
+</pre></div>
+
+
+<p>注意, docekr的用户名和RUN产生的结果.</p>
 <h1 id="1_1">1、基础镜像</h1>
 <p>基础镜像是镜像中运行的项目或者启动的一些服务，都要在一个基础镜像之上才能运行这些服务，比如一个django项目或者mysql数据库等，都要在Linux操作系统之上来运行，所以打包我们自己的项目时，必须要有个基础镜像来当作我们项目运行的基础环境。</p>
 <p>基础镜像一般为某个linux操作系统, 比如centos, ubuntu等. 里面可以包含一些通用的服务, 比如python版本,等等</p>
