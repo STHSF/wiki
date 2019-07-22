@@ -252,7 +252,7 @@ docker build -t <REPOSITORY>:<TAG>
 # 4、项目镜像
 基础镜像中包含了通用的一些信息, 这些信息大部分项目中都可能会用到, 或者需要跟某些正式环境中相互一致的信息, 而项目镜像中则需要根据不同项目的需求安装自己的库.比如某个项目需要使用到http和tcp服务等. 同时还可以把自己的项目代码通过Dockerfile复制到容器内, 熟练使用将会非常方便的部署Docker
 
-项目镜像的Dockerfile：
+## 4.1 项目镜像的Dockerfile：
 ```
 #基础镜像
 FROM ubuntu_base:1.2
@@ -273,8 +273,6 @@ EXPOSE 8989
 #启动项目
 CMD ["python", "/opt/workshop/jerry/src/hello.py"]
 ```
-
-
 
 # 5、容器管理
 
