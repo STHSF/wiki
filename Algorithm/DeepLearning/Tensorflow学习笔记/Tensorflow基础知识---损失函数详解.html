@@ -43,10 +43,11 @@
   <div class="toc"><span class="toctitle">Table of Contents</span><ul>
 <li><a href="#_1">写在前面</a></li>
 <li><a href="#loss-function">Loss function</a></li>
+<li><a href="#_2">目标函数、损失函数、代价函数之间的关系与区别</a></li>
 <li><a href="#0-1">0-1损失函数和绝对值损失</a></li>
 <li><a href="#log">log对数损失函数</a></li>
-<li><a href="#_2">平方损失函数</a></li>
-<li><a href="#_3">指数损失函数</a></li>
+<li><a href="#_3">平方损失函数</a></li>
+<li><a href="#_4">指数损失函数</a></li>
 <li><a href="#hinge">Hinge损失函数</a></li>
 <li><a href="#tensorflowloss-function">Tensorflow中的loss function实现</a><ul>
 <li><a href="#cross_entropy">cross_entropy交叉熵</a></li>
@@ -69,13 +70,19 @@
 <li><a href="#legacy_seq2seq">legacy_seq2seq</a></li>
 </ul>
 </li>
-<li><a href="#_4">参考文献</a></li>
+<li><a href="#_5">参考文献</a></li>
 </ul>
 </div>
 <h1 id="_1">写在前面</h1>
 <p>本文先介绍loss function的基本概念，然后主要归纳一下tensorflow中的loss_function.</p>
 <h1 id="loss-function">Loss function</h1>
 <p>在机器学习中，loss function（损失函数）也称cost function（代价函数），是用来计算预测值和真实值的差距。然后以loss function的最小值作为目标函数进行反向传播迭代计算模型中的参数，这个让loss function的值不断变小的过程称为优化。</p>
+<h1 id="_2">目标函数、损失函数、代价函数之间的关系与区别</h1>
+<p>有的书本上将其混为一类, 认为三者指代同一类. 但是实际上他们有一些差别的<br />
+- 损失函数(loss funciton): 单体<br />
+- 代价函数(cost function): 总体<br />
+- 目标函数(object function): 更泛化的术语</p>
+<p>从整体上来讲, 损失函数是代价函数的一部分, 代价函数是目标函数其中的一种. 详细的讲, 损失函数是针对单个训练样本而言的, 也就是算一个样本的误差. 代价函数是定义在整个训练集上的, 就是所有训练样本误差总和的平均, 也就是损失函数总和的平均. 但是, 有没有平均对后面参数的求解没有什么影响.</p>
 <p>通常机器学习的每个算法中都会有一个目标函数, 算法的求解过程是通过对这个目标函数优化的过程, 损失函数越好, 通常模型的性能越好, 不同的算法使用的损失函数不一样.</p>
 <p>损失函数分为<strong>经验风险损失函数</strong>和<strong>结构风险损失函数</strong>, 经验风险损失函数指预测结果和实际结果的差别, 结构风险损失函数是指经验风险损失函数加上正则项, 通常表示如下:</p>
 <p>设总有$(N)$个样本的样本集为$((X,Y)=(x_i, y_i))$,那么总的损失函数为</p>
@@ -108,13 +115,13 @@ $$</p>
 L(Y, f(X)) = -log(P(Y|X))<br />
 $$</p>
 <p>在极大似然估计中, 通常都是先取对数再求导, 再找极值点, 这样做方便计算极大似然估计, 损失函数$L(Y, P(Y|X))$是指样本X在标签Y的情况下, 使得概率P(Y|X)达到最大值(<strong>利用已知的样本分布, 找到最大概率导致这种分布的参数值</strong>)</p>
-<h1 id="_2">平方损失函数</h1>
+<h1 id="_3">平方损失函数</h1>
 <p>最小二乘法是线性回归的一种方法, 他将回归问题转化为凸优化的问题, 最小二乘法的基本原则是, 最优拟合曲线应该使得所有点到回归直线的距离之和最小, 通常用欧式距离进行距离的度量.</p>
 <p>平方损失函数为:</p>
 <p>$$<br />
 L(Y, f(X)) = \sum_N{(Y-f(X))^2}<br />
 $$</p>
-<h1 id="_3">指数损失函数</h1>
+<h1 id="_4">指数损失函数</h1>
 <p>AdaBoost就是以指数函数为损失函数的.<br />
 损失函数的标准形式:</p>
 <p>$$<br />
@@ -264,18 +271,48 @@ sigmoid_cross_entropy_with_logits是TensorFlow最早实现的交叉熵算法。�
 <p>tf.nn.weighted_cross_entropy_with_logits(logits, targets, pos_weight, name=None)  <br />
 weighted_sigmoid_cross_entropy_with_logits是sigmoid_cross_entropy_with_logits的拓展版，多支持一个pos_weight参数，在传统基于sigmoid的交叉熵算法上，正样本算出的值乘以某个系数。</p>
 <h2 id="log_softmax">log_softmax</h2>
-<p>tf.nn.log_softmax(logits, name=None)    </p>
+<div class="hlcode"><pre><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">log_softmax</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>    
+</pre></div>
+
+
 <h1 id="sampled-loss-functions">sampled loss functions</h1>
 <h2 id="nce_loss">nce_loss</h2>
-<p>tf.nn.nce_loss(weights, biases, inputs, labels, num_sampled,num_classes, num_true=1, sampled_values=None,remove_accidental_hits=False, partition_strategy=’mod’,name=’nce_loss’)</p>
+<div class="hlcode"><pre><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">nce_loss</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> 
+               <span class="n">biases</span><span class="p">,</span> 
+               <span class="n">inputs</span><span class="p">,</span> 
+               <span class="n">labels</span><span class="p">,</span> 
+               <span class="n">num_sampled</span><span class="p">,</span>
+               <span class="n">num_classes</span><span class="p">,</span> 
+               <span class="n">num_true</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> 
+               <span class="n">sampled_values</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+               <span class="n">remove_accidental_hits</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> 
+               <span class="n">partition_strategy</span><span class="o">=</span><span class="err">’</span><span class="n">mod</span><span class="err">’</span><span class="p">,</span>
+               <span class="n">name</span><span class="o">=</span><span class="err">’</span><span class="n">nce_loss</span><span class="err">’</span><span class="p">)</span>
+</pre></div>
+
+
 <h2 id="sampled_softmax_loss">sampled_softmax_loss</h2>
-<p>tf.nn.sampled_softmax_loss(weights, biases, inputs, labels, num_sampled, num_classes, num_true=1, sampled_values=None,remove_accidental_hits=True, partition_strategy=’mod’, name=’sampled_softmax_loss’)</p>
+<div class="hlcode"><pre><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">sampled_softmax_loss</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span>
+                          <span class="n">biases</span><span class="p">,</span>
+                          <span class="n">inputs</span><span class="p">,</span> 
+                          <span class="n">labels</span><span class="p">,</span> 
+                          <span class="n">num_sampled</span><span class="p">,</span> 
+                          <span class="n">num_classes</span><span class="p">,</span> 
+                          <span class="n">num_true</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> 
+                          <span class="n">sampled_values</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                          <span class="n">remove_accidental_hits</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> 
+                          <span class="n">partition_strategy</span><span class="o">=</span><span class="err">’</span><span class="n">mod</span><span class="err">’</span><span class="p">,</span> 
+                          <span class="n">name</span><span class="o">=</span><span class="err">’</span><span class="n">sampled_softmax_loss</span><span class="err">’</span><span class="p">)</span>
+</pre></div>
+
+
 <h1 id="sequence-to-sequenceloss-function">sequence to sequence中的loss function</h1>
 <h2 id="sampled_softmax_loss_1">sampled_softmax_loss</h2>
 <p>sequence_loss_by_example(logits, targets, weights)</p>
 <h2 id="legacy_seq2seq">legacy_seq2seq</h2>
 <p>tf.contrib.legacy_seq2seq.sequence_loss_by_example</p>
-<h1 id="_4">参考文献</h1>
+<h1 id="_5">参考文献</h1>
+<p><a href="https://stats.stackexchange.com/questions/179026/objective-function-cost-function-loss-function-are-they-the-same-thing/179027">Objective function, cost function, loss function: are they the same thing?</a></p>
 <p><a href="http://blog.csdn.net/marsjhao/article/details/72630147">1</a><br />
 <a href="http://blog.csdn.net/u012436149/article/details/52874718">tensorflow学习笔记（三）：损失函数</a><br />
 <a href="http://blog.csdn.net/appleml/article/details/54017873">sequence_loss_by_example(logits, targets, weights）</a></p>
