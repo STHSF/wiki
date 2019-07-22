@@ -55,6 +55,11 @@ EXPOSE 22
 EXPOSE 8080
 EXPOSE 8989
 ```
+### USER
+指定该镜像以什么样的用户去执行, 如:
+```
+USER mongo
+```
 ### WORKDIR
 在构建镜像时, 指定工作目录, 之后的所有命令都是基于此工作目录, 如果不存在则会自动创建, 如:
 ```
@@ -76,7 +81,102 @@ RUN $SCRIPT_DIR/run.sh
 # VOLUME 主机目录 容器目录
 VOLUME data/db /data/onfigdb
 ```
+### CMD
+容器启动时需要执行的命令, 如
+```
+CMD bin/bash
+```
+同样可以使用exec的写法,
+```
+CMD ["bin/bash"]
+```
+**当有多个CMD时, 只有最后一个生效**
+### ENTRYPOINT
+与CMD的用法一样, 但是CMD和ENTRYPOINT同样作为容器启动时执行的命令,会有以下的区别:
+- CMD的命令会被docker run 命令所覆盖, 但是ECTRYPOINT不会. 而是把docker run 后面的命令当作ENTRYPOINT执行命令的参数
+  
+  如 DOckerfile中有:
+  ```
+  ENTRYPOINT ["/usr/sbin/nginx"]
+  ```
+  然后通过启动build之后的容器
+  ```
+  docker run -it <image> -g "daemon off"
+  ```
+  此时, ```-g "daemon off"```会被当作参数传递给ENTRYPOINT, 最后执行的命令变成了
+  ```
+  /usr/sbin/nginx -g "daemon off"
+  ```
+- CMD和ENTRYPOINT同时存在时, CMD的指令会变成ENTRYPOINT的参数，并且此CMD提供的参数会被 docker run 后面的命令覆盖，如
+  ```
+  ENTRYPOINT ["echo", "hello", "i am"]
+  CMD ["docker]
+  ```
+  之后启动构建之后的容器
+  
+  - 使用```docker run -it <image>```
+    输出 hello i am docker
+  - 使用```docker run -it <iamge> "word"```
+    输出```hello i am word```
 
+### 简单的demo
+```
+FROM ubuntu:16.04
+MAINTAINER jerry jerry@163.com
+
+WORKDIR /usr/local/docker
+EXPOSE 22
+RUN groupadd -r jerry && useradd -r -g jerry jerry
+RUN mkdir ./src
+USER jerry
+
+ENTRYPOINT ["/bin/bash"]
+```
+build过程
+```
+jerry@jerry:~/workshop/projects/docker_test$ sudo docker build -t dockertest:1.0 .
+[sudo] password for jerry:
+Sending build context to Docker daemon  2.048kB
+Step 1/8 : FROM ubuntu:16.04
+ ---> 7e87e2b3bf7a
+Step 2/8 : MAINTAINER jerry jerry@163.com
+ ---> Running in 5b2c4c331bc9
+Removing intermediate container 5b2c4c331bc9
+ ---> 73189b8ceeec
+Step 3/8 : WORKDIR /usr/local/docker
+ ---> Running in 8ddfcbe19c73
+Removing intermediate container 8ddfcbe19c73
+ ---> 6a49fe822d3f
+Step 4/8 : EXPOSE 22
+ ---> Running in b481784335cc
+Removing intermediate container b481784335cc
+ ---> 9b990c863e69
+Step 5/8 : RUN groupadd -r jerry && useradd -r -g jerry jerry
+ ---> Running in c0a84adf513f
+Removing intermediate container c0a84adf513f
+ ---> 8a8ea468875a
+Step 6/8 : RUN mkdir ./src
+ ---> Running in ebde8480c3c6
+Removing intermediate container ebde8480c3c6
+ ---> 47f29299b140
+Step 7/8 : USER jerry
+ ---> Running in cb74c81ea036
+Removing intermediate container cb74c81ea036
+ ---> 24d938766125
+Step 8/8 : ENTRYPOINT ["/bin/bash"]
+ ---> Running in 17c9e3dca85d
+Removing intermediate container 17c9e3dca85d
+ ---> bd07ab03e9d9
+Successfully built bd07ab03e9d9
+Successfully tagged dockertest:1.0
+```
+进入docker之后,注意一些变化
+```bash
+root@jerry:/home/jerry/workshop/projects/docker_test# docker run -it ba0
+jerry@051e0e29e94f:/usr/local/docker$ ls
+src
+```
+注意, docekr的用户名和RUN产生的结果.
 
 
 # 1、基础镜像
