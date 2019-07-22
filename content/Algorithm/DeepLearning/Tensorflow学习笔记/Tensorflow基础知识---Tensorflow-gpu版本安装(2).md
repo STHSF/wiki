@@ -335,11 +335,12 @@ NCCL的[官网下载地址](https://developer.nvidia.com/nccl/nccl-download)
 ### 安装
 官网也给出了安装[installation guide](https://docs.nvidia.com/deeplearning/sdk/nccl-install-guide/index.html)
 #### step 1
-```
+```bash
 dpkg -i nccl-repo-ubuntu1604-2.4.7-ga-cuda10.0_1-1_amd64.deb
 ```
+
 运行结果如下:
-```
+```bash
 Selecting previously unselected package nccl-repo-ubuntu1604-2.4.7-ga-cuda10.0.
 (Reading database ... 181960 files and directories currently installed.)
 Preparing to unpack nccl-repo-ubuntu1604-2.4.7-ga-cuda10.0_1-1_amd64.deb ...
@@ -351,11 +352,13 @@ To install the key, run this command:
 sudo apt-key add /var/nccl-repo-2.4.7-ga-cuda10.0/7fa2af80.pub
 ```
 结果中提示CUDA GPG key没有安装, 需要执行下面的命令, 按照提示进行安装, 会返回一个OK:
-```
+
+```bash
 apt-key add /var/nccl-repo-2.4.7-ga-cuda10.0/7fa2af80.pub
 ```
 然后重新安装, 运行结果如下:
-```
+
+```bash
 (Reading database ... 181970 files and directories currently installed.)
 Preparing to unpack nccl-repo-ubuntu1604-2.4.7-ga-cuda10.0_1-1_amd64.deb ...
 Unpacking nccl-repo-ubuntu1604-2.4.7-ga-cuda10.0 (1-1) over (1-1) ...
@@ -365,17 +368,19 @@ Setting up nccl-repo-ubuntu1604-2.4.7-ga-cuda10.0 (1-1) ...
 通过apt-get安装licnccl2, 如果需要使用NCCL编译程序, 还需要安装libnccl-dev.
 - 方法一
 使用下面的方式安装, 但是这种安装方式会***将你的CUDA升级到最新版本***(慎用).
-```
+
+```bash
 apt-get install libnccl2 libnccl-dev
 ```
 - 方法二
 如果需要下载cuda对应版本的libnccl, 可以去下载NCCL的官网对应的cuda版本下面有指定的安装方式, 如下图所示:
 <center><img src="/wiki/static/images/tensorgpu/libnccl.jpg" alt="libnccl"/></center>
-```
+
+```bash
 sudo apt install libnccl2=2.4.7-1+cuda10.0 libnccl-dev=2.4.7-1+cuda10.0
 ```
 可能会出现下面的问题:
-```
+```bash
 Reading package lists... Done
 Building dependency tree
 Reading state information... Done
@@ -383,7 +388,7 @@ E: Unable to locate package libnccl2
 E: Unable to locate package libnccl-dev
 ```
 可以执行下面的命令, 官网也有提示:
-```
+```bash
 apt-get update
 ```
 更新apt完成之后, 重新执行上一步的命令, 则会出现下面的运行结果.
