@@ -6,6 +6,49 @@ date: 2019-06-02 00:00
 [TOC]
 
 # 写在前面
+# Dockerfile基础知识
+## 1) 常用命令列表
+|||
+|---|---|
+部分|命令
+基础镜像信息|FROM
+维护者信息|MAINTAINER
+镜像操作指令|RUN、COPY、ADD、EXPOSE、WORKDIR、ONBUILD、USER、VOLUME等
+容器启动时执行指令|CMD、ENTRYPOINT
+## 2) 各命令详解
+### FROM
+指定一个镜像作为当前镜像的基础镜像, 如:
+```
+FROM ubuntu:16.04
+```
+###  MAINTAINER
+指明该镜像的作者和电子邮件, 如:
+```
+MAINTAINER <aiministrator> <aimin@163.com>
+```
+### RUN
+在新镜像内部运行对应的命令, 主要用于新建文件, 文件目录, 安装软件, 配置一些基础信息等, 如:
+```bash
+RUN mkdir /home/work/workspace \
+    echo "hello word" > \ 
+    /home/work/hello.txt \
+    apt-get install -y python3.5
+```
+可以使用换行符```\```来进行换行操作.
+
+当然, 也可以使用exec的格式的命令, 如:"RUN ["executable", "param1", "param2"]", 其中, executable是命令, 后面的param是参数.
+```
+RUN ["apt-get", "-y", "nginx"]
+```
+### COPY
+将主机的文件复制到镜像内, 如果目的位置不存在, Docker会自动创建所需要的目录结构, 但是COPY操作只是进行单纯的复制操作, 如:
+```
+COPY configure.conf /home/work/workspace/src/
+```
+**注意：需要复制的目录一定要放在Dockerfile文件的同级目录下**
+
+### ADD
+将主机的文件复制到镜像内, 
 
 
 # 1、基础镜像

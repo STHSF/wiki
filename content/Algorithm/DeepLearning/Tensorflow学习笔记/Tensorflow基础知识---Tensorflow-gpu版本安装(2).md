@@ -99,7 +99,7 @@ $ sudo service lightdm stop      // 关闭桌面服务
 我安装的是CUDA9.0的版本，到[nvidia开发者社区](https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&target_distro=Ubuntu&target_version=1604&target_type=runfilelocal)根据选项挑选对应的安装版本，如下图所示。
 <center><img src="/wiki/static/images/tensorgpu/CUDA Toolkit 9.0 Downloads.png" alt="nvidia-driver"/></center>
 本文下载的cuda.run文件版本为: **cuda_9.0.176_384.81_linux.run**
-```
+```bash
 sudo sh cuda_9.0.176_384.81_linux.run --no-opengl-libs
 ```
 在.run文件后面添加--no-opengl-libs的详解见[Ubuntu 14.04 安装 CUDA 问题及解决](https://www.cnblogs.com/gaowengang/p/6068788.html)，安装完成后需要将opengl的相关lib重新安装一下。
@@ -417,16 +417,33 @@ Setting up libnccl2 (2.4.7-1+cuda10.0) ...
 Setting up libnccl-dev (2.4.7-1+cuda10.0) ...
 Processing triggers for libc-bin (2.23-0ubuntu11) ...
 ```
+安装完成之后链接到正常位置
+```
+sudo mkdir -p /usr/local/cuda/nccl/lib
+sudo ln -s /usr/lib/x86_64-linux-gnu/libnccl.so.2 /usr/local/cuda/nccl/lib/
+```
 
 # 六、参考文献
 [CUDA官方安装教程](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html)
+
 [cuDNN官方的安装和验证教程](https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html#install-linux)
+
 [ubuntu下安装安装CUDA、cuDNN和tensotflow-gpu版本流程和问题总结](https://sthsf.github.io/wiki/Algorithm/DeepLearning/Tensorflow学习笔记/Tensorflow基础知识---Tensorflow-gpu版本安装.html)
+
 [Ubuntu 14.04 安装 CUDA 问题及解决](https://www.cnblogs.com/gaowengang/p/6068788.html)
+
 [Ubuntu16.04+cuda8.0+caffe安装教程](http://blog.csdn.net/autocyz/article/details/52299889/)
+
 [CUDNN Installation Guide](http://developer2.download.nvidia.com/compute/machine-learning/cudnn/secure/v7.0.5/prod/Doc/cuDNN-Installation-Guide.pdf?1RL9HfeGELbC3I_J6F0c5RpXvy64oKHaWa0lZVIHWvzPbVKxDtV4_ivmxT2kIC6z1lE_h2bxuVgKEhGGW6R5n_GHnem5SFsA9jQI6LWMt68_sjV_HuOFBYO3EHzSwncT9iu1uUqar7UMgfrEOjgjE6hYCZcNNzBLgWrFa5VCRa2DsE1G8htULohvZqErOvFXRw)
+
 [Ubuntu16.04 下安装GPU版TensorFlow（包括Cuda和Cudnn）](https://segmentfault.com/a/1190000008234390)
+
 ["libcudnn.so.5 cannot open shared object file: No such file or directory" ](http://blog.csdn.net/u014696921/article/details/60140264)
+
 [ldconfig提示is not a symbolic link警告的去除方法 ](http://blog.csdn.net/liukun321/article/details/6908635)
+
 [Ubuntu16.04.1如何安装TensorFlow1.1.0（GPU版）](http://blog.csdn.net/binglel/article/details/70230276)
+
 [failed call to cuInit: CUDA_ERROR_UNKNOWN in python programs using Ubuntu bumblebee](https://github.com/tensorflow/tensorflow/issues/394)
+
+[深度学习入门教程-Ubuntu18.04系统安装cuDNN7和NCCL2](https://www.ncnynl.com/archives/201905/3061.html)
