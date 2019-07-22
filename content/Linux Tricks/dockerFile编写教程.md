@@ -46,9 +46,37 @@ RUN ["apt-get", "-y", "nginx"]
 COPY configure.conf /home/work/workspace/src/
 ```
 **注意：需要复制的目录一定要放在Dockerfile文件的同级目录下**
-
 ### ADD
-将主机的文件复制到镜像内, 
+将主机的文件复制到镜像内, 与COPY的使用方式一样, 唯一不同的就是, ADD会对压缩文件（tar, gzip, bzip2, etc）做提取和解压操作.
+### EXPOSE
+暴露镜像的端口供主机映射使用, 启动镜像时, 使用-P参数镜像指定的端口和主机的某一个端口做映射. expose可以指定多个, 如:
+```
+EXPOSE 22
+EXPOSE 8080
+EXPOSE 8989
+```
+### WORKDIR
+在构建镜像时, 指定工作目录, 之后的所有命令都是基于此工作目录, 如果不存在则会自动创建, 如:
+```
+WORKDIR /home/work
+WORKDIR src
+RUN echo "hello word" > text.txt
+# 最终会在/home/work/src/下面生成一个text.txt文件.
+```
+### ENV
+设置docker的环境变量, 如
+```
+ENV CORE_DIR=/home/work/src
+ENV SCRIPT_DIR=$CORE_DIR/script
+RUN $SCRIPT_DIR/run.sh
+```
+### VOLUME
+用来向基于镜像创建的容器添加卷. 比如, 你可以将mongodb镜像中的存储数据的data文件指定为主机的某个文件.
+```
+# VOLUME 主机目录 容器目录
+VOLUME data/db /data/onfigdb
+```
+
 
 
 # 1、基础镜像
