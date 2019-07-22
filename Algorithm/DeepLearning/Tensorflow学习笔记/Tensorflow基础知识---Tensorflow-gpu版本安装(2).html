@@ -353,8 +353,13 @@
 部分截图(UPGDATE20190710):<br />
 <center><img src="/wiki/static/images/tensorgpu/version.jpg" alt="version"/></center></p>
 <p><strong>UPDATE20190710</strong>*</p>
-<h2 id="nccl2">安装NCCL2</h2>
-<h1 id="_4">六、参考文献</h1>
+<h2 id="nccl2">NCCL2</h2>
+<p>NCCL是Nvidia Collective multi-GPU Communication Library的简称，它是一个实现多GPU的collective communication通信（all-gather, reduce, broadcast）库，Nvidia做了很多优化，以在PCIe、Nvlink、InfiniBand上实现较高的通信速度。</p>
+<h2 id="_4">下载安装</h2>
+<p>NCCL的<a href="https://developer.nvidia.com/nccl/nccl-download">官网下载地址</a></p>
+<p>需要根据本机系统的linux系统和cuda版本选择下载对应的NCCL版本.如下图所示.</p>
+<p><center><img src="/wiki/static/images/tensorgpu/https-::developer.nvidia.com:nccl:nccl-download.jpg" alt="NCCL2"/></center></p>
+<h1 id="_5">六、参考文献</h1>
 <p><a href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html">CUDA官方安装教程</a><br />
 <a href="https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html#install-linux">cuDNN官方的安装和验证教程</a><br />
 <a href="https://sthsf.github.io/wiki/Algorithm/DeepLearning/Tensorflow学习笔记/Tensorflow基础知识---Tensorflow-gpu版本安装.html">ubuntu下安装安装CUDA、cuDNN和tensotflow-gpu版本流程和问题总结</a><br />

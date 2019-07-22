@@ -83,7 +83,19 @@
 - 代价函数(cost function): 总体<br />
 - 目标函数(object function): 更泛化的术语</p>
 <p>从整体上来讲, 损失函数是代价函数的一部分, 代价函数是目标函数其中的一种. 详细的讲, 损失函数是针对单个训练样本而言的, 也就是算一个样本的误差. 代价函数是定义在整个训练集上的, 就是所有训练样本误差总和的平均, 也就是损失函数总和的平均. 但是, 有没有平均对后面参数的求解没有什么影响.</p>
-<p>通常机器学习的每个算法中都会有一个目标函数, 算法的求解过程是通过对这个目标函数优化的过程, 损失函数越好, 通常模型的性能越好, 不同的算法使用的损失函数不一样.</p>
+<p>stack上有一段解释:<br />
+- <strong><em>Loss function</em></strong> is usually a function defined on a data point, prediction and label, and measures the penalty. For example:<br />
+    - square loss <br />
+    - hinge loss<br />
+    - 0/1 loss<br />
+- <strong><em>Cost function</em></strong> is usually more general. It might be a sum of loss functions over your training set plus some model complexity penalty (regularization). For example:<br />
+    - Mean Squared Error<br />
+    - SVM cost function<br />
+- <strong><em>Objective function</em></strong> is the most general term for any function that you optimize during training. For example:<br />
+    - MLE is a type of objective function (which you maximize)<br />
+    - Divergence between classes can be an objective function but it is barely a cost function, unless you define something artificial, like 1-Divergence, and name it a cost<br />
+    - <br />
+通常机器学习的每个算法中都会有一个目标函数, 算法的求解过程是通过对这个目标函数优化的过程, 损失函数越好, 通常模型的性能越好, 不同的算法使用的损失函数不一样.</p>
 <p>损失函数分为<strong>经验风险损失函数</strong>和<strong>结构风险损失函数</strong>, 经验风险损失函数指预测结果和实际结果的差别, 结构风险损失函数是指经验风险损失函数加上正则项, 通常表示如下:</p>
 <p>设总有$(N)$个样本的样本集为$((X,Y)=(x_i, y_i))$,那么总的损失函数为</p>
 <p>$$<br />
