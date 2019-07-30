@@ -100,6 +100,12 @@
 </pre></div>
 
 
+<p>配置完成之后, 启动<code>jupyterhub</code>, 可能会遇到下面的问题:</p>
+<div class="hlcode"><pre><span class="o">[</span>E 2019-07-23 09:54:20.121 JupyterHub proxy:658<span class="o">]</span> Failed to find proxy <span class="o">[</span><span class="s1">&#39;configurable-http-proxy&#39;</span><span class="o">]</span>
+</pre></div>
+
+
+<p>则需要参考下面的操作:</p>
 <div class="hlcode"><pre><span class="cp"># 参考github上jupyterhub的说明, 在/opt/nodejs 目录中安装</span>
 <span class="n">npm</span> <span class="n">install</span> <span class="o">-</span><span class="n">g</span> <span class="n">configurable</span><span class="o">-</span><span class="n">http</span><span class="o">-</span><span class="n">proxy</span>
 <span class="err">注</span><span class="p">,</span> <span class="err">当然</span><span class="p">,</span><span class="err">不一定在</span><span class="n">opt</span><span class="err">目录下面</span><span class="p">,</span> <span class="err">可以通过</span><span class="n">whereis</span> <span class="n">nodejs</span><span class="p">,</span><span class="err">查看你所安装的</span><span class="n">nodejs</span><span class="err">所在的位置</span><span class="p">,</span><span class="err">我的文件就保存在&#39;</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">nodejs</span><span class="o">/</span><span class="n">node</span><span class="o">-</span><span class="n">v10</span><span class="mf">.15.0</span><span class="o">/</span><span class="n">bin</span><span class="err">&#39;下</span>
