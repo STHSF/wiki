@@ -39,7 +39,11 @@ jupyterhub --generate-config
 c.JupyterHub.ip = 'IP地址'
 c.JupyterHub.port = 端口
 ```
-
+配置完成之后, 启动```jupyterhub```, 可能会遇到下面的问题:
+```bash
+[E 2019-07-23 09:54:20.121 JupyterHub proxy:658] Failed to find proxy ['configurable-http-proxy']
+```
+则需要参考下面的操作:
 ```
 # 参考github上jupyterhub的说明, 在/opt/nodejs 目录中安装
 npm install -g configurable-http-proxy
