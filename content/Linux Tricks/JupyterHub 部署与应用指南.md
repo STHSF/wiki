@@ -273,10 +273,6 @@ nodejs: /usr/bin/nodejs /usr/lib/nodejs /usr/include/nodejs /usr/share/nodejs /u
 **ps**网上说npm的镜像在国外, 也有可能自己在使用npm升级的时候没有升级成功, 导致一系列的错误, 但是升级不成功他也不能没有提示吧. 有空可以设置使用淘宝镜像然后再尝试尝试.
 
 
-
-
-
-
 # 
 # 参考文献
 [搭建一套云工作平台 (JupyterHub + Rstudio Server)](https://www.jianshu.com/p/fd9ddce53465)

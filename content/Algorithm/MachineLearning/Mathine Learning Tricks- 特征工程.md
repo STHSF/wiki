@@ -108,3 +108,5 @@ print(res.x)
 # 参考文献
 https://www.cnblogs.com/sddai/p/6250094.html
 
+[异常检测论文大列表：方法、应用、综述](http://www.zhuanzhi.ai/document/a63d9faf42e18c06b5e8d4c9e3735840)
+

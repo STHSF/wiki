@@ -24,24 +24,6 @@ $\color{red}负责处理逻辑的服务器,$ 比如php, python的代码, 是不�
 
 # 三者的关系
 
-```sequence
-
-participant 客户端 as A
-participant 服务端 as B
-participant 通行证中心 as C
-Note over A:用户输入通行证账号、密码
-A->C: 发送账号、密码
-Note over C:验证账号、密码
-C-->>A:返回token
-A->B:发送token
-B->C:验证token
-C-->>B:验证成功
-B-->>A:登陆成功
-Note left of A:左边注释
-B->B:自交互
-Note right of C:右边注释
-
-```
 
 # docker下配置和使用flask
 # 遇到的问题
@@ -72,4 +54,18 @@ if __name__ ==  '__main__':
 [Ubuntu16.04 将 Flaskapp 部署到Heroku 上](https://blog.csdn.net/tonydz0523/article/details/82707569)
 
 [使用Flask+uwsgi+Nginx部署Flask正式环境](https://www.missshi.cn/api/view/blog/5b1511a213d85b1251000000)
+
+[Flask+uwsgi+Nginx+Ubuntu部署](https://www.cnblogs.com/leiziv5/p/7137277.html)
+
+[Flask_项目部署Linux+uwsgi+nginx](https://www.liangzl.com/get-article-detail-38387.html)
+
+[在 Ubuntu 上使用 uWSGI 和 Nginx 部署 Flask 项目](https://www.v2ex.com/t/386228)
+
+[【Flask】 利用uWSGI和Nginx发布Flask应用](https://www.cnblogs.com/lfxiao/p/10103490.html)
+
+[从零开始搭建论坛（一）：Web服务器与Web框架](https://www.cnblogs.com/houruikk/p/6623594.html)
+
+[web服务器、应用服务器、web应用框架的关系](https://blog.csdn.net/feit2417/article/details/81387377)
+
+[从零开始搭建论坛（一）：Web服务器与Web框架](https://www.jianshu.com/p/43571f938f22)
 

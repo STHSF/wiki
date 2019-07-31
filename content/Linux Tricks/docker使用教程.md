@@ -386,6 +386,10 @@ $ cat <FILE NMAE>.tar |docker import - <REPOSITORY>:<TAG>
 ## docker compose
 [Get started with Docker Compose](https://docs.docker.com/compose/gettingstarted/)
 
+[docker-compose运行mysql、redis](https://www.jianshu.com/p/bf802ea2d7cf)
+
+[Docker —— 从入门到实践](https://yeasy.gitbooks.io/docker_practice/content/)
+
 # centos下安装docker
 在使用```yum -y install docker```和```yum -y install docker-io````失败之后使用
 

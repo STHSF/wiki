@@ -91,9 +91,9 @@ RuntimeError: Python version >= 3.5 required.
 
 # XGBoost_GPU使用
 [UPDATA20190710]
-在使用gpu训练XGBoost模型的时候, 如果training params中的max_depth设置过高, 可能会引起服务器内存过高等问题.
+在使用gpu训练XGBoost模型的时候, 如果training params中的max_depth设置过高, 可能会引起服务器内存过高的问题.
 
-
+# 
 
 # 参考文献
 [Installation Guide](https://xgboost.readthedocs.io/en/latest/build.html#building-with-gpu-support)
@@ -107,3 +107,5 @@ RuntimeError: Python version >= 3.5 required.
 [Ubuntu16.04安装GPU版xgboost](https://blog.csdn.net/Perfect_Accepted/article/details/81989486)
 
 [xgboost 多gpu支持 编译](https://www.cnblogs.com/kdyi/p/10636988.html)
+
+[NCCL2 Survey](https://github.com/PaddlePaddle/Paddle/wiki/NCCL2-Survey)
