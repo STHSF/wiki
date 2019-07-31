@@ -54,23 +54,6 @@
 <p>一般是$\color{red}使用某种语言, 封装了常用的web功能的框架,$ flask、 django和Java中的SSH(Structs2+Spring3+Hibernate3)框架都是web应用框架.<br />
 - Flask </p>
 <h1 id="_3">三者的关系</h1>
-<div class="hlcode"><pre><span class="n">participant</span> <span class="err">客户端</span> <span class="n">as</span> <span class="n">A</span>
-<span class="n">participant</span> <span class="err">服务端</span> <span class="n">as</span> <span class="n">B</span>
-<span class="n">participant</span> <span class="err">通行证中心</span> <span class="n">as</span> <span class="n">C</span>
-<span class="n">Note</span> <span class="n">over</span> <span class="n">A</span><span class="o">:</span><span class="err">用户输入通行证账号、密码</span>
-<span class="n">A</span><span class="o">-&gt;</span><span class="n">C</span><span class="o">:</span> <span class="err">发送账号、密码</span>
-<span class="n">Note</span> <span class="n">over</span> <span class="n">C</span><span class="o">:</span><span class="err">验证账号、密码</span>
-<span class="n">C</span><span class="o">--&gt;&gt;</span><span class="n">A</span><span class="o">:</span><span class="err">返回</span><span class="n">token</span>
-<span class="n">A</span><span class="o">-&gt;</span><span class="n">B</span><span class="o">:</span><span class="err">发送</span><span class="n">token</span>
-<span class="n">B</span><span class="o">-&gt;</span><span class="n">C</span><span class="o">:</span><span class="err">验证</span><span class="n">token</span>
-<span class="n">C</span><span class="o">--&gt;&gt;</span><span class="n">B</span><span class="o">:</span><span class="err">验证成功</span>
-<span class="n">B</span><span class="o">--&gt;&gt;</span><span class="n">A</span><span class="o">:</span><span class="err">登陆成功</span>
-<span class="n">Note</span> <span class="n">left</span> <span class="n">of</span> <span class="n">A</span><span class="o">:</span><span class="err">左边注释</span>
-<span class="n">B</span><span class="o">-&gt;</span><span class="n">B</span><span class="o">:</span><span class="err">自交互</span>
-<span class="n">Note</span> <span class="n">right</span> <span class="n">of</span> <span class="n">C</span><span class="o">:</span><span class="err">右边注释</span>
-</pre></div>
-
-
 <h1 id="dockerflask">docker下配置和使用flask</h1>
 <h1 id="_4">遇到的问题</h1>
 <p>docker下编写server的时候, app.run()中host应该改写为‘0.0.0.0’, 如果使用默认设置或者设置contenner的其他ip为host, docker宿主机将不能访问, 其中port已经做了映射, 所以感觉跟port没有关系, </p>
@@ -94,6 +77,13 @@
 <p><a href="https://blog.csdn.net/tonydz0523/article/details/82701502">Ubuntu16.04 部署Flask应用若干方法（Apache2、Nginx）</a></p>
 <p><a href="https://blog.csdn.net/tonydz0523/article/details/82707569">Ubuntu16.04 将 Flaskapp 部署到Heroku 上</a></p>
 <p><a href="https://www.missshi.cn/api/view/blog/5b1511a213d85b1251000000">使用Flask+uwsgi+Nginx部署Flask正式环境</a></p>
+<p><a href="https://www.cnblogs.com/leiziv5/p/7137277.html">Flask+uwsgi+Nginx+Ubuntu部署</a></p>
+<p><a href="https://www.liangzl.com/get-article-detail-38387.html">Flask_项目部署Linux+uwsgi+nginx</a></p>
+<p><a href="https://www.v2ex.com/t/386228">在 Ubuntu 上使用 uWSGI 和 Nginx 部署 Flask 项目</a></p>
+<p><a href="https://www.cnblogs.com/lfxiao/p/10103490.html">【Flask】 利用uWSGI和Nginx发布Flask应用</a></p>
+<p><a href="https://www.cnblogs.com/houruikk/p/6623594.html">从零开始搭建论坛（一）：Web服务器与Web框架</a></p>
+<p><a href="https://blog.csdn.net/feit2417/article/details/81387377">web服务器、应用服务器、web应用框架的关系</a></p>
+<p><a href="https://www.jianshu.com/p/43571f938f22">从零开始搭建论坛（一）：Web服务器与Web框架</a></p>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2019-04-11 10:00 </span></div>
 <div id="comments"></div>
