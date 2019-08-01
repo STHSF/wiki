@@ -135,9 +135,49 @@
 <p>2、点击下载, 进入NCCL下载页面.<br />
 <center><img src="/wiki/static/images/essemble/xgboost/nccldownload1.jpg" alt="xgboost-6"/></center></p>
 </li>
-<li>3、根据原先安装的cuda和cudnn版本, 选择对应的NCCL版本<br />
-<center><img src="/wiki/static/images/essemble/xgboost/libnccl.jpg" alt="xgboost-6"/></center></li>
+<li>
+<p>3、根据原先安装的cuda和cudnn版本以及操作系统版本, 选择对应的NCCL版本. 我们这里是根据ubuntu16.04和cuda10.0, 选择下载的版本是nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb<br />
+<center><img src="/wiki/static/images/essemble/xgboost/libnccl.jpg" alt="xgboost-6"/></center></p>
+</li>
+<li>
+<p>4、切换到NCCL下载的文件目录, 使用下面的命令进行安装</p>
+</li>
 </ul>
+<div class="hlcode"><pre><span class="n">dpkg</span> <span class="o">-</span><span class="n">i</span> <span class="n">nvidia</span><span class="o">-</span><span class="n">machine</span><span class="o">-</span><span class="n">learning</span><span class="o">-</span><span class="n">repo</span><span class="o">-</span><span class="n">ubuntu1604_1</span><span class="mf">.0.0</span><span class="o">-</span><span class="mi">1</span><span class="n">_amd64</span><span class="p">.</span><span class="n">deb</span>
+</pre></div>
+
+
+<ul>
+<li>5、更新APT数据库：<code>sudo apt update</code>, 这一步需要操作, 不然第六步会安装不成功,</li>
+<li>6、利用APT安装libnccl2。<br />
+此外，如果您需要使用NCCL编译应用程序，则同时安装 libnccl-dev包。</li>
+</ul>
+<p>如果您正在使用网络存储库，则使用以下命令。这种不推荐.</p>
+<div class="hlcode"><pre><span class="err">　　</span><span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">libnccl2</span> <span class="n">libnccl</span><span class="o">-</span><span class="n">dev</span>
+</pre></div>
+
+
+<p>如果您希望保留较旧版本的CUDA，请指定特定版本，例如上图第二个框框中的内容：</p>
+<div class="hlcode"><pre><span class="err">　　</span><span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">libnccl2</span><span class="o">=</span><span class="mf">2.4.7</span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="n">cuda10</span><span class="mf">.0</span> <span class="n">libnccl</span><span class="o">-</span><span class="n">dev</span><span class="o">=</span><span class="mf">2.4.7</span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="n">cuda10</span><span class="mf">.0</span>
+</pre></div>
+
+
+<p>请参阅<a href="https://docs.nvidia.com/deeplearning/sdk/nccl-install-guide/index.html">官网安装手册</a>以了解确切的软件包版本。</p>
+<ul>
+<li>7、链接到正常位置<br />
+完成解压安装，将NCCL的include 和lib 文件夹下文件放到对应 /usr/local/include /usr/local/lib 目录下。 </li>
+</ul>
+<div class="hlcode"><pre><span class="n">sudo</span> <span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span><span class="o">/</span><span class="n">nccl</span><span class="o">/</span><span class="n">lib</span>
+<span class="n">sudo</span> <span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">x86_64</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">gnu</span><span class="o">/</span><span class="n">libnccl</span><span class="p">.</span><span class="n">so</span><span class="mf">.2</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span><span class="o">/</span><span class="n">nccl</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span>
+<span class="n">sudo</span> <span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">x86_64</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">gnu</span><span class="o">/</span><span class="n">libcudnn</span><span class="p">.</span><span class="n">so</span><span class="mf">.7</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span><span class="o">/</span><span class="n">lib64</span><span class="o">/</span>
+</pre></div>
+
+
+<p>执行下面的命令:</p>
+<div class="hlcode"><pre><span class="n">cat</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">cudnn</span><span class="p">.</span><span class="n">h</span> <span class="o">|</span> <span class="n">grep</span> <span class="n">CUDNN_MAJOR</span> <span class="o">-</span><span class="n">A</span> <span class="mi">2</span>
+</pre></div>
+
+
 <h1 id="_3">注意点</h1>
 <h3 id="1cmake">1、cmake 版本更新</h3>
 <p>在编译过程中,可能会出现下面的问题, 原因是cmake的版本太低, 需要更新cmake版本.</p>
@@ -175,6 +215,8 @@
 <p><a href="https://blog.csdn.net/Perfect_Accepted/article/details/81989486">Ubuntu16.04安装GPU版xgboost</a></p>
 <p><a href="https://www.cnblogs.com/kdyi/p/10636988.html">xgboost 多gpu支持 编译</a></p>
 <p><a href="https://github.com/PaddlePaddle/Paddle/wiki/NCCL2-Survey">NCCL2 Survey</a></p>
+<p><a href="http://blog.fangchengjin.cn/ubuntu-nccl2.html">Ubuntu 16.04安装NCCL 2</a></p>
+<p><a href="https://docs.ksyun.com/documents/2593">安装cuDNN和NCCL指南</a></p>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2019-07-08 00:00 </span></div>
 <div id="comments"></div>
