@@ -67,6 +67,19 @@ make -j4
 -DNCCL_ROOT=/usr/include
 ```
 **PS**, 这里的分布式GPU训练, 笔者认为是单服务器多GPU训练, 并不是我们所谓的分布式服务器的方式, 不过暂时还没有验证.
+## NCCL2安装
+NCCL是Nvidia Collective multi-GPU Communication Library的简称，它是一个实现多GPU的collective communication通信库，Nvidia做了很多优化，以在PCIe、Nvlink、InfiniBand上实现较高的通信速度。
+
+- 1、登陆[NCCL官网](https://developer.nvidia.com/nccl), 进行NCCL下载或者复制下载链接, 需要进行注册, 之前注册过的直接登陆即可.
+<center><img src="/wiki/static/images/essemble/xgboost/nccldownload.jpg" alt="xgboost-6"/></center>
+
+- 2、点击下载, 进入NCCL下载页面.
+<center><img src="/wiki/static/images/essemble/xgboost/nccldownload1.jpg" alt="xgboost-6"/></center>
+- 3、根据原先安装的cuda和cudnn版本, 选择对应的NCCL版本
+<center><img src="/wiki/static/images/essemble/xgboost/libnccl.jpg" alt="xgboost-6"/></center>
+
+
+
 
 # 注意点
 ### 1、cmake 版本更新
