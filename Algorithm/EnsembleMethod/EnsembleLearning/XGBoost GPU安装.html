@@ -50,7 +50,10 @@
 <li><a href="#virtualenvxgboost">virtualenv中更新XGBoost</a></li>
 </ul>
 </li>
-<li><a href="#xgboostgpu">XGBoost的多GPU部署</a></li>
+<li><a href="#xgboostgpu">XGBoost的多GPU部署</a><ul>
+<li><a href="#nccl2">NCCL2安装</a></li>
+</ul>
+</li>
 <li><a href="#_3">注意点</a><ul>
 <li><a href="#1cmake">1、cmake 版本更新</a></li>
 <li><a href="#2xgboost-gpu-python35">2、安装XGBoost gpu版本, python的版本必须大于3.5</a></li>
@@ -121,6 +124,20 @@
 
 
 <p><strong>PS</strong>, 这里的分布式GPU训练, 笔者认为是单服务器多GPU训练, 并不是我们所谓的分布式服务器的方式, 不过暂时还没有验证.</p>
+<h2 id="nccl2">NCCL2安装</h2>
+<p>NCCL是Nvidia Collective multi-GPU Communication Library的简称，它是一个实现多GPU的collective communication通信库，Nvidia做了很多优化，以在PCIe、Nvlink、InfiniBand上实现较高的通信速度。</p>
+<ul>
+<li>
+<p>1、登陆<a href="https://developer.nvidia.com/nccl">NCCL官网</a>, 进行NCCL下载或者复制下载链接, 需要进行注册, 之前注册过的直接登陆即可.<br />
+<center><img src="/wiki/static/images/essemble/xgboost/nccldownload.jpg" alt="xgboost-6"/></center></p>
+</li>
+<li>
+<p>2、点击下载, 进入NCCL下载页面.<br />
+<center><img src="/wiki/static/images/essemble/xgboost/nccldownload1.jpg" alt="xgboost-6"/></center></p>
+</li>
+<li>3、根据原先安装的cuda和cudnn版本, 选择对应的NCCL版本<br />
+<center><img src="/wiki/static/images/essemble/xgboost/libnccl.jpg" alt="xgboost-6"/></center></li>
+</ul>
 <h1 id="_3">注意点</h1>
 <h3 id="1cmake">1、cmake 版本更新</h3>
 <p>在编译过程中,可能会出现下面的问题, 原因是cmake的版本太低, 需要更新cmake版本.</p>
