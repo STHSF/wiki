@@ -178,6 +178,18 @@
 </pre></div>
 
 
+<p>执行效果如下:</p>
+<div class="hlcode"><pre><span class="n">ubuntu</span><span class="err">@</span><span class="n">AiDLHost</span><span class="o">:~</span><span class="err">$</span> <span class="n">cat</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">cudnn</span><span class="p">.</span><span class="n">h</span> <span class="o">|</span> <span class="n">grep</span> <span class="n">CUDNN_MAJOR</span> <span class="o">-</span><span class="n">A</span> <span class="mi">2</span>
+<span class="cp">#define CUDNN_MAJOR 7</span>
+<span class="cp">#define CUDNN_MINOR 5</span>
+<span class="cp">#define CUDNN_PATCHLEVEL 1</span>
+<span class="o">--</span>
+<span class="cp">#define CUDNN_VERSION (CUDNN_MAJOR * 1000 + CUDNN_MINOR * 100 + CUDNN_PATCHLEVEL)</span>
+
+<span class="cp">#include &quot;driver_types.h&quot;</span>
+</pre></div>
+
+
 <h1 id="_3">注意点</h1>
 <h3 id="1cmake">1、cmake 版本更新</h3>
 <p>在编译过程中,可能会出现下面的问题, 原因是cmake的版本太低, 需要更新cmake版本.</p>
