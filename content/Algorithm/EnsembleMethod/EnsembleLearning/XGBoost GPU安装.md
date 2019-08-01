@@ -107,6 +107,17 @@ sudo ln -s /usr/lib/x86_64-linux-gnu/libcudnn.so.7 /usr/local/cuda/lib64/
 ```
 cat /usr/include/cudnn.h | grep CUDNN_MAJOR -A 2
 ```
+执行效果如下:
+```
+ubuntu@AiDLHost:~$ cat /usr/include/cudnn.h | grep CUDNN_MAJOR -A 2
+#define CUDNN_MAJOR 7
+#define CUDNN_MINOR 5
+#define CUDNN_PATCHLEVEL 1
+--
+#define CUDNN_VERSION (CUDNN_MAJOR * 1000 + CUDNN_MINOR * 100 + CUDNN_PATCHLEVEL)
+
+#include "driver_types.h"
+```
 
 
 
