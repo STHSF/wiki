@@ -75,8 +75,42 @@ NCCL是Nvidia Collective multi-GPU Communication Library的简称，它是一个
 
 - 2、点击下载, 进入NCCL下载页面.
 <center><img src="/wiki/static/images/essemble/xgboost/nccldownload1.jpg" alt="xgboost-6"/></center>
-- 3、根据原先安装的cuda和cudnn版本, 选择对应的NCCL版本
+- 3、根据原先安装的cuda和cudnn版本以及操作系统版本, 选择对应的NCCL版本. 我们这里是根据ubuntu16.04和cuda10.0, 选择下载的版本是nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb
 <center><img src="/wiki/static/images/essemble/xgboost/libnccl.jpg" alt="xgboost-6"/></center>
+
+- 4、切换到NCCL下载的文件目录, 使用下面的命令进行安装
+```
+dpkg -i nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb
+```
+- 5、更新APT数据库：```sudo apt update```, 这一步需要操作, 不然第六步会安装不成功,
+- 6、利用APT安装libnccl2。
+此外，如果您需要使用NCCL编译应用程序，则同时安装 libnccl-dev包。
+
+如果您正在使用网络存储库，则使用以下命令。这种不推荐.
+```
+　　sudo apt install libnccl2 libnccl-dev
+```
+如果您希望保留较旧版本的CUDA，请指定特定版本，例如上图第二个框框中的内容：
+```
+　　sudo apt install libnccl2=2.4.7-1+cuda10.0 libnccl-dev=2.4.7-1+cuda10.0
+```
+请参阅[官网安装手册](https://docs.nvidia.com/deeplearning/sdk/nccl-install-guide/index.html)以了解确切的软件包版本。
+
+- 7、链接到正常位置
+完成解压安装，将NCCL的include 和lib 文件夹下文件放到对应 /usr/local/include /usr/local/lib 目录下。 
+```
+sudo mkdir -p /usr/local/cuda/nccl/lib
+sudo ln -s /usr/lib/x86_64-linux-gnu/libnccl.so.2 /usr/local/cuda/nccl/lib/
+sudo ln -s /usr/lib/x86_64-linux-gnu/libcudnn.so.7 /usr/local/cuda/lib64/
+```
+执行下面的命令:
+```
+cat /usr/include/cudnn.h | grep CUDNN_MAJOR -A 2
+```
+
+
+
+
 
 
 
@@ -125,3 +159,7 @@ RuntimeError: Python version >= 3.5 required.
 [xgboost 多gpu支持 编译](https://www.cnblogs.com/kdyi/p/10636988.html)
 
 [NCCL2 Survey](https://github.com/PaddlePaddle/Paddle/wiki/NCCL2-Survey)
+
+[Ubuntu 16.04安装NCCL 2](http://blog.fangchengjin.cn/ubuntu-nccl2.html)
+
+[安装cuDNN和NCCL指南](https://docs.ksyun.com/documents/2593)
