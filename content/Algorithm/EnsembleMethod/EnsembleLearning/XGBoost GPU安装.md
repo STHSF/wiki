@@ -51,7 +51,7 @@ make -j4
 
 annaconda下面没有测试过, 可能也需要重新安装.
 
-# XGBoost的分布式GPU部署
+# XGBoost的多GPU部署
 [UPDATE20190710]
 上面的初始化过程中, 是不能使用分布式GPU进行计算的, 而且只能使用单个的GPU, 为了能够使用分布式GPU训练, 需要设置USE_NCCL=ON, 另外, 分布式GPU训练依赖Nvidia的[NCCL2](https://developer.nvidia.com/nccl), 需要另外安装. 特别的, 目前NCCL2只支持linux系统, 所以分布式GPU训练只支持linux系统.
 
@@ -62,7 +62,10 @@ cd build
 cmake .. -DUSE_CUDA=ON -DUSE_NCCL=ON -DNCCL_ROOT=/path/to/nccl2
 make -j4
 ```
-
+我在配置安装过程时, 使用的命令:
+```
+-DNCCL_ROOT=/usr/include
+```
 **PS**, 这里的分布式GPU训练, 笔者认为是单服务器多GPU训练, 并不是我们所谓的分布式服务器的方式, 不过暂时还没有验证.
 
 # 注意点

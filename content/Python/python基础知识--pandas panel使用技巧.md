@@ -91,8 +91,18 @@ DataFrame.reset_index(), 可以将multimindex转换成单个dataframe
 
 # 参考文献
 [Pandas-4. Panel](https://www.jianshu.com/p/0865813c590e)
+
 [用一个月整理的Pandas的教程！最全面的教程没有之一！先收藏吧！](https://www.jianshu.com/p/5aa6579f70b1)
+
 [Pandas面板（Panel）](https://www.yiibai.com/pandas/python_pandas_panel.html)
 
 [在pandas多重索引multiIndex中选定指定索引的行](https://blog.csdn.net/PIPIXIU/article/details/80232805)
+
 [Pandas reshape相关函数介绍（pivot，pivot_table，stack，unstack，melt）](https://blog.csdn.net/wj1066/article/details/82261458)
+
+[数分笔记整理15 - 数据处理综合运用 - 多层次索引MultiIndex](https://blog.csdn.net/qq_42442369/article/details/86662641)
+
+[在MultiIndex中为缺少的日期插入0值](https://codeday.me/bug/20190401/860405.html)
+
+[在Pandas MultiIndex中查找NaN值](https://codeday.me/bug/20190607/1193787.html)
+
