@@ -174,3 +174,5 @@ RuntimeError: Python version >= 3.5 required.
 [Ubuntu 16.04安装NCCL 2](http://blog.fangchengjin.cn/ubuntu-nccl2.html)
 
 [安装cuDNN和NCCL指南](https://docs.ksyun.com/documents/2593)
+
+[深度学习入门教程-Ubuntu18.04系统安装cuDNN7和NCCL2](https://www.ncnynl.com/archives/201905/3061.html)
