@@ -1,7 +1,7 @@
 ---
 title: "Min Stack"
 layout: page
-date: 2018-08-03 00:00
+date: 2018-08-03 14:00
 ---
 [TOC]
 
