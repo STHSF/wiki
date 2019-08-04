@@ -106,3 +106,4 @@ DataFrame.reset_index(), 可以将multimindex转换成单个dataframe
 
 [在Pandas MultiIndex中查找NaN值](https://codeday.me/bug/20190607/1193787.html)
 
+[在pandas中循环使用MultiIndex](https://codeday.me/bug/20190302/747481.html)
