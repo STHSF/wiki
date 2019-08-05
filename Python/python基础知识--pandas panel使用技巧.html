@@ -121,6 +121,27 @@
 <p>DataFrame.reset_index(), 可以将multimindex转换成单个dataframe</p>
 <p>两个index互换可以通过DataFrame.swaplevel</p>
 <p>索引内部排序, DataFrame.sortlevel</p>
+<h2 id="multiindex_1">合并两个multiindex</h2>
+<div class="hlcode"><pre><span class="n">df1</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="err">&#39;课程&#39;</span><span class="o">:</span><span class="p">[</span><span class="err">&#39;语文</span><span class="sc">&#39;,&#39;</span><span class="err">语文</span><span class="sc">&#39;,&#39;</span><span class="err">数学</span><span class="sc">&#39;,&#39;</span><span class="err">数学&#39;</span><span class="p">],</span><span class="err">&#39;得分&#39;</span><span class="o">:</span><span class="p">[</span><span class="err">&#39;最高</span><span class="sc">&#39;,&#39;</span><span class="err">最低</span><span class="sc">&#39;,&#39;</span><span class="err">最高</span><span class="sc">&#39;,&#39;</span><span class="err">最低&#39;</span><span class="p">],</span><span class="err">&#39;分值&#39;</span><span class="o">:</span><span class="p">[</span><span class="mi">90</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">60</span><span class="p">]})</span>
+<span class="n">df2</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="err">&#39;课程&#39;</span><span class="o">:</span><span class="p">[</span><span class="err">&#39;语文</span><span class="sc">&#39;,&#39;</span><span class="err">语文</span><span class="sc">&#39;,&#39;</span><span class="err">数学</span><span class="sc">&#39;,&#39;</span><span class="err">数学&#39;</span><span class="p">],</span><span class="err">&#39;得分&#39;</span><span class="o">:</span><span class="p">[</span><span class="err">&#39;最高</span><span class="sc">&#39;,&#39;</span><span class="err">最低</span><span class="sc">&#39;,&#39;</span><span class="err">最高</span><span class="sc">&#39;,&#39;</span><span class="err">最低&#39;</span><span class="p">],</span><span class="err">&#39;属性&#39;</span><span class="o">:</span><span class="p">[</span><span class="mi">9</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">]})</span>
+
+<span class="n">df3</span> <span class="o">=</span> <span class="n">df1</span><span class="p">.</span><span class="n">set_index</span><span class="p">([</span><span class="err">&#39;课程</span><span class="sc">&#39;,&#39;</span><span class="err">得分&#39;</span><span class="p">])</span>
+<span class="n">df4</span> <span class="o">=</span> <span class="n">df2</span><span class="p">.</span><span class="n">set_index</span><span class="p">([</span><span class="err">&#39;课程</span><span class="sc">&#39;,&#39;</span><span class="err">得分&#39;</span><span class="p">])</span>
+
+<span class="n">df5</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df3</span><span class="p">,</span> <span class="n">df4</span><span class="p">,</span> <span class="n">left_index</span><span class="o">=</span><span class="n">True</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="n">True</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="err">&#39;</span><span class="n">inner</span><span class="err">&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>输出:</p>
+<div class="hlcode"><pre>           <span class="err">分值</span>   <span class="err">属性</span>
+<span class="err">课程</span>  <span class="err">得分</span>      
+<span class="err">语文</span>  <span class="err">最高</span>   <span class="mi">90</span>  <span class="mi">9</span>
+     <span class="err">最低</span> <span class="mi">50</span>    <span class="mi">5</span>
+<span class="err">数学</span>  <span class="err">最高</span>  <span class="mi">100</span> <span class="mi">10</span>
+     <span class="err">最低</span> <span class="mi">60</span>  <span class="mi">6</span>
+</pre></div>
+
+
 <h1 id="_2">参考文献</h1>
 <p><a href="https://www.jianshu.com/p/0865813c590e">Pandas-4. Panel</a></p>
 <p><a href="https://www.jianshu.com/p/5aa6579f70b1">用一个月整理的Pandas的教程！最全面的教程没有之一！先收藏吧！</a></p>
