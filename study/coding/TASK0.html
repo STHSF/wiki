@@ -73,8 +73,68 @@
   [-1, -1, 2]<br />
 ]</p>
 <h2 id="python">python代码</h2>
+<div class="hlcode"><pre><span class="n">class</span> <span class="n">Solution</span><span class="p">(</span><span class="n">object</span><span class="p">)</span><span class="o">:</span>
+    <span class="n">def</span> <span class="n">threeSum</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">)</span><span class="o">:</span>
+        <span class="s">&quot;&quot;&quot;</span>
+        <span class="o">:</span><span class="n">type</span> <span class="n">nums</span><span class="o">:</span> <span class="n">List</span><span class="p">[</span><span class="kt">int</span><span class="p">]</span>
+        <span class="o">:</span><span class="n">rtype</span><span class="o">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="kt">int</span><span class="p">]]</span>
+        <span class="s">&quot;&quot;&quot;</span>
+        <span class="n">res_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">nums</span><span class="p">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="n">in</span> <span class="n">range</span><span class="p">(</span><span class="n">len</span><span class="p">(</span><span class="n">nums</span><span class="p">))</span><span class="o">:</span>
+            <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">:</span>
+                <span class="k">break</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="n">and</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">:</span>
+                <span class="k">continue</span>
+            <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="n">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="k">while</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">k</span><span class="o">:</span>
+                <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">nums</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">:</span>
+                    <span class="n">res_list</span><span class="p">.</span><span class="n">append</span><span class="p">([</span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">nums</span><span class="p">[</span><span class="n">k</span><span class="p">]])</span>
+                    <span class="k">while</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">k</span> <span class="n">and</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">:</span> <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">while</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">k</span> <span class="n">and</span> <span class="n">nums</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">==</span> <span class="n">nums</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">:</span> <span class="n">k</span> <span class="o">-=</span> <span class="mi">1</span>
+                    <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="n">k</span> <span class="o">-=</span> <span class="mi">1</span>
+                <span class="n">elif</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">nums</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">&lt;</span> <span class="o">-</span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">:</span>
+                    <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="nl">else:</span>
+                    <span class="n">k</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">res_list</span>
+</pre></div>
+
+
 <h2 id="majority-element">Majority Element（求众数）</h2>
+<div class="hlcode"><pre><span class="n">class</span> <span class="n">Solution</span><span class="o">:</span>
+    <span class="n">def</span> <span class="n">majorityElement</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">nums</span><span class="o">:</span> <span class="n">List</span><span class="p">[</span><span class="kt">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt">int</span><span class="o">:</span>
+        <span class="k">if</span> <span class="n">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="o">:</span>
+            <span class="k">return</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">numDic</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="n">in</span> <span class="n">nums</span><span class="o">:</span>
+            <span class="k">if</span> <span class="n">numDic</span><span class="p">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">:</span>
+                <span class="n">numDic</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">numDic</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&gt;=</span><span class="p">(</span><span class="n">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="o">:</span>
+                    <span class="k">return</span> <span class="n">i</span>
+            <span class="nl">else:</span>
+                <span class="n">numDic</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+
+
 <h2 id="missing-positive">Missing Positive（求缺失的第一个正数）[作为可选]</h2>
+<div class="hlcode"><pre><span class="n">class</span> <span class="n">Solution</span><span class="o">:</span>
+    <span class="n">def</span> <span class="n">firstMissingPositive</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">Metric</span><span class="p">)</span><span class="o">:</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">len</span><span class="p">(</span><span class="n">Metric</span><span class="p">)</span><span class="o">:</span>
+            <span class="k">if</span> <span class="n">Metric</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="n">and</span> <span class="n">Metric</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">len</span><span class="p">(</span><span class="n">Metric</span><span class="p">)</span> <span class="n">and</span> <span class="n">Metric</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">Metric</span><span class="p">[</span><span class="n">Metric</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">:</span>
+                <span class="n">Metric</span><span class="p">[</span><span class="n">Metric</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">Metric</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">Metric</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">Metric</span><span class="p">[</span><span class="n">Metric</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="nl">else:</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">integer</span> <span class="n">in</span> <span class="n">enumerate</span><span class="p">(</span><span class="n">Metric</span><span class="p">)</span><span class="o">:</span>
+            <span class="k">if</span> <span class="n">integer</span> <span class="o">!=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">:</span>
+                <span class="k">return</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">len</span><span class="p">(</span><span class="n">Metric</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+
+
 <h2 id="linked-list-cycle-i">Linked List Cycle I（环形链表）</h2>
 <h2 id="merge-k-sorted-lists-k">Merge k Sorted Lists（合并 k 个排序链表）</h2>
 <h1 id="_2">参考文献</h1>
