@@ -89,6 +89,29 @@ DataFrame.reset_index(), 可以将multimindex转换成单个dataframe
 
 索引内部排序, DataFrame.sortlevel
 
+## 合并两个multiindex
+```
+df1 = pd.DataFrame({'课程':['语文','语文','数学','数学'],'得分':['最高','最低','最高','最低'],'分值':[90,50,100,60]})
+df2 = pd.DataFrame({'课程':['语文','语文','数学','数学'],'得分':['最高','最低','最高','最低'],'属性':[9,5,10,6]})
+
+df3 = df1.set_index(['课程','得分'])
+df4 = df2.set_index(['课程','得分'])
+
+df5 = pd.merge(df3, df4, left_index=True, right_index=True, how='inner')
+```
+输出:
+```
+
+           分值	属性
+课程	得分		
+语文	最高	 90	 9
+     最低	50    5
+数学	最高 	100	10
+     最低	60	6
+```
+
+
+
 # 参考文献
 [Pandas-4. Panel](https://www.jianshu.com/p/0865813c590e)
 
