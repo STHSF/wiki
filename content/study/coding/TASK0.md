@@ -30,15 +30,68 @@ date: 2018-08-04 00:00
 ]
 
 ## python代码
-
-
-
+```
+class Solution(object):
+    def threeSum(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        res_list = []
+        nums.sort()
+        for i in range(len(nums)):
+            if nums[i] > 0:
+                break
+            if i > 0 and nums[i] == nums[i-1]:
+                continue
+            j = i + 1
+            k = len(nums) - 1
+            while j < k:
+                if nums[j] + nums[k] == -nums[i]:
+                    res_list.append([nums[i], nums[j], nums[k]])
+                    while j < k and nums[j] == nums[j+1]: j += 1
+                    while j < k and nums[k] == nums[k-1]: k -= 1
+                    j += 1
+                    k -= 1
+                elif nums[j] + nums[k] < -nums[i]:
+                    j += 1
+                else:
+                    k -= 1
+        return res_list
+```
 
 
 ## Majority Element（求众数）
+```
+class Solution:
+    def majorityElement(self, nums: List[int]) -> int:
+        if len(nums)==1:
+            return nums[0]
+        numDic = {}
+        for i in nums:
+            if numDic.has_key(i):
+                numDic[i] += 1
+                if numDic.get(i)>=(len(nums)+1)/2:
+                    return i
+            else:
+                numDic[i] = 1
+```
 
 ## Missing Positive（求缺失的第一个正数）[作为可选]
-
+```
+class Solution:
+    def firstMissingPositive(self, Metric):
+        i = 0
+        while i < len(Metric):
+            if Metric[i] > 0 and Metric[i] - 1 < len(Metric) and Metric[i] != Metric[Metric[i]-1]:
+                Metric[Metric[i]-1], Metric[i] = Metric[i], Metric[Metric[i]-1]
+            else:
+                i += 1
+        for i, integer in enumerate(Metric):
+            if integer != i + 1:
+                return i + 1
+        return len(Metric) + 1
+```
 ## Linked List Cycle I（环形链表）
 
 ## Merge k Sorted Lists（合并 k 个排序链表）
