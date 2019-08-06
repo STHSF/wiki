@@ -168,11 +168,10 @@ step 5: sudo ln -s /opt/cmake-3.*your_version*/bin/* /usr/local/bin
 RuntimeError: Python version >= 3.5 required.
 ```
 
-# XGBoost_GPU使用
+## XGBoost_GPU使用
 [UPDATA20190710]
 在使用gpu训练XGBoost模型的时候, 如果training params中的max_depth设置过高, 可能会引起服务器内存过高的问题.
 
-# 
 
 # 参考文献
 [Installation Guide](https://xgboost.readthedocs.io/en/latest/build.html#building-with-gpu-support)
