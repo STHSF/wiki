@@ -52,16 +52,17 @@
 </li>
 <li><a href="#xgboostgpu">XGBoost的多GPU部署</a><ul>
 <li><a href="#nccl2">NCCL2安装</a></li>
+<li><a href="#_3">多卡运行测试</a></li>
 </ul>
 </li>
-<li><a href="#_3">注意点</a><ul>
+<li><a href="#_4">注意点</a><ul>
 <li><a href="#1cmake">1、cmake 版本更新</a></li>
 <li><a href="#2xgboost-gpu-python35">2、安装XGBoost gpu版本, python的版本必须大于3.5</a></li>
 </ul>
 </li>
 <li><a href="#xgboost_gpu">XGBoost_GPU使用</a></li>
-<li><a href="#_4"></a></li>
-<li><a href="#_5">参考文献</a></li>
+<li><a href="#_5"></a></li>
+<li><a href="#_6">参考文献</a></li>
 </ul>
 </div>
 <h1 id="_1">写在前面</h1>
@@ -75,7 +76,11 @@
 </pre></div>
 
 
-<p>更新子依赖</p>
+<p>更新子依赖, 或者使用:</p>
+<div class="hlcode"><pre><span class="n">git</span> <span class="n">clone</span> <span class="o">--</span><span class="n">recursive</span> <span class="n">https</span><span class="o">:</span><span class="c1">//github.com/dmlc/xgboost</span>
+</pre></div>
+
+
 <h3 id="2build">2、新建build文件目录</h3>
 <p>在/xgboost, 目录下新建/build文件夹</p>
 <div class="hlcode"><pre><span class="n">cd</span> <span class="n">xgboost</span>
@@ -190,7 +195,26 @@
 </pre></div>
 
 
-<h1 id="_3">注意点</h1>
+<h2 id="_3">多卡运行测试</h2>
+<p>nccl的安装教程不多, 也没有提供什么测试案例, 所以只能直接运行xgboost,观察多张卡的使用情况, 我使用xgboost源码下的demo进行测试:<br />
+测试demo:<br />
+<code>~/xgboost/demo/gpu_acceleration</code><br />
+运行之前查看GPU的状态:<br />
+<center><img src="/wiki/static/images/essemble/xgboost/nccl_4_1.png" alt="xgboost-4_1"/></center></p>
+<p>运行过程中查看GPU的运行状态:<br />
+<center><img src="/wiki/static/images/essemble/xgboost/nccl_4.jpg" alt="xgboost-4"/></center></p>
+<p>从上图中可以看出demo运行过程中4张卡都被占用. 所以应该是安装成功了(ps没有在未安装nccl2之前尝试运行demo, 所以不确定是不是nccl2起作用了).</p>
+<p>另外, demo的运行结果:</p>
+<div class="hlcode"><pre><span class="p">[</span><span class="mi">2996</span><span class="p">]</span>  <span class="n">test</span><span class="o">-</span><span class="n">merror</span><span class="o">:</span><span class="mf">0.031765</span>
+<span class="p">[</span><span class="mi">2997</span><span class="p">]</span>  <span class="n">test</span><span class="o">-</span><span class="n">merror</span><span class="o">:</span><span class="mf">0.031758</span>
+<span class="p">[</span><span class="mi">2998</span><span class="p">]</span>  <span class="n">test</span><span class="o">-</span><span class="n">merror</span><span class="o">:</span><span class="mf">0.031751</span>
+<span class="p">[</span><span class="mi">2999</span><span class="p">]</span>  <span class="n">test</span><span class="o">-</span><span class="n">merror</span><span class="o">:</span><span class="mf">0.031772</span>
+<span class="n">GPU</span> <span class="n">Training</span> <span class="n">Time</span><span class="o">:</span> <span class="mf">241.86946082115173</span> <span class="n">seconds</span>
+</pre></div>
+
+
+<p>从运行结果可以看出, 相同的迭代次数下, GPU的运行时间大大缩短.</p>
+<h1 id="_4">注意点</h1>
 <h3 id="1cmake">1、cmake 版本更新</h3>
 <p>在编译过程中,可能会出现下面的问题, 原因是cmake的版本太低, 需要更新cmake版本.</p>
 <div class="hlcode"><pre><span class="n">CMake</span> <span class="n">Error</span> <span class="n">at</span> <span class="n">CMakeLists</span><span class="p">.</span><span class="n">txt</span><span class="o">:</span><span class="mi">62</span> <span class="p">(</span><span class="n">cmake_minimum_required</span><span class="p">)</span><span class="o">:</span>
@@ -218,8 +242,8 @@
 <h1 id="xgboost_gpu">XGBoost_GPU使用</h1>
 <p>[UPDATA20190710]<br />
 在使用gpu训练XGBoost模型的时候, 如果training params中的max_depth设置过高, 可能会引起服务器内存过高的问题.</p>
-<h1 id="_4"></h1>
-<h1 id="_5">参考文献</h1>
+<h1 id="_5"></h1>
+<h1 id="_6">参考文献</h1>
 <p><a href="https://xgboost.readthedocs.io/en/latest/build.html#building-with-gpu-support">Installation Guide</a></p>
 <p><a href="https://blog.csdn.net/wl2858623940/article/details/80546140">linux下安装XGBoost并支持GPU（anaconda3）</a></p>
 <p><a href="https://blog.csdn.net/u011587516/article/details/78995186">ubuntu安装xgboost，CPU版和GPU版配置</a></p>
