@@ -140,6 +140,13 @@ nccl的安装教程不多, 也没有提供什么测试案例, 所以只能直接
 [2998]	test-merror:0.031751
 [2999]	test-merror:0.031772
 GPU Training Time: 241.86946082115173 seconds
+
+[2995]  test-merror:0.031648
+[2996]  test-merror:0.031641
+[2997]  test-merror:0.031655
+[2998]  test-merror:0.031634
+[2999]  test-merror:0.031641
+CPU Training Time: 3853.92036151886 seconds
 ```
 从运行结果可以看出, 相同的迭代次数下, GPU的运行时间大大缩短.
 
