@@ -1,0 +1,134 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <title>sortList - LiYu's personal knowledge wiki</title>
+    <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
+    <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$(',')$'], ['\\(','\\)']]}
+        });
+        </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-78529611-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+
+<body>
+<div id="container">
+    
+<div id="header">
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#study">study</a>&nbsp;»&nbsp;<a href="/wiki/#study-leetcode">leetcode</a>&nbsp;»&nbsp;sortList</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">sortList</div>
+<div id="content">
+  <div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#_1">写在前面</a></li>
+<li><a href="#python">python代码</a></li>
+<li><a href="#_2">参考文献</a></li>
+</ul>
+</div>
+<h1 id="_1">写在前面</h1>
+<p>合并 k 个排序链表，返回合并后的排序链表。请分析和描述算法的复杂度。</p>
+<p>示例:</p>
+<p>输入:<br />
+[<br />
+  1-&gt;4-&gt;5,<br />
+  1-&gt;3-&gt;4,<br />
+  2-&gt;6<br />
+]<br />
+输出: 1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4-&gt;5-&gt;6</p>
+<h1 id="python">python代码</h1>
+<div class="hlcode"><pre><span class="cp"># Definition for singly-linked list.</span>
+<span class="n">class</span> <span class="n">ListNode</span><span class="o">:</span>
+    <span class="n">def</span> <span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span><span class="o">:</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">val</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">None</span>
+
+<span class="n">class</span> <span class="n">Solution</span><span class="o">:</span>
+    <span class="n">def</span> <span class="n">mergeKLists</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">lists</span><span class="o">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ListNode</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">ListNode</span><span class="o">:</span>
+
+        <span class="n">all_node</span><span class="o">=</span><span class="p">[]</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="n">in</span> <span class="n">lists</span><span class="o">:</span>
+            <span class="k">while</span> <span class="n">x</span> <span class="n">is</span> <span class="n">not</span> <span class="n">None</span><span class="o">:</span>
+                <span class="n">all_node</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">next</span>
+
+        <span class="n">all_node_sort</span> <span class="o">=</span> <span class="n">sorted</span><span class="p">(</span><span class="n">all_node</span><span class="p">,</span><span class="n">key</span><span class="o">=</span><span class="n">lambda</span> <span class="n">node</span><span class="o">:</span><span class="n">node</span><span class="p">.</span><span class="n">val</span><span class="p">)</span>
+        <span class="n">pro</span> <span class="o">=</span> <span class="n">ListNode</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">pro</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="n">in</span> <span class="n">all_node_sort</span><span class="o">:</span>
+            <span class="n">p</span><span class="p">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">node</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">node</span>
+        <span class="n">p</span><span class="p">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">None</span>
+        <span class="k">return</span> <span class="n">pro</span><span class="p">.</span><span class="n">next</span>
+</pre></div>
+
+
+<h1 id="_2">参考文献</h1>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2018-06-02 00:00 </span></div>
+<div id="comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script type="text/javascript">
+const gitment = new Gitment({
+  title: 'sortList',
+  owner: 'sthsf',
+  repo: 'wiki',
+  oauth: {
+    client_id: '086c54c5fd95adfdc372',
+    client_secret: '2ad9ebe87b952d2c77fccf99c334881b91eaa73d',
+  },
+  // ...
+  // For more available options, check out the documentation below
+})
+gitment.render('comments')
+// or
+// gitment.render(document.getElementById('comments'))
+// or
+// document.body.appendChild(gitment.render())
+</script>
+
+</div>
+<div id="footer">
+            <span>
+                Copyright © 2019 LiYu.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+                Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
+            </span>
+</div>
+
+
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?90e1dcdd1938573c19f9ff6521188e91";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</body>
+</html>
