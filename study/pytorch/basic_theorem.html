@@ -41,19 +41,72 @@
 <div id="title">basic_theorem.md</div>
 <div id="content">
   <div class="toc"><span class="toctitle">Table of Contents</span><ul>
-<li><a href="#_1">写在前面</a></li>
-<li><a href="#_2">参考文献</a></li>
+<li><a href="#_1">写在前面</a><ul>
+<li><a href="#1pytorchpytroch">1.什么是Pytorch，为什么选择Pytroch？</a></li>
+<li><a href="#2pytroch">2.Pytroch的安装</a><ul>
+<li><a href="#python">配置Python环境和管理</a><ul>
+<li><a href="#virtualenv">virtualenv安装</a></li>
+<li><a href="#annaconda">annaconda</a></li>
+</ul>
+</li>
+<li><a href="#pytorch">通过命令行安装PyTorch</a></li>
+</ul>
+</li>
+<li><a href="#3pytorch">3.PyTorch基础概念</a><ul>
+<li><a href="#_2">张量</a></li>
+</ul>
+</li>
+<li><a href="#4">4.通用代码实现流程(实现一个深度学习的代码流程)</a></li>
+</ul>
+</li>
+<li><a href="#_3">参考文献</a></li>
 </ul>
 </div>
 <h1 id="_1">写在前面</h1>
-<p>1.什么是Pytorch，为什么选择Pytroch？</p>
-<p>2.Pytroch的安装</p>
-<p>3.配置Python环境</p>
-<p>4.准备Python管理器</p>
-<p>5.通过命令行安装PyTorch</p>
-<p>6.PyTorch基础概念</p>
-<p>7.通用代码实现流程(实现一个深度学习的代码流程)</p>
-<h1 id="_2">参考文献</h1>
+<h2 id="1pytorchpytroch">1.什么是Pytorch，为什么选择Pytroch？</h2>
+<p>Facebook在机器学习和科学计算工具Torch的基础上, 针对python语言发布的一个全新的机器学习工具包. Pytorch支持动态图创建, 作为numpy的代替,支持GPU的Tensor库. PyTroch将会直接指向代码定义的确切位置,节省开发者寻找BUG的时间, 同时代码简洁, 可以快速实现神经网络构建.</p>
+<h2 id="2pytroch">2.Pytroch的安装</h2>
+<p>可以使用pip或者conda直接安装.</p>
+<h3 id="python">配置Python环境和管理</h3>
+<p>可以使用隔离器来进行python环境的安装和管理</p>
+<p>主要的隔离环境包括virtualenv和annaconda</p>
+<h4 id="virtualenv">virtualenv安装</h4>
+<div class="hlcode"><pre><span class="n">pip</span> <span class="n">install</span> <span class="n">virtualenv</span>
+</pre></div>
+
+
+<p>安装完成之后可以通过</p>
+<div class="hlcode"><pre><span class="n">virtualenv</span> <span class="n">venv</span>
+</pre></div>
+
+
+<p>来创建一个名字为venv的虚拟环境, 同时可以在后面指定python的版本.</p>
+<h4 id="annaconda">annaconda</h4>
+<p>annaconda安装需要从shell脚本安装, annaconda<a href="https://sthsf.github.io/wiki/Linux%20Tricks/annaconda%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html">使用过程中的坑</a></p>
+<h3 id="pytorch">通过命令行安装PyTorch</h3>
+<p>virtualenv下安装pytorch</p>
+<div class="hlcode"><pre><span class="n">pip</span> <span class="n">install</span> <span class="n">torch</span>
+</pre></div>
+
+
+<p>conda安装</p>
+<div class="hlcode"><pre><span class="n">pip</span> <span class="n">install</span> <span class="n">torch</span>
+<span class="n">or</span>
+<span class="n">conda</span> <span class="n">install</span> <span class="n">torch</span>
+</pre></div>
+
+
+<h2 id="3pytorch">3.PyTorch基础概念</h2>
+<h3 id="_2">张量</h3>
+<p>Tensor类似于Numpy中的ndarray.</p>
+<div class="hlcode"><pre><span class="n">import</span> <span class="n">torch</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">print</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+</pre></div>
+
+
+<h2 id="4">4.通用代码实现流程(实现一个深度学习的代码流程)</h2>
+<h1 id="_3">参考文献</h1>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2018-08-05 00:00 </span></div>
 <div id="comments"></div>
