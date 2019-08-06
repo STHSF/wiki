@@ -15,7 +15,10 @@ date: 2019-07-08 00:00
 git submodule init
 git submodule update
 ```
-更新子依赖
+更新子依赖, 或者使用:
+```
+git clone --recursive https://github.com/dmlc/xgboost
+```
 ### 2、新建build文件目录
 在/xgboost, 目录下新建/build文件夹
 ```
@@ -118,12 +121,27 @@ ubuntu@AiDLHost:~$ cat /usr/include/cudnn.h | grep CUDNN_MAJOR -A 2
 
 #include "driver_types.h"
 ```
+## 多卡运行测试
+nccl的安装教程不多, 也没有提供什么测试案例, 所以只能直接运行xgboost,观察多张卡的使用情况, 我使用xgboost源码下的demo进行测试:
+测试demo:
+```~/xgboost/demo/gpu_acceleration```
+运行之前查看GPU的状态:
+<center><img src="/wiki/static/images/essemble/xgboost/nccl_4_1.png" alt="xgboost-4_1"/></center>
 
+运行过程中查看GPU的运行状态:
+<center><img src="/wiki/static/images/essemble/xgboost/nccl_4.jpg" alt="xgboost-4"/></center>
 
+从上图中可以看出demo运行过程中4张卡都被占用. 所以应该是安装成功了(ps没有在未安装nccl2之前尝试运行demo, 所以不确定是不是nccl2起作用了).
 
-
-
-
+另外, demo的运行结果:
+```
+[2996]	test-merror:0.031765
+[2997]	test-merror:0.031758
+[2998]	test-merror:0.031751
+[2999]	test-merror:0.031772
+GPU Training Time: 241.86946082115173 seconds
+```
+从运行结果可以看出, 相同的迭代次数下, GPU的运行时间大大缩短.
 
 
 # 注意点
