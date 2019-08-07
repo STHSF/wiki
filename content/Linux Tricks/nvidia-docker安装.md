@@ -47,10 +47,14 @@ docker run -it \
 docker run -it \
 -p 8080:8080 \
 -v /home/gpyz/workshop:/home/li/workshop \
+-v /usr/include:/usr/include/ \
+-v /home/gpyz/soft/ML:/home/gpyz/soft/ML \
 --privileged=True \
 --gpus all \
 flaght/kdrl:0.3.2 /bin/bash
 ```
+
+PYTHONIOENCODING=utf-8 python run.py
 
 # 参考文献
 [如何在ubuntu上安装nvidia-docker同时与宿主共享GPU cuda加速](https://www.liangzl.com/get-article-detail-3784.html)
