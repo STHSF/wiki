@@ -42,10 +42,60 @@
 <div id="content">
   <div class="toc"><span class="toctitle">Table of Contents</span><ul>
 <li><a href="#_1">写在前面</a></li>
+<li><a href="#docker-cenvidia">安装docker-ce和nvidia驱动</a></li>
+<li><a href="#nvidia-docker">安装nvidia-docker</a><ul>
+<li><a href="#docker">docker中使用</a></li>
+</ul>
+</li>
 <li><a href="#_2">参考文献</a></li>
 </ul>
 </div>
 <h1 id="_1">写在前面</h1>
+<p>nvidia-docker是一个可以使用GPU的docker，nvidia-docker是在docker上做了一层封装，通过nvidia-docker-plugin，然后调用到docker上，其最终实现的还是在docker的启动命令上携带一些必要的参数。</p>
+<h1 id="docker-cenvidia">安装docker-ce和nvidia驱动</h1>
+<p>在安装nvidia-docker之前，还是需要安装docker的。</p>
+<h1 id="nvidia-docker">安装nvidia-docker</h1>
+<p>安装过程主要参考<a href="https://github.com/NVIDIA/nvidia-docker">官网安装</a>, 安装nvidia-docker之前必须确保已经安装了NVIDIA driver, 且安装的Docker版本&gt;19.03.</p>
+<p>如果是第一次使用GPUs和Docker的用户, 可以直接使用下面的命令:</p>
+<div class="hlcode"><pre><span class="cp"># Add the package repositories</span>
+<span class="err">$</span> <span class="n">distribution</span><span class="o">=</span><span class="err">$</span><span class="p">(.</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">os</span><span class="o">-</span><span class="n">release</span><span class="p">;</span><span class="n">echo</span> <span class="err">$</span><span class="n">ID</span><span class="err">$</span><span class="n">VERSION_ID</span><span class="p">)</span>
+<span class="err">$</span> <span class="n">curl</span> <span class="o">-</span><span class="n">s</span> <span class="o">-</span><span class="n">L</span> <span class="n">https</span><span class="o">:</span><span class="c1">//nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -</span>
+<span class="err">$</span> <span class="n">curl</span> <span class="o">-</span><span class="n">s</span> <span class="o">-</span><span class="n">L</span> <span class="n">https</span><span class="o">:</span><span class="c1">//nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list</span>
+
+<span class="err">$</span> <span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">update</span> <span class="o">&amp;&amp;</span> <span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="n">nvidia</span><span class="o">-</span><span class="n">container</span><span class="o">-</span><span class="n">toolkit</span>
+<span class="err">$</span> <span class="n">sudo</span> <span class="n">systemctl</span> <span class="n">restart</span> <span class="n">docker</span>
+</pre></div>
+
+
+<p>运行过程如下:<br />
+<center><img src="/wiki/static/images/docker/nvidia-docker_install.png" alt="nvidia-docker"/></center><br />
+nvidia-docker安装完成之后, 重启dokcer.</p>
+<h2 id="docker">docker中使用</h2>
+<div class="hlcode"><pre><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">it</span> <span class="o">--</span><span class="n">privileged</span><span class="o">=</span><span class="n">True</span> <span class="o">--</span><span class="n">gpus</span> <span class="n">all</span> <span class="p">[</span><span class="n">REPOSITORY</span><span class="o">:</span><span class="n">TAG</span><span class="p">]</span> <span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">bash</span>
+</pre></div>
+
+
+<div class="hlcode"><pre>docker run -it <span class="se">\</span>
+-p 8080:8080 <span class="se">\</span>
+-v /home/gpyz/workshop:/home/li/workshop <span class="se">\</span>
+--privileged<span class="o">=</span>True <span class="se">\</span>
+--gpus all <span class="se">\</span>
+<span class="o">[</span>ubuntu:latest<span class="o">]</span> /bin/bash
+</pre></div>
+
+
+<div class="hlcode"><pre>docker run -it <span class="se">\</span>
+-p 8080:8080 <span class="se">\</span>
+-v /home/gpyz/workshop:/home/li/workshop <span class="se">\</span>
+-v /usr/include:/usr/include/ <span class="se">\</span>
+-v /home/gpyz/soft/ML:/home/gpyz/soft/ML <span class="se">\</span>
+--privileged<span class="o">=</span>True <span class="se">\</span>
+--gpus all <span class="se">\</span>
+flaght/kdrl:0.3.2 /bin/bash
+</pre></div>
+
+
+<p>PYTHONIOENCODING=utf-8 python run.py</p>
 <h1 id="_2">参考文献</h1>
 <p><a href="https://www.liangzl.com/get-article-detail-3784.html">如何在ubuntu上安装nvidia-docker同时与宿主共享GPU cuda加速</a></p>
 <p><a href="https://blog.csdn.net/qq_41493990/article/details/81624419">ubuntu16.04下docker和nvidia-docker安装</a></p>

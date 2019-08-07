@@ -56,12 +56,16 @@
 </ul>
 </li>
 <li><a href="#_4">注意点</a><ul>
-<li><a href="#1cmake">1、cmake 版本更新</a></li>
+<li><a href="#1cmake">1、cmake 版本更新</a><ul>
+<li><a href="#_5">方法一</a></li>
+<li><a href="#_6">方法二</a></li>
+</ul>
+</li>
 <li><a href="#2xgboost-gpu-python35">2、安装XGBoost gpu版本, python的版本必须大于3.5</a></li>
 <li><a href="#xgboost_gpu">XGBoost_GPU使用</a></li>
 </ul>
 </li>
-<li><a href="#_5">参考文献</a></li>
+<li><a href="#_7">参考文献</a></li>
 </ul>
 </div>
 <h1 id="_1">写在前面</h1>
@@ -222,6 +226,7 @@
 <p>从运行结果可以看出, 相同的迭代次数下, GPU的运行时间大大缩短.</p>
 <h1 id="_4">注意点</h1>
 <h3 id="1cmake">1、cmake 版本更新</h3>
+<h4 id="_5">方法一</h4>
 <p>在编译过程中,可能会出现下面的问题, 原因是cmake的版本太低, 需要更新cmake版本.</p>
 <div class="hlcode"><pre><span class="n">CMake</span> <span class="n">Error</span> <span class="n">at</span> <span class="n">CMakeLists</span><span class="p">.</span><span class="n">txt</span><span class="o">:</span><span class="mi">62</span> <span class="p">(</span><span class="n">cmake_minimum_required</span><span class="p">)</span><span class="o">:</span>
   <span class="n">CMake</span> <span class="mf">3.12</span> <span class="n">or</span> <span class="n">higher</span> <span class="n">is</span> <span class="n">required</span><span class="p">.</span>  <span class="n">You</span> <span class="n">are</span> <span class="n">running</span> <span class="n">version</span> <span class="mf">3.5.1</span>
@@ -239,6 +244,17 @@
 </pre></div>
 
 
+<h4 id="_6">方法二</h4>
+<p><a href="https://cmake.org/download/">官网下载链接</a><br />
+下载完成之后, 解压, 安装</p>
+<div class="hlcode"><pre><span class="n">tar</span> <span class="o">-</span><span class="n">zxvf</span> <span class="n">cmake</span><span class="o">-</span><span class="mf">3.15.1</span><span class="p">.</span><span class="n">tar</span><span class="p">.</span><span class="n">gz</span>
+
+<span class="p">.</span><span class="o">/</span><span class="n">bootstrap</span>
+<span class="n">make</span>
+<span class="n">make</span> <span class="n">install</span>
+</pre></div>
+
+
 <h3 id="2xgboost-gpu-python35">2、安装XGBoost gpu版本, python的版本必须大于3.5</h3>
 <p>报错如下:</p>
 <div class="hlcode"><pre><span class="n">RuntimeError</span><span class="o">:</span> <span class="n">Python</span> <span class="n">version</span> <span class="o">&gt;=</span> <span class="mf">3.5</span> <span class="n">required</span><span class="o">.</span>
@@ -248,7 +264,7 @@
 <h2 id="xgboost_gpu">XGBoost_GPU使用</h2>
 <p>[UPDATA20190710]<br />
 在使用gpu训练XGBoost模型的时候, 如果training params中的max_depth设置过高, 可能会引起服务器内存过高的问题.</p>
-<h1 id="_5">参考文献</h1>
+<h1 id="_7">参考文献</h1>
 <p><a href="https://xgboost.readthedocs.io/en/latest/build.html#building-with-gpu-support">Installation Guide</a></p>
 <p><a href="https://blog.csdn.net/wl2858623940/article/details/80546140">linux下安装XGBoost并支持GPU（anaconda3）</a></p>
 <p><a href="https://blog.csdn.net/u011587516/article/details/78995186">ubuntu安装xgboost，CPU版和GPU版配置</a></p>
