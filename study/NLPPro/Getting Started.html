@@ -73,6 +73,60 @@ THUCNews数据子集：https://pan.baidu.com/s/1hugrfRu 密码：qfud</p>
 
 
 <h2 id="imdb">英文数据集：IMDB数据集</h2>
+<p>数据集来自 IMDB 的 25,000 条电影评论，以情绪（正面/负面）标记。评论已经过预处理，并编码为词索引（整数）的序列表示。为了方便起见，将词按数据集中出现的频率进行索引，例如整数 3 编码数据中第三个最频繁的词。这允许快速筛选操作，例如：「只考虑前 10,000 个最常用的词，但排除前 20 个最常见的词」。</p>
+<p>1、IMDB主要用于情感分析</p>
+<p>2、数据描述<br />
+直接使用keras接口读取数据</p>
+<div class="hlcode"><pre><span class="n">from</span> <span class="n">keras</span><span class="p">.</span><span class="n">datasets</span> <span class="n">import</span> <span class="n">imdb</span>
+
+<span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">),</span> <span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span> <span class="o">=</span> <span class="n">imdb</span><span class="p">.</span><span class="n">load_data</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s">&quot;imdb.npz&quot;</span><span class="p">,</span>
+                                                      <span class="n">num_words</span><span class="o">=</span><span class="n">None</span><span class="p">,</span>
+                                                      <span class="n">skip_top</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                                                      <span class="n">maxlen</span><span class="o">=</span><span class="n">None</span><span class="p">,</span>
+                                                      <span class="n">seed</span><span class="o">=</span><span class="mi">113</span><span class="p">,</span>
+                                                      <span class="n">start_char</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                                                      <span class="n">oov_char</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                                                      <span class="n">index_from</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="hlcode"><pre><span class="n">import</span> <span class="n">numpy</span> <span class="n">as</span> <span class="n">np</span>
+<span class="n">print</span><span class="p">(</span><span class="err">&#39;</span><span class="n">shape</span> <span class="n">of</span> <span class="n">x_train</span> <span class="p">{}</span><span class="err">&#39;</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">shape</span><span class="p">(</span><span class="n">x_train</span><span class="p">)))</span>
+<span class="n">print</span><span class="p">(</span><span class="err">&#39;</span><span class="n">shape</span> <span class="n">of</span> <span class="n">y_train</span> <span class="p">{}</span><span class="err">&#39;</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">shape</span><span class="p">(</span><span class="n">y_train</span><span class="p">)))</span>
+<span class="n">print</span><span class="p">(</span><span class="err">&#39;</span><span class="n">shape</span> <span class="n">of</span> <span class="n">x_test</span> <span class="p">{}</span><span class="err">&#39;</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">shape</span><span class="p">(</span><span class="n">x_test</span><span class="p">)))</span>
+<span class="n">print</span><span class="p">(</span><span class="err">&#39;</span><span class="n">shape</span> <span class="n">of</span> <span class="n">y_test</span> <span class="p">{}</span><span class="err">&#39;</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">shape</span><span class="p">(</span><span class="n">y_test</span><span class="p">)))</span>
+</pre></div>
+
+
+<div class="hlcode"><pre><span class="n">shape</span> <span class="n">of</span> <span class="n">x_train</span> <span class="p">(</span><span class="mi">25000</span><span class="p">,)</span>
+<span class="n">shape</span> <span class="n">of</span> <span class="n">y_train</span> <span class="p">(</span><span class="mi">25000</span><span class="p">,)</span>
+<span class="n">shape</span> <span class="n">of</span> <span class="n">x_test</span> <span class="p">(</span><span class="mi">25000</span><span class="p">,)</span>
+<span class="n">shape</span> <span class="n">of</span> <span class="n">y_test</span> <span class="p">(</span><span class="mi">25000</span><span class="p">,)</span>
+</pre></div>
+
+
+<div class="hlcode"><pre><span class="cp"># 设定向量的最大长度，小于这个长度的补0，大于这个长度的直接截端</span>
+<span class="n">x_train</span> <span class="o">=</span> <span class="n">keras</span><span class="p">.</span><span class="n">preprocessing</span><span class="p">.</span><span class="n">sequence</span><span class="p">.</span><span class="n">pad_sequences</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">maxlen</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">x_test</span> <span class="o">=</span> <span class="n">keras</span><span class="p">.</span><span class="n">preprocessing</span><span class="p">.</span><span class="n">sequence</span><span class="p">.</span><span class="n">pad_sequences</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">maxlen</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">print</span><span class="p">(</span><span class="err">&#39;</span><span class="n">x_train</span> <span class="n">shape</span><span class="o">:</span><span class="err">&#39;</span><span class="p">,</span> <span class="n">x_train</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">print</span><span class="p">(</span><span class="err">&#39;</span><span class="n">x_test</span> <span class="n">shape</span><span class="o">:</span><span class="err">&#39;</span><span class="p">,</span> <span class="n">x_test</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">print</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="hlcode"><pre><span class="n">x_train</span> <span class="n">shape</span><span class="o">:</span> <span class="p">(</span><span class="mi">25000</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">x_test</span> <span class="n">shape</span><span class="o">:</span> <span class="p">(</span><span class="mi">25000</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="n">array</span><span class="p">([[</span> <span class="mi">1415</span><span class="p">,</span>    <span class="mi">33</span><span class="p">,</span>     <span class="mi">6</span><span class="p">,</span> <span class="p">...,</span>    <span class="mi">19</span><span class="p">,</span>   <span class="mi">178</span><span class="p">,</span>    <span class="mi">32</span><span class="p">],</span>
+       <span class="p">[</span>  <span class="mi">163</span><span class="p">,</span>    <span class="mi">11</span><span class="p">,</span>  <span class="mi">3215</span><span class="p">,</span> <span class="p">...,</span>    <span class="mi">16</span><span class="p">,</span>   <span class="mi">145</span><span class="p">,</span>    <span class="mi">95</span><span class="p">],</span>
+       <span class="p">[</span> <span class="mi">1301</span><span class="p">,</span>     <span class="mi">4</span><span class="p">,</span>  <span class="mi">1873</span><span class="p">,</span> <span class="p">...,</span>     <span class="mi">7</span><span class="p">,</span>   <span class="mi">129</span><span class="p">,</span>   <span class="mi">113</span><span class="p">],</span>
+       <span class="p">...,</span>
+       <span class="p">[</span>   <span class="mi">11</span><span class="p">,</span>     <span class="mi">6</span><span class="p">,</span>  <span class="mi">4065</span><span class="p">,</span> <span class="p">...,</span>     <span class="mi">4</span><span class="p">,</span>  <span class="mi">3586</span><span class="p">,</span> <span class="mi">22459</span><span class="p">],</span>
+       <span class="p">[</span>  <span class="mi">100</span><span class="p">,</span>  <span class="mi">2198</span><span class="p">,</span>     <span class="mi">8</span><span class="p">,</span> <span class="p">...,</span>    <span class="mi">12</span><span class="p">,</span>     <span class="mi">9</span><span class="p">,</span>    <span class="mi">23</span><span class="p">],</span>
+       <span class="p">[</span>   <span class="mi">78</span><span class="p">,</span>  <span class="mi">1099</span><span class="p">,</span>    <span class="mi">17</span><span class="p">,</span> <span class="p">...,</span>   <span class="mi">204</span><span class="p">,</span>   <span class="mi">131</span><span class="p">,</span>     <span class="mi">9</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">int32</span><span class="p">)</span>
+</pre></div>
+
+
 <h1 id="_2">参考文献</h1>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2018-06-02 00:00 </span></div>
