@@ -26,9 +26,31 @@ $ sudo systemctl restart docker
 ```
 运行过程如下:
 <center><img src="/wiki/static/images/docker/nvidia-docker_install.png" alt="nvidia-docker"/></center>
+nvidia-docker安装完成之后, 重启dokcer.
 
+## docker中使用
 
+```
+docker run -it --privileged=True --gpus all [REPOSITORY:TAG] /bin/bash
+```
 
+```bash
+docker run -it \
+-p 8080:8080 \
+-v /home/gpyz/workshop:/home/li/workshop \
+--privileged=True \
+--gpus all \
+[ubuntu:latest] /bin/bash
+```
+
+```bash
+docker run -it \
+-p 8080:8080 \
+-v /home/gpyz/workshop:/home/li/workshop \
+--privileged=True \
+--gpus all \
+flaght/kdrl:0.3.2 /bin/bash
+```
 
 # 参考文献
 [如何在ubuntu上安装nvidia-docker同时与宿主共享GPU cuda加速](https://www.liangzl.com/get-article-detail-3784.html)

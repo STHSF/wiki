@@ -153,6 +153,7 @@ CPU Training Time: 3853.92036151886 seconds
 
 # 注意点
 ### 1、cmake 版本更新
+#### 方法一
 在编译过程中,可能会出现下面的问题, 原因是cmake的版本太低, 需要更新cmake版本.
 ```
 CMake Error at CMakeLists.txt:62 (cmake_minimum_required):
@@ -168,6 +169,17 @@ step 3: chmod +x cmake-3.*your_version*.sh
 step 4: sudo bash cmake-3.*your_version*.sh
 step 5: sudo ln -s /opt/cmake-3.*your_version*/bin/* /usr/local/bin
 ```
+#### 方法二
+[官网下载链接](https://cmake.org/download/)
+下载完成之后, 解压, 安装
+```
+tar -zxvf cmake-3.15.1.tar.gz
+
+./bootstrap
+make
+make install
+```
+
 
 ### 2、安装XGBoost gpu版本, python的版本必须大于3.5
 报错如下:
