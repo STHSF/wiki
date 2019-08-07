@@ -50,11 +50,11 @@ tensorflow/serving   latest-devel-gpu    e8667aaa087d        5 days ago         
 ```
 则可以通过下面两种方式创建一个守护态的Docker容器
 ```
-sudo docker run -i -t [tensorflow/serving:latest-devel-gpu] /bin/bash
+sudo docker run -i -t --privileged=true [tensorflow/serving:latest-devel-gpu] /bin/bash
 或
-sudo docker run -i -t [e8667aaa087d]
+sudo docker run -it --privileged=true [e8667aaa087d]
 ```
-具体参数可以网上搜索
+具体参数可以网上搜索, 此处必须添加--privileged=true使得容器真正获取主机硬件资源，包括GPU显卡资源.
 
 这样就可以进入container了
 ```
