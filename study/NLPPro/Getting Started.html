@@ -52,6 +52,26 @@
 <h1 id="_1">写在前面</h1>
 <p>THUCNews和IMDB数据集都是用来做文本分类的数据集</p>
 <h2 id="thucnews">中文数据集：THUCNews</h2>
+<p>1 数据集下载<br />
+本文采用了清华NLP组提供的THUCNews新闻文本分类数据集的子集, 数据下载链接：<br />
+THUCNews数据子集：https://pan.baidu.com/s/1hugrfRu 密码：qfud</p>
+<p>2 数据描述</p>
+<p>该数据集使用了其中的10个分类，每个分类6500条，总共65000条新闻数据。</p>
+<p>数据集共有三个文件，如下：</p>
+<div class="hlcode"><pre><span class="n">cnews</span><span class="p">.</span><span class="n">train</span><span class="p">.</span><span class="n">txt</span><span class="o">:</span> <span class="err">训练集</span><span class="p">(</span><span class="mi">500010</span><span class="err">条</span><span class="p">)</span>
+<span class="n">cnews</span><span class="p">.</span><span class="n">val</span><span class="p">.</span><span class="n">txt</span><span class="o">:</span> <span class="err">验证集</span><span class="p">(</span><span class="mi">50010</span><span class="err">条</span><span class="p">)</span>
+<span class="n">cnews</span><span class="p">.</span><span class="n">test</span><span class="p">.</span><span class="n">txt</span><span class="o">:</span> <span class="err">测试集</span><span class="p">(</span><span class="mi">1000</span><span class="o">*</span><span class="mi">10</span><span class="err">条</span><span class="p">)</span>
+</pre></div>
+
+
+<p>3 数据展示</p>
+<div class="hlcode"><pre><span class="n">import</span> <span class="n">pandas</span> <span class="n">as</span> <span class="n">pd</span>
+<span class="n">train_data</span><span class="o">=</span><span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="err">&#39;</span><span class="n">cnews_train</span><span class="p">.</span><span class="n">txt</span><span class="err">&#39;</span><span class="p">,</span><span class="n">sep</span><span class="o">=</span><span class="sc">&#39;\t&#39;</span><span class="p">,</span><span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="err">&#39;</span><span class="n">label</span><span class="sc">&#39;,&#39;</span><span class="n">content</span><span class="err">&#39;</span><span class="p">])</span>
+<span class="n">test_data</span><span class="o">=</span><span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="err">&#39;</span><span class="n">cnews</span><span class="p">.</span><span class="n">test</span><span class="p">.</span><span class="n">txt</span><span class="err">&#39;</span><span class="p">,</span><span class="n">sep</span><span class="o">=</span><span class="sc">&#39;\t&#39;</span><span class="p">,</span><span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="err">&#39;</span><span class="n">content</span><span class="err">&#39;</span><span class="p">])</span>
+<span class="n">train_data</span><span class="p">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+
+
 <h2 id="imdb">英文数据集：IMDB数据集</h2>
 <h1 id="_2">参考文献</h1>
 </div>
