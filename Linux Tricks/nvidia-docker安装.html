@@ -71,27 +71,51 @@
 <center><img src="/wiki/static/images/docker/nvidia-docker_install.png" alt="nvidia-docker"/></center><br />
 nvidia-docker安装完成之后, 重启dokcer.</p>
 <h2 id="docker">docker中使用</h2>
-<div class="hlcode"><pre><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">it</span> <span class="o">--</span><span class="n">privileged</span><span class="o">=</span><span class="n">True</span> <span class="o">--</span><span class="n">gpus</span> <span class="n">all</span> <span class="p">[</span><span class="n">REPOSITORY</span><span class="o">:</span><span class="n">TAG</span><span class="p">]</span> <span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">bash</span>
+<p>方法一</p>
+<div class="hlcode"><pre><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">it</span> \
+<span class="o">-</span><span class="n">p</span> <span class="mi">8080</span><span class="o">:</span><span class="mi">8080</span> \
+<span class="o">-</span><span class="n">p</span> <span class="mi">8081</span><span class="o">:</span><span class="mi">8081</span> \
+<span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">gpyz</span><span class="o">/</span><span class="n">workshop</span><span class="o">:/</span><span class="n">home</span><span class="o">/</span><span class="n">li</span><span class="o">/</span><span class="n">workshop</span> \
+<span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">include</span><span class="o">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">include</span> \
+<span class="o">--</span><span class="n">privileged</span><span class="o">=</span><span class="n">True</span> \
+<span class="o">--</span><span class="n">gpus</span> <span class="n">all</span> \
+<span class="p">[</span><span class="n">REPOSITORY</span><span class="o">:</span><span class="n">TAG</span><span class="p">]</span> <span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">bash</span>
 </pre></div>
 
 
-<div class="hlcode"><pre>docker run -it <span class="se">\</span>
--p 8080:8080 <span class="se">\</span>
--v /home/gpyz/workshop:/home/li/workshop <span class="se">\</span>
---privileged<span class="o">=</span>True <span class="se">\</span>
---gpus all <span class="se">\</span>
-<span class="o">[</span>ubuntu:latest<span class="o">]</span> /bin/bash
+<p>方法二</p>
+<div class="hlcode"><pre><span class="n">nvidia</span><span class="o">-</span><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">it</span> \
+<span class="o">-</span><span class="n">p</span> <span class="mi">8080</span><span class="o">:</span><span class="mi">8080</span> \
+<span class="o">-</span><span class="n">p</span> <span class="mi">8081</span><span class="o">:</span><span class="mi">8081</span> \
+<span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">gpyz</span><span class="o">/</span><span class="n">workshop</span><span class="o">:/</span><span class="n">home</span><span class="o">/</span><span class="n">li</span><span class="o">/</span><span class="n">workshop</span> \
+<span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">include</span><span class="o">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">include</span> \
+<span class="o">--</span><span class="n">privileged</span><span class="o">=</span><span class="n">True</span> \
+<span class="o">--</span><span class="n">runtime</span><span class="o">=</span><span class="n">nvidia</span> \
+<span class="p">[</span><span class="n">REPOSITORY</span><span class="o">:</span><span class="n">TAG</span><span class="p">]</span> <span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">bash</span>
 </pre></div>
 
 
+<p>方法一</p>
 <div class="hlcode"><pre>docker run -it <span class="se">\</span>
--p 8080:8080 <span class="se">\</span>
+-p 8989:8989 <span class="se">\</span>
 -v /home/gpyz/workshop:/home/li/workshop <span class="se">\</span>
--v /usr/include:/usr/include/ <span class="se">\</span>
--v /home/gpyz/soft/ML:/home/gpyz/soft/ML <span class="se">\</span>
+-v /home/gpyz/soft/ML:/home/li/soft/ML <span class="se">\</span>
 --privileged<span class="o">=</span>True <span class="se">\</span>
 --gpus all <span class="se">\</span>
-flaght/kdrl:0.3.2 /bin/bash
+--name ubuntu_base <span class="se">\</span>
+tensorflow/tensorflow:latest-gpu-py3 /bin/bash
+</pre></div>
+
+
+<p>方法二</p>
+<div class="hlcode"><pre>nvidia-docker run -it <span class="se">\</span>
+-p 8084:8084 <span class="se">\</span>
+-v /home/gpyz/workshop:/home/li/workshop <span class="se">\</span>
+-v /home/gpyz/soft/ML:/home/li/soft/ML <span class="se">\</span>
+--privileged<span class="o">=</span>True <span class="se">\</span>
+--runtime<span class="o">=</span>nvidia <span class="se">\</span>
+--name ubuntu3 <span class="se">\</span>
+mdjaere/tensorflow-notebook-gpu:latest /bin/bash
 </pre></div>
 
 
@@ -102,6 +126,10 @@ flaght/kdrl:0.3.2 /bin/bash
 <p><a href="https://www.jianshu.com/p/f25ccedb996e">安装NVIDIA-DOCKER</a></p>
 <p><a href="https://github.com/NVIDIA/nvidia-docker">nvidia-docker</a></p>
 <p><a href="https://blog.csdn.net/qq_41493990/article/details/81624419">ubuntu16.04下docker和nvidia-docker安装</a></p>
+<p><a href="https://github.com/NVIDIA/nccl">NCCL</a></p>
+<p><a href="https://github.com/NVIDIA/nvidia-docker/wiki/Installation-(Native-GPU-Support)">Installation (Native GPU Support)</a></p>
+<p><a href="https://zhongneng.github.io/2018/12/04/docker-env/">Centos7使用Docker快速搭建深度学习环境</a></p>
+<p><a href="https://blog.csdn.net/qq_29300341/article/details/84754970">使用docker在Ubuntu上安装TensorFlow-GPU</a></p>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2018-06-02 00:00 </span></div>
 <div id="comments"></div>
