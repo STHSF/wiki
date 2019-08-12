@@ -41,7 +41,19 @@ c.JupyterHub.port = 端口
 ```
 配置完成之后, 启动```jupyterhub```, 可能会遇到下面的问题:
 ```bash
-[E 2019-07-23 09:54:20.121 JupyterHub proxy:658] Failed to find proxy ['configurable-http-proxy']
+[E 2019-08-12 17:12:53.624 JupyterHub proxy:658] Failed to find proxy ['configurable-http-proxy']
+    The proxy can be installed with `npm install -g configurable-http-proxy`.To install `npm`, install nodejs which includes `npm`.If you see an `EACCES` error or permissions error, refer to the `npm` documentation on How To Prevent Permissions Errors.
+[C 2019-08-12 17:12:53.624 JupyterHub app:2349] Failed to start proxy
+    Traceback (most recent call last):
+      File "/home/gpyz/venv/xgb/lib/python3.5/site-packages/jupyterhub/app.py", line 2347, in start
+        await self.proxy.start()
+      File "/home/gpyz/venv/xgb/lib/python3.5/site-packages/jupyterhub/proxy.py", line 650, in start
+        cmd, env=env, start_new_session=True, shell=shell
+      File "/usr/lib/python3.5/subprocess.py", line 947, in __init__
+        restore_signals, start_new_session)
+      File "/usr/lib/python3.5/subprocess.py", line 1551, in _execute_child
+        raise child_exception_type(errno_num, err_msg)
+    FileNotFoundError: [Errno 2] No such file or directory: 'configurable-http-proxy'
 ```
 则需要参考下面的操作:
 ```
