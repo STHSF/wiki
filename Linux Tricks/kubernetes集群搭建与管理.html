@@ -43,16 +43,63 @@
   <div class="toc"><span class="toctitle">Table of Contents</span><ul>
 <li><a href="#_1">写在前面</a></li>
 <li><a href="#_2">基础知识</a></li>
-<li><a href="#_3">参考文献</a></li>
+<li><a href="#_3">安装</a><ul>
+<li><a href="#1kubernetes">1、更换阿里云的系统和kubernetes的源</a></li>
+<li><a href="#2kubeadm-kubectl-kubelet">2、安装kubeadm, kubectl, kubelet软件包</a></li>
+<li><a href="#3">3、</a></li>
+</ul>
+</li>
+<li><a href="#_4">参考文献</a></li>
 </ul>
 </div>
 <h1 id="_1">写在前面</h1>
 <h1 id="_2">基础知识</h1>
-<h1 id="_3">参考文献</h1>
+<h1 id="_3">安装</h1>
+<h3 id="1kubernetes">1、更换阿里云的系统和kubernetes的源</h3>
+<p>在所有节点上安装kubeadm，这里使用阿里云的系统和kubernetes的源, 修改<code>/etc/apt/sources.list</code>的内容, 将下面的内容添加进去. 并且使用<code>apt-get update -y</code> 更新源</p>
+<div class="hlcode"><pre><span class="c"># 系统安装源</span>
+<span class="k">deb</span> <span class="s">http://mirrors.aliyun.com/ubuntu/</span> <span class="kp">xenial</span> <span class="kp">main</span> <span class="kp">restricted</span>
+<span class="k">deb</span> <span class="s">http://mirrors.aliyun.com/ubuntu/</span> <span class="kp">xenial-updates</span> <span class="kp">main</span> <span class="kp">restricted</span>
+<span class="k">deb</span> <span class="s">http://mirrors.aliyun.com/ubuntu/</span> <span class="kp">xenial</span> <span class="kp">universe</span>
+<span class="k">deb</span> <span class="s">http://mirrors.aliyun.com/ubuntu/</span> <span class="kp">xenial-updates</span> <span class="kp">universe</span>
+<span class="k">deb</span> <span class="s">http://mirrors.aliyun.com/ubuntu/</span> <span class="kp">xenial</span> <span class="kp">multiverse</span>
+<span class="k">deb</span> <span class="s">http://mirrors.aliyun.com/ubuntu/</span> <span class="kp">xenial-updates</span> <span class="kp">multiverse</span>
+<span class="k">deb</span> <span class="s">http://mirrors.aliyun.com/ubuntu/</span> <span class="kp">xenial-backports</span> <span class="kp">main</span> <span class="kp">restricted</span> <span class="kp">universe</span> <span class="kp">multiverse</span>
+<span class="c"># kubeadm及kubernetes组件安装源</span>
+<span class="k">deb</span> <span class="s">https://mirrors.aliyun.com/kubernetes/apt</span> <span class="kp">kubernetes-xenial</span> <span class="kp">main</span>
+</pre></div>
+
+
+<h3 id="2kubeadm-kubectl-kubelet">2、安装kubeadm, kubectl, kubelet软件包</h3>
+<div class="hlcode"><pre><span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="n">kubelet</span> <span class="n">kubeadm</span> <span class="n">kubectl</span> <span class="o">--</span><span class="n">allow</span><span class="o">-</span><span class="n">unauthenticated</span>
+</pre></div>
+
+
+<p>安装过程中可能会出现下面的问题:</p>
+<div class="hlcode"><pre><span class="n">Reading</span> <span class="n">package</span> <span class="n">lists</span><span class="p">...</span> <span class="n">Done</span>
+<span class="n">Building</span> <span class="n">dependency</span> <span class="n">tree</span>
+<span class="n">Reading</span> <span class="n">state</span> <span class="n">information</span><span class="p">...</span> <span class="n">Done</span>
+<span class="n">The</span> <span class="n">following</span> <span class="n">additional</span> <span class="n">packages</span> <span class="n">will</span> <span class="n">be</span> <span class="n">installed</span><span class="o">:</span>
+  <span class="n">conntrack</span> <span class="n">cri</span><span class="o">-</span><span class="n">tools</span> <span class="n">ebtables</span> <span class="n">kubernetes</span><span class="o">-</span><span class="n">cni</span> <span class="n">socat</span>
+<span class="n">The</span> <span class="n">following</span> <span class="n">NEW</span> <span class="n">packages</span> <span class="n">will</span> <span class="n">be</span> <span class="n">installed</span><span class="o">:</span>
+  <span class="n">conntrack</span> <span class="n">cri</span><span class="o">-</span><span class="n">tools</span> <span class="n">ebtables</span> <span class="n">kubeadm</span> <span class="n">kubectl</span> <span class="n">kubelet</span> <span class="n">kubernetes</span><span class="o">-</span><span class="n">cni</span> <span class="n">socat</span>
+<span class="mi">0</span> <span class="n">upgraded</span><span class="p">,</span> <span class="mi">8</span> <span class="n">newly</span> <span class="n">installed</span><span class="p">,</span> <span class="mi">0</span> <span class="n">to</span> <span class="n">remove</span> <span class="n">and</span> <span class="mi">289</span> <span class="n">not</span> <span class="n">upgraded</span><span class="p">.</span>
+<span class="n">Need</span> <span class="n">to</span> <span class="n">get</span> <span class="mf">52.9</span> <span class="n">MB</span> <span class="n">of</span> <span class="n">archives</span><span class="p">.</span>
+<span class="n">After</span> <span class="n">this</span> <span class="n">operation</span><span class="p">,</span> <span class="mi">280</span> <span class="n">MB</span> <span class="n">of</span> <span class="n">additional</span> <span class="n">disk</span> <span class="n">space</span> <span class="n">will</span> <span class="n">be</span> <span class="n">used</span><span class="p">.</span>
+<span class="nl">WARNING:</span> <span class="n">The</span> <span class="n">following</span> <span class="n">packages</span> <span class="n">cannot</span> <span class="n">be</span> <span class="n">authenticated</span><span class="o">!</span>
+  <span class="n">cri</span><span class="o">-</span><span class="n">tools</span> <span class="n">kubernetes</span><span class="o">-</span><span class="n">cni</span> <span class="n">kubelet</span> <span class="n">kubectl</span> <span class="n">kubeadm</span>
+<span class="nl">E:</span> <span class="n">There</span> <span class="n">were</span> <span class="n">unauthenticated</span> <span class="n">packages</span> <span class="n">and</span> <span class="o">-</span><span class="n">y</span> <span class="n">was</span> <span class="n">used</span> <span class="n">without</span> <span class="o">--</span><span class="n">allow</span><span class="o">-</span><span class="n">unauthenticated</span>
+</pre></div>
+
+
+<p>需要在后面加上<code>--allow-unauthenticated</code></p>
+<h3 id="3">3、</h3>
+<h1 id="_4">参考文献</h1>
 <p><a href="https://www.cnblogs.com/xiexj/p/9108020.html">Kubernetes(K8s)基础知识(docker容器技术)</a></p>
 <p><a href="https://blog.51cto.com/lizhenliang/1983392">Kubernetes(K8S)集群管理Docker容器（部署篇）</a></p>
 <p><a href="https://www.jianshu.com/p/fdd76f8eb587?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">K8S与docker常见问题及解决办法</a></p>
 <p><a href="http://cache.baiducontent.com/c?m=9f65cb4a8c8507ed4fece763104080224e0add216b97c71508d39019d5394c413037bee43a715042cec57e6404ac4a41edf73c75340437b7ec92ce15c9fecf6879877e3e310b873105a212b8ba3232c050872cefb86897ad863084d8d0c4de240597025c2dc0e78a2a1765c07886622692a28e3c10&amp;p=8a6ac54ad5c347e40be2960c4c4c9d&amp;newp=c43b89028b904ead08e2977e0b07c4231610db2151d4d5156b82c825d7331b001c3bbfb423271305d5c37f6507ab4e58e8f03073330923a3dda5c91d9fb4c57479&amp;user=baidu&amp;fm=sc&amp;query=k8s%C9%CF%D4%CB%D0%D0docker%C8%DD%C6%F7&amp;qid=89cb537a00076bb3&amp;p1=6">陌陌基于K8s和Docker容器管理平台的架构实践</a></p>
+<p><a href="https://blog.csdn.net/wucong60/article/details/81161360">Kubernetes系列之一：在Ubuntu上快速搭建一个集群Demo</a></p>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2019-07-21 00:00 </span></div>
 <div id="comments"></div>
