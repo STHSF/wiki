@@ -83,7 +83,7 @@ NCCL是Nvidia Collective multi-GPU Communication Library的简称，它是一个
 
 - 4、切换到NCCL下载的文件目录, 使用下面的命令进行安装
 ```
-dpkg -i nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb
+dpkg -i nccl-repo-ubuntu1604-2.4.8-ga-cuda10.0_1-1_amd64.deb
 ```
 - 5、更新APT数据库：```sudo apt update```, 这一步需要操作, 不然第六步会安装不成功,
 - 6、利用APT安装libnccl2。

@@ -29,29 +29,52 @@ $ sudo systemctl restart docker
 nvidia-docker安装完成之后, 重启dokcer.
 
 ## docker中使用
-
+方法一
 ```
-docker run -it --privileged=True --gpus all [REPOSITORY:TAG] /bin/bash
-```
-
-```bash
 docker run -it \
 -p 8080:8080 \
+-p 8081:8081 \
 -v /home/gpyz/workshop:/home/li/workshop \
+-v /usr/include:/usr/include \
 --privileged=True \
 --gpus all \
-[ubuntu:latest] /bin/bash
+[REPOSITORY:TAG] /bin/bash
+```
+方法二
+```
+nvidia-docker run -it \
+-p 8080:8080 \
+-p 8081:8081 \
+-v /home/gpyz/workshop:/home/li/workshop \
+-v /usr/include:/usr/include \
+--privileged=True \
+--runtime=nvidia \
+[REPOSITORY:TAG] /bin/bash
+
 ```
 
+方法一
 ```bash
 docker run -it \
--p 8080:8080 \
+-p 8989:8989 \
 -v /home/gpyz/workshop:/home/li/workshop \
--v /usr/include:/usr/include/ \
--v /home/gpyz/soft/ML:/home/gpyz/soft/ML \
+-v /home/gpyz/soft/ML:/home/li/soft/ML \
 --privileged=True \
 --gpus all \
-flaght/kdrl:0.3.2 /bin/bash
+--name ubuntu_base \
+tensorflow/tensorflow:latest-gpu-py3 /bin/bash
+```
+
+方法二
+```bash
+nvidia-docker run -it \
+-p 8084:8084 \
+-v /home/gpyz/workshop:/home/li/workshop \
+-v /home/gpyz/soft/ML:/home/li/soft/ML \
+--privileged=True \
+--runtime=nvidia \
+--name ubuntu3 \
+mdjaere/tensorflow-notebook-gpu:latest /bin/bash
 ```
 
 PYTHONIOENCODING=utf-8 python run.py
@@ -66,3 +89,11 @@ PYTHONIOENCODING=utf-8 python run.py
 [nvidia-docker](https://github.com/NVIDIA/nvidia-docker)
 
 [ubuntu16.04下docker和nvidia-docker安装](https://blog.csdn.net/qq_41493990/article/details/81624419)
+
+[NCCL](https://github.com/NVIDIA/nccl)
+
+[Installation (Native GPU Support)](https://github.com/NVIDIA/nvidia-docker/wiki/Installation-(Native-GPU-Support))
+
+[Centos7使用Docker快速搭建深度学习环境](https://zhongneng.github.io/2018/12/04/docker-env/)
+
+[使用docker在Ubuntu上安装TensorFlow-GPU](https://blog.csdn.net/qq_29300341/article/details/84754970)
