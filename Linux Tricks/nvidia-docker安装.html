@@ -97,13 +97,13 @@ nvidia-docker安装完成之后, 重启dokcer.</p>
 
 <p>方法一</p>
 <div class="hlcode"><pre>docker run -it <span class="se">\</span>
--p 8989:8989 <span class="se">\</span>
+-p 8987:8987 <span class="se">\</span>
 -v /home/gpyz/workshop:/home/li/workshop <span class="se">\</span>
 -v /home/gpyz/soft/ML:/home/li/soft/ML <span class="se">\</span>
 --privileged<span class="o">=</span>True <span class="se">\</span>
 --gpus all <span class="se">\</span>
---name ubuntu_base <span class="se">\</span>
-tensorflow/tensorflow:latest-gpu-py3 /bin/bash
+--name quant_env <span class="se">\</span>
+sthsf/ubuntu_base:0.1 /bin/bash
 </pre></div>
 
 
