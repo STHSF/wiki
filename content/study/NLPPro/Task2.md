@@ -41,5 +41,15 @@ word2vec模型其实就是简单化的神经网络。
 # python实现word2vec
 python的gensim包实现了word2vec的封装
 
+```
+import gensim.models
+
+# 词库
+lineIterator = lineIterator_list
+# 训练word2vec modle
+model = gensim.models.Word2Vec()
+model.build_vocab(lineIterator)
+model.train(lineIterator,total_examples=model.corpus_count,epochs=1)
+```
 
 # 参考文献
