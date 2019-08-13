@@ -42,28 +42,34 @@
 <div id="content">
   <div class="toc"><span class="toctitle">Table of Contents</span><ul>
 <li><a href="#_1">写在前面</a></li>
-<li><a href="#_2">参考文献</a></li>
+<li><a href="#_2">词袋模型</a></li>
+<li><a href="#_3">分布式表示</a><ul>
+<li><a href="#distributional-representation">分布表示(distributional representation)</a></li>
+<li><a href="#distributed-representation">分布式表示(distributed representation)</a></li>
+</ul>
+</li>
+<li><a href="#_4">参考文献</a></li>
 </ul>
 </div>
 <h1 id="_1">写在前面</h1>
 <ul>
-<li>
-<p>学习词袋模型概念：离散、高维、稀疏。</p>
-</li>
-<li>
-<p>学习分布式表示概念：连续、低维、稠密。</p>
-</li>
-<li>
-<p>理解word2vec词向量原理并实践，来表示文本。</p>
-</li>
-<li>
-<p>word2vec 中的数学原理详解  word2vec1 </p>
-</li>
-<li>
-<p>word2vec原理推导与代码分析  word2vec2</p>
-</li>
+<li>学习词袋模型概念：离散、高维、稀疏。</li>
+<li>学习分布式表示概念：连续、低维、稠密。</li>
+<li>理解word2vec词向量原理并实践，来表示文本。</li>
+<li>word2vec 中的数学原理详解  word2vec1 </li>
+<li>word2vec原理推导与代码分析  word2vec2</li>
 </ul>
-<h1 id="_2">参考文献</h1>
+<h1 id="_2">词袋模型</h1>
+<p>词袋模型是在自然语言处理和信息检索中的一种简单假设。在这种模型中，文本（段落或者文档）被看作是无序的词汇集合，忽略语法甚至是单词的顺序。</p>
+<p>词袋模型被用在文本分类的一些方法当中。当传统的贝叶斯分类被应用到文本当中时，贝叶斯中的条件独立性假设导致词袋模型。另外一些文本分类方法如LDA和LSA也使用了这个模型。</p>
+<h1 id="_3">分布式表示</h1>
+<h3 id="distributional-representation">分布表示(distributional representation)</h3>
+<p>从高维向量中捕捉每个词语的语义分布，通常基于共现计数，该模型基于分布假说</p>
+<p>分布（distributional）描述的是上下文的概率分布，因此用上下文描述语义的表示方法（基于分布假说的方法）都可以称作分布表示。与之相对的是形式语义表示。</p>
+<h3 id="distributed-representation">分布式表示(distributed representation)</h3>
+<p>高维向量的词的子符号表示，向量的相似性对应于语义的相似性，最主要的代表是基于神经网络的词嵌入</p>
+<p>分布式（distributed）描述的是把信息分布式地存储在向量的各个维度中，与之相对的是局部表示（local representation），如词的独热表示（one-hot representation），在高维向量中只有一个维度描述了词的语义。一般来说，通过矩阵降维或神经网络降维可以将语义分散存储到向量的各个维度中，因此，这类方法得到的低维向量一般都可以称作分布式表示。</p>
+<h1 id="_4">参考文献</h1>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2019-08-09 00:00 </span></div>
 <div id="comments"></div>
