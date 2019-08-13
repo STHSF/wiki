@@ -57,12 +57,13 @@ nvidia-docker run -it \
 ```bash
 docker run -it \
 -p 8987:8987 \
--v /home/gpyz/workshop:/home/li/workshop \
--v /home/gpyz/soft/ML:/home/li/soft/ML \
+-v /home/gpyz/workshop:/home/work/workshop \
+-v /home/gpyz/soft/ML:/home/work/soft \
+--restart always \
 --privileged=True \
 --gpus all \
---name quant_env \
-sthsf/ubuntu_base:0.1 /bin/bash
+--name quant_flask \
+sthsf/ubuntu_base:0.09 /bin/bash
 ```
 
 方法二
@@ -71,6 +72,7 @@ nvidia-docker run -it \
 -p 8084:8084 \
 -v /home/gpyz/workshop:/home/li/workshop \
 -v /home/gpyz/soft/ML:/home/li/soft/ML \
+--restart always \
 --privileged=True \
 --runtime=nvidia \
 --name ubuntu3 \
