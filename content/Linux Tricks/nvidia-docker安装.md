@@ -56,13 +56,13 @@ nvidia-docker run -it \
 方法一
 ```bash
 docker run -it \
--p 8989:8989 \
+-p 8987:8987 \
 -v /home/gpyz/workshop:/home/li/workshop \
 -v /home/gpyz/soft/ML:/home/li/soft/ML \
 --privileged=True \
 --gpus all \
---name ubuntu_base \
-tensorflow/tensorflow:latest-gpu-py3 /bin/bash
+--name quant_env \
+sthsf/ubuntu_base:0.1 /bin/bash
 ```
 
 方法二
