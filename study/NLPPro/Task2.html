@@ -84,6 +84,17 @@
 <p>这个模型是如何定义数据的输入和输出呢？一般分为CBOW(Continuous Bag-of-Words 与Skip-Gram两种模型。CBOW模型的训练输入是某一个特征词的上下文相关的词对应的词向量，而输出就是这特定的一个词的词向量。　Skip-Gram模型和CBOW的思路是反着来的，即输入是特定的一个词的词向量，而输出是特定词对应的上下文词向量。CBOW对小型数据库比较合适，而Skip-Gram在大型语料中表现更好。</p>
 <h1 id="pythonword2vec">python实现word2vec</h1>
 <p>python的gensim包实现了word2vec的封装</p>
+<div class="hlcode"><pre><span class="n">import</span> <span class="n">gensim</span><span class="p">.</span><span class="n">models</span>
+
+<span class="cp"># 词库</span>
+<span class="n">lineIterator</span> <span class="o">=</span> <span class="n">lineIterator_list</span>
+<span class="cp"># 训练word2vec modle</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">gensim</span><span class="p">.</span><span class="n">models</span><span class="p">.</span><span class="n">Word2Vec</span><span class="p">()</span>
+<span class="n">model</span><span class="p">.</span><span class="n">build_vocab</span><span class="p">(</span><span class="n">lineIterator</span><span class="p">)</span>
+<span class="n">model</span><span class="p">.</span><span class="n">train</span><span class="p">(</span><span class="n">lineIterator</span><span class="p">,</span><span class="n">total_examples</span><span class="o">=</span><span class="n">model</span><span class="p">.</span><span class="n">corpus_count</span><span class="p">,</span><span class="n">epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+
 <h1 id="_4">参考文献</h1>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2019-08-09 00:00 </span></div>
