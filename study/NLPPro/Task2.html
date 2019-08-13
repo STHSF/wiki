@@ -41,8 +41,14 @@
 <div id="title">Getting Started</div>
 <div id="content">
   <div class="toc"><span class="toctitle">Table of Contents</span><ul>
-<li><a href="#_1">写在前面</a></li>
-<li><a href="#_2">参考文献</a></li>
+<li><a href="#_1">写在前面</a><ul>
+<li><a href="#sigmoid">sigmoid函数</a></li>
+<li><a href="#softmax">softmax函数</a></li>
+<li><a href="#cross_entropy">cross_Entropy函数</a></li>
+<li><a href="#_2">任务描述</a></li>
+</ul>
+</li>
+<li><a href="#_3">参考文献</a></li>
 </ul>
 </div>
 <h1 id="_1">写在前面</h1>
@@ -52,7 +58,77 @@
 4.在梯度方向上进行参数的更新<br />
 5.numpy和pytorch实现线性回归<br />
 6.pytorch实现一个简单的神经网络</p>
-<h1 id="_2">参考文献</h1>
+<p>导入的包</p>
+<div class="hlcode"><pre><span class="n">import</span> <span class="n">os</span>
+<span class="n">import</span> <span class="n">torch</span>
+<span class="n">import</span> <span class="n">torch</span><span class="p">.</span><span class="n">nn</span> <span class="n">as</span> <span class="n">nn</span>
+<span class="n">import</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span> <span class="n">as</span> <span class="n">Data</span>
+<span class="n">import</span> <span class="n">torchvision</span>
+</pre></div>
+
+
+<p>读取数据</p>
+<div class="hlcode"><pre><span class="n">EPOCH</span> <span class="o">=</span> <span class="mi">1</span>  <span class="err">#</span> <span class="n">train</span> <span class="n">the</span> <span class="n">training</span> <span class="n">data</span> <span class="n">n</span> <span class="n">times</span><span class="p">,</span> <span class="n">to</span> <span class="n">save</span> <span class="n">time</span><span class="p">,</span> <span class="n">we</span> <span class="n">just</span> <span class="n">train</span> <span class="mi">1</span> <span class="n">epoch</span>
+<span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">DOWNLOAD_MNIST</span> <span class="o">=</span> <span class="n">False</span>
+<span class="n">LR</span> <span class="o">=</span> <span class="mf">0.001</span>
+
+<span class="cp"># Mnist digits dataset</span>
+<span class="k">if</span> <span class="n">not</span> <span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="err">&#39;</span><span class="p">.</span><span class="o">/</span><span class="n">mnist</span><span class="o">/</span><span class="err">&#39;</span><span class="p">))</span> <span class="n">or</span> <span class="n">not</span> <span class="n">os</span><span class="p">.</span><span class="n">listdir</span><span class="p">(</span><span class="err">&#39;</span><span class="p">.</span><span class="o">/</span><span class="n">mnist</span><span class="o">/</span><span class="err">&#39;</span><span class="p">)</span><span class="o">:</span>
+    <span class="err">#</span> <span class="n">not</span> <span class="n">mnist</span> <span class="n">dir</span> <span class="n">or</span> <span class="n">mnist</span> <span class="n">is</span> <span class="n">empyt</span> <span class="n">dir</span>
+    <span class="n">DOWNLOAD_MNIST</span> <span class="o">=</span> <span class="n">True</span>
+
+<span class="n">train_data</span> <span class="o">=</span> <span class="n">torchvision</span><span class="p">.</span><span class="n">datasets</span><span class="p">.</span><span class="n">MNIST</span><span class="p">(</span>
+    <span class="n">root</span><span class="o">=</span><span class="err">&#39;</span><span class="p">.</span><span class="o">/</span><span class="n">mnist</span><span class="o">/</span><span class="err">&#39;</span><span class="p">,</span>
+    <span class="n">train</span><span class="o">=</span><span class="n">True</span><span class="p">,</span>  <span class="err">#</span> <span class="n">this</span> <span class="n">is</span> <span class="n">training</span> <span class="n">data</span>
+    <span class="n">transform</span><span class="o">=</span><span class="n">torchvision</span><span class="p">.</span><span class="n">transforms</span><span class="p">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+    <span class="n">download</span><span class="o">=</span><span class="n">DOWNLOAD_MNIST</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="cp"># Data Loader for easy mini-batch return in training, the image batch shape will be (50, 1, 28, 28)</span>
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">Data</span><span class="p">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">train_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">)</span>  <span class="err">#</span> <span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="n">True</span><span class="p">)</span>
+</pre></div>
+
+
+<h2 id="sigmoid">sigmoid函数</h2>
+<p>sigmoid函数，将数据R映射到（0,1）区间上了。</p>
+<h2 id="softmax">softmax函数</h2>
+<p>softmax是将根据n个数值的大小来分配概率区间</p>
+<p>一般来说，为了避免数值越界的话，会要求减去最大值。</p>
+<p>但是这里我们是用logistic regression，数值都会在0，1区间中，不会太大，因此不用担心这个问题。</p>
+<h2 id="cross_entropy">cross_Entropy函数</h2>
+<p>cross_Entropy 就是交叉熵。</p>
+<p>这里，一旦我们给出了标准的label之后，我们就知道实际的p值分布为</p>
+<p>只有一个元素为1，其他元素为0的概率分布了。</p>
+<p>也就是对应label的概率越大越好~</p>
+<h2 id="_2">任务描述</h2>
+<p>采用SDG，和DG算法</p>
+<p>本文采用了pytorch实现，主要是为了避免手动算梯度。pytorch有autograd的机制。</p>
+<p>本文一直采用的是固定步长<br />
+- 实现SDG的部分代码<br />
+从logistics regression模型中获取了</p>
+<div class="hlcode"><pre><span class="n">A</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="n">in</span> <span class="n">logits</span><span class="p">.</span><span class="n">parameters</span><span class="p">()]</span>
+<span class="n">A</span><span class="p">.</span><span class="n">cuda</span><span class="p">()</span>
+<span class="n">b</span><span class="p">.</span><span class="n">cuda</span><span class="p">()</span>
+</pre></div>
+
+
+<p>通过查看pytorch的源码实现中关于优化器部分的实现，手动设置了梯度归零的操作，不然就会是累积梯度了。</p>
+<div class="hlcode"><pre><span class="k">if</span> <span class="n">A</span><span class="p">.</span><span class="n">grad</span> <span class="n">is</span> <span class="n">not</span> <span class="n">None</span><span class="o">:</span>
+    <span class="n">A</span><span class="p">.</span><span class="n">grad</span><span class="p">.</span><span class="n">zero_</span><span class="p">()</span>
+    <span class="n">b</span><span class="p">.</span><span class="n">grad</span><span class="p">.</span><span class="n">zero_</span><span class="p">()</span>
+</pre></div>
+
+
+<ul>
+<li>梯度下降更新梯度</li>
+</ul>
+<div class="hlcode"><pre><span class="n">A</span><span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">A</span><span class="p">.</span><span class="n">data</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">A</span><span class="p">.</span><span class="n">grad</span><span class="p">.</span><span class="n">data</span>
+<span class="n">b</span><span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">b</span><span class="p">.</span><span class="n">data</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">b</span><span class="p">.</span><span class="n">grad</span><span class="p">.</span><span class="n">data</span>
+</pre></div>
+
+
+<h1 id="_3">参考文献</h1>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2018-08-09 00:00 </span></div>
 <div id="comments"></div>

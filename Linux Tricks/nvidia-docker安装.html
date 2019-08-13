@@ -98,12 +98,13 @@ nvidia-docker安装完成之后, 重启dokcer.</p>
 <p>方法一</p>
 <div class="hlcode"><pre>docker run -it <span class="se">\</span>
 -p 8987:8987 <span class="se">\</span>
--v /home/gpyz/workshop:/home/li/workshop <span class="se">\</span>
--v /home/gpyz/soft/ML:/home/li/soft/ML <span class="se">\</span>
+-v /home/gpyz/workshop:/home/work/workshop <span class="se">\</span>
+-v /home/gpyz/soft/ML:/home/work/soft <span class="se">\</span>
+--restart always <span class="se">\</span>
 --privileged<span class="o">=</span>True <span class="se">\</span>
 --gpus all <span class="se">\</span>
---name quant_env <span class="se">\</span>
-sthsf/ubuntu_base:0.1 /bin/bash
+--name quant_flask <span class="se">\</span>
+sthsf/ubuntu_base:0.09 /bin/bash
 </pre></div>
 
 
@@ -112,6 +113,7 @@ sthsf/ubuntu_base:0.1 /bin/bash
 -p 8084:8084 <span class="se">\</span>
 -v /home/gpyz/workshop:/home/li/workshop <span class="se">\</span>
 -v /home/gpyz/soft/ML:/home/li/soft/ML <span class="se">\</span>
+--restart always <span class="se">\</span>
 --privileged<span class="o">=</span>True <span class="se">\</span>
 --runtime<span class="o">=</span>nvidia <span class="se">\</span>
 --name ubuntu3 <span class="se">\</span>
