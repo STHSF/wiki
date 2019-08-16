@@ -377,6 +377,9 @@ $ cat <FILE NMAE>.tar |docker import - <REPOSITORY>:<TAG>
 ```
 ***注意：运行导入的镜像的时候必须带command(/bin/bash)，否则启动报如下错误***
 
+### Dockerhub使用
+
+
 
 # docker 添加用户
 
