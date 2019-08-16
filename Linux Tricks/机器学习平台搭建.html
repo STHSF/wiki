@@ -41,31 +41,67 @@
 <div id="title">机器学习平台搭建</div>
 <div id="content">
   <div class="toc"><span class="toctitle">Table of Contents</span><ul>
-<li><a href="#_1">基础环境搭建</a></li>
+<li><a href="#_1">基础环境搭建和使用</a></li>
 <li><a href="#nvidia">Nvidia套件安装</a></li>
 <li><a href="#xgboost-gpu">Xgboost GPU部署</a></li>
-<li><a href="#nvidia-docker">Nvidia Docker部署</a><ul>
-<li><a href="#docker">docker部署的优点</a></li>
+<li><a href="#nvidia-docker">Nvidia Docker部署</a></li>
+<li><a href="#docker">Docker基础镜像</a><ul>
+<li><a href="#docker_1">docker部署的优点</a></li>
+<li><a href="#docker_2">单docker多用户</a></li>
+<li><a href="#docker_3">多单docker单用户</a></li>
 </ul>
 </li>
 </ul>
 </div>
-<h1 id="_1">基础环境搭建</h1>
-<p>需要配置安装的基础环境要求</p>
+<h1 id="_1">基础环境搭建和使用</h1>
+<p>需要配置安装的基础环境</p>
 <p>1、ubuntu16.04和python3</p>
 <p>2、<a href="https://sthsf.github.io/wiki/Linux%20Tricks/annaconda%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html">anaconda</a></p>
-<p>3、<a href="https://sthsf.github.io/wiki/Linux%20Tricks/virtualenv使用教程.html">virtualenv</a></p>
+<p>ssh进入服务器会默认进入conda的base环境, 可以使用<code>conda deactivate</code>推出环境.</p>
+<p>激活demo环境</p>
+<div class="hlcode"><pre><span class="cp"># 激活名称为ml的虚拟环境</span>
+<span class="n">conda</span> <span class="n">activate</span> <span class="n">ml</span>
+</pre></div>
+
+
+<p>新建环境</p>
+<div class="hlcode"><pre><span class="cp"># 新建名为venv_name的conda虚拟环境, 详细参数使用可百度</span>
+<span class="n">conda</span> <span class="n">create</span> <span class="p">[</span><span class="n">venv_name</span><span class="p">]</span>
+</pre></div>
+
+
+<p>3、<a href="https://sthsf.github.io/wiki/Linux%20Tricks/virtualenv使用教程.html">virtualenv</a><br />
+激活virtualenv环境</p>
+<div class="hlcode"><pre><span class="cp"># 首先推出conda的环境</span>
+<span class="n">conda</span> <span class="n">deactivate</span>
+<span class="cp"># 激活virtualenv</span>
+<span class="n">actiavate</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">gpyz</span><span class="o">/</span><span class="n">venv</span><span class="o">/</span><span class="n">xgb</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">activate</span>
+</pre></div>
+
+
+<p>新建virtualenv环境</p>
+<div class="hlcode"><pre><span class="cp"># 新建名为venv_name的virtualenv环境, 详细使用可百度</span>
+<span class="n">virtualenv</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">gpyz</span><span class="o">/</span><span class="n">venv</span><span class="o">/</span><span class="p">[</span><span class="n">venv_name</span><span class="p">]</span>
+</pre></div>
+
+
 <h1 id="nvidia">Nvidia套件安装</h1>
 <p><a href="https://sthsf.github.io/wiki/Algorithm/DeepLearning/Tensorflow%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Tensorflow%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86---Tensorflow-gpu%E7%89%88%E6%9C%AC%E5%AE%89%E8%A3%85(3)%20.html">Ubuntu16.04下安装安装CUDA、cuDNN和tensotflow-gpu流程和问题总结</a></p>
 <h1 id="xgboost-gpu">Xgboost GPU部署</h1>
 <p><a href="https://sthsf.github.io/wiki/Algorithm/EnsembleMethod/EnsembleLearning/XGBoost%20GPU%E5%AE%89%E8%A3%85.html">XGBoost GPU安装Tutorial</a></p>
 <h1 id="nvidia-docker">Nvidia Docker部署</h1>
 <p><a href="https://sthsf.github.io/wiki/Linux%20Tricks/nvidia-docker安装.html">Nvidia-Docker安装Tutorial</a></p>
-<h4 id="docker">docker部署的优点</h4>
+<h1 id="docker">Docker基础镜像</h1>
+<p><a href="">基础镜像地址</a></p>
+<h4 id="docker_1">docker部署的优点</h4>
 <p>1、各用户的工作环境隔绝, Docker内的活动不会破坏其他用户或者主机环境;</p>
 <p>2、避免重复安装工作环境, 可在基础Docker镜像的基础上扩展;</p>
 <p>3、主机的资源扩展和软件更新对Docker用户工作环境的影响比较小;</p>
 <p>4、后期对服务器资源(CPU, GPU)管理方便.</p>
+<h4 id="docker_2">单docker多用户</h4>
+<p>用户数据保存在docker内, 因为不同的用户使用的是系统新建用户, 动态创建用户不太好做目录映射</p>
+<h4 id="docker_3">多单docker单用户</h4>
+<p>需要docker管理工具, 加大了运维需求.</p>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2019-08-12 00:00 </span></div>
 <div id="comments"></div>
