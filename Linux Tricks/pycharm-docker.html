@@ -5,7 +5,7 @@
     <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
     <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
-    <title>Nvidia-Docker安装 - LiYu's personal knowledge wiki</title>
+    <title>pycharm中调用Docker环境 - LiYu's personal knowledge wiki</title>
     <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
     <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -35,42 +35,20 @@
 <div id="container">
     
 <div id="header">
-  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Linux Tricks">Linux Tricks</a>&nbsp;»&nbsp;Nvidia-Docker安装</div>
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Linux Tricks">Linux Tricks</a>&nbsp;»&nbsp;pycharm中调用Docker环境</div>
 </div>
 <div class="clearfix"></div>
-<div id="title">Nvidia-Docker安装</div>
+<div id="title">pycharm中调用Docker环境</div>
 <div id="content">
   <div class="toc"><span class="toctitle">Table of Contents</span><ul>
-<li><a href="#_1">写在前面</a></li>
-<li><a href="#docker-cenvidia">安装docker-ce和nvidia驱动</a></li>
-<li><a href="#nvidia-docker">安装nvidia-docker</a><ul>
-<li><a href="#docker">docker中使用</a></li>
+<li><a href="#_1">写在前面</a><ul>
+<li><a href="#docker">docker 启动</a></li>
 </ul>
 </li>
-<li><a href="#_2">参考文献</a></li>
 </ul>
 </div>
 <h1 id="_1">写在前面</h1>
-<p>nvidia-docker是一个可以使用GPU的docker，nvidia-docker是在docker上做了一层封装，通过nvidia-docker-plugin，然后调用到docker上，其最终实现的还是在docker的启动命令上携带一些必要的参数。</p>
-<h1 id="docker-cenvidia">安装docker-ce和nvidia驱动</h1>
-<p>在安装nvidia-docker之前，还是需要安装docker的。</p>
-<h1 id="nvidia-docker">安装nvidia-docker</h1>
-<p>安装过程主要参考<a href="https://github.com/NVIDIA/nvidia-docker">官网安装</a>, 安装nvidia-docker之前必须确保已经安装了NVIDIA driver, 且安装的Docker版本&gt;19.03.</p>
-<p>如果是第一次使用GPUs和Docker的用户, 可以直接使用下面的命令:</p>
-<div class="hlcode"><pre><span class="cp"># Add the package repositories</span>
-<span class="err">$</span> <span class="n">distribution</span><span class="o">=</span><span class="err">$</span><span class="p">(.</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">os</span><span class="o">-</span><span class="n">release</span><span class="p">;</span><span class="n">echo</span> <span class="err">$</span><span class="n">ID</span><span class="err">$</span><span class="n">VERSION_ID</span><span class="p">)</span>
-<span class="err">$</span> <span class="n">curl</span> <span class="o">-</span><span class="n">s</span> <span class="o">-</span><span class="n">L</span> <span class="n">https</span><span class="o">:</span><span class="c1">//nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -</span>
-<span class="err">$</span> <span class="n">curl</span> <span class="o">-</span><span class="n">s</span> <span class="o">-</span><span class="n">L</span> <span class="n">https</span><span class="o">:</span><span class="c1">//nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list</span>
-
-<span class="err">$</span> <span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">update</span> <span class="o">&amp;&amp;</span> <span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="n">nvidia</span><span class="o">-</span><span class="n">container</span><span class="o">-</span><span class="n">toolkit</span>
-<span class="err">$</span> <span class="n">sudo</span> <span class="n">systemctl</span> <span class="n">restart</span> <span class="n">docker</span>
-</pre></div>
-
-
-<p>运行过程如下:<br />
-<center><img src="/wiki/static/images/docker/nvidia-docker_install.png" alt="nvidia-docker"/></center><br />
-nvidia-docker安装完成之后, 重启dokcer.</p>
-<h2 id="docker">docker中使用</h2>
+<h2 id="docker">docker 启动</h2>
 <p>方法一</p>
 <div class="hlcode"><pre><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">it</span> \
 <span class="o">-</span><span class="n">p</span> <span class="mi">8080</span><span class="o">:</span><span class="mi">8080</span> \
@@ -97,18 +75,6 @@ nvidia-docker安装完成之后, 重启dokcer.</p>
 
 <p>方法一</p>
 <div class="hlcode"><pre>docker run -it <span class="se">\</span>
--p 8987:8987 <span class="se">\</span>
--v /home/gpyz/workshop:/home/work/workshop <span class="se">\</span>
--v /home/gpyz/soft/ML:/home/work/soft <span class="se">\</span>
---restart always <span class="se">\</span>
---privileged<span class="o">=</span>True <span class="se">\</span>
---gpus all <span class="se">\</span>
---name quant_flask <span class="se">\</span>
-sthsf/ubuntu_base:0.09 /bin/bash
-</pre></div>
-
-
-<div class="hlcode"><pre>docker run -it <span class="se">\</span>
 -p 8022:22 <span class="se">\</span>
 --restart always <span class="se">\</span>
 --privileged<span class="o">=</span>True <span class="se">\</span>
@@ -118,31 +84,7 @@ sthsf/ubuntu_base:0.1 /usr/sbin/sshd -D
 </pre></div>
 
 
-<p>方法二</p>
-<div class="hlcode"><pre>nvidia-docker run -it <span class="se">\</span>
--p 8022:22 <span class="se">\</span>
--p 8084:8084 <span class="se">\</span>
--v /home/gpyz/workshop:/home/li/workshop <span class="se">\</span>
--v /home/gpyz/soft/ML:/home/li/soft/ML <span class="se">\</span>
---restart always <span class="se">\</span>
---privileged<span class="o">=</span>True <span class="se">\</span>
---runtime<span class="o">=</span>nvidia <span class="se">\</span>
---name ubuntu3 <span class="se">\</span>
-mdjaere/tensorflow-notebook-gpu:latest /bin/bash
-</pre></div>
-
-
-<p>PYTHONIOENCODING=utf-8 python run.py</p>
-<h1 id="_2">参考文献</h1>
-<p><a href="https://www.liangzl.com/get-article-detail-3784.html">如何在ubuntu上安装nvidia-docker同时与宿主共享GPU cuda加速</a></p>
-<p><a href="https://blog.csdn.net/qq_41493990/article/details/81624419">ubuntu16.04下docker和nvidia-docker安装</a></p>
-<p><a href="https://www.jianshu.com/p/f25ccedb996e">安装NVIDIA-DOCKER</a></p>
-<p><a href="https://github.com/NVIDIA/nvidia-docker">nvidia-docker</a></p>
-<p><a href="https://blog.csdn.net/qq_41493990/article/details/81624419">ubuntu16.04下docker和nvidia-docker安装</a></p>
-<p><a href="https://github.com/NVIDIA/nccl">NCCL</a></p>
-<p><a href="https://github.com/NVIDIA/nvidia-docker/wiki/Installation-(Native-GPU-Support)">Installation (Native GPU Support)</a></p>
-<p><a href="https://zhongneng.github.io/2018/12/04/docker-env/">Centos7使用Docker快速搭建深度学习环境</a></p>
-<p><a href="https://blog.csdn.net/qq_29300341/article/details/84754970">使用docker在Ubuntu上安装TensorFlow-GPU</a></p>
+<p>在基础镜像中安装配置好openssh, 然后commi成最新的基础镜像</p>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2018-06-02 00:00 </span></div>
 <div id="comments"></div>
@@ -150,7 +92,7 @@ mdjaere/tensorflow-notebook-gpu:latest /bin/bash
 <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script type="text/javascript">
 const gitment = new Gitment({
-  title: 'Nvidia-Docker安装',
+  title: 'pycharm中调用Docker环境',
   owner: 'sthsf',
   repo: 'wiki',
   oauth: {
