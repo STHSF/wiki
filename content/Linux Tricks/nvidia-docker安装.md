@@ -66,9 +66,20 @@ docker run -it \
 sthsf/ubuntu_base:0.09 /bin/bash
 ```
 
+```bash
+docker run -it \
+-p 8022:22 \
+--restart always \
+--privileged=True \
+--runtime=nvidia \
+--name quant_ \
+sthsf/ubuntu_base:0.1 /usr/sbin/sshd -D
+```
+
 方法二
 ```bash
 nvidia-docker run -it \
+-p 8022:22 \
 -p 8084:8084 \
 -v /home/gpyz/workshop:/home/li/workshop \
 -v /home/gpyz/soft/ML:/home/li/soft/ML \
@@ -78,6 +89,8 @@ nvidia-docker run -it \
 --name ubuntu3 \
 mdjaere/tensorflow-notebook-gpu:latest /bin/bash
 ```
+
+
 
 PYTHONIOENCODING=utf-8 python run.py
 
