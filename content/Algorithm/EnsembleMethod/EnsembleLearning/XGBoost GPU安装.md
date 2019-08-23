@@ -19,6 +19,7 @@ git submodule update
 ```
 git clone --recursive https://github.com/dmlc/xgboost
 ```
+***PS***  如果从github上download xgboost源码压缩包, 下面的安装过程会出错, 原因是download过程不能将xgboost的子依赖下面下载下来. **20190823Update**
 ### 2、新建build文件目录
 在/xgboost, 目录下新建/build文件夹
 ```
