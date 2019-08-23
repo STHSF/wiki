@@ -151,7 +151,6 @@ CPU Training Time: 3853.92036151886 seconds
 ```
 从运行结果可以看出, 相同的迭代次数下, GPU的运行时间大大缩短.
 
-
 # 注意点
 ### 1、cmake 版本更新
 #### 方法一
@@ -180,7 +179,6 @@ tar -zxvf cmake-3.15.1.tar.gz
 make
 make install
 ```
-
 
 ### 2、安装XGBoost gpu版本, python的版本必须大于3.5
 报错如下:
