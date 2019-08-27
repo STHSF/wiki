@@ -338,6 +338,8 @@ nodejs: /usr/bin/nodejs /usr/lib/nodejs /usr/include/nodejs /usr/share/nodejs /u
 
 [JupyterHub](https://jupyterhub.readthedocs.io/en/latest/index.html)
 
+[Jupyterhub安装配置及心得](https://blog.51cto.com/m51cto/2370679)
+
 [Docker JupyterHub](https://hub.docker.com/r/jupyterhub/jupyterhub/)
 
 [jupyterhub 安装配置](https://www.cnblogs.com/bregman/p/5744109.html)
