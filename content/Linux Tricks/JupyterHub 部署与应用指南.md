@@ -119,6 +119,45 @@ sudo systemctl daemon-reload     # 加载配置文件
 sudo systemctl start jupyterhub  # 启动
 sudo journalctl -u jupyterhub    # 查看log
 ```
+### jupyterhub启用代理
+为了方便安全使用, 下面介绍使用nginx代理
+```
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+
+    resolver 192.168.2.1 114.114.114.114;
+    set $backend "https://jp.abcgogo.com:12443";
+
+    server_name jp.abcgogo.com;
+
+    ssl_certificate /usr/syno/etc/certificate/ReverseProxy/faea4d05-2458-4ffc-acfe-e4b48e5a04f9/fullchain.pem;
+
+    ssl_certificate_key /usr/syno/etc/certificate/ReverseProxy/faea4d05-2458-4ffc-acfe-e4b48e5a04f9/privkey.pem;
+
+    add_header Strict-Transport-Security "max-age=15768000; includeSubdomains; preload" always;
+
+    location / {
+        proxy_set_header        Host                $http_host;
+        proxy_set_header        X-Real-IP           $remote_addr;
+        proxy_set_header        X-Forwarded-For     $proxy_add_x_forwarded_for;
+        proxy_set_header        X-Forwarded-Proto   $scheme;
+        proxy_intercept_errors  on;
+    # WebSocket support
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+
+        proxy_read_timeout 120s;
+        proxy_next_upstream error;
+
+        proxy_pass $backend;
+
+    }
+
+}
+```
+
 
 ## 2、Docker 下安装配置jupyterhub
 #### 1、pull 一个纯净的ubuntu环境
