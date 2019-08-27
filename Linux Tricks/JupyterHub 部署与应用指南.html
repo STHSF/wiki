@@ -50,6 +50,7 @@
 <li><a href="#jupyterhub_3">jupyterhub的启动配置</a></li>
 <li><a href="#nohup">使用nohup让程序在后台运行.</a></li>
 <li><a href="#_2">开机运行</a></li>
+<li><a href="#jupyterhub_4">jupyterhub启用代理</a></li>
 </ul>
 </li>
 <li><a href="#2docker-jupyterhub">2、Docker 下安装配置jupyterhub</a><ul>
@@ -180,6 +181,45 @@
 <span class="n">sudo</span> <span class="n">systemctl</span> <span class="n">daemon</span><span class="o">-</span><span class="n">reload</span>     <span class="err">#</span> <span class="err">加载配置文件</span>
 <span class="n">sudo</span> <span class="n">systemctl</span> <span class="n">start</span> <span class="n">jupyterhub</span>  <span class="err">#</span> <span class="err">启动</span>
 <span class="n">sudo</span> <span class="n">journalctl</span> <span class="o">-</span><span class="n">u</span> <span class="n">jupyterhub</span>    <span class="err">#</span> <span class="err">查看</span><span class="n">log</span>
+</pre></div>
+
+
+<h3 id="jupyterhub_4">jupyterhub启用代理</h3>
+<p>为了方便安全使用, 下面介绍使用nginx代理</p>
+<div class="hlcode"><pre><span class="n">server</span> <span class="p">{</span>
+    <span class="n">listen</span> <span class="mi">443</span> <span class="n">ssl</span> <span class="n">http2</span><span class="p">;</span>
+    <span class="n">listen</span> <span class="p">[</span><span class="o">::</span><span class="p">]</span><span class="o">:</span><span class="mi">443</span> <span class="n">ssl</span> <span class="n">http2</span><span class="p">;</span>
+
+    <span class="n">resolver</span> <span class="mf">192.168.2.1</span> <span class="mf">114.114.114.114</span><span class="p">;</span>
+    <span class="n">set</span> <span class="err">$</span><span class="n">backend</span> <span class="s">&quot;https://jp.abcgogo.com:12443&quot;</span><span class="p">;</span>
+
+    <span class="n">server_name</span> <span class="n">jp</span><span class="p">.</span><span class="n">abcgogo</span><span class="p">.</span><span class="n">com</span><span class="p">;</span>
+
+    <span class="n">ssl_certificate</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">syno</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">certificate</span><span class="o">/</span><span class="n">ReverseProxy</span><span class="o">/</span><span class="n">faea4d05</span><span class="o">-</span><span class="mi">2458</span><span class="o">-</span><span class="mf">4ff</span><span class="n">c</span><span class="o">-</span><span class="n">acfe</span><span class="o">-</span><span class="n">e4b48e5a04f9</span><span class="o">/</span><span class="n">fullchain</span><span class="p">.</span><span class="n">pem</span><span class="p">;</span>
+
+    <span class="n">ssl_certificate_key</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">syno</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">certificate</span><span class="o">/</span><span class="n">ReverseProxy</span><span class="o">/</span><span class="n">faea4d05</span><span class="o">-</span><span class="mi">2458</span><span class="o">-</span><span class="mf">4ff</span><span class="n">c</span><span class="o">-</span><span class="n">acfe</span><span class="o">-</span><span class="n">e4b48e5a04f9</span><span class="o">/</span><span class="n">privkey</span><span class="p">.</span><span class="n">pem</span><span class="p">;</span>
+
+    <span class="n">add_header</span> <span class="n">Strict</span><span class="o">-</span><span class="n">Transport</span><span class="o">-</span><span class="n">Security</span> <span class="s">&quot;max-age=15768000; includeSubdomains; preload&quot;</span> <span class="n">always</span><span class="p">;</span>
+
+    <span class="n">location</span> <span class="o">/</span> <span class="p">{</span>
+        <span class="n">proxy_set_header</span>        <span class="n">Host</span>                <span class="err">$</span><span class="n">http_host</span><span class="p">;</span>
+        <span class="n">proxy_set_header</span>        <span class="n">X</span><span class="o">-</span><span class="n">Real</span><span class="o">-</span><span class="n">IP</span>           <span class="err">$</span><span class="n">remote_addr</span><span class="p">;</span>
+        <span class="n">proxy_set_header</span>        <span class="n">X</span><span class="o">-</span><span class="n">Forwarded</span><span class="o">-</span><span class="n">For</span>     <span class="err">$</span><span class="n">proxy_add_x_forwarded_for</span><span class="p">;</span>
+        <span class="n">proxy_set_header</span>        <span class="n">X</span><span class="o">-</span><span class="n">Forwarded</span><span class="o">-</span><span class="n">Proto</span>   <span class="err">$</span><span class="n">scheme</span><span class="p">;</span>
+        <span class="n">proxy_intercept_errors</span>  <span class="n">on</span><span class="p">;</span>
+    <span class="err">#</span> <span class="n">WebSocket</span> <span class="n">support</span>
+        <span class="n">proxy_http_version</span> <span class="mf">1.1</span><span class="p">;</span>
+        <span class="n">proxy_set_header</span> <span class="n">Upgrade</span> <span class="err">$</span><span class="n">http_upgrade</span><span class="p">;</span>
+        <span class="n">proxy_set_header</span> <span class="n">Connection</span> <span class="s">&quot;upgrade&quot;</span><span class="p">;</span>
+
+        <span class="n">proxy_read_timeout</span> <span class="mi">120</span><span class="n">s</span><span class="p">;</span>
+        <span class="n">proxy_next_upstream</span> <span class="n">error</span><span class="p">;</span>
+
+        <span class="n">proxy_pass</span> <span class="err">$</span><span class="n">backend</span><span class="p">;</span>
+
+    <span class="p">}</span>
+
+<span class="p">}</span>
 </pre></div>
 
 
