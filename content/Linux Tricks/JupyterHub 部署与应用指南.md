@@ -326,6 +326,8 @@ nodejs: /usr/bin/nodejs /usr/lib/nodejs /usr/include/nodejs /usr/share/nodejs /u
 
 # 
 # 参考文献
+[jupyterhub完整安装和配置gitlab账号认证](https://blog.csdn.net/qq_16094777/article/details/78771716)
+
 [搭建一套云工作平台 (JupyterHub + Rstudio Server)](https://www.jianshu.com/p/fd9ddce53465)
 
 [JupyterHub on Kubernetes部署与应用指南](https://my.oschina.net/u/2306127/blog/1837196)

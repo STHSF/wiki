@@ -386,6 +386,9 @@ $ cat <FILE NMAE>.tar |docker import - <REPOSITORY>:<TAG>
 # docker 三剑客
 ## docker machine
 ## docker swarm
+
+[Docker 管理工具的选择：Kubernetes 还是 Swarm？](http://dockone.io/article/2556)
+
 ## docker compose
 [Get started with Docker Compose](https://docs.docker.com/compose/gettingstarted/)
 
@@ -708,6 +711,9 @@ $ docker run --runtime=nvidia --rm nvidia/cuda:9.0-base nvidia-smi
 
 
 # 参考文献
+[Docker应用配置文件管理的正确姿势](https://www.sohu.com/a/156424469_151779)
+
+
 [如何进入、退出docker的container](https://blog.csdn.net/dongdong9223/article/details/52998375)
 
 [Using TensorFlow Serving via Docker](https://github.com/tensorflow/serving/blob/master/tensorflow_serving/g3doc/docker.md)

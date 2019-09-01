@@ -292,3 +292,5 @@ CMD ["python", "/opt/workshop/jerry/src/hello.py"]
 [python项目打包成docker镜像并发布](https://blog.csdn.net/bocai_xiaodaidai/article/details/92838984)
 
 [python项目代码打包成Docker镜像](https://www.cnblogs.com/sammy1989/p/9406899.html)
+
+[Docker应用配置文件管理的正确姿势](https://www.sohu.com/a/156424469_151779)

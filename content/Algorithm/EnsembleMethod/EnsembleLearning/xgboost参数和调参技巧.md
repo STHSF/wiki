@@ -267,6 +267,8 @@ max_depth对模型的收敛效果很明显, 刚开始我在调参过程中max_de
 
 
 # 参考文献
+[xgboost使用技巧](https://www.lizenghai.com/archives/29288.html)
+
 [XGBoost-Python完全调参指南-介绍篇](https://blog.csdn.net/wzmsltw/article/details/50988430)
 [XGBoost-Python完全调参指南-参数解释篇](https://blog.csdn.net/wzmsltw/article/details/50994481)
 [XGboost数据比赛实战之调参篇(完整流程)](https://segmentfault.com/a/1190000014040317)
