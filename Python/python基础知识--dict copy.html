@@ -1,0 +1,187 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <title>python基础知识--Mac下安装和使用pymssql - LiYu's personal knowledge wiki</title>
+    <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
+    <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$(',')$'], ['\\(','\\)']]}
+        });
+        </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-78529611-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+
+<body>
+<div id="container">
+    
+<div id="header">
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Python">Python</a>&nbsp;»&nbsp;python基础知识--Mac下安装和使用pymssql</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">python基础知识--Mac下安装和使用pymssql</div>
+<div id="content">
+  <h1 id="_1">写在前面</h1>
+<p>pymssql是python连接microsoft, sqlserver数据库的管理工具, Mac下面直接pip安装后使用的过程可能会出现一下的错误, 但是实际上, 在数据库管理工具中连接sqlserver数据库是没有问题的, 仅仅是在使用sqlalchemy创建数据库engine的时候出现.</p>
+<h1 id="_2">错误提示:</h1>
+<div class="hlcode"><pre><span class="nx">Traceback</span> <span class="p">(</span><span class="nx">most</span> <span class="nx">recent</span> <span class="nb">call</span> <span class="nb">last</span><span class="p">):</span>
+  <span class="nb">File</span> <span class="s2">&quot;src/pymssql.pyx&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">636</span><span class="p">,</span> <span class="k">in</span> <span class="nx">pymssql.connect</span>
+  <span class="nb">File</span> <span class="s2">&quot;src/_mssql.pyx&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">1957</span><span class="p">,</span> <span class="k">in</span> <span class="nx">_mssql.connect</span>
+  <span class="nb">File</span> <span class="s2">&quot;src/_mssql.pyx&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">676</span><span class="p">,</span> <span class="k">in</span> <span class="nx">_mssql.MSSQLConnection.__init__</span>
+  <span class="nb">File</span> <span class="s2">&quot;src/_mssql.pyx&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">1683</span><span class="p">,</span> <span class="k">in</span> <span class="nx">_mssql.maybe_raise_MSSQLDatabaseException</span>
+<span class="nx">_mssql.MSSQLDatabaseException</span><span class="p">:</span> <span class="p">(</span><span class="mi">20002</span><span class="p">,</span> <span class="nx">b</span><span class="s1">&#39;DB-Lib error message 20002, severity 9:</span><span class="se">\n</span><span class="s1">Adaptive Server connection failed</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="nx">During</span> <span class="nx">handling</span> <span class="nx">of</span> <span class="nx">the</span> <span class="nx">above</span> <span class="nx">exception</span><span class="p">,</span> <span class="nx">another</span> <span class="nx">exception</span> <span class="nx">occurred</span><span class="p">:</span>
+
+<span class="nx">Traceback</span> <span class="p">(</span><span class="nx">most</span> <span class="nx">recent</span> <span class="nb">call</span> <span class="nb">last</span><span class="p">):</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/sqlalchemy/engine/base.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">2158</span><span class="p">,</span> <span class="k">in</span> <span class="nx">_wrap_pool_connect</span>
+    <span class="k">return</span> <span class="nx">fn</span><span class="p">()</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/sqlalchemy/pool.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">400</span><span class="p">,</span> <span class="k">in</span> <span class="nb">connect</span>
+    <span class="k">return</span> <span class="nx">_ConnectionFairy._checkout</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/sqlalchemy/pool.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">788</span><span class="p">,</span> <span class="k">in</span> <span class="nx">_checkout</span>
+    <span class="n">fairy</span> <span class="o">=</span> <span class="nx">_ConnectionRecord.checkout</span><span class="p">(</span><span class="nx">pool</span><span class="p">)</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/sqlalchemy/pool.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">529</span><span class="p">,</span> <span class="k">in</span> <span class="nx">checkout</span>
+    <span class="n">rec</span> <span class="o">=</span> <span class="nx">pool._do_get</span><span class="p">()</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/sqlalchemy/pool.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">1193</span><span class="p">,</span> <span class="k">in</span> <span class="nx">_do_get</span>
+    <span class="bp">self.</span><span class="nx">_dec_overflow</span><span class="p">()</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/sqlalchemy/util/langhelpers.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">66</span><span class="p">,</span> <span class="k">in</span> <span class="nx">__exit__</span>
+    <span class="nx">compat.reraise</span><span class="p">(</span><span class="nx">exc_type</span><span class="p">,</span> <span class="nx">exc_value</span><span class="p">,</span> <span class="nx">exc_tb</span><span class="p">)</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/sqlalchemy/util/compat.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">249</span><span class="p">,</span> <span class="k">in</span> <span class="nx">reraise</span>
+    <span class="nx">raise</span> <span class="nb">value</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/sqlalchemy/pool.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">1190</span><span class="p">,</span> <span class="k">in</span> <span class="nx">_do_get</span>
+    <span class="k">return</span> <span class="bp">self.</span><span class="nx">_create_connection</span><span class="p">()</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/sqlalchemy/pool.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">347</span><span class="p">,</span> <span class="k">in</span> <span class="nx">_create_connection</span>
+    <span class="k">return</span> <span class="nx">_ConnectionRecord</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/sqlalchemy/pool.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">474</span><span class="p">,</span> <span class="k">in</span> <span class="nx">__init__</span>
+    <span class="bp">self.</span><span class="nx">__connect</span><span class="p">(</span><span class="n">first_connect_check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/sqlalchemy/pool.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">671</span><span class="p">,</span> <span class="k">in</span> <span class="nx">__connect</span>
+    <span class="n">connection</span> <span class="o">=</span> <span class="nx">pool._invoke_creator</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/sqlalchemy/engine/strategies.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">106</span><span class="p">,</span> <span class="k">in</span> <span class="nb">connect</span>
+    <span class="k">return</span> <span class="nx">dialect.connect</span><span class="p">(</span><span class="o">*</span><span class="nx">cargs</span><span class="p">,</span> <span class="o">**</span><span class="nx">cparams</span><span class="p">)</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/sqlalchemy/engine/default.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">412</span><span class="p">,</span> <span class="k">in</span> <span class="nb">connect</span>
+    <span class="k">return</span> <span class="bp">self.</span><span class="nx">dbapi.connect</span><span class="p">(</span><span class="o">*</span><span class="nx">cargs</span><span class="p">,</span> <span class="o">**</span><span class="nx">cparams</span><span class="p">)</span>
+  <span class="nb">File</span> <span class="s2">&quot;src/pymssql.pyx&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">642</span><span class="p">,</span> <span class="k">in</span> <span class="nx">pymssql.connect</span>
+<span class="nx">pymssql.OperationalError</span><span class="p">:</span> <span class="p">(</span><span class="mi">20002</span><span class="p">,</span> <span class="nx">b</span><span class="s1">&#39;DB-Lib error message 20002, severity 9:</span><span class="se">\n</span><span class="s1">Adaptive Server connection failed</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="nx">The</span> <span class="nx">above</span> <span class="nx">exception</span> <span class="nx">was</span> <span class="nx">the</span> <span class="nx">direct</span> <span class="nx">cause</span> <span class="nx">of</span> <span class="nx">the</span> <span class="nx">following</span> <span class="nx">exception</span><span class="p">:</span>
+
+<span class="nx">Traceback</span> <span class="p">(</span><span class="nx">most</span> <span class="nx">recent</span> <span class="nb">call</span> <span class="nb">last</span><span class="p">):</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/PycharmProjects/panther/client/historical_growth.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">22</span><span class="p">,</span> <span class="k">in</span> <span class="o">&lt;</span><span class="nx">module</span><span class="o">&gt;</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="nx">pd.read_sql</span><span class="p">(</span><span class="nx">con</span><span class="p">,</span> <span class="nx">engine</span><span class="p">)</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/pandas/io/sql.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">397</span><span class="p">,</span> <span class="k">in</span> <span class="nx">read_sql</span>
+    <span class="n">chunksize</span><span class="o">=</span><span class="nx">chunksize</span><span class="p">)</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/pandas/io/sql.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">1063</span><span class="p">,</span> <span class="k">in</span> <span class="nx">read_query</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="bp">self.</span><span class="nb">execute</span><span class="p">(</span><span class="o">*</span><span class="nx">args</span><span class="p">)</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/pandas/io/sql.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">954</span><span class="p">,</span> <span class="k">in</span> <span class="nb">execute</span>
+    <span class="k">return</span> <span class="bp">self.</span><span class="nx">connectable.execute</span><span class="p">(</span><span class="o">*</span><span class="nx">args</span><span class="p">,</span> <span class="o">**</span><span class="nx">kwargs</span><span class="p">)</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/sqlalchemy/engine/base.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">2074</span><span class="p">,</span> <span class="k">in</span> <span class="nb">execute</span>
+    <span class="n">connection</span> <span class="o">=</span> <span class="bp">self.</span><span class="nx">contextual_connect</span><span class="p">(</span><span class="n">close_with_result</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/sqlalchemy/engine/base.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">2123</span><span class="p">,</span> <span class="k">in</span> <span class="nx">contextual_connect</span>
+    <span class="bp">self.</span><span class="nx">_wrap_pool_connect</span><span class="p">(</span><span class="bp">self.</span><span class="nx">pool.connect</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/sqlalchemy/engine/base.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">2162</span><span class="p">,</span> <span class="k">in</span> <span class="nx">_wrap_pool_connect</span>
+    <span class="nx">e</span><span class="p">,</span> <span class="nx">dialect</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/sqlalchemy/engine/base.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">1476</span><span class="p">,</span> <span class="k">in</span> <span class="nx">_handle_dbapi_exception_noconnection</span>
+    <span class="nx">exc_info</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/sqlalchemy/util/compat.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">265</span><span class="p">,</span> <span class="k">in</span> <span class="nx">raise_from_cause</span>
+    <span class="nx">reraise</span><span class="p">(</span><span class="k">type</span><span class="p">(</span><span class="nx">exception</span><span class="p">),</span> <span class="nx">exception</span><span class="p">,</span> <span class="n">tb</span><span class="o">=</span><span class="nx">exc_tb</span><span class="p">,</span> <span class="n">cause</span><span class="o">=</span><span class="nx">cause</span><span class="p">)</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/sqlalchemy/util/compat.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">248</span><span class="p">,</span> <span class="k">in</span> <span class="nx">reraise</span>
+    <span class="nx">raise</span> <span class="nx">value.with_traceback</span><span class="p">(</span><span class="nb">tb</span><span class="p">)</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/sqlalchemy/engine/base.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">2158</span><span class="p">,</span> <span class="k">in</span> <span class="nx">_wrap_pool_connect</span>
+    <span class="k">return</span> <span class="nx">fn</span><span class="p">()</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/sqlalchemy/pool.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">400</span><span class="p">,</span> <span class="k">in</span> <span class="nb">connect</span>
+    <span class="k">return</span> <span class="nx">_ConnectionFairy._checkout</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/sqlalchemy/pool.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">788</span><span class="p">,</span> <span class="k">in</span> <span class="nx">_checkout</span>
+    <span class="n">fairy</span> <span class="o">=</span> <span class="nx">_ConnectionRecord.checkout</span><span class="p">(</span><span class="nx">pool</span><span class="p">)</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/sqlalchemy/pool.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">529</span><span class="p">,</span> <span class="k">in</span> <span class="nx">checkout</span>
+    <span class="n">rec</span> <span class="o">=</span> <span class="nx">pool._do_get</span><span class="p">()</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/sqlalchemy/pool.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">1193</span><span class="p">,</span> <span class="k">in</span> <span class="nx">_do_get</span>
+    <span class="bp">self.</span><span class="nx">_dec_overflow</span><span class="p">()</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/sqlalchemy/util/langhelpers.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">66</span><span class="p">,</span> <span class="k">in</span> <span class="nx">__exit__</span>
+    <span class="nx">compat.reraise</span><span class="p">(</span><span class="nx">exc_type</span><span class="p">,</span> <span class="nx">exc_value</span><span class="p">,</span> <span class="nx">exc_tb</span><span class="p">)</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/sqlalchemy/util/compat.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">249</span><span class="p">,</span> <span class="k">in</span> <span class="nx">reraise</span>
+    <span class="nx">raise</span> <span class="nb">value</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/sqlalchemy/pool.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">1190</span><span class="p">,</span> <span class="k">in</span> <span class="nx">_do_get</span>
+    <span class="k">return</span> <span class="bp">self.</span><span class="nx">_create_connection</span><span class="p">()</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/sqlalchemy/pool.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">347</span><span class="p">,</span> <span class="k">in</span> <span class="nx">_create_connection</span>
+    <span class="k">return</span> <span class="nx">_ConnectionRecord</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/sqlalchemy/pool.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">474</span><span class="p">,</span> <span class="k">in</span> <span class="nx">__init__</span>
+    <span class="bp">self.</span><span class="nx">__connect</span><span class="p">(</span><span class="n">first_connect_check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/sqlalchemy/pool.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">671</span><span class="p">,</span> <span class="k">in</span> <span class="nx">__connect</span>
+    <span class="n">connection</span> <span class="o">=</span> <span class="nx">pool._invoke_creator</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/sqlalchemy/engine/strategies.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">106</span><span class="p">,</span> <span class="k">in</span> <span class="nb">connect</span>
+    <span class="k">return</span> <span class="nx">dialect.connect</span><span class="p">(</span><span class="o">*</span><span class="nx">cargs</span><span class="p">,</span> <span class="o">**</span><span class="nx">cparams</span><span class="p">)</span>
+  <span class="nb">File</span> <span class="s2">&quot;/Users/li/workshop/virtualenv/venv3/lib/python3.7/site-packages/sqlalchemy/engine/default.py&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">412</span><span class="p">,</span> <span class="k">in</span> <span class="nb">connect</span>
+    <span class="k">return</span> <span class="bp">self.</span><span class="nx">dbapi.connect</span><span class="p">(</span><span class="o">*</span><span class="nx">cargs</span><span class="p">,</span> <span class="o">**</span><span class="nx">cparams</span><span class="p">)</span>
+  <span class="nb">File</span> <span class="s2">&quot;src/pymssql.pyx&quot;</span><span class="p">,</span> <span class="nb">line</span> <span class="mi">642</span><span class="p">,</span> <span class="k">in</span> <span class="nx">pymssql.connect</span>
+<span class="nx">sqlalchemy.exc.OperationalError</span><span class="p">:</span> <span class="p">(</span><span class="nx">pymssql.OperationalError</span><span class="p">)</span> <span class="p">(</span><span class="mi">20002</span><span class="p">,</span> <span class="nx">b</span><span class="s1">&#39;DB-Lib error message 20002, severity 9:</span><span class="se">\n</span><span class="s1">Adaptive Server connection failed</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="p">(</span><span class="nx">Background</span> <span class="k">on</span> <span class="nx">this</span> <span class="nb">error</span> <span class="nx">at</span><span class="p">:</span> <span class="nx">http</span><span class="p">:</span><span class="c1">//sqlalche.me/e/e3q8)</span>
+</pre></div>
+
+
+<h1 id="freetds">freeTDS</h1>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2099-06-02 00:00 </span></div>
+<div id="comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script type="text/javascript">
+const gitment = new Gitment({
+  title: 'python基础知识--Mac下安装和使用pymssql',
+  owner: 'sthsf',
+  repo: 'wiki',
+  oauth: {
+    client_id: '086c54c5fd95adfdc372',
+    client_secret: '2ad9ebe87b952d2c77fccf99c334881b91eaa73d',
+  },
+  // ...
+  // For more available options, check out the documentation below
+})
+gitment.render('comments')
+// or
+// gitment.render(document.getElementById('comments'))
+// or
+// document.body.appendChild(gitment.render())
+</script>
+
+</div>
+<div id="footer">
+            <span>
+                Copyright © 2019 LiYu.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+                Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
+            </span>
+</div>
+
+
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?90e1dcdd1938573c19f9ff6521188e91";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</body>
+</html>
