@@ -324,7 +324,131 @@ nodejs: /usr/bin/nodejs /usr/lib/nodejs /usr/include/nodejs /usr/share/nodejs /u
 **ps**网上说npm的镜像在国外, 也有可能自己在使用npm升级的时候没有升级成功, 导致一系列的错误, 但是升级不成功他也不能没有提示吧. 有空可以设置使用淘宝镜像然后再尝试尝试.
 
 
-# 
+# jupyterhub下使用tensorflow-gpu产生的错误
+[update2019-09-19]使用jupyter的过程出现了一个奇怪的问题, 在终端下测试使用tensorflow调用gpu的情况没有问题, 但是在jupyter使用同样的代码则检测不到gpu
+
+具体检测代码如下:
+```
+from tensorflow.python.client import device_lib
+print(device_lib.list_local_devices())  # 打印可用的device, 包括cpu和gpu
+```
+输出结果:
+```
+[name: "/device:CPU:0"
+device_type: "CPU"
+memory_limit: 268435456
+locality {
+}
+incarnation: 15259160786169634382
+, name: "/device:XLA_GPU:0"
+device_type: "XLA_GPU"
+memory_limit: 17179869184
+locality {
+}
+incarnation: 8968781236993845730
+physical_device_desc: "device: XLA_GPU device"
+, name: "/device:XLA_CPU:0"
+device_type: "XLA_CPU"
+memory_limit: 17179869184
+locality {
+}
+incarnation: 9349831921872187387
+physical_device_desc: "device: XLA_CPU device"
+]
+```
+终端下调用执行上面的代码:
+```
+[name: "/device:CPU:0"
+device_type: "CPU"
+memory_limit: 268435456
+locality {
+}
+incarnation: 8983197487004247094
+, name: "/device:XLA_GPU:0"
+device_type: "XLA_GPU"
+memory_limit: 17179869184
+locality {
+}
+incarnation: 17880524038454437849
+physical_device_desc: "device: XLA_GPU device"
+, name: "/device:XLA_CPU:0"
+device_type: "XLA_CPU"
+memory_limit: 17179869184
+locality {
+}
+incarnation: 6972433931048861409
+physical_device_desc: "device: XLA_CPU device"
+, name: "/device:GPU:0"
+device_type: "GPU"
+memory_limit: 7967745639
+locality {
+  bus_id: 1
+  links {
+  }
+}
+incarnation: 11302034368239340091
+physical_device_desc: "device: 0, name: GeForce GTX 1080, pci bus id: 0000:01:00.0, compute capability: 6.1"
+]
+```
+对比中断和jupyterhub下的输出结果, 会发现jupyterhub下缺了GPU信息, 然后在程序用调用gpu则会报错:
+
+调用程序如下:
+```
+import tensorflow as tf
+ 
+with tf.device('/cpu:0'):
+    a = tf.constant([1.0, 2.0, 3.0, 4.0, 5.0, 6.0], shape=[2, 3], name='a')
+    b = tf.constant([1.0, 2.0, 3.0, 4.0, 5.0, 6.0], shape=[3, 2], name='b')
+with tf.device('/gpu:0'):
+    c = tf.matmul(a, b)
+sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
+sess.run(tf.global_variables_initializer())
+print(sess.run(c))
+```
+部分报错信息如下:
+```
+InvalidArgumentError: Cannot assign a device for operation MatMul: node MatMul (defined at <ipython-input-1-4db82431c7bb>:7) was explicitly assigned to /device:GPU:0 but available devices are [ /job:localhost/replica:0/task:0/device:CPU:0, /job:localhost/replica:0/task:0/device:XLA_CPU:0, /job:localhost/replica:0/task:0/device:XLA_GPU:0 ]. Make sure the device specification refers to a valid device.
+	 [[MatMul]]
+
+Errors may have originated from an input operation.
+Input Source operations connected to node MatMul:
+ b (defined at <ipython-input-1-4db82431c7bb>:5)	
+ a (defined at <ipython-input-1-4db82431c7bb>:4)
+```
+然后在后台的jupyterhub后台输出的日志中的报错结果如下, 但同样的程序在终端下执行缺不会出问题.
+```
+2019-09-19 17:15:38.137139: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 3600000000 Hz
+2019-09-19 17:15:38.137612: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x4ea6990 executing computations on platform Host. Devices:
+2019-09-19 17:15:38.137626: I tensorflow/compiler/xla/service/service.cc:175]   StreamExecutor device (0): <undefined>, <undefined>
+2019-09-19 17:15:38.137759: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:1005] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2019-09-19 17:15:38.138151: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1640] Found device 0 with properties:
+name: GeForce GTX 1080 major: 6 minor: 1 memoryClockRate(GHz): 1.7335
+pciBusID: 0000:01:00.0
+2019-09-19 17:15:38.138236: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Could not dlopen library 'libcudart.so.10.0'; dlerror: libcudart.so.10.0: cannot open shared object file: No such file or directory
+2019-09-19 17:15:38.138289: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Could not dlopen library 'libcublas.so.10.0'; dlerror: libcublas.so.10.0: cannot open shared object file: No such file or directory
+2019-09-19 17:15:38.138336: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Could not dlopen library 'libcufft.so.10.0'; dlerror: libcufft.so.10.0: cannot open shared object file: No such file or directory
+2019-09-19 17:15:38.138384: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Could not dlopen library 'libcurand.so.10.0'; dlerror: libcurand.so.10.0: cannot open shared object file: No such file or directory
+2019-09-19 17:15:38.138424: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Could not dlopen library 'libcusolver.so.10.0'; dlerror: libcusolver.so.10.0: cannot open shared object file: No such file or directory
+2019-09-19 17:15:38.138467: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Could not dlopen library 'libcusparse.so.10.0'; dlerror: libcusparse.so.10.0: cannot open shared object file: No such file or directory
+2019-09-19 17:15:38.140342: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcudnn.so.7
+2019-09-19 17:15:38.140355: W tensorflow/core/common_runtime/gpu/gpu_device.cc:1663] Cannot dlopen some GPU libraries. Skipping registering GPU devices...
+2019-09-19 17:15:38.140367: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1181] Device interconnect StreamExecutor with strength 1 edge matrix:
+2019-09-19 17:15:38.140373: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1187]      0
+2019-09-19 17:15:38.140377: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1200] 0:   N
+[I 2019-09-19 17:17:29.796 SingleUserNotebookApp log:158] 200 GET /user/jerry/api/contents/jerry/workshop/projects/jupyter_projects/Untitled.ipynb?content=0&_=1568884528992 (jerry@10.15.176.199) 3.05ms
+[I 2019-09-19 17:17:29.821 SingleUserNotebookApp handlers:164] Saving file at /jerry/workshop/projects/jupyter_projects/Untitled.ipynb
+[I 2019-09-19 17:17:29.986 SingleUserNotebookApp log:158] 200 PUT /user/jerry/api/contents/jerry/workshop/projects/jupyter_projects/Untitled.ipynb (jerry@10.15.176.199) 169.95ms
+```
+查阅相关文档, 需要对jupyterhub做如下设置, 在jupyterhub的配置文件中添加下面一行:
+```shell
+c.Spawner.env_keep.append('LD_LIBRARY_PATH')   # 这行是我们踩的坑，因为用了GPU版的tensorflow，这个目的是将LD_LIBRARY_PATH的路径放到jupyterhub中，这样才能正确使用GPU版的tensorflow。
+```
+重启之后, 运行上面的两段代码, 没有报错, 然后跟终端下运行的结果一致.
+
+另外, 有同事在jupyter下运行也出现同样的问题, 不过他的解决方案是不在root下启动, 或者不使用sudo启动jupyter.
+
+
+
 # 参考文献
 [jupyterhub完整安装和配置gitlab账号认证](https://blog.csdn.net/qq_16094777/article/details/78771716)
 
@@ -349,3 +473,5 @@ nodejs: /usr/bin/nodejs /usr/lib/nodejs /usr/include/nodejs /usr/share/nodejs /u
 [Zero to JupyterHub with Kubernetes](https://zero-to-jupyterhub.readthedocs.io/en/latest/)
 
 [在AWS上配置jupyterhub](https://www.jianshu.com/p/0285feaa2ba2)
+
+[jupyterhub 安装教程](https://blog.csdn.net/luoluonuoyasuolong/article/details/88526526)
