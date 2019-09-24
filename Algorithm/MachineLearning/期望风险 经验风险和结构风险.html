@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <title>期望风险, 经验风险和结构风险  - LiYu's personal knowledge wiki</title>
+    <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
+    <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$(',')$'], ['\\(','\\)']]}
+        });
+        </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-78529611-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+
+<body>
+<div id="container">
+    
+<div id="header">
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm">Algorithm</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-MachineLearning">MachineLearning</a>&nbsp;»&nbsp;期望风险, 经验风险和结构风险 </div>
+</div>
+<div class="clearfix"></div>
+<div id="title">期望风险, 经验风险和结构风险 </div>
+<div id="content">
+  <h1 id="_1">写在前面</h1>
+<h1 id="_2">经验风险</h1>
+<p>模型$f(X)$关于所有训练数据集的平均损失称为经验风险或经验损失.</p>
+<p>公式如下:</p>
+<p>$<br />
+R_{emp}(f) = \frac{1}{N} \sum_{i=1}^NL(y_i, f(x_i))<br />
+$</p>
+<p>至此, 我们通过计算单点误差损失的平均值来衡量(刻画)模型$f(X)$对训练集拟合的好坏, 但是我们如何衡量模型对未知数据的拟合能力呢, 也就是如何衡量模型在全体数据集上的性能, 因此我们引入概率论中两个随机变量的期望.</p>
+<h2 id="_3">期望</h2>
+<p>期望和方差是随机变量两个最重要特征</p>
+<p>离散型随机变量的期望反应随机变量可能取值的平均水平, 而方差反映随机变量取之偏离与均值的平均程度</p>
+<p>根据大数定律, 当样本容量N趋于无穷时, 经验风险趋于期望风险.</p>
+<h1 id="_4">期望风险</h1>
+<p>模型$f(X)$关于$X, Y$的联合分布$P(X, Y)$的平均意义下的损失成为风险函数或者期望损失, <strong>损失函数和期望风险的关系: 期望风险是损失函数的期望值</strong></p>
+<p>损失函数的期望称为期望风险:</p>
+<p>$<br />
+R_{exp}(f)= E_P[L(Y, f(X))] = \int_{x.y}L(y, f(x))P(x, y)dxdy<br />
+$<br />
+(连续变量求积分, 离散变量求和)</p>
+<p>期望风险衡量的是模型在全体数据集上的性能.</p>
+<h1 id="_5">结构风险</h1>
+<h1 id="_6">结束语</h1>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2019-07-07 10:14 </span></div>
+<div id="comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script type="text/javascript">
+const gitment = new Gitment({
+  title: '期望风险, 经验风险和结构风险 ',
+  owner: 'sthsf',
+  repo: 'wiki',
+  oauth: {
+    client_id: '086c54c5fd95adfdc372',
+    client_secret: '2ad9ebe87b952d2c77fccf99c334881b91eaa73d',
+  },
+  // ...
+  // For more available options, check out the documentation below
+})
+gitment.render('comments')
+// or
+// gitment.render(document.getElementById('comments'))
+// or
+// document.body.appendChild(gitment.render())
+</script>
+
+</div>
+<div id="footer">
+            <span>
+                Copyright © 2019 LiYu.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+                Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
+            </span>
+</div>
+
+
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?90e1dcdd1938573c19f9ff6521188e91";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</body>
+</html>
