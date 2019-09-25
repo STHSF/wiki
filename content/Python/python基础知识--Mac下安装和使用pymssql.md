@@ -1,7 +1,7 @@
 ---
 title: "python基础知识--Mac下安装和使用pymssql"
 layout: page
-date: 2099-06-02 00:00
+date: 2019-06-02 00:00
 ---
 
 # 写在前面
