@@ -9,7 +9,7 @@ date: 2018-06-02 00:00
 nvidia-docker是一个可以使用GPU的docker，nvidia-docker是在docker上做了一层封装，通过nvidia-docker-plugin，然后调用到docker上，其最终实现的还是在docker的启动命令上携带一些必要的参数。
 
 # 安装docker-ce和nvidia驱动
-在安装nvidia-docker之前，还是需要安装docker的。
+在安装nvidia-docker之前，还是需要安装docker的。并且, 官网上介绍本地机器上**必须安装NVIDIA driver和Docker19.03以上的版本**, 如果docker版本过低, 请重新安装或升级Docker. [Docker-ce安装教程](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
 
 # 安装nvidia-docker
 安装过程主要参考[官网安装](https://github.com/NVIDIA/nvidia-docker), 安装nvidia-docker之前必须确保已经安装了NVIDIA driver, 且安装的Docker版本>19.03.
