@@ -3,7 +3,7 @@ title: "Alpha和Beta策略"
 layout: page
 date: 2019-10-11 13:00
 ---
-
+[TOC]
 # Alpha策略和Beta策略
 选股与择时的问题，就是业界惯称的所谓阿尔法策略与贝塔策略。
 
