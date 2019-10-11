@@ -1,0 +1,138 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <title>Alpha和Beta策略 - LiYu's personal knowledge wiki</title>
+    <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
+    <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$(',')$'], ['\\(','\\)']]}
+        });
+        </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-78529611-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+
+<body>
+<div id="container">
+    
+<div id="header">
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Economics">Economics</a>&nbsp;»&nbsp;Alpha和Beta策略</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">Alpha和Beta策略</div>
+<div id="content">
+  <h1 id="alphabeta">Alpha策略和Beta策略</h1>
+<p>选股与择时的问题，就是业界惯称的所谓阿尔法策略与贝塔策略。</p>
+<p>阿尔法策略与贝塔策略是两类基于不同出发点，来获取超过大盘表现的超额收益的投资策略。阿尔法策略是依靠精选行业和个股来超越大盘；贝塔策略是依靠准确地把握市场大势，准确择时来获得超越大盘的收益。不同的侧重点使得两者在投资理念、仓位控制、风险控制等方面都存在差异，进而在不同的市场行情中表现各异。</p>
+<h1 id="alpha">Alpha策略</h1>
+<p>Alpha策略是通过因子模型来获取超额收益的策略，这里的超额收益往往是指没有经过风险调整的，单纯衡量资产组合收益率超过基准指数收益率的部分。获取这种超额收益的目的主要是通过卖空股指期货构造对冲策略。可转移alpha策略不同于alpha策略，需要投资组合能够获取经风险调整后的超额收益，即CAPM模型中的alpha。</p>
+<p>所谓因子模型，就是通过因子来解释股票收益率，每只股票都有相同的无数个因子，在不同时期不同个股能有效解释收益率的因子是不一样的。衡量因子有效性的指标是信息比。每个因子的更新时期不同，有些因子要隔一段时间才能得到最新的数据，因此随着时间的推移，直到数据更新之前，因子的有效性也会逐渐下降。除了时效性，还有一种因子的有效性下降情况，就是因子的轮动，有效性高的因子种类可能会发生改变，原来用于资产选择的因子有效性会降低，如果需要根据最新的有效因子进行资产重新配置，将会因为提高资产组合的换手率造成大量的交易成本，因此还需要权衡因子有效性和交易成本，一些研究报告也做了诸如此类的研究，提出了因子的半衰期。半衰期是指因子IC_IR下降到一半的时间。因子还有可能如果是多因子模型，还需要考虑因子的加权方式，根据加权结果得出最终评分，再将个股进行分档，构建投资组合。行业配置也可以用alpha策略进行配置，同样也是根据因子模型对行业进行筛选和加权构建投资组合。</p>
+<h2 id="alpha_1">Alpha策略因子选择</h2>
+<p>Alpha策略因子有多种，可分为统计因子、宏观经济因子、基本面因子。统计因子包括动量和反转等；宏观经济因子有通货膨胀率和无风险利率等；基本面因子有PE、PB、ROE等。</p>
+<p>运用最多的是alpha因子，即通过CAPM模型计算的经风险调整后的超额收益，运用已实现的alpha因子可以构建alpha动量组合和alpha反转组合。</p>
+<p>Alpha动量组合、alpha反转组合及基准指数往往可以构建大盘方向性指标，有研究报告做出过相关分析，运用Alpha动量与反转策略与基准指数的相互比较，可以研判市场目前所处的状态和未来的走势，即识别市场是处于牛市、熊市还是盘整市。</p>
+<p>在这里，将alpha＞0的股票组合称之为动量组合，alpha＜0的股票组合称之为反转组合。</p>
+<ul>
+<li>（1）如果Alpha动量与反转策略都能够超越指数，且反转策略超越动量策略，则市场处于牛市中；</li>
+<li>（2）如果Alpha动量和反转间无明显优势，两种策略与基准指数间也无明显优势时，市场为熊市（或牛市转入熊市的过度期）。</li>
+<li>（3）如果Alpha反转策略超过基准指数，且基准指数超过动量策略，则市场处于由熊市转为牛市的过度阶段。</li>
+<li>（4）Alpha动量超越反转策略，且反转策略不能战胜基准指数，市场处于盘整期（或结构性牛市）。<br />
+该研判方法在A股市场中取得了不错的成绩。</li>
+</ul>
+<p>Alpha因子的数据，即计算已实现alpha，需要考虑alpha运用多长的时期去计算alpha值。不同时期计算的alpha不一样，因子数据不一样会影响投资组合的收益率，需要根据样本历史数据计算出收益率最高最稳定的区间。</p>
+<p>除了alpha因子还有许多构建alpha策略的因子，包括基本面因子、事件驱动等，有许多报告作出相关研究，每一时期的有效因子都不一样。</p>
+<p>另外一种生存alpha的方法是算法交易。通过合理的选择买卖时机，减少买入成本、增加卖出收益，获取超越竞争对手的Alpha。算法交易设计时，主要的考虑的是冲击成本与时间风险的平衡。</p>
+<p>算法交易可以分为三大类：被动型算法交易、主动型算法交易及综合型算法交易。各种类型的算法交易有各自应用的范围。如果一个投资者希望在尽量短的时间内进行交易，需要使用偏主动型的算法交易；如果希望交易必须全部完成，需要使用偏被动型的算法交易。如果交易对象的流动性较差、波动性较大，则需要使用主动型算法交易，反之则适合使用被动型算法交易。</p>
+<p>有些Alpha因子不是线性因子，即根据股票收益率排序的因子值不是单调的，这种不满足单调性的因子往往要排除在外，但还有另外一种方法，可以将这种非线性因子转化为线性的。非线性因子与股票收益之间存在非线性关系常见的有以下几种：<br />
+- （1）非线性因子中间较好，两端较差；<br />
+- （2）第二种非线性因子整体呈线性，但及好的一端出现掉头；<br />
+- （3）第三种非线性因子同样整体呈线性，但及差的一端出现掉头。</p>
+<p>将非线性因子转化为线性因子，一种方法是在因子模型中引入该因子的多项式，通过多项式特征来拟合收益率和因子值。这种方法可以有效改善非线性因子，但引入多项式经济解释意义不强。</p>
+<p>第二种方法是引入附加因子，即哑变量。因子非线性的原因可能是股票另外一种特征不同导致因子对股票收益的作用方式不同。比如，换手率跟股票收益率有显著的负相关，但是具有一定的非线性特征，如果考虑把全部样本分为两部分：高市值样本和低市值样本，发现在两个不同样本内，换手率与股票收益的关系显著不同，因此我们引入股票流通市值作为换手率因子的附加因素。这样能很好的缓解因子的非线性。这种方法的缺点是不同的因子可能有不同的几种附加因子，难以完全寻找。</p>
+<h2 id="alpha_2">Alpha策略因子加权</h2>
+<p>Alpha策略因子加权一般是等权重加权或IC_IR加权，不同的加权方法影响到综合因子评分，因子加权需要考虑到不同因子的有效性。IC_IR是一个衡量因子有效性及稳定性的一个指标，广发证券多篇跟踪市场研究报告都表明IC_IR加权在大部分时间里能取得更好的收益。</p>
+<h2 id="alpha_3">Alpha策略因子调整</h2>
+<p>因子调整分为同时间跨行业选择不同的因子，同行业在不同时间选择最有效的因子。</p>
+<p>不同时间上市场关注的因子不一样，能解释收益率的因子也不一样，因此需要定期更新因子，重新配置投资组合。</p>
+<h2 id="alpha_4">Alpha策略个股选择</h2>
+<p>个股选择即根据因子评分对个股进行分档，根据分档取预计收益率最高的股票构建投资组合。</p>
+<p>即使每期的因子一样，每期的因子数据也会不同，因此根据因子暴露来构建的资产组合会定期进行调整。如果完全依靠最新的因子数据重新进行个股分档，重新构建新的组合，将会造成很大的组合换手率，必然导致高额的交易成本。所以以降低换手率为目的，可以恰当牺牲因子的IC_IR。一种思路是将每个因子的各期相关系数提高，自然每期的因子暴露不会有太大改变，换手率就会降低。方法是将因子数据的各期滞后性加到因子模型中，比如原来有两个因子A和B，权重分别为50%，现在加入AB因子的滞后1期，4个因子的权重分别为25%。但是旧因子数据的加入必然会导致因子有效性降低，由此提出了因子的半衰期。半衰期为因子IC_IR下降到一半的时期数，往往将这个时期数作为该因子的滞后期数，同时该因子在半衰期内需满足组合换手率下降速度快于IC_IR下降速度。一些研究报告作了实证分析，加入因子的滞后期能较好的达成目的。</p>
+<p>关于滞后因子的权重确定，是一个最优化问题，给定换手率，最大化IC_IR：</p>
+<p>$$<br />
+Maxmize: IC_IR = \frac {w'<em>IC_{avg}}{\sqrt{w'</em>\sum_{ic}*w}}<br />
+$$<br />
+$$<br />
+s.t: TO_{avg} = TO_{target}<br />
+$$</p>
+<h2 id="alpha_5">Alpha策略行业配置</h2>
+<p>由于市场存在轮动，一些行业在某些时期出现正alpha，一些行业在同期出现负alpha，当正alpha行业转负时，负alpha行业转正，两类行业alpha负相关。当alpha为正值或负值时，往往会持续一段时间。基于这种现象可以构建做多做空组合，做多当期正alpha行业，做空当期负alpha行业。关于何时变动行业头寸方向，即根据其他指标及时判断在alpha从正转负（或从负转正）时及时由多转空（空转多），有研究报告作出过相关检验，未发现能有效解释行业alpha转变的因子，因此只能通过以往alpha突破某个临界值来更改投资头寸方向。一般这种行业配置方法都能有效取得超过基准的收益。</p>
+<p>另外一种市场现象则是一些行业在大部分时间内都存在正alpha，一些行业在大部分时间内都存在负alpha。研究报告指出，最近几年具有持续正alpha的行业为：黑色金属、食品饮料、公用事业、交通运输和金融服务；具有持续负alpha的行业为：农林牧渔、电子元器件、信息服务和综合。</p>
+<h1 id="_1">参考文献</h1>
+<p><a href="http://www.360doc.com/content/16/0826/10/16244952_586022008.shtml">Alpha策略</a></p>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2019-10-11 13:00 </span></div>
+<div id="comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script type="text/javascript">
+const gitment = new Gitment({
+  title: 'Alpha和Beta策略',
+  owner: 'sthsf',
+  repo: 'wiki',
+  oauth: {
+    client_id: '086c54c5fd95adfdc372',
+    client_secret: '2ad9ebe87b952d2c77fccf99c334881b91eaa73d',
+  },
+  // ...
+  // For more available options, check out the documentation below
+})
+gitment.render('comments')
+// or
+// gitment.render(document.getElementById('comments'))
+// or
+// document.body.appendChild(gitment.render())
+</script>
+
+</div>
+<div id="footer">
+            <span>
+                Copyright © 2019 LiYu.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+                Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
+            </span>
+</div>
+
+
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?90e1dcdd1938573c19f9ff6521188e91";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</body>
+</html>
