@@ -24,9 +24,9 @@ $$
 
 - 趋近于: \to  ($(\to)$)
 
-- 根号: \sqrt ($(\sqrt{x})$)
+- 根号: \sqrt{x} ($(\sqrt{x})$)
 
-- n次根号:\sqrt[n]{x}  ($\sqrt[n]{x})$)
+- n次根号:\sqrt[n]{x}  ($(\sqrt[n]{x})$)
 
 - 无穷大: \infty ($(\infty)$)
 
