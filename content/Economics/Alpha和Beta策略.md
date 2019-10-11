@@ -65,8 +65,12 @@ Alpha策略因子加权一般是等权重加权或IC_IR加权，不同的加权�
 
 
 关于滞后因子的权重确定，是一个最优化问题，给定换手率，最大化IC_IR:
+$$ Maxmize: IC\_IR = \frac {w'*IC_{avg}}{\sqrt{w'*\sum_{ic}*w}} $$
 
-$$Maxmize: IC\_IR = \frac {w'*IC_{avg}}{\sqrt{w'*\sum_{ic}*w}}$$
+约束条件为:
+$$
+s.t: TO_{avg} = TO_{target}
+$$
 
 ## Alpha策略行业配置 
 
