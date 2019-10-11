@@ -69,6 +69,7 @@ Alpha策略因子加权一般是等权重加权或IC_IR加权，不同的加权�
 $$
 Maxmize: IC\_IR = \frac {w'*IC_{avg}}{\sqrt{w'*\sum_{ic}*w}}
 $$
+
 $$
 s.t: TO_{avg} = TO_{target}
 $$
