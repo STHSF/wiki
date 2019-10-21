@@ -86,6 +86,26 @@ NCCL是Nvidia Collective multi-GPU Communication Library的简称，它是一个
 ```
 dpkg -i nccl-repo-ubuntu1604-2.4.8-ga-cuda10.0_1-1_amd64.deb
 ```
+初次安装可能会出现下面的提示:
+```
+root@Super-Server:/home/soft# dpkg -i nccl-repo-ubuntu1804-2.4.8-ga-cuda10.1_1-1_amd64.deb
+
+Selecting previously unselected package nccl-repo-ubuntu1804-2.4.8-ga-cuda10.1.
+(Reading database ... 185150 files and directories currently installed.)
+Preparing to unpack nccl-repo-ubuntu1804-2.4.8-ga-cuda10.1_1-1_amd64.deb ...
+Unpacking nccl-repo-ubuntu1804-2.4.8-ga-cuda10.1 (1-1) ...
+Setting up nccl-repo-ubuntu1804-2.4.8-ga-cuda10.1 (1-1) ...
+
+The public CUDA GPG key does not appear to be installed.
+To install the key, run this command:
+sudo apt-key add /var/nccl-repo-2.4.8-ga-cuda10.1/7fa2af80.pub
+```
+按照提示, 执行
+
+```sudo apt-key add /var/nccl-repo-2.4.8-ga-cuda10.1/7fa2af80.pub```
+
+即可, 执行完成之后,会输出OK
+
 - 5、更新APT数据库：```sudo apt update```, 这一步需要操作, 不然第六步会安装不成功,
 - 6、利用APT安装libnccl2。
 此外，如果您需要使用NCCL编译应用程序，则同时安装 libnccl-dev包。

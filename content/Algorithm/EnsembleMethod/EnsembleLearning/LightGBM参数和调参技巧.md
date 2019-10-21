@@ -20,3 +20,5 @@ date: 2018-08-14 10:00
 [集成学习总结](https://xijunlee.github.io/2017/06/03/集成学习总结/)
 
 [sklearn-GridSearchCV,CV调节超参使用方法](https://blog.csdn.net/u012969412/article/details/72973055)
+
+[LightGBM调参笔记](https://blog.csdn.net/u012735708/article/details/83749703#comments)
