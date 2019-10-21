@@ -86,7 +86,7 @@ NCCL是Nvidia Collective multi-GPU Communication Library的简称，它是一个
 ```
 dpkg -i nccl-repo-ubuntu1604-2.4.8-ga-cuda10.0_1-1_amd64.deb
 ```
-初次安装可能会出现下面的提示:
+[2019-10-21 UPDATE]初次安装可能会出现下面的提示:
 ```
 root@Super-Server:/home/soft# dpkg -i nccl-repo-ubuntu1804-2.4.8-ga-cuda10.1_1-1_amd64.deb
 
