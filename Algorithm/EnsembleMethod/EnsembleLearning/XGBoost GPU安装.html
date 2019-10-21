@@ -156,6 +156,24 @@
 </pre></div>
 
 
+<p>初次安装可能会出现下面的提示:</p>
+<div class="hlcode"><pre><span class="n">root</span><span class="err">@</span><span class="n">Super</span><span class="o">-</span><span class="n">Server</span><span class="o">:/</span><span class="n">home</span><span class="o">/</span><span class="n">soft</span><span class="err">#</span> <span class="n">dpkg</span> <span class="o">-</span><span class="n">i</span> <span class="n">nccl</span><span class="o">-</span><span class="n">repo</span><span class="o">-</span><span class="n">ubuntu1804</span><span class="o">-</span><span class="mf">2.4.8</span><span class="o">-</span><span class="n">ga</span><span class="o">-</span><span class="n">cuda10</span><span class="mf">.1</span><span class="n">_1</span><span class="o">-</span><span class="mi">1</span><span class="n">_amd64</span><span class="p">.</span><span class="n">deb</span>
+
+<span class="n">Selecting</span> <span class="n">previously</span> <span class="n">unselected</span> <span class="n">package</span> <span class="n">nccl</span><span class="o">-</span><span class="n">repo</span><span class="o">-</span><span class="n">ubuntu1804</span><span class="o">-</span><span class="mf">2.4.8</span><span class="o">-</span><span class="n">ga</span><span class="o">-</span><span class="n">cuda10</span><span class="mf">.1</span><span class="p">.</span>
+<span class="p">(</span><span class="n">Reading</span> <span class="n">database</span> <span class="p">...</span> <span class="mi">185150</span> <span class="n">files</span> <span class="n">and</span> <span class="n">directories</span> <span class="n">currently</span> <span class="n">installed</span><span class="p">.)</span>
+<span class="n">Preparing</span> <span class="n">to</span> <span class="n">unpack</span> <span class="n">nccl</span><span class="o">-</span><span class="n">repo</span><span class="o">-</span><span class="n">ubuntu1804</span><span class="o">-</span><span class="mf">2.4.8</span><span class="o">-</span><span class="n">ga</span><span class="o">-</span><span class="n">cuda10</span><span class="mf">.1</span><span class="n">_1</span><span class="o">-</span><span class="mi">1</span><span class="n">_amd64</span><span class="p">.</span><span class="n">deb</span> <span class="p">...</span>
+<span class="n">Unpacking</span> <span class="n">nccl</span><span class="o">-</span><span class="n">repo</span><span class="o">-</span><span class="n">ubuntu1804</span><span class="o">-</span><span class="mf">2.4.8</span><span class="o">-</span><span class="n">ga</span><span class="o">-</span><span class="n">cuda10</span><span class="mf">.1</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">...</span>
+<span class="n">Setting</span> <span class="n">up</span> <span class="n">nccl</span><span class="o">-</span><span class="n">repo</span><span class="o">-</span><span class="n">ubuntu1804</span><span class="o">-</span><span class="mf">2.4.8</span><span class="o">-</span><span class="n">ga</span><span class="o">-</span><span class="n">cuda10</span><span class="mf">.1</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">...</span>
+
+<span class="n">The</span> <span class="n">public</span> <span class="n">CUDA</span> <span class="n">GPG</span> <span class="n">key</span> <span class="n">does</span> <span class="n">not</span> <span class="n">appear</span> <span class="n">to</span> <span class="n">be</span> <span class="n">installed</span><span class="p">.</span>
+<span class="n">To</span> <span class="n">install</span> <span class="n">the</span> <span class="n">key</span><span class="p">,</span> <span class="n">run</span> <span class="n">this</span> <span class="n">command</span><span class="o">:</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">key</span> <span class="n">add</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">nccl</span><span class="o">-</span><span class="n">repo</span><span class="o">-</span><span class="mf">2.4.8</span><span class="o">-</span><span class="n">ga</span><span class="o">-</span><span class="n">cuda10</span><span class="mf">.1</span><span class="o">/</span><span class="mf">7f</span><span class="n">a2af80</span><span class="p">.</span><span class="n">pub</span>
+</pre></div>
+
+
+<p>按照提示, 执行</p>
+<p><code>sudo apt-key add /var/nccl-repo-2.4.8-ga-cuda10.1/7fa2af80.pub</code></p>
+<p>即可, 执行完成之后,会输出OK</p>
 <ul>
 <li>5、更新APT数据库：<code>sudo apt update</code>, 这一步需要操作, 不然第六步会安装不成功,</li>
 <li>6、利用APT安装libnccl2。<br />

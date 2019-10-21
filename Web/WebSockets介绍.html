@@ -5,7 +5,7 @@
     <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
     <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
-    <title>多因子选股模型 - LiYu's personal knowledge wiki</title>
+    <title>WebSockets简介 - LiYu's personal knowledge wiki</title>
     <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
     <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -35,41 +35,65 @@
 <div id="container">
     
 <div id="header">
-  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Economics">Economics</a>&nbsp;»&nbsp;多因子选股模型</div>
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Web">Web</a>&nbsp;»&nbsp;WebSockets简介</div>
 </div>
 <div class="clearfix"></div>
-<div id="title">多因子选股模型</div>
+<div id="title">WebSockets简介</div>
 <div id="content">
-  <h1 id="_1">写在前面</h1>
-<h1 id="_2">因子获取和处理</h1>
-<h2 id="_3">数据预处理</h2>
-<p><a href="https://www.ricequant.com/community/topic/4271">数据预处理（上）之离群值处理、标准化</a></p>
-<h2 id="_4">中性化</h2>
-<p><a href="https://www.ricequant.com/community/topic/4309/">数据预处理（下）之中性化（不止行业和市值中性化~）</a></p>
-<h1 id="_5">单因子研究</h1>
-<p>因子的暴露度, 这是华泰多因子研报中提到的, 他们把因子数值通过去极值标准化操作之后定为因子的暴露度,</p>
-<h2 id="ic">因子IC的计算方式</h2>
-<h1 id="_6">因子优化</h1>
-<h2 id="_7">因子权重优化</h2>
-<h3 id="ic_1">基于因子IC的因子权重优化</h3>
-<h1 id="_8">回测</h1>
-<h1 id="_9">参考文献</h1>
-<p><a href="https://blog.csdn.net/qtlyx/article/details/78306562">多因子模型之组合构建与优化器（上）</a></p>
-<p><a href="https://blog.csdn.net/qtlyx/article/details/78312811">多因子模型之组合构建与优化器（下）</a></p>
-<p><a href="http://cvxopt.org/install/index.html">CVXOPT</a></p>
-<p><a href="https://github.com/cvxgrp/cvxportfolio/blob/master/examples/HelloWorld.ipynb">cvxportfolio</a></p>
-<p><a href="https://blog.csdn.net/CoderPai/article/details/82740726">第一篇机器学习投资组合——简介</a></p>
-<p><a href="https://becominghuman.ai/a-machine-learning-investing-tool-entry-1-5e8d0fef9512">A Machine Learning Investing Tool — Entry 1 (Introduction)</a></p>
-<p><a href="https://blog.csdn.net/yezi113yezi/article/details/81029306">金融量化之华泰多因子估值类显著性和IC值计算</a></p>
-<p><a href="http://blog.sina.com.cn/s/blog_53f0769d0102xhug.html">关于多因子模型的“IC信息系数”那些事</a></p>
+  <div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#_1">写在前面</a><ul>
+<li><a href="#httpwebsocket">Http和WebSocket对比</a></li>
+</ul>
+</li>
+<li><a href="#_2">参考文献</a></li>
+</ul>
 </div>
-<div id="content-footer">created in <span class="create-date date"> 2019-04-11 13:00 </span></div>
+<h1 id="_1">写在前面</h1>
+<p>WebSocket 是一种标准协议，用于在客户端和服务端之间进行双向数据传输。但它跟 HTTP 没什么关系，它是基于 TCP 的一种独立实现。其本质是保持TCP连接, 在浏览器和服务端通过Socket进行通信.</p>
+<h2 id="httpwebsocket">Http和WebSocket对比</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Http</td>
+<td>socket实现</td>
+<td>单工通道(浏览器只发起, 服务端只做响应), 短连接, 请求响应</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>WebSocket</td>
+<td>socket实现</td>
+<td>双工通道, 请求响应,推送. socket创建连接, 不断开</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h1 id="_2">参考文献</h1>
+<p><a href="https://www.cnblogs.com/ssyfj/p/9245150.html">python---websocket的使用</a></p>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2019-06-02 00:00 </span></div>
 <div id="comments"></div>
 <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
 <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script type="text/javascript">
 const gitment = new Gitment({
-  title: '多因子选股模型',
+  title: 'WebSockets简介',
   owner: 'sthsf',
   repo: 'wiki',
   oauth: {
