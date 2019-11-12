@@ -44,6 +44,8 @@ previous_pos.to_sql(table_name, engine, index=False, if_exists='append', chunksi
 
 
 
+# 参考文献
+[SQLAlchemy简单入门](https://www.jianshu.com/p/264ceec89652)
 
 [pandas +sqlalchemy读写oracle数据库](https://blog.csdn.net/walking_visitor/article/details/84023393)
 
