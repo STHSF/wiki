@@ -136,5 +136,7 @@ xcode-select --install
 
 [MAC 升级到10.14 mojave beta之后git无法使用解决方案](https://blog.csdn.net/huyuan7494/article/details/80621547)
 
+[利用Hexo+github搭建博客，零成本、无需域名、服务器](https://cloud.tencent.com/developer/article/1198285)
+
 
 
