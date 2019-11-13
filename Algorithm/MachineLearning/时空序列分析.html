@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <title>时空序列分析 - LiYu's personal knowledge wiki</title>
+    <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
+    <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$(',')$'], ['\\(','\\)']]}
+        });
+        </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-78529611-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+
+<body>
+<div id="container">
+    
+<div id="header">
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm">Algorithm</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-MachineLearning">MachineLearning</a>&nbsp;»&nbsp;时空序列分析</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">时空序列分析</div>
+<div id="content">
+  <h1 id="_1">常用的数据处理</h1>
+<p>监督学习往往需要针对样本数据进行特征和标签的划分，对于单维、多维时间序列以及时序图，其划分的方法都比较类似，具体可以分析如下几种情况：</p>
+<h3 id="one-to-one">one to one</h3>
+<p>不论是单维、多维还是时序图，都是把t时刻的数据作为特征，t+1的数据作<br />
+为标签，随着t从序列头部到后部不断移动，由此构造出序列的特征和标签。</p>
+<h3 id="one-to-many">one to many:</h3>
+<p>不论是单维、多维还是时序图，都是把t时刻的数据作为特征，t+K的数据作为标签，随着t从序列头部到后部不断移动，由此构造出序列的特征和标签。</p>
+<h3 id="many-to-one">many to one:</h3>
+<p>不论是单维、多维还是时序图，都是把t-k时刻的数据作为特征，t时刻的数据作为标签，随着t从序列头部到后部不断移动，由此构造出序列的特征和标签。</p>
+<h3 id="many-to-many">many to many:</h3>
+<p>不论是单维、多维还是时序图，都是把t-k时刻的数据作为特征，t+K的数据作为标签，随着t从序列头部到后部不断移动，由此构造出序列的特征和标签。</p>
+<h1 id="_2">评估</h1>
+<h2 id="1mse-maemse">1、MSE 对比MAE，MSE可以放大预测偏差较大的值，可以比较不同预测模型的稳定性，应用场景相对多一点。</h2>
+<h2 id="2-rmse-rmse">2、均方根误差 RMSE 因为使用的是平均误差，而平均误差对异常点较敏感，如果回归器对某个点的回归值很不合理，那么它的误差则比较大，从而会对RMSE的值有较大影响，即平均值是非鲁棒的。</h2>
+<p>改进：使用误差的分位数来代替，如中位数来代替平均数。假设100个数，最大的数再怎么改变，中位数也不会变，因此其对异常点具有鲁棒性。<br />
+平均平方差/均方误差是回归任务最常用的性能度量。</p>
+<h2 id="mape05w5w05105045mape">MAPE不仅仅考虑预测值与真实值的误差，还考虑了误差与真实值之间的比例，在某些场景下，比如房价从0.5w到5w之间，0.5预测成1.0与5.0预测成4.5的差距是非常大的，在一些竞赛当中，MAPE也是常用的目标函数之一。在统计领域是一个预测准确性的衡量指标。</h2>
+<h1 id="_3">参考文献</h1>
+<p><a href="https://mp.weixin.qq.com/s/E44qI6ltRzuvRfAVr4fJkg">【时空序列分析】第七章 常用数据处理及评估</a></p>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2019-11-13 10:00 </span></div>
+<div id="comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script type="text/javascript">
+const gitment = new Gitment({
+  title: '时空序列分析',
+  owner: 'sthsf',
+  repo: 'wiki',
+  oauth: {
+    client_id: '086c54c5fd95adfdc372',
+    client_secret: '2ad9ebe87b952d2c77fccf99c334881b91eaa73d',
+  },
+  // ...
+  // For more available options, check out the documentation below
+})
+gitment.render('comments')
+// or
+// gitment.render(document.getElementById('comments'))
+// or
+// document.body.appendChild(gitment.render())
+</script>
+
+</div>
+<div id="footer">
+            <span>
+                Copyright © 2019 LiYu.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+                Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
+            </span>
+</div>
+
+
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?90e1dcdd1938573c19f9ff6521188e91";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</body>
+</html>
