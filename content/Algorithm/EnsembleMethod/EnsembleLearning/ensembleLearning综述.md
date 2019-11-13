@@ -50,4 +50,10 @@ GBDT分类算法在思想上和回归算法没有区别，但是由于样本输�
 # lightGBM
 [机器不学习:一问看懂机器学习时代神器-LightGBM](http://www.360doc.com/content/17/1231/23/40769523_718019029.shtml)
 
+# 贝叶斯优化调参示例代码
+[Hyperparameter tuning](https://www.kaggle.com/fabiendaniel/hyperparameter-tuning/notebook)
+[Bayesian Optimization of XGBoost Parameters](https://www.kaggle.com/tilii7/bayesian-optimization-of-xgboost-parameters/notebook)
+[机器学习各种算法怎么调参?](https://www.zhihu.com/question/34470160)
+
+[贝叶斯优化调参示例代码 (xgboost,lgbm)](https://blog.csdn.net/ssswill/article/details/85274097)
 # 参考文献
