@@ -108,10 +108,107 @@ $$</p>
 一些分类器需要计算样本之间的距离（如欧氏距离），例如KNN。如果一个特征值域范围非常大，那么距离计算就主要取决于这个特征，从而与实际情况相悖（比如这时实际情况是值域范围小的特征更重要）。</li>
 </ul>
 <h1 id="k-folds">K-folds交叉验证</h1>
-<p>防止过你和,挑选最合适的模型<br />
-<a href="https://blog.csdn.net/cherdw/article/details/54986863">Sklearn-CrossValidation交叉验证</a><br />
-<a href="https://blog.csdn.net/jasonding1354/article/details/50562513">交叉验证及其用于参数选择、模型选择、特征选择的例子</a><br />
-<a href="http://www.mtcnn.com/?p=517">tensorflow数据归一化，z-score,min-max几种方法</a></p>
+<p>交叉验证的基本思想是把在某种意义下将原始数据进行分组, 一部分作为训练集, 另一部分作为验证集.</p>
+<p>K折交叉验证, 就是把原始数据(初始采样)分割成K个子集, 将其中一个子集作为验证集, 其余K-1个子集作为训练集. 交叉验证重复K次, 每个子集验证一次, 将K次结果通平均或者其他的某种方式最终得到一个单一的估测, 以此来作为评价分类器的性能指标.</p>
+<p>交叉验证的好处是防止过拟合,挑选最合适的模型.</p>
+<h3 id="stratifiedkfold">StratifiedKFold实例</h3>
+<p>简要介绍sklern中的StratifiedKFold用法</p>
+<h4 id="stratifiedkfold_1">StratifiedKFold参数说明</h4>
+<ul>
+<li>n_splits:折叠次数，默认为3，至少为2。</li>
+<li>shuffle:是否在每次分割之前打乱顺序。</li>
+<li>random_state:随机种子，在shuffle==True时使用，默认使用np.random。</li>
+</ul>
+<div class="hlcode"><pre><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">StratifiedKFold</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">lightgbm</span> <span class="kn">as</span> <span class="nn">lgb</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">roc_auc_score</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s">&#39;ignore&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">get_data</span><span class="p">():</span>
+    <span class="n">train</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">&#39;/home/kesci/input/round11379/train_round_1.csv&#39;</span><span class="p">)</span>
+    <span class="n">test</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">&#39;/home/kesci/input/round11379/test_round_1.csv&#39;</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">train</span><span class="p">,</span> <span class="n">test</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span>
+
+<span class="k">def</span> <span class="nf">split_train_test</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">train_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;purchase&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">test_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;purchase&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">submit</span> <span class="o">=</span> <span class="n">test_data</span><span class="p">[[</span><span class="s">&#39;user_id&#39;</span><span class="p">,</span><span class="s">&#39;Product_id&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">train_data</span> <span class="o">=</span> <span class="n">train_data</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s">&#39;user_id&#39;</span><span class="p">,</span><span class="s">&#39;Product_id&#39;</span><span class="p">,</span><span class="s">&#39;seller&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">test_data</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s">&#39;user_id&#39;</span><span class="p">,</span><span class="s">&#39;Product_id&#39;</span><span class="p">,</span><span class="s">&#39;seller&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">test_data</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s">&#39;purchase&#39;</span><span class="p">,</span><span class="s">&#39;favorite&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">train_data</span><span class="p">,</span><span class="n">test_data</span><span class="p">,</span><span class="n">submit</span>
+
+
+<span class="k">def</span> <span class="nf">train_lgb</span><span class="p">(</span><span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">test_x</span><span class="p">,</span><span class="n">test_y</span><span class="p">,</span><span class="n">res</span><span class="p">,</span><span class="n">col</span><span class="p">):</span>
+    <span class="n">kfold</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">2019</span><span class="p">)</span> <span class="c">#shuffle:是否在每次分割之前打乱顺序</span>
+    <span class="n">lgb_paras</span> <span class="o">=</span><span class="p">{</span>
+        <span class="s">&#39;learning_rate&#39;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+        <span class="s">&#39;boosting_type&#39;</span><span class="p">:</span> <span class="s">&#39;gbdt&#39;</span><span class="p">,</span>
+        <span class="s">&#39;objective&#39;</span><span class="p">:</span> <span class="s">&#39;binary&#39;</span><span class="p">,</span>
+        <span class="s">&#39;metric&#39;</span><span class="p">:</span> <span class="s">&#39;auc&#39;</span><span class="p">,</span>
+        <span class="s">&#39;num_leaves&#39;</span><span class="p">:</span> <span class="mi">63</span><span class="p">,</span>
+        <span class="s">&#39;feature_fraction&#39;</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">,</span>
+        <span class="s">&#39;bagging_fraction&#39;</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">,</span>
+        <span class="s">&#39;bagging_freq&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+        <span class="s">&#39;seed&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s">&#39;bagging_seed&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s">&#39;feature_fraction_seed&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+        <span class="s">&#39;min_data_in_leaf&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+        <span class="s">&#39;nthread&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="s">&#39;verbose&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="p">}</span>
+    <span class="n">scores</span><span class="o">=</span><span class="p">[]</span>
+    <span class="n">test_pred</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">test_x</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">n_fold</span><span class="p">,(</span><span class="n">tr_idx</span><span class="p">,</span> <span class="n">val_idx</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">kfold</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">)):</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&#39;the {n_fold} training start ...&#39;</span><span class="p">)</span>
+        <span class="n">tr_x</span><span class="p">,</span> <span class="n">tr_y</span><span class="p">,</span> <span class="n">val_x</span><span class="p">,</span> <span class="n">val_y</span> <span class="o">=</span> <span class="n">train_x</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">tr_idx</span><span class="p">],</span> <span class="n">train_y</span><span class="p">[</span><span class="n">tr_idx</span><span class="p">],</span> <span class="n">train_x</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">val_idx</span><span class="p">],</span> <span class="n">train_y</span><span class="p">[</span><span class="n">val_idx</span><span class="p">]</span>
+        <span class="n">train_set</span> <span class="o">=</span> <span class="n">lgb</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">tr_x</span><span class="p">,</span> <span class="n">tr_y</span><span class="p">)</span>
+        <span class="n">val_set</span> <span class="o">=</span> <span class="n">lgb</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">val_x</span><span class="p">,</span> <span class="n">val_y</span><span class="p">)</span>
+        <span class="n">lgb_model</span> <span class="o">=</span> <span class="n">lgb</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">lgb_paras</span><span class="p">,</span> <span class="n">train_set</span><span class="p">,</span>
+                              <span class="n">valid_sets</span><span class="o">=</span><span class="p">[</span><span class="n">val_set</span><span class="p">],</span> <span class="n">early_stopping_rounds</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">num_boost_round</span><span class="o">=</span><span class="mi">40000</span><span class="p">,</span> <span class="n">verbose_eval</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+        <span class="n">val_pred</span> <span class="o">=</span> <span class="n">lgb_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span>
+            <span class="n">val_x</span><span class="p">,</span> <span class="n">num_iteration</span><span class="o">=</span><span class="n">lgb_model</span><span class="o">.</span><span class="n">best_iteration</span><span class="p">)</span>
+        <span class="n">test_pred</span><span class="o">+=</span><span class="n">lgb_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span>
+            <span class="n">test_x</span><span class="p">,</span> <span class="n">num_iteration</span><span class="o">=</span><span class="n">lgb_model</span><span class="o">.</span><span class="n">best_iteration</span><span class="p">)</span><span class="o">/</span> <span class="n">kfold</span><span class="o">.</span><span class="n">n_splits</span>
+        <span class="n">val_score</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">val_y</span><span class="p">,</span> <span class="n">val_pred</span><span class="p">)</span>
+        <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val_score</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;cv: &#39;</span><span class="p">,</span> <span class="n">scores</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;cv : &#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">))</span>
+    <span class="n">res</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">=</span><span class="n">test_pred</span>
+    <span class="k">return</span> <span class="n">res</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">fea</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;purchase&#39;</span><span class="p">,</span> <span class="s">&#39;favorite&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">fea</span> <span class="o">==</span> <span class="s">&#39;purchase&#39;</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">()</span>
+            <span class="n">train</span><span class="p">,</span> <span class="n">test_x</span><span class="p">,</span> <span class="n">submit_purchase</span> <span class="o">=</span> <span class="n">split_train_test</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">train_x</span> <span class="o">=</span> <span class="n">train</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s">&#39;purchase&#39;</span><span class="p">,</span> <span class="s">&#39;favorite&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">train_y</span> <span class="o">=</span> <span class="n">train</span><span class="p">[</span><span class="s">&#39;purchase&#39;</span><span class="p">]</span>
+            <span class="n">submit_purchase</span> <span class="o">=</span> <span class="n">train_lgb</span><span class="p">(</span><span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">test_x</span><span class="p">,</span> <span class="n">submit_purchase</span><span class="p">,</span> <span class="s">&#39;purchase&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+            <span class="k">del</span> <span class="n">data</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="n">test_x</span><span class="p">,</span> <span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span>
+            <span class="n">submit_purchase</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;user_id&#39;</span><span class="p">,</span> <span class="s">&#39;product_id&#39;</span><span class="p">,</span> <span class="s">&#39;pred_purchase&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">()</span>
+            <span class="n">train</span><span class="p">,</span> <span class="n">test_x</span><span class="p">,</span> <span class="n">submit_favorite</span> <span class="o">=</span> <span class="n">split_train_test</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">train_x</span> <span class="o">=</span> <span class="n">train</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s">&#39;purchase&#39;</span><span class="p">,</span> <span class="s">&#39;favorite&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">train_y</span> <span class="o">=</span> <span class="n">train</span><span class="p">[</span><span class="s">&#39;favorite&#39;</span><span class="p">]</span>
+            <span class="n">submit_favorite</span> <span class="o">=</span> <span class="n">train_lgb</span><span class="p">(</span><span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">test_x</span><span class="p">,</span> <span class="n">submit_favorite</span><span class="p">,</span> <span class="s">&#39;favorite&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+            <span class="k">del</span> <span class="n">data</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="n">test_x</span><span class="p">,</span> <span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span>
+            <span class="n">submit_favorite</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;user_id&#39;</span><span class="p">,</span> <span class="s">&#39;product_id&#39;</span><span class="p">,</span> <span class="s">&#39;pred_favorite&#39;</span><span class="p">]</span>
+</pre></div>
+
+
+<p><a href="https://blog.csdn.net/cherdw/article/details/54986863">Sklearn-CrossValidation交叉验证</a></p>
+<p><a href="https://blog.csdn.net/jasonding1354/article/details/50562513">交叉验证及其用于参数选择、模型选择、特征选择的例子</a></p>
+<p><a href="http://www.mtcnn.com/?p=517">tensorflow数据归一化，z-score,min-max几种方法</a></p>
+<p><a href="https://blog.csdn.net/weixin_44110891/article/details/95240937">k折交叉验证sklearn中的StratifiedKFold</a></p>
 <h1 id="_4">特征选择</h1>
 <p>特征选择防止模型过拟合降低模型的泛化误差, 可以减少硬件资源的损耗, 降低模型的开发成本, 减少训练时间.</p>
 <h3 id="_5">过拟合</h3>
