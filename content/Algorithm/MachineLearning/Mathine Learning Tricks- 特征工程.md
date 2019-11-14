@@ -98,7 +98,7 @@ K折交叉验证, 就是把原始数据(初始采样)分割成K个子集, 将其
 - random_state:随机种子，在shuffle==True时使用，默认使用np.random。
 
 
-
+#### sklearn 
 ```python
 import pandas as pd
 import numpy as np
@@ -186,6 +186,23 @@ if __name__ == "__main__":
 
 ```
 
+### TimeSeriesSplit实例
+对于时间序列的数据类型, 这种数据具有高度的自相关性, 前后相邻时段的数据关联程度非常高. 使用简单随机抽样的方式对时间序列数据采样容易破坏其时段的连续性, 同时,也有可能引入未来数据.
+
+#### sklearn
+
+```python
+from sklearn.model_selection import TimeSeriesSplit
+import numpy as np
+
+X = np.random.randint(1,10,20)
+
+kf = TimeSeriesSplit(n_splits=4)
+
+for train,test in kf.split(X):
+    print(train,'\n',test)
+```
+
 [Sklearn-CrossValidation交叉验证](https://blog.csdn.net/cherdw/article/details/54986863)
 
 [交叉验证及其用于参数选择、模型选择、特征选择的例子](https://blog.csdn.net/jasonding1354/article/details/50562513)
@@ -193,6 +210,8 @@ if __name__ == "__main__":
 [tensorflow数据归一化，z-score,min-max几种方法](http://www.mtcnn.com/?p=517)
 
 [k折交叉验证sklearn中的StratifiedKFold](https://blog.csdn.net/weixin_44110891/article/details/95240937)
+
+[Cross-validation: evaluating estimator performance](https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation)
 
 # 特征选择
 特征选择防止模型过拟合降低模型的泛化误差, 可以减少硬件资源的损耗, 降低模型的开发成本, 减少训练时间.
