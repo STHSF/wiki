@@ -119,6 +119,7 @@ $$</p>
 <li>shuffle:是否在每次分割之前打乱顺序。</li>
 <li>random_state:随机种子，在shuffle==True时使用，默认使用np.random。</li>
 </ul>
+<h4 id="sklearn">sklearn</h4>
 <div class="hlcode"><pre><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">StratifiedKFold</span>
@@ -205,10 +206,26 @@ $$</p>
 </pre></div>
 
 
+<h3 id="timeseriessplit">TimeSeriesSplit实例</h3>
+<p>对于时间序列的数据类型, 这种数据具有高度的自相关性, 前后相邻时段的数据关联程度非常高. 使用简单随机抽样的方式对时间序列数据采样容易破坏其时段的连续性, 同时,也有可能引入未来数据.</p>
+<h4 id="sklearn_1">sklearn</h4>
+<div class="hlcode"><pre><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">TimeSeriesSplit</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="n">kf</span> <span class="o">=</span> <span class="n">TimeSeriesSplit</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">train</span><span class="p">,</span><span class="n">test</span> <span class="ow">in</span> <span class="n">kf</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">train</span><span class="p">,</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">,</span><span class="n">test</span><span class="p">)</span>
+</pre></div>
+
+
 <p><a href="https://blog.csdn.net/cherdw/article/details/54986863">Sklearn-CrossValidation交叉验证</a></p>
 <p><a href="https://blog.csdn.net/jasonding1354/article/details/50562513">交叉验证及其用于参数选择、模型选择、特征选择的例子</a></p>
 <p><a href="http://www.mtcnn.com/?p=517">tensorflow数据归一化，z-score,min-max几种方法</a></p>
 <p><a href="https://blog.csdn.net/weixin_44110891/article/details/95240937">k折交叉验证sklearn中的StratifiedKFold</a></p>
+<p><a href="https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation">Cross-validation: evaluating estimator performance</a></p>
 <h1 id="_4">特征选择</h1>
 <p>特征选择防止模型过拟合降低模型的泛化误差, 可以减少硬件资源的损耗, 降低模型的开发成本, 减少训练时间.</p>
 <h3 id="_5">过拟合</h3>
