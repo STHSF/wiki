@@ -84,10 +84,115 @@ print(res.x)
 一些分类器需要计算样本之间的距离（如欧氏距离），例如KNN。如果一个特征值域范围非常大，那么距离计算就主要取决于这个特征，从而与实际情况相悖（比如这时实际情况是值域范围小的特征更重要）。
 
 # K-folds交叉验证
-防止过你和,挑选最合适的模型
+交叉验证的基本思想是把在某种意义下将原始数据进行分组, 一部分作为训练集, 另一部分作为验证集.
+
+K折交叉验证, 就是把原始数据(初始采样)分割成K个子集, 将其中一个子集作为验证集, 其余K-1个子集作为训练集. 交叉验证重复K次, 每个子集验证一次, 将K次结果通平均或者其他的某种方式最终得到一个单一的估测, 以此来作为评价分类器的性能指标.
+
+交叉验证的好处是防止过拟合,挑选最合适的模型.
+
+### StratifiedKFold实例
+简要介绍sklern中的StratifiedKFold用法
+#### StratifiedKFold参数说明
+- n_splits:折叠次数，默认为3，至少为2。
+- shuffle:是否在每次分割之前打乱顺序。
+- random_state:随机种子，在shuffle==True时使用，默认使用np.random。
+
+
+
+```python
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import StratifiedKFold
+import warnings
+import lightgbm as lgb
+from sklearn.metrics import roc_auc_score
+warnings.filterwarnings('ignore')
+
+def get_data():
+    train=pd.read_csv('/home/kesci/input/round11379/train_round_1.csv')
+    test=pd.read_csv('/home/kesci/input/round11379/test_round_1.csv')
+    data = pd.concat([train, test], axis=0, ignore_index=True)
+    data = data.fillna(-1)
+    return data
+
+def split_train_test(data):
+    train_data = data[data['purchase'] != -1]
+    test_data = data[data['purchase'] == -1]
+
+    submit = test_data[['user_id','Product_id']].copy()
+    train_data = train_data.drop(['user_id','Product_id','seller'], axis=1)
+    test_data = test_data.drop(['user_id','Product_id','seller'], axis=1)
+    test_data = test_data.drop(['purchase','favorite'], axis=1)
+    return train_data,test_data,submit
+
+
+def train_lgb(train_x, train_y, test_x,test_y,res,col):
+    kfold = StratifiedKFold(n_splits=5, shuffle=True, random_state=2019) #shuffle:是否在每次分割之前打乱顺序
+    lgb_paras ={
+        'learning_rate': 0.1,
+        'boosting_type': 'gbdt',
+        'objective': 'binary',
+        'metric': 'auc',
+        'num_leaves': 63,
+        'feature_fraction': 0.8,
+        'bagging_fraction': 0.8,
+        'bagging_freq': 5,
+        'seed': 1,
+        'bagging_seed': 1,
+        'feature_fraction_seed': 7,
+        'min_data_in_leaf': 20,
+        'nthread': -1,
+        'verbose': -1
+    }
+    scores=[]
+    test_pred =  np.zeros(len(test_x))
+    for n_fold,(tr_idx, val_idx) in enumerate(kfold.split(train_x, train_y)):
+        print(f'the {n_fold} training start ...')
+        tr_x, tr_y, val_x, val_y = train_x.iloc[tr_idx], train_y[tr_idx], train_x.iloc[val_idx], train_y[val_idx]
+        train_set = lgb.Dataset(tr_x, tr_y)
+        val_set = lgb.Dataset(val_x, val_y)
+        lgb_model = lgb.train(lgb_paras, train_set,
+                              valid_sets=[val_set], early_stopping_rounds=50, num_boost_round=40000, verbose_eval=50)
+        val_pred = lgb_model.predict(
+            val_x, num_iteration=lgb_model.best_iteration)
+        test_pred+=lgb_model.predict(
+            test_x, num_iteration=lgb_model.best_iteration)/ kfold.n_splits
+        val_score = roc_auc_score(val_y, val_pred)
+        scores.append(val_score)
+    print('cv: ', scores)
+    print('cv : ', np.mean(scores))
+    res[col]=test_pred
+    return res
+
+
+if __name__ == "__main__":
+    for fea in ['purchase', 'favorite']:
+        if fea == 'purchase':
+            data = get_data()
+            train, test_x, submit_purchase = split_train_test(data)
+            train_x = train.drop(['purchase', 'favorite'], axis=1)
+            train_y = train['purchase']
+            submit_purchase = train_lgb(train_x, train_y, test_x, submit_purchase, 'purchase', 10)
+            del data, train, test_x, train_x, train_y
+            submit_purchase.columns = ['user_id', 'product_id', 'pred_purchase']
+        else:
+            data = get_data()
+            train, test_x, submit_favorite = split_train_test(data)
+            train_x = train.drop(['purchase', 'favorite'], axis=1)
+            train_y = train['favorite']
+            submit_favorite = train_lgb(train_x, train_y, test_x, submit_favorite, 'favorite', 5)
+            del data, train, test_x, train_x, train_y
+            submit_favorite.columns = ['user_id', 'product_id', 'pred_favorite']
+
+```
+
 [Sklearn-CrossValidation交叉验证](https://blog.csdn.net/cherdw/article/details/54986863)
+
 [交叉验证及其用于参数选择、模型选择、特征选择的例子](https://blog.csdn.net/jasonding1354/article/details/50562513)
+
 [tensorflow数据归一化，z-score,min-max几种方法](http://www.mtcnn.com/?p=517)
+
+[k折交叉验证sklearn中的StratifiedKFold](https://blog.csdn.net/weixin_44110891/article/details/95240937)
 
 # 特征选择
 特征选择防止模型过拟合降低模型的泛化误差, 可以减少硬件资源的损耗, 降低模型的开发成本, 减少训练时间.
