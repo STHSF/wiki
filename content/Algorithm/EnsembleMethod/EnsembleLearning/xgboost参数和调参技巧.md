@@ -271,10 +271,6 @@ max_depth对模型的收敛效果很明显, 刚开始我在调参过程中max_de
 [Hyperparameter tuning](https://www.kaggle.com/fabiendaniel/hyperparameter-tuning/notebook)
 
 
-
-
-
-
 [xgboost使用技巧](https://www.lizenghai.com/archives/29288.html)
 
 [XGBoost-Python完全调参指南-介绍篇](https://blog.csdn.net/wzmsltw/article/details/50988430)
