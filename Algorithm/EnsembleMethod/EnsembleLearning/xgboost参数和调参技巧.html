@@ -50,7 +50,7 @@
 <li>Learning Task parameters：控制学习的场景，例如在回归问题中会使用不同的参数控制排序。<br />
 除了以上参数还可能有其它参数，在命令行中使用</li>
 </ul>
-<h2 id="general-parameters">General Parameters</h2>
+<h3 id="general-parameters">General Parameters</h3>
 <ul>
 <li>booster [default=gbtree] </li>
 </ul>
@@ -73,7 +73,7 @@
 <li>num_feature [set automatically by xgboost, no need to be set by user] </li>
 </ul>
 <p>boosting过程中用到的特征维数，设置为特征个数。XGBoost会自动设置，不需要手工设置</p>
-<h2 id="booster-parameters">Booster Parameters</h2>
+<h3 id="booster-parameters">Booster Parameters</h3>
 <p>From xgboost-unity, the bst: prefix is no longer needed for booster parameters. Parameter with or without bst: prefix will be equivalent(i.e. both bst:eta and eta will be valid parameter setting) .</p>
 <p>Parameter for Tree Booster</p>
 <ul>
@@ -137,7 +137,7 @@
 </ul>
 <p>A value greater than 0 can be used in case of high class imbalance as it helps in faster convergence.</p>
 <p>大于0的取值可以处理类别不平衡的情况。帮助模型更快收敛</p>
-<h2 id="parameter-for-linear-booster">Parameter for Linear Booster</h2>
+<h3 id="parameter-for-linear-booster">Parameter for Linear Booster</h3>
 <ul>
 <li>lambda [default=0] </li>
 </ul>
@@ -152,7 +152,7 @@
 <li>lambda_bias </li>
 </ul>
 <p>在偏置上的L2正则。缺省值为0（在L1上没有偏置项的正则，因为L1时偏置不重要）</p>
-<h2 id="task-parameters">Task Parameters</h2>
+<h3 id="task-parameters">Task Parameters</h3>
 <ul>
 <li>
 <p>objective [ default=reg:linear ] <br />
@@ -227,7 +227,7 @@
 </ul>
 <p>随机数的种子。缺省值为0<br />
 可以用于产生可重复的结果（每次取一样的seed即可得到相同的随机划分）</p>
-<h2 id="console-parameters">Console Parameters</h2>
+<h3 id="console-parameters">Console Parameters</h3>
 <p>The following parameters are only used in the console version of xgboost <br />
 * use_buffer [ default=1 ] </p>
 <p>是否为输入创建二进制的缓存文件，缓存文件可以加速计算。缺省值为1 <br />
@@ -288,10 +288,29 @@
 <li>pred_margin [default=0] </li>
 </ul>
 <p>输出预测的边界，而不是转换后的概率</p>
+<h3 id="sklearn">sklearn参数对比</h3>
 <p>如果你比较习惯scikit-learn的参数形式，那么XGBoost的Python 版本也提供了sklearn形式的接口 XGBClassifier。它使用sklearn形式的参数命名方式，对应关系如下：</p>
 <p>eta –&gt; learning_rate<br />
 lambda –&gt; reg_lambda<br />
 alpha –&gt; reg_alpha</p>
+<h2 id="_2">调参核心</h2>
+<ul>
+<li>调参1, 提高准确率: num_leaves, max_depth, learning_rate</li>
+<li>调参2, 降低过拟合: max_bin, min_data_in_leaf</li>
+<li>调参3, 降低过拟合: 正则化L1, L2</li>
+<li>调参4, 降低过拟合: 数据抽样(样本抽样), 列抽样(特征抽样)</li>
+</ul>
+<h3 id="_3">调参方向：处理过拟合（过拟合和准确率往往相反）</h3>
+<ul>
+<li>使用较小的 max_bin</li>
+<li>使用较小的 num_leaves</li>
+<li>使用 min_data_in_leaf 和 min_sum_hessian_in_leaf</li>
+<li>通过设置 bagging_fraction 和 bagging_freq 来使用 bagging</li>
+<li>通过设置 feature_fraction &lt;1来使用特征抽样</li>
+<li>使用更大的训练数据</li>
+<li>使用 lambda_l1, lambda_l2 和 min_gain_to_split 来使用正则</li>
+<li>尝试 max_depth 来避免生成过深的树</li>
+</ul>
 <h1 id="xgboost_1">XGBoost调参技巧(实战经验)</h1>
 <p>本节整理的是本人在实战过程中调惨的经验, 第一个建议就是在没有弄清每个参数对训练效果的影响时不要使用太多的参数, 刚开始就使用简单的一两个参数就好, 我在使用过程中刚开始只是指定objective和num_class即可.</p>
 <h2 id="max_depth">max_depth</h2>
@@ -301,25 +320,30 @@ alpha –&gt; reg_alpha</p>
 <center><img src="/wiki/static/images/essemble/xgboost/xgboost_1.png" alt="xgboost-1"/></center></p>
 <p>在我调整learning_rate之后, 训练结果如下: 图像上可以看出,设定learning_rate起到了效果, 而且设定在其他参数不变的情况的, 模型并没有过拟合.<br />
 <center><img src="/wiki/static/images/essemble/xgboost/xgboost_2.png" alt="xgboost-2"/></center></p>
-<h1 id="_2">参考文献</h1>
+<h1 id="_4">参考文献</h1>
+<p><a href="https://blog.csdn.net/ssswill/article/details/86564056">贝叶斯优化调参实战（随机森林，lgbm波士顿房价）</a></p>
+<p><a href="https://www.kaggle.com/tilii7/bayesian-optimization-of-xgboost-parameters/notebook">Bayesian Optimization of XGBoost Parameters</a></p>
+<p><a href="https://github.com/mpearmain/BayesBoost">BayesBoost</a></p>
+<p><a href="https://yq.aliyun.com/articles/709047">贝叶斯优化在XGBoost及随机森林中的使用</a></p>
 <p><a href="https://www.kaggle.com/fabiendaniel/hyperparameter-tuning/notebook">Hyperparameter tuning</a></p>
+<p><a href="https://www.jianshu.com/p/dcaff7a1e7d8">sklearn、XGBoost、LightGBM的文档阅读小记（转载）</a></p>
 <p><a href="https://www.lizenghai.com/archives/29288.html">xgboost使用技巧</a></p>
-<p><a href="https://blog.csdn.net/wzmsltw/article/details/50988430">XGBoost-Python完全调参指南-介绍篇</a><br />
-<a href="https://blog.csdn.net/wzmsltw/article/details/50994481">XGBoost-Python完全调参指南-参数解释篇</a><br />
-<a href="https://segmentfault.com/a/1190000014040317">XGboost数据比赛实战之调参篇(完整流程)</a><br />
-<a href="https://blog.csdn.net/weiyongle1996/article/details/78360873">XGBoost python调参示例</a><br />
-<a href="https://blog.csdn.net/u010657489/article/details/51952785">XGBoost参数调优完全指南（附Python代码）</a><br />
-<a href="https://www.cnblogs.com/zhouxiaohui888/p/6008368.html">xgboost原理及应用--转</a><br />
-<a href="https://blog.csdn.net/u010414589/article/details/51153310/">xgboost 调参经验</a><br />
-<a href="https://blog.csdn.net/q383700092/article/details/53763328">xgboost使用调参</a><br />
-<a href="http://www.52cs.org/?p=429">XGBoost 与 Boosted Tree</a><br />
-<a href="https://blog.csdn.net/han_xiaoyang/article/details/52663170">机器学习系列(11)_Python中Gradient Boosting Machine(GBM）调参方法详解</a><br />
-<a href="http://www.360doc.com/content/18/0101/17/40769523_718161675.shtml">机器学习时代的三大神器</a><br />
-<a href="https://www.cnblogs.com/zhouxiaohui888/p/6008368.html">xgboost原理及应用--转</a><br />
-<a href="https://www.jianshu.com/p/0fe45d4e9542">GBDT、XGBoost、LightGBM 的使用及参数调优</a><br />
-<a href="https://blog.csdn.net/zhouwenyuan1015/article/details/77481184">机器学习---xgboost与lightgbm效果比较（2）</a><br />
-<a href="https://blog.csdn.net/hx2017/article/details/78064362">XGBoost调参demo（Python）</a><br />
-<a href="https://www.cnblogs.com/mata123/p/7440774.html">lightgbm,xgboost,gbdt的区别与联系</a></p>
+<p><a href="https://blog.csdn.net/wzmsltw/article/details/50988430">XGBoost-Python完全调参指南-介绍篇</a></p>
+<p><a href="https://blog.csdn.net/wzmsltw/article/details/50994481">XGBoost-Python完全调参指南-参数解释篇</a></p>
+<p><a href="https://segmentfault.com/a/1190000014040317">XGboost数据比赛实战之调参篇(完整流程)</a></p>
+<p><a href="https://blog.csdn.net/weiyongle1996/article/details/78360873">XGBoost python调参示例</a></p>
+<p><a href="https://blog.csdn.net/u010657489/article/details/51952785">XGBoost参数调优完全指南（附Python代码）</a></p>
+<p><a href="https://www.cnblogs.com/zhouxiaohui888/p/6008368.html">xgboost原理及应用--转</a></p>
+<p><a href="https://blog.csdn.net/u010414589/article/details/51153310/">xgboost 调参经验</a></p>
+<p><a href="https://blog.csdn.net/q383700092/article/details/53763328">xgboost使用调参</a></p>
+<p><a href="http://www.52cs.org/?p=429">XGBoost 与 Boosted Tree</a></p>
+<p><a href="https://blog.csdn.net/han_xiaoyang/article/details/52663170">机器学习系列(11)_Python中Gradient Boosting Machine(GBM）调参方法详解</a></p>
+<p><a href="http://www.360doc.com/content/18/0101/17/40769523_718161675.shtml">机器学习时代的三大神器</a></p>
+<p><a href="https://www.cnblogs.com/zhouxiaohui888/p/6008368.html">xgboost原理及应用--转</a></p>
+<p><a href="https://www.jianshu.com/p/0fe45d4e9542">GBDT、XGBoost、LightGBM 的使用及参数调优</a></p>
+<p><a href="https://blog.csdn.net/zhouwenyuan1015/article/details/77481184">机器学习---xgboost与lightgbm效果比较（2）</a></p>
+<p><a href="https://blog.csdn.net/hx2017/article/details/78064362">XGBoost调参demo（Python）</a></p>
+<p><a href="https://www.cnblogs.com/mata123/p/7440774.html">lightgbm,xgboost,gbdt的区别与联系</a></p>
 <p><a href="https://www.cnblogs.com/nwpuxuezha/p/6618205.html">Python超参数自动搜索模块GridSearchCV上手</a><br />
 <a href="https://blog.csdn.net/FontThrone/article/details/79220127">Sklearn中的CV与KFold详解</a></p>
 <p><a href="https://blog.csdn.net/u013709270/article/details/78156207">史上最详细的XGBoost实战</a></p>
