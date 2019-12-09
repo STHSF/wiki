@@ -51,13 +51,36 @@
 <p>不论是单维、多维还是时序图，都是把t-k时刻的数据作为特征，t时刻的数据作为标签，随着t从序列头部到后部不断移动，由此构造出序列的特征和标签。</p>
 <h3 id="many-to-many">many to many:</h3>
 <p>不论是单维、多维还是时序图，都是把t-k时刻的数据作为特征，t+K的数据作为标签，随着t从序列头部到后部不断移动，由此构造出序列的特征和标签。</p>
-<h1 id="_2">评估</h1>
+<h1 id="_2">构建时间特征</h1>
+<p>抽取时间序列中的时间维度特征, 将时间维度数据分解成八个时间特征:</p>
+<p>['hour', 'day_of_week', 'quarter', 'month', 'year', 'day_of_year', 'day_of_month', 'week_of_year']</p>
+<h4 id="demo">demo</h4>
+<div class="hlcode"><pre><span class="k">def</span> <span class="nf">create_features</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="n">df</span><span class="p">[</span><span class="s">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="c"># index: DatetimeIndex</span>
+    <span class="n">df</span><span class="p">[</span><span class="s">&#39;hour&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">&#39;date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">hour</span> <span class="c"># dt: DatetimeProperties, hour: Series</span>
+    <span class="n">df</span><span class="p">[</span><span class="s">&#39;day_of_week&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">&#39;date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">dayofweek</span>
+    <span class="n">df</span><span class="p">[</span><span class="s">&#39;quarter&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">&#39;date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">quarter</span>
+    <span class="n">df</span><span class="p">[</span><span class="s">&#39;month&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">&#39;date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span>
+    <span class="n">df</span><span class="p">[</span><span class="s">&#39;year&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">&#39;date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span>
+    <span class="n">df</span><span class="p">[</span><span class="s">&#39;day_of_year&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">&#39;date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">dayofyear</span>
+    <span class="n">df</span><span class="p">[</span><span class="s">&#39;day_of_month&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">&#39;date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">day</span>
+    <span class="n">df</span><span class="p">[</span><span class="s">&#39;week_of_year&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">&#39;date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">weekofyear</span>
+
+    <span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s">&#39;hour&#39;</span><span class="p">,</span> <span class="s">&#39;day_of_week&#39;</span><span class="p">,</span> <span class="s">&#39;quarter&#39;</span><span class="p">,</span> <span class="s">&#39;month&#39;</span><span class="p">,</span> <span class="s">&#39;year&#39;</span><span class="p">,</span> <span class="s">&#39;day_of_year&#39;</span><span class="p">,</span> <span class="s">&#39;day_of_month&#39;</span><span class="p">,</span> <span class="s">&#39;week_of_year&#39;</span><span class="p">]]</span>
+    <span class="k">if</span> <span class="n">label</span><span class="p">:</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">label</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span>
+    <span class="k">return</span> <span class="n">X</span>
+</pre></div>
+
+
+<h1 id="_3">评估</h1>
 <h2 id="1mse-maemse">1、MSE 对比MAE，MSE可以放大预测偏差较大的值，可以比较不同预测模型的稳定性，应用场景相对多一点。</h2>
 <h2 id="2-rmse-rmse">2、均方根误差 RMSE 因为使用的是平均误差，而平均误差对异常点较敏感，如果回归器对某个点的回归值很不合理，那么它的误差则比较大，从而会对RMSE的值有较大影响，即平均值是非鲁棒的。</h2>
 <p>改进：使用误差的分位数来代替，如中位数来代替平均数。假设100个数，最大的数再怎么改变，中位数也不会变，因此其对异常点具有鲁棒性。<br />
 平均平方差/均方误差是回归任务最常用的性能度量。</p>
 <h2 id="mape05w5w05105045mape">MAPE不仅仅考虑预测值与真实值的误差，还考虑了误差与真实值之间的比例，在某些场景下，比如房价从0.5w到5w之间，0.5预测成1.0与5.0预测成4.5的差距是非常大的，在一些竞赛当中，MAPE也是常用的目标函数之一。在统计领域是一个预测准确性的衡量指标。</h2>
-<h1 id="_3">参考文献</h1>
+<h1 id="_4">参考文献</h1>
 <p><a href="https://mp.weixin.qq.com/s/E44qI6ltRzuvRfAVr4fJkg">【时空序列分析】第七章 常用数据处理及评估</a></p>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2019-11-13 10:00 </span></div>
