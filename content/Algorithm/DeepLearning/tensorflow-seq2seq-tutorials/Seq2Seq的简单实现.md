@@ -77,3 +77,8 @@ decoder_outputs, decoder_final_state = tf.nn.dynamic_rnn(decoder_cell,
                                                          initial_state=encoder_final_state,
                                                          dtype=tf.float32, time_major=True,scope='plain_decoder')
 ```
+
+
+
+# 参考文献
+[基于注意力机制的seq2seq网络](https://mp.weixin.qq.com/s?__biz=MzI3ODgwODA2MA==&mid=2247483936&idx=1&sn=fe391540699590ecd307b300e6fbe3e9&chksm=eb5016b3dc279fa508583c1aa0741ea521ee202f4400eced8e51bac4aa6ba64b3fca701b4b65&scene=21#wechat_redirect)
