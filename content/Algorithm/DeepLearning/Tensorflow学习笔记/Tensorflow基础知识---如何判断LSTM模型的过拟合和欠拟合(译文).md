@@ -31,7 +31,7 @@ new_weight = existing_weight - learning_rate * gradient
 一般情况下，学习速率是由使用者随机的设定的。很多情况下使用者会根据之前的经验或者一些学习资料来设置最佳的学习速率值。
 
 因此，通常情况下很难一下子就选择正确。下面这张图显示了设置不同的学习速率对loss的影响。
-<img src="/wiki/static/images/deeplearning/learningrate/01.png" alt="learningrate01"/>
+<img src="/wiki/static/images/deeplearning/learningrate/02.png" alt="learningrate02"/>
 
 而且, 学习速率影响模型收敛到一个局部最小值（或者达到最优解）的速度，因此，一开始获得恰当的学习速率将意味着使用较短的时间来训练模型。
 ```
