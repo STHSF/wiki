@@ -5,7 +5,7 @@
     <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
     <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
-    <title>char_rank_with_seq2seq - LiYu's personal knowledge wiki</title>
+    <title>对话模型 - LiYu's personal knowledge wiki</title>
     <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
     <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -35,30 +35,27 @@
 <div id="container">
     
 <div id="header">
-  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm">Algorithm</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning">DeepLearning</a>&nbsp;»&nbsp;char_rank_with_seq2seq</div>
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm">Algorithm</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning">DeepLearning</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning-NLP">NLP</a>&nbsp;»&nbsp;对话模型</div>
 </div>
 <div class="clearfix"></div>
-<div id="title">char_rank_with_seq2seq</div>
+<div id="title">对话模型</div>
 <div id="content">
-  <h1 id="_1">写在前面</h1>
-<p>为了理解弄懂seq2seq的原理和实现，模仿<a href="https://zhuanlan.zhihu.com/p/27608348">知乎专栏</a>上一篇文章，对字符进行排序。</p>
-<h1 id="_2">数据预处理</h1>
-<p>训练数据包含两部分，序列A为需要排序的字符串，序列B为已经排序的字符串。<br />
-在seq2seq中除了通常的文本预处理外，还要对序列做以下的处理，即在序列中增加以下四种字符。<br />
-- <PAD>: 序列的填充或补全，通常处理的序列长度不同，所以我们会将短序列通过<PAD>填充成长度相同的序列。<br />
-- <GO>: 在decoder的过程中告诉模型序列的开始。 <br />
-- <EOS>: 在decoder的过程告诉模型序列的结束。在有的教程中会用<EOS>替换<GO>，即序列的首尾都使用同一个标识符。这应该没有什么差别，只要自己在计算过程中能够认识就可以了。<br />
-- <UNK>: 将vocab_sie个字符数以外的字符标示为<UNK>, 通常表示低频词或者一些未遇到的词。</p>
-<h1 id="_3">参考文献</h1>
-<p><a href="https://zhuanlan.zhihu.com/p/27608348">从Encoder到Decoder实现Seq2Seq模型</a></p>
+  <h1 id="hello-word">hello word</h1>
+<h1 id="_1">参考文献</h1>
+<p><a href="https://mp.weixin.qq.com/s/eAphGLNM2FZhIJmtsS0kpg">基于CNN的阅读理解式问答模型：DGCNN</a></p>
+<p><a href="https://www.ltp-cloud.com/intro/#dp_how">语言技术平台（LTP）</a></p>
+<p><a href="https://www.jianshu.com/p/867478f0e674">pyltp - 哈工大语言云python接口使用说明</a></p>
+<p><a href="https://mp.weixin.qq.com/s/sCpKkkf2Tj37Nr5j7S7M6Q">基于Freebase的问答研究</a></p>
+<p><a href="https://chunml.github.io/ChunML.github.io/project/Sequence-To-Sequence/">Creating A Language Translation Model Using Sequence To Sequence Learning Approach</a></p>
+<p><a href="http://fancyerii.github.io/2019/02/14/chatbot/">使用PyTorch实现Chatbot</a></p>
 </div>
-<div id="content-footer">created in <span class="create-date date"> 2017-08-04 00:00 </span></div>
+<div id="content-footer">created in <span class="create-date date"> 2018-06-02 00:00 </span></div>
 <div id="comments"></div>
 <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
 <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script type="text/javascript">
 const gitment = new Gitment({
-  title: 'char_rank_with_seq2seq',
+  title: '对话模型',
   owner: 'sthsf',
   repo: 'wiki',
   oauth: {
@@ -78,7 +75,7 @@ gitment.render('comments')
 </div>
 <div id="footer">
             <span>
-                Copyright © 2019 LiYu.
+                Copyright © 2020 LiYu.
                 Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
                 Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
             </span>

@@ -311,7 +311,10 @@ alpha –&gt; reg_alpha</p>
 <li>使用 lambda_l1, lambda_l2 和 min_gain_to_split 来使用正则</li>
 <li>尝试 max_depth 来避免生成过深的树</li>
 </ul>
-<h1 id="xgboost_1">XGBoost调参技巧(实战经验)</h1>
+<h2 id="xgboost_1">XGBoost扩展</h2>
+<h4 id="xgbfi">Xgbfi特征重要性分析</h4>
+<p>用于训练好的 xgboost 模型分析对应特征的重要性，当然你也可以使用 fmap 来观察</p>
+<h1 id="xgboost_2">XGBoost调参技巧(实战经验)</h1>
 <p>本节整理的是本人在实战过程中调惨的经验, 第一个建议就是在没有弄清每个参数对训练效果的影响时不要使用太多的参数, 刚开始就使用简单的一两个参数就好, 我在使用过程中刚开始只是指定objective和num_class即可.</p>
 <h2 id="max_depth">max_depth</h2>
 <p>max_depth对模型的收敛效果很明显, 刚开始我在调参过程中max_depth的值设置的比较小([0-6]之间选取), test-merror下降比较慢, 就算num_boost_round设置很大test-error也下降的很慢, 而且到一定程度就不下降了,值也比较大. 后来将max_depth设置到[20-30]之间后, train-error和test-error的值衰减的很快.所以在设置max_depth的时候不要局限在某一个范围之内.</p>
@@ -378,7 +381,7 @@ gitment.render('comments')
 </div>
 <div id="footer">
             <span>
-                Copyright © 2019 LiYu.
+                Copyright © 2020 LiYu.
                 Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
                 Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
             </span>

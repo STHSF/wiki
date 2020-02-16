@@ -5,7 +5,7 @@
     <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
     <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
-    <title>文本标注和实体识别 - LiYu's personal knowledge wiki</title>
+    <title>char_rank_with_seq2seq - LiYu's personal knowledge wiki</title>
     <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
     <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -35,25 +35,30 @@
 <div id="container">
     
 <div id="header">
-  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm">Algorithm</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning">DeepLearning</a>&nbsp;»&nbsp;文本标注和实体识别</div>
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm">Algorithm</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning">DeepLearning</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning-NLP">NLP</a>&nbsp;»&nbsp;char_rank_with_seq2seq</div>
 </div>
 <div class="clearfix"></div>
-<div id="title">文本标注和实体识别</div>
+<div id="title">char_rank_with_seq2seq</div>
 <div id="content">
-  <h1 id="hello-word">hello word</h1>
-<h1 id="_1">参考文献</h1>
-<p><a href="https://yq.aliyun.com/articles/255034?spm=a2c4e.11153959.0.0.27033aaeAyocu1">中文文本标注工具</a><br />
-<a href="https://yq.aliyun.com/articles/277917?spm=a2c4e.11153959.0.0.29a33aaeazNo7a">基于神经网络的实体识别和关系抽取联合学习 </a><br />
-<a href="https://yq.aliyun.com/articles/519306?spm=a2c4e.11153959.0.0.34c03aaeoURKyO">基于神经网络的知识推理</a><br />
-<a href="https://github.com/crazydonkey200/tensorflow-char-rnn/blob/master/char_rnn_model.py">char_rnn_model.py</a></p>
+  <h1 id="_1">写在前面</h1>
+<p>为了理解弄懂seq2seq的原理和实现，模仿<a href="https://zhuanlan.zhihu.com/p/27608348">知乎专栏</a>上一篇文章，对字符进行排序。</p>
+<h1 id="_2">数据预处理</h1>
+<p>训练数据包含两部分，序列A为需要排序的字符串，序列B为已经排序的字符串。<br />
+在seq2seq中除了通常的文本预处理外，还要对序列做以下的处理，即在序列中增加以下四种字符。<br />
+- <PAD>: 序列的填充或补全，通常处理的序列长度不同，所以我们会将短序列通过<PAD>填充成长度相同的序列。<br />
+- <GO>: 在decoder的过程中告诉模型序列的开始。 <br />
+- <EOS>: 在decoder的过程告诉模型序列的结束。在有的教程中会用<EOS>替换<GO>，即序列的首尾都使用同一个标识符。这应该没有什么差别，只要自己在计算过程中能够认识就可以了。<br />
+- <UNK>: 将vocab_sie个字符数以外的字符标示为<UNK>, 通常表示低频词或者一些未遇到的词。</p>
+<h1 id="_3">参考文献</h1>
+<p><a href="https://zhuanlan.zhihu.com/p/27608348">从Encoder到Decoder实现Seq2Seq模型</a></p>
 </div>
-<div id="content-footer">created in <span class="create-date date"> 2099-06-02 00:00 </span></div>
+<div id="content-footer">created in <span class="create-date date"> 2017-08-04 00:00 </span></div>
 <div id="comments"></div>
 <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
 <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script type="text/javascript">
 const gitment = new Gitment({
-  title: '文本标注和实体识别',
+  title: 'char_rank_with_seq2seq',
   owner: 'sthsf',
   repo: 'wiki',
   oauth: {
@@ -73,7 +78,7 @@ gitment.render('comments')
 </div>
 <div id="footer">
             <span>
-                Copyright © 2019 LiYu.
+                Copyright © 2020 LiYu.
                 Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
                 Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
             </span>
