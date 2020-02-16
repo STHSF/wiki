@@ -268,6 +268,9 @@ alpha –> reg_alpha
 - 尝试 max_depth 来避免生成过深的树
 
 
+## XGBoost扩展
+#### Xgbfi特征重要性分析
+用于训练好的 xgboost 模型分析对应特征的重要性，当然你也可以使用 fmap 来观察
 
 
 
