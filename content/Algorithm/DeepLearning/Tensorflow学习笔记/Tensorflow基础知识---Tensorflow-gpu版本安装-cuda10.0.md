@@ -146,7 +146,7 @@ $ sudo service lightdm start     // 重启桌面服务
 
 为了检查安装是否正确，从cuda的samples中选择样例进行测试。
 ```
-cd /usr/local/cuda-9.0/samples/1_Utilities/deviceQuery
+cd /usr/local/cuda-10.0/samples/1_Utilities/deviceQuery
 sudo make clean && make
 sudo ./deviceQuery
 ```
