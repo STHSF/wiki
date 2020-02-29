@@ -125,10 +125,10 @@
 <p>当然，你也可以在终端中执行关闭桌面服务操作，然后使用 <code>Ctrl + Alt + F1</code> 登陆你的账号。我在安装的过程中是先关闭桌面服务然后使用<code>Ctrl + Alt + F1</code>进入终端然后重新登陆账号密码的。</p>
 <p><strong>注，在安装nvidia显卡驱动和cuda的时候都需要关闭桌面服务，或者可以在安装完显卡驱动之后不恢复图形界面，直接安装cuda。</strong></p>
 <h2 id="3cudarun">3、安装CUDA.run文件</h2>
-<p>我安装的是CUDA9.0的版本，到<a href="https://developer.nvidia.com/cuda-downloads?target_os=Linux&amp;target_arch=x86_64&amp;target_distro=Ubuntu&amp;target_version=1604&amp;target_type=runfilelocal">nvidia开发者社区</a>根据选项挑选对应的安装版本，如下图所示。<br />
-<center><img src="/wiki/static/images/tensorgpu/CUDA Toolkit 9.0 Downloads.png" alt="nvidia-driver"/></center><br />
-本文下载的cuda.run文件版本为: <strong>cuda_9.0.176_384.81_linux.run</strong></p>
-<div class="hlcode"><pre><span class="n">sudo</span> <span class="n">sh</span> <span class="n">cuda_9</span><span class="mf">.0.176</span><span class="n">_384</span><span class="mf">.81</span><span class="n">_linux</span><span class="p">.</span><span class="n">run</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">opengl</span><span class="o">-</span><span class="n">libs</span>
+<p>我安装的是CUDA10.0的版本，到<a href="https://developer.nvidia.com/cuda-10.0-download-archive?target_os=Linux&amp;target_arch=x86_64&amp;target_distro=Ubuntu&amp;target_version=1604&amp;target_type=runfilelocal">nvidia开发者社区</a>根据选项挑选对应的安装版本，如下图所示。<br />
+<center><img src="/wiki/static/images/tensorgpu/CUDA Toolkit 10.0.png" alt="cuda-10.0"/></center><br />
+本文下载的cuda.run文件版本为: <strong>cuda_10.0.130_410.48_linux.run</strong></p>
+<div class="hlcode"><pre><span class="n">sudo</span> <span class="n">sh</span> <span class="n">cuda_10</span><span class="mf">.0.130</span><span class="n">_410</span><span class="mf">.48</span><span class="n">_linux</span><span class="p">.</span><span class="n">run</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">opengl</span><span class="o">-</span><span class="n">libs</span>
 </pre></div>
 
 
