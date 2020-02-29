@@ -96,11 +96,11 @@ $ sudo service lightdm stop      // 关闭桌面服务
 **注，在安装nvidia显卡驱动和cuda的时候都需要关闭桌面服务，或者可以在安装完显卡驱动之后不恢复图形界面，直接安装cuda。**
 
 ## 3、安装CUDA.run文件
-我安装的是CUDA9.0的版本，到[nvidia开发者社区](https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&target_distro=Ubuntu&target_version=1604&target_type=runfilelocal)根据选项挑选对应的安装版本，如下图所示。
-<center><img src="/wiki/static/images/tensorgpu/CUDA Toolkit 9.0 Downloads.png" alt="nvidia-driver"/></center>
-本文下载的cuda.run文件版本为: **cuda_9.0.176_384.81_linux.run**
+我安装的是CUDA10.0的版本，到[nvidia开发者社区](https://developer.nvidia.com/cuda-10.0-download-archive?target_os=Linux&target_arch=x86_64&target_distro=Ubuntu&target_version=1604&target_type=runfilelocal)根据选项挑选对应的安装版本，如下图所示。
+<center><img src="/wiki/static/images/tensorgpu/CUDA Toolkit 10.0.png" alt="cuda-10.0"/></center>
+本文下载的cuda.run文件版本为: **cuda_10.0.130_410.48_linux.run**
 ```
-sudo sh cuda_9.0.176_384.81_linux.run --no-opengl-libs
+sudo sh cuda_10.0.130_410.48_linux.run --no-opengl-libs
 ```
 在.run文件后面添加--no-opengl-libs的详解见[Ubuntu 14.04 安装 CUDA 问题及解决](https://www.cnblogs.com/gaowengang/p/6068788.html)，安装完成后需要将opengl的相关lib重新安装一下。
 
