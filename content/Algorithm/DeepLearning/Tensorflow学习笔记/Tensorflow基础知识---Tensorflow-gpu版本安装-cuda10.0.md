@@ -12,6 +12,8 @@ CPU: Intel(R) Core(TM) i7-7700 CPU @ 3.60GHz
 MemTotal: 16295024 kB
 GPU: GeForce GTX 1080
 ```
+**注意, cuda10.0安装部分来自cuda9.0安装版本, 所以里面会有不能错误**
+
 # 一、N卡驱动安装
 ## Nvidia官网下载对应显卡驱动安装
 ### 1、驱动下载
