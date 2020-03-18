@@ -1,7 +1,7 @@
 ---
 title: "Tensorflow基础知识---使用multi_gpu_model并行训练并使用ModelCheckpoint()保存模型可能遇到的问题"
 layout: page
-date: 2018-02-26 00:00
+date: 2020-03-18 13:00
 ---
 
 [TOC]
