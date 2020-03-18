@@ -58,8 +58,9 @@ with the template model (the argument you passed to multi_gpu_model),
 rather than the model returned by multi_gpu_model.
 ```
 
-
-
-
-
 # 参考文献
+[使用多 gpu 并行训练并使用 ModelCheckpoint() 可能遇到的问题](https://blog.csdn.net/u012862372/article/details/80367607)
+
+[Keras多GPU训练指南](https://yq.aliyun.com/articles/230182)
+
+[Keras多GPU训练](https://www.jianshu.com/p/4203a6435ab5)
