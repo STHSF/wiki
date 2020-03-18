@@ -1,0 +1,150 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <title>Tensorflow基础知识---使用multi_gpu_model并行训练并使用ModelCheckpoint()保存模型可能遇到的问题 - LiYu's personal knowledge wiki</title>
+    <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
+    <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$(',')$'], ['\\(','\\)']]}
+        });
+        </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-78529611-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+
+<body>
+<div id="container">
+    
+<div id="header">
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm">Algorithm</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning">DeepLearning</a>&nbsp;»&nbsp;<a href="/wiki/#Algorithm-DeepLearning-Tensorflow学习笔记">Tensorflow学习笔记</a>&nbsp;»&nbsp;Tensorflow基础知识---使用multi_gpu_model并行训练并使用ModelCheckpoint()保存模型可能遇到的问题</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">Tensorflow基础知识---使用multi_gpu_model并行训练并使用ModelCheckpoint()保存模型可能遇到的问题</div>
+<div id="content">
+  <div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#_1">写在前面</a></li>
+<li><a href="#_2">参考文献</a></li>
+</ul>
+</div>
+<h1 id="_1">写在前面</h1>
+<p>keras在调用多GPU训练模型的时候会使用到multi_gpu_model()来封装原来的model, 然后指定GPU使用数目即可, 详见下面的代码片段.</p>
+<div class="hlcode"><pre><span class="n">model</span> <span class="o">=</span> <span class="n">BertBasic</span><span class="p">(</span><span class="n">pre_trained_model_conf</span><span class="p">,</span> <span class="n">drop_rate</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">build_base_model</span><span class="p">()</span>
+
+<span class="n">parallel_model</span> <span class="o">=</span> <span class="n">multi_gpu_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">parallel_model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s">&#39;sparse_categorical_crossentropy&#39;</span><span class="p">,</span>
+                       <span class="n">optimizer</span><span class="o">=</span><span class="n">Adam</span><span class="p">(</span><span class="mf">2e-5</span><span class="p">),</span>
+                       <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;accuracy&#39;</span><span class="p">])</span>
+</pre></div>
+
+
+<p>训练阶段使用MultiGPU, 推理阶段不一定需要多gpu, 所以可以使用model.load_weights()的方式导入模型, 但实际上如果使用回调函数ModelCheckpoint()来保存模型权重之后, 如果不做其他的修改依然只能使用parallel_model.load_weights()导入模型, 如果使用model.load_weights()导入模型, 则会报下面的错误:</p>
+<div class="hlcode"><pre>
+</pre></div>
+
+
+<p>为了解决这个问题, 需要对ModelCheckpoint()做调整, 调整的代码如下:</p>
+<div class="hlcode"><pre><span class="k">class</span> <span class="nc">ParallelModelCheckpoint</span><span class="p">(</span><span class="n">ModelCheckpoint</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">monitor</span><span class="o">=</span><span class="s">&#39;val_loss&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                 <span class="n">save_best_only</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">save_weights_only</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                 <span class="n">mode</span><span class="o">=</span><span class="s">&#39;auto&#39;</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">single_model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ParallelModelCheckpoint</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">monitor</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">save_best_only</span><span class="p">,</span> <span class="n">save_weights_only</span><span class="p">,</span>
+                                                      <span class="n">mode</span><span class="p">,</span> <span class="n">period</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">set_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ParallelModelCheckpoint</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">set_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">single_model</span><span class="p">)</span>
+</pre></div>
+
+
+<p>然后callbacks则改写成:</p>
+<div class="hlcode"><pre><span class="n">checkpoint</span> <span class="o">=</span> <span class="n">ParallelModelCheckpoint</span><span class="p">(</span><span class="n">model</span><span class="p">,</span>
+                                     <span class="n">model_save_path</span><span class="p">,</span>
+                                     <span class="n">monitor</span><span class="o">=</span><span class="s">&#39;val_loss&#39;</span><span class="p">,</span>
+                                     <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                                     <span class="n">save_best_only</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                                     <span class="n">save_weights_only</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>  <span class="c"># 保存最好的模型</span>
+</pre></div>
+
+
+<p>片段中的model是调用multi_gpu_model()之前的model, 对应修改之后推理过程中就可以直接用单模型load模型权重了.</p>
+<p>但是实际上,该方法原始不是解决这个问题的, 而是如下的问题:</p>
+<div class="hlcode"><pre><span class="n">TypeError</span><span class="o">:</span> <span class="n">can</span><span class="err">&#39;</span><span class="n">t</span> <span class="n">pickle</span> <span class="o">...(</span><span class="n">different</span> <span class="n">text</span> <span class="n">at</span> <span class="n">different</span> <span class="n">situation</span><span class="o">)</span> <span class="n">objects</span>
+</pre></div>
+
+
+<p>这个错误形式其实跟使用多 gpu 训练时保存模型不当造成的错误比较相似：</p>
+<div class="hlcode"><pre><span class="n">To</span> <span class="n">save</span> <span class="n">the</span> <span class="n">multi</span><span class="o">-</span><span class="n">gpu</span> <span class="n">model</span><span class="p">,</span> <span class="n">use</span> <span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span> <span class="n">or</span> <span class="p">.</span><span class="n">save_weights</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+<span class="n">with</span> <span class="n">the</span> <span class="n">template</span> <span class="n">model</span> <span class="p">(</span><span class="n">the</span> <span class="n">argument</span> <span class="n">you</span> <span class="n">passed</span> <span class="n">to</span> <span class="n">multi_gpu_model</span><span class="p">),</span>
+<span class="n">rather</span> <span class="n">than</span> <span class="n">the</span> <span class="n">model</span> <span class="n">returned</span> <span class="n">by</span> <span class="n">multi_gpu_model</span><span class="p">.</span>
+</pre></div>
+
+
+<h1 id="_2">参考文献</h1>
+</div>
+<div id="content-footer">created in <span class="create-date date"> 2018-02-26 00:00 </span></div>
+<div id="comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script type="text/javascript">
+const gitment = new Gitment({
+  title: 'Tensorflow基础知识---使用multi_gpu_model并行训练并使用ModelCheckpoint()保存模型可能遇到的问题',
+  owner: 'sthsf',
+  repo: 'wiki',
+  oauth: {
+    client_id: '086c54c5fd95adfdc372',
+    client_secret: '2ad9ebe87b952d2c77fccf99c334881b91eaa73d',
+  },
+  // ...
+  // For more available options, check out the documentation below
+})
+gitment.render('comments')
+// or
+// gitment.render(document.getElementById('comments'))
+// or
+// document.body.appendChild(gitment.render())
+</script>
+
+</div>
+<div id="footer">
+            <span>
+                Copyright © 2020 LiYu.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+                Fork me in <a href="https://github.com/sthsf/wiki" target="_blank"> github </a>.
+            </span>
+</div>
+
+
+<!--百度统计-->
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?90e1dcdd1938573c19f9ff6521188e91";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</body>
+</html>
