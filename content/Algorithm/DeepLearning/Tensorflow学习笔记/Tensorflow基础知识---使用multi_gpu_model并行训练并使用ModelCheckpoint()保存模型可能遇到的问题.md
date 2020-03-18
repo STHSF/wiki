@@ -7,6 +7,9 @@ date: 2020-03-18 13:00
 [TOC]
 
 # 写在前面
+使用多GPU可以提高我们的训练过程，比如加速和解决内存不足问题。
+
+# 问题描述
 keras在调用多GPU训练模型的时候会使用到multi_gpu_model()来封装原来的model, 然后指定GPU使用数目即可, 详见下面的代码片段.
 ```python
 model = BertBasic(pre_trained_model_conf, drop_rate)
