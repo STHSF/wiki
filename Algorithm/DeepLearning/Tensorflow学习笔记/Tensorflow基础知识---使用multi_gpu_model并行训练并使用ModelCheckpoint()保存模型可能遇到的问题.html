@@ -42,10 +42,13 @@
 <div id="content">
   <div class="toc"><span class="toctitle">Table of Contents</span><ul>
 <li><a href="#_1">写在前面</a></li>
-<li><a href="#_2">参考文献</a></li>
+<li><a href="#_2">问题描述</a></li>
+<li><a href="#_3">参考文献</a></li>
 </ul>
 </div>
 <h1 id="_1">写在前面</h1>
+<p>使用多GPU可以提高我们的训练过程，比如加速和解决内存不足问题。</p>
+<h1 id="_2">问题描述</h1>
 <p>keras在调用多GPU训练模型的时候会使用到multi_gpu_model()来封装原来的model, 然后指定GPU使用数目即可, 详见下面的代码片段.</p>
 <div class="hlcode"><pre><span class="n">model</span> <span class="o">=</span> <span class="n">BertBasic</span><span class="p">(</span><span class="n">pre_trained_model_conf</span><span class="p">,</span> <span class="n">drop_rate</span><span class="p">)</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">build_base_model</span><span class="p">()</span>
@@ -99,7 +102,7 @@
 </pre></div>
 
 
-<h1 id="_2">参考文献</h1>
+<h1 id="_3">参考文献</h1>
 <p><a href="https://blog.csdn.net/u012862372/article/details/80367607">使用多 gpu 并行训练并使用 ModelCheckpoint() 可能遇到的问题</a></p>
 <p><a href="https://yq.aliyun.com/articles/230182">Keras多GPU训练指南</a></p>
 <p><a href="https://www.jianshu.com/p/4203a6435ab5">Keras多GPU训练</a></p>
