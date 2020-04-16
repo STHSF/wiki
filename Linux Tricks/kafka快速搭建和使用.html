@@ -159,7 +159,13 @@
 
 
 <h4 id="3kafka">3、启动kafka容器</h4>
-<div class="hlcode"><pre><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">d</span> <span class="o">--</span><span class="n">name</span> <span class="n">kafka</span> <span class="o">--</span><span class="n">publish</span> <span class="mi">9092</span><span class="o">:</span><span class="mi">9092</span> <span class="o">--</span><span class="n">link</span> <span class="n">zookeeper</span> <span class="o">--</span><span class="n">env</span> <span class="n">KAFKA_ZOOKEEPER_CONNECT</span><span class="o">=</span><span class="n">zookeeper</span><span class="o">:</span><span class="mi">2181</span> <span class="o">--</span><span class="n">env</span> <span class="n">KAFKA_ADVERTISED_HOST_NAME</span><span class="o">=</span><span class="p">[</span><span class="err">你的宿主</span><span class="n">ip</span><span class="p">]</span> <span class="o">--</span><span class="n">env</span> <span class="n">KAFKA_ADVERTISED_PORT</span><span class="o">=</span><span class="mi">9092</span> <span class="o">--</span><span class="n">volume</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">localtime</span><span class="o">:/</span><span class="n">etc</span><span class="o">/</span><span class="n">localtime</span> <span class="n">wurstmeister</span><span class="o">/</span><span class="n">kafka</span><span class="o">:</span><span class="n">latest</span>
+<div class="hlcode"><pre><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">d</span> <span class="o">--</span><span class="n">name</span> <span class="n">kafka</span> \
+<span class="o">--</span><span class="n">publish</span> <span class="mi">9092</span><span class="o">:</span><span class="mi">9092</span> \
+<span class="o">--</span><span class="n">link</span> <span class="n">zookeeper</span> \
+<span class="o">--</span><span class="n">env</span> <span class="n">KAFKA_ZOOKEEPER_CONNECT</span><span class="o">=</span><span class="n">zookeeper</span><span class="o">:</span><span class="mi">2181</span> \
+<span class="o">--</span><span class="n">env</span> <span class="n">KAFKA_ADVERTISED_HOST_NAME</span><span class="o">=</span><span class="p">[</span><span class="err">你的宿主</span><span class="n">ip</span><span class="p">]</span> \
+<span class="o">--</span><span class="n">env</span> <span class="n">KAFKA_ADVERTISED_PORT</span><span class="o">=</span><span class="mi">9092</span> \
+<span class="o">--</span><span class="n">volume</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">localtime</span><span class="o">:/</span><span class="n">etc</span><span class="o">/</span><span class="n">localtime</span> <span class="o">-</span><span class="n">t</span> <span class="n">wurstmeister</span><span class="o">/</span><span class="n">kafka</span><span class="o">:</span><span class="n">latest</span>
 </pre></div>
 
 
@@ -252,7 +258,9 @@ consumer.py</p>
 
 
 <h3 id="_3"><strong>疑点</strong></h3>
-<p>关于docker下创建topic, 进入kafka容器后创建topic理论上和实际操作上是没有问题的, 在宿主机上也是可以查看到创建的topic的, 但是如何在容器外部创建topic呢, 暂时没找到解决方案, 但是如果宿主机上部署了kafka, 在没有启动kafka的情况下也是可以通过<code>bin/kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic test01</code>创建topic的. 同样, 查看topic列表时, 所有的topic都能现实. 如果宿主机上没有kafka, 如何创建topic?</p>
+<p>关于docker下创建topic, 进入kafka容器后创建topic理论上和实际操作上是没有问题的, 在宿主机上也是可以查看到创建的topic的, 但是如何在容器外部创建topic呢, 暂时没找到解决方案, 但是如果宿主机上部署了kafka, 在没有启动kafka的情况下也是可以通过</p>
+<p><code>bin/kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic test01</code></p>
+<p>创建topic的. 同样, 查看topic列表时, 所有的topic都能现实. 如果宿主机上没有kafka, 如何创建topic?</p>
 <h3 id="_4"><strong>注</strong></h3>
 <p>1、本地搭载和docker搭载使用的版本不一致.</p>
 <h1 id="4dockerzookeeper">4、单服务器搭建docker的zookeeper集群</h1>
