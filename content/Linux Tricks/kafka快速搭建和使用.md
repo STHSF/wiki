@@ -388,3 +388,5 @@ Mode: follower
 [docker容器搭建kafka集群](https://blog.51cto.com/13520772/2155004)
 
 [单台centos7主机做zookeeper和kafka集群](https://blog.csdn.net/softmaker_tao/article/details/80395711)
+
+[kafka 上手指南：集群版](https://cloud.tencent.com/developer/article/1537521)
