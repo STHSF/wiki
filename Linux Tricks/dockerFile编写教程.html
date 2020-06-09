@@ -67,10 +67,14 @@
 </ul>
 </li>
 <li><a href="#4">4、项目镜像</a><ul>
-<li><a href="#41-dockerfile">4.1 项目镜像的Dockerfile：</a></li>
+<li><a href="#41-dockerfileubuntu">4.1 项目镜像的Dockerfile(Ubuntu)</a></li>
+<li><a href="#42-dockerfilecentos">4.2 项目镜像的Dockerfile(CentOS)</a></li>
 </ul>
 </li>
-<li><a href="#5">5、容器管理</a></li>
+<li><a href="#5">5、容器管理</a><ul>
+<li><a href="#portainer">Portainer</a></li>
+</ul>
+</li>
 <li><a href="#6kubernetes">6、kubernetes管理容器</a></li>
 <li><a href="#7">7、参考文献</a></li>
 </ul>
@@ -342,7 +346,42 @@ apt-get update <span class="o">&amp;&amp;</span> apt-get install -y  python3-pip
 </pre></div>
 
 
-<p>其中, run.sh脚本里面的内通, 当然,你也可以直接在dockerfile里面使用RUN编写一些安装过程</p>
+<p>其中, run.sh脚本里面的内容也可以直接在dockerfile里面使用RUN编写一些安装过程.</p>
+<p>例如, 我们创建一个以centos为基础镜像, 然后在此基础上添加python环境的Dockerfile.</p>
+<div class="hlcode"><pre><span class="cp"># 基础镜像Dockerfile, 包含python3.6.8</span>
+<span class="n">FROM</span> <span class="n">centos</span><span class="o">:</span><span class="mf">7.6.1810</span>
+<span class="n">MAINTAINER</span> <span class="n">DeepQ</span>
+
+<span class="n">ENV</span> <span class="n">PATH</span> <span class="err">$</span><span class="n">PATH</span><span class="o">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">python3</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span>
+<span class="n">ENV</span> <span class="n">PYTHONIOENCODING</span> <span class="n">utf</span><span class="o">-</span><span class="mi">8</span>
+
+<span class="n">RUN</span> <span class="n">set</span> <span class="o">-</span><span class="n">ex</span> \
+    <span class="o">&amp;&amp;</span> <span class="n">mv</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">yum</span><span class="p">.</span><span class="n">repos</span><span class="p">.</span><span class="n">d</span><span class="o">/</span><span class="n">CentOS</span><span class="o">-</span><span class="n">Base</span><span class="p">.</span><span class="n">repo</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">yum</span><span class="p">.</span><span class="n">repos</span><span class="p">.</span><span class="n">d</span><span class="o">/</span><span class="n">CentOS</span><span class="o">-</span><span class="n">Base</span><span class="p">.</span><span class="n">repo</span><span class="p">.</span><span class="n">backup</span> \
+    <span class="o">&amp;&amp;</span> <span class="n">curl</span> <span class="o">-</span><span class="n">o</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">yum</span><span class="p">.</span><span class="n">repos</span><span class="p">.</span><span class="n">d</span><span class="o">/</span><span class="n">CentOS</span><span class="o">-</span><span class="n">Base</span><span class="p">.</span><span class="n">repo</span> <span class="n">http</span><span class="o">:</span><span class="c1">//mirrors.aliyun.com/repo/Centos-7.repo \</span>
+<span class="c1">    &amp;&amp; yum makecache \</span>
+<span class="c1">    &amp;&amp; sed -i -e &#39;/mirrors.cloud.aliyuncs.com/d&#39; -e &#39;/mirrors.aliyuncs.com/d&#39; /etc/yum.repos.d/CentOS-Base.repo \</span>
+<span class="c1">  # 使用yum安装在安装python时需要的工具包</span>
+    <span class="o">&amp;&amp;</span> <span class="n">yum</span> <span class="o">-</span><span class="n">y</span> <span class="n">install</span> <span class="n">zlib</span><span class="o">-</span><span class="n">devel</span> <span class="n">bzip2</span><span class="o">-</span><span class="n">devel</span> <span class="n">openssl</span><span class="o">-</span><span class="n">devel</span> <span class="n">ncurses</span><span class="o">-</span><span class="n">devel</span> <span class="n">sqlite</span><span class="o">-</span><span class="n">devel</span> <span class="n">readline</span><span class="o">-</span><span class="n">devel</span> <span class="n">tk</span><span class="o">-</span><span class="n">devel</span> <span class="n">gcc</span> <span class="n">make</span> <span class="n">wget</span> \
+    <span class="o">&amp;&amp;</span> <span class="n">yum</span> <span class="n">clean</span> <span class="n">all</span> \
+    <span class="o">&amp;&amp;</span> <span class="n">mkdir</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">python3</span> \
+    <span class="o">&amp;&amp;</span> <span class="n">wget</span> <span class="n">https</span><span class="o">:</span><span class="c1">//www.python.org/ftp/python/3.6.8/Python-3.6.8.tar.xz \</span>
+<span class="c1">    &amp;&amp; tar -xvJf  Python-3.6.8.tar.xz &amp;&amp; rm -f Python-3.6.8.tar.xz \</span>
+<span class="c1">    &amp;&amp; cd Python-3.6.8 \</span>
+<span class="c1">    &amp;&amp; ./configure prefix=/usr/local/python3 \</span>
+<span class="c1">    &amp;&amp; make &amp;&amp; make install \</span>
+<span class="c1">    # 使用软连接之后，yum的配置文件需要修改， 具体参考https://www.cnblogs.com/Trees/p/7497268.html</span>
+    <span class="err">#</span> <span class="err">暂时的解决方案是进入到</span><span class="n">docker</span><span class="err">中对</span><span class="n">yum</span><span class="err">等配置文件进行修改</span>
+    <span class="o">&amp;&amp;</span> <span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">-</span><span class="n">f</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">python3</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">python3</span><span class="mf">.6</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">python</span> \
+    <span class="o">&amp;&amp;</span> <span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">-</span><span class="n">f</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">python3</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">pip3</span><span class="mf">.6</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">pip</span> \
+    <span class="o">&amp;&amp;</span> <span class="n">cd</span> <span class="p">..</span> \
+    <span class="o">&amp;&amp;</span> <span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="n">Python</span><span class="o">-</span><span class="mf">3.6.8</span>
+
+<span class="n">RUN</span> <span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="o">/</span><span class="n">tmp</span>
+
+<span class="n">CMD</span> <span class="p">[</span><span class="s">&quot;usr&quot;</span><span class="p">,</span><span class="s">&quot;bin&quot;</span><span class="p">,</span><span class="s">&quot;bash&quot;</span><span class="p">]</span>
+</pre></div>
+
+
 <p>Dockerfile文件编写完成之后,执行下面的命令</p>
 <div class="hlcode"><pre>docker build -t &lt;REPOSITORY&gt;:&lt;TAG&gt;
 </pre></div>
@@ -352,7 +391,8 @@ apt-get update <span class="o">&amp;&amp;</span> apt-get install -y  python3-pip
 <p>当然, 也可以有另外的方式进行安装, 比如, 我们可以直接pull一个纯净的镜像, 然后启动镜像, 在contanier中执行所需要的安装, 安装完成之后可以直接push成image, 这个image跟上面Dockerfile启动的基本上应该没什么区别</p>
 <h1 id="4">4、项目镜像</h1>
 <p>基础镜像中包含了通用的一些信息, 这些信息大部分项目中都可能会用到, 或者需要跟某些正式环境中相互一致的信息, 而项目镜像中则需要根据不同项目的需求安装自己的库.比如某个项目需要使用到http和tcp服务等. 同时还可以把自己的项目代码通过Dockerfile复制到容器内, 熟练使用将会非常方便的部署Docker</p>
-<h2 id="41-dockerfile">4.1 项目镜像的Dockerfile：</h2>
+<h2 id="41-dockerfileubuntu">4.1 项目镜像的Dockerfile(Ubuntu)</h2>
+<p>以ubuntu为基础镜像生成项目镜像</p>
 <div class="hlcode"><pre><span class="cp">#基础镜像</span>
 <span class="n">FROM</span> <span class="n">ubuntu_base</span><span class="o">:</span><span class="mf">1.2</span>
 
@@ -374,7 +414,68 @@ apt-get update <span class="o">&amp;&amp;</span> apt-get install -y  python3-pip
 </pre></div>
 
 
+<h2 id="42-dockerfilecentos">4.2 项目镜像的Dockerfile(CentOS)</h2>
+<p>以centos为基础镜像生成项目镜像</p>
+<div class="hlcode"><pre><span class="cp"># 推荐系统排序模型DockerFile</span>
+<span class="n">FROM</span> <span class="n">deepq</span><span class="o">:</span><span class="mf">1.0</span>
+<span class="n">MAINTAINER</span> <span class="n">DeepQ</span>
+
+<span class="n">RUN</span> <span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">ai</span><span class="o">/</span><span class="n">files</span><span class="o">/</span><span class="n">recsys</span><span class="o">/</span><span class="n">rank</span><span class="o">-</span><span class="n">model</span><span class="o">/</span><span class="n">rankmodel_lgb</span><span class="o">/</span><span class="mf">0.0.1</span><span class="o">-</span><span class="n">install_files</span><span class="o">/</span>
+
+<span class="n">COPY</span> <span class="p">.</span><span class="o">/</span><span class="n">install_files</span><span class="o">/*</span> <span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">ai</span><span class="o">/</span><span class="n">files</span><span class="o">/</span><span class="n">recsys</span><span class="o">/</span><span class="n">rank</span><span class="o">-</span><span class="n">model</span><span class="o">/</span><span class="n">rankmodel_lgb</span><span class="o">/</span><span class="mf">0.0.1</span><span class="o">-</span><span class="n">install_files</span><span class="o">/</span>
+
+<span class="n">ENV</span> <span class="n">LANG</span> <span class="s">&quot;en_US.UTF-8&quot;</span>
+
+<span class="cp"># 基础环境配置</span>
+<span class="n">RUN</span> <span class="n">chmod</span> <span class="o">+</span><span class="n">x</span> <span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">ai</span><span class="o">/</span><span class="n">files</span><span class="o">/</span><span class="n">recsys</span><span class="o">/</span><span class="n">rank</span><span class="o">-</span><span class="n">model</span><span class="o">/</span><span class="n">rankmodel_lgb</span><span class="o">/</span><span class="mf">0.0.1</span><span class="o">-</span><span class="n">install_files</span><span class="o">/</span><span class="n">start_api</span> \
+    <span class="o">&amp;&amp;</span> <span class="n">mkdir</span> <span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">ai</span><span class="o">/</span><span class="n">files</span><span class="o">/</span><span class="n">recsys</span><span class="o">/</span><span class="n">rank</span><span class="o">-</span><span class="n">model</span><span class="o">/</span><span class="n">rankmodel_lgb</span><span class="o">/</span><span class="mf">0.0.1</span><span class="o">-</span><span class="n">install_files</span><span class="o">/</span><span class="p">.</span><span class="n">rankmodel_lgb</span> \
+    <span class="o">&amp;&amp;</span> <span class="n">mkdir</span> <span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">ai</span><span class="o">/</span><span class="n">files</span><span class="o">/</span><span class="n">recsys</span><span class="o">/</span><span class="n">rank</span><span class="o">-</span><span class="n">model</span><span class="o">/</span><span class="n">rankmodel_lgb</span><span class="o">/</span><span class="mf">0.0.1</span><span class="o">-</span><span class="n">install_files</span><span class="o">/</span><span class="p">.</span><span class="n">rankmodel_lgb</span><span class="o">/</span><span class="n">log</span> \
+    <span class="o">&amp;&amp;</span> <span class="n">mkdir</span> <span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">ai</span><span class="o">/</span><span class="n">files</span><span class="o">/</span><span class="n">recsys</span><span class="o">/</span><span class="n">rank</span><span class="o">-</span><span class="n">model</span><span class="o">/</span><span class="n">rankmodel_lgb</span><span class="o">/</span><span class="mf">0.0.1</span><span class="o">/</span> \
+    <span class="o">&amp;&amp;</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">pip</span> <span class="o">-</span><span class="n">i</span> <span class="n">https</span><span class="o">:</span><span class="c1">//pypi.tuna.tsinghua.edu.cn/simple \</span>
+<span class="c1">    &amp;&amp; pip install --no-cache-dir -r /root/ai/files/recsys/rank-model/rankmodel_lgb/0.0.1-install_files/requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple \</span>
+<span class="c1">    &amp;&amp; pip install --no-cache-dir /root/ai/files/recsys/rank-model/rankmodel_lgb/0.0.1-install_files/rankmodel_lgb-0.0.2-py3-none-any.whl</span>
+
+<span class="cp"># LightGBM安装</span>
+<span class="n">RUN</span> <span class="n">set</span> <span class="o">-</span><span class="n">ex</span> \
+    <span class="o">&amp;&amp;</span> <span class="n">yum</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="n">git</span> \
+    <span class="o">&amp;&amp;</span> <span class="n">yum</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="n">gcc</span> <span class="n">gcc</span><span class="o">-</span><span class="n">c</span><span class="o">++</span> <span class="n">make</span> <span class="n">automake</span> \
+    <span class="o">&amp;&amp;</span> <span class="n">yum</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="n">cmake</span> \
+    <span class="o">&amp;&amp;</span> <span class="n">yum</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="n">setuptool</span>
+
+<span class="n">RUN</span> <span class="n">git</span> <span class="n">clone</span> <span class="o">--</span><span class="n">recursive</span> <span class="o">--</span><span class="n">branch</span> <span class="n">v3</span><span class="o">-</span><span class="n">release</span> <span class="o">--</span><span class="n">depth</span> <span class="mi">1</span> <span class="n">https</span><span class="o">:</span><span class="c1">//github.com/Microsoft/LightGBM &amp;&amp; \</span>
+<span class="c1">    mkdir LightGBM/build &amp;&amp; \</span>
+<span class="c1">    cd LightGBM/build &amp;&amp; \</span>
+<span class="c1">    cmake .. &amp;&amp; \</span>
+<span class="c1">    make -j4 &amp;&amp; \</span>
+<span class="c1">    make install &amp;&amp; \</span>
+<span class="c1">    cd ../ &amp;&amp; \</span>
+<span class="c1">    cd python-package/ &amp;&amp; \</span>
+<span class="c1">    python setup.py install &amp;&amp; \</span>
+<span class="c1">    cd ../.. &amp;&amp; \</span>
+<span class="c1">    rm -rf LightGBM</span>
+
+<span class="cp"># java环境配置</span>
+<span class="n">RUN</span> <span class="n">yum</span> <span class="n">install</span> <span class="n">java</span><span class="o">-</span><span class="mf">1.8.0</span><span class="o">-</span><span class="n">openjdk</span><span class="o">*</span> <span class="o">-</span><span class="n">y</span> \
+    <span class="o">&amp;&amp;</span> <span class="n">export</span> <span class="n">JAVA_HOME</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">jvm</span><span class="o">/</span><span class="n">java</span><span class="o">-</span><span class="mf">1.8.0</span><span class="o">-</span><span class="n">openjdk</span><span class="o">-</span><span class="mf">1.8.0.212</span><span class="p">.</span><span class="n">b04</span><span class="o">-</span><span class="mf">0.</span><span class="n">el7_6</span><span class="p">.</span><span class="n">x86_64</span> \
+    <span class="o">&amp;&amp;</span> <span class="n">export</span> <span class="n">JRE_HOME</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">jvm</span><span class="o">/</span><span class="n">java</span><span class="o">-</span><span class="mf">1.8.0</span><span class="o">-</span><span class="n">openjdk</span><span class="o">-</span><span class="mf">1.8.0.212</span><span class="p">.</span><span class="n">b04</span><span class="o">-</span><span class="mf">0.</span><span class="n">el7_6</span><span class="p">.</span><span class="n">x86_64</span> \
+    <span class="o">&amp;&amp;</span> <span class="n">export</span> <span class="n">CLASSPATH</span><span class="o">=</span><span class="p">.</span><span class="o">:</span><span class="n">JAVAHOME</span><span class="o">/</span><span class="n">jre</span><span class="o">/</span><span class="n">lib</span><span class="o">:</span><span class="n">JAVA_HOME</span><span class="o">/</span><span class="n">lib</span> \
+    <span class="o">&amp;&amp;</span> <span class="n">export</span> <span class="n">PATH</span><span class="o">=</span><span class="n">PATH</span><span class="o">:</span><span class="n">JAVA_HOME</span><span class="o">/</span><span class="n">bin</span>
+
+<span class="n">RUN</span> <span class="n">set</span> <span class="o">-</span><span class="n">ex</span> <span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="o">/</span><span class="n">tmp</span>
+
+<span class="n">RUN</span> <span class="n">echo</span> <span class="o">=******===================</span> \
+    <span class="o">&amp;&amp;</span> <span class="n">ls</span> <span class="o">-</span><span class="n">al</span> <span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">ai</span><span class="o">/</span><span class="n">files</span><span class="o">/</span><span class="n">recsys</span><span class="o">/</span><span class="n">rank</span><span class="o">-</span><span class="n">model</span><span class="o">/</span><span class="n">rankmodel_lgb</span><span class="o">/</span><span class="mf">0.0.1</span><span class="o">-</span><span class="n">install_files</span><span class="o">/</span> \
+    <span class="o">&amp;&amp;</span> <span class="n">pip</span> <span class="n">list</span>\
+    <span class="o">&amp;&amp;</span> <span class="n">echo</span> <span class="o">=****************===================================</span>
+
+<span class="n">RUN</span> <span class="n">yum</span> <span class="n">clean</span> <span class="n">all</span>
+
+<span class="n">CMD</span> <span class="p">[</span><span class="s">&quot;usr&quot;</span><span class="p">,</span><span class="s">&quot;bin&quot;</span><span class="p">,</span><span class="s">&quot;bash&quot;</span><span class="p">]</span>
+</pre></div>
+
+
 <h1 id="5">5、容器管理</h1>
+<h2 id="portainer">Portainer</h2>
 <h1 id="6kubernetes">6、kubernetes管理容器</h1>
 <h1 id="7">7、参考文献</h1>
 <p><a href="https://blog.csdn.net/wo18237095579/article/details/80540571">Docker Dockerfile 定制镜像</a></p>
