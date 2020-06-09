@@ -72,7 +72,11 @@
 </ul>
 </li>
 <li><a href="#5">5、容器管理</a><ul>
-<li><a href="#portainer">Portainer</a></li>
+<li><a href="#portainer">Portainer</a><ul>
+<li><a href="#1-portainer">1、查看, 下载portainer镜像</a></li>
+<li><a href="#2dockerui">2、启动dockerUI镜像</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#6kubernetes">6、kubernetes管理容器</a></li>
@@ -476,6 +480,19 @@ apt-get update <span class="o">&amp;&amp;</span> apt-get install -y  python3-pip
 
 <h1 id="5">5、容器管理</h1>
 <h2 id="portainer">Portainer</h2>
+<p>轻量级图形页面管理</p>
+<h3 id="1-portainer">1、查看, 下载portainer镜像</h3>
+<div class="hlcode"><pre>docker search portainer
+docker pull portainer/portainer
+</pre></div>
+
+
+<h3 id="2dockerui">2、启动dockerUI镜像</h3>
+<div class="hlcode"><pre><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">d</span> <span class="o">--</span><span class="n">name</span> <span class="n">portainerUI</span> <span class="o">-</span><span class="n">p</span> <span class="mi">9000</span><span class="o">:</span><span class="mi">9000</span> <span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">run</span><span class="o">/</span><span class="n">docker</span><span class="p">.</span><span class="n">sock</span><span class="o">:/</span><span class="n">var</span><span class="o">/</span><span class="n">run</span><span class="o">/</span><span class="n">docker</span><span class="p">.</span><span class="n">sock</span> <span class="n">portainer</span><span class="o">/</span><span class="n">portainer</span>
+</pre></div>
+
+
+<p>启动完成之后, 浏览器访问 http://IP:9000 , 设置一个密码即可，然后点击创建用户(Create user), 就可以在页面中查看和管理本地机器的docker了.</p>
 <h1 id="6kubernetes">6、kubernetes管理容器</h1>
 <h1 id="7">7、参考文献</h1>
 <p><a href="https://blog.csdn.net/wo18237095579/article/details/80540571">Docker Dockerfile 定制镜像</a></p>
