@@ -379,6 +379,18 @@ CMD ["usr","bin","bash"]
 
 # 5、容器管理
 ## Portainer
+轻量级图形页面管理
+### 1、查看, 下载portainer镜像
+```bash
+docker search portainer
+docker pull portainer/portainer
+```
+### 2、启动dockerUI镜像
+```
+docker run -d --name portainerUI -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer
+```
+启动完成之后, 浏览器访问 http://IP:9000 , 设置一个密码即可，然后点击创建用户(Create user), 就可以在页面中查看和管理本地机器的docker了.
+
 
 # 6、kubernetes管理容器
 
