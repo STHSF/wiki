@@ -245,7 +245,43 @@ RUN chmod a+x $DOCKER_SCRIPTS/*
 RUN $DOCKER_SCRIPTS/run.sh
 ```
 
-其中, run.sh脚本里面的内通, 当然,你也可以直接在dockerfile里面使用RUN编写一些安装过程
+其中, run.sh脚本里面的内容也可以直接在dockerfile里面使用RUN编写一些安装过程.
+
+例如, 我们创建一个以centos为基础镜像, 然后在此基础上添加python环境的Dockerfile.
+
+```Dockerfile
+# 基础镜像Dockerfile, 包含python3.6.8
+FROM centos:7.6.1810
+MAINTAINER DeepQ
+
+ENV PATH $PATH:/usr/local/python3/bin/
+ENV PYTHONIOENCODING utf-8
+
+RUN set -ex \
+	&& mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup \
+	&& curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo \
+	&& yum makecache \
+	&& sed -i -e '/mirrors.cloud.aliyuncs.com/d' -e '/mirrors.aliyuncs.com/d' /etc/yum.repos.d/CentOS-Base.repo \
+  # 使用yum安装在安装python时需要的工具包
+	&& yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gcc make wget \
+	&& yum clean all \
+	&& mkdir /usr/local/python3 \
+	&& wget https://www.python.org/ftp/python/3.6.8/Python-3.6.8.tar.xz \
+	&& tar -xvJf  Python-3.6.8.tar.xz && rm -f Python-3.6.8.tar.xz \
+	&& cd Python-3.6.8 \
+	&& ./configure prefix=/usr/local/python3 \
+	&& make && make install \
+	# 使用软连接之后，yum的配置文件需要修改， 具体参考https://www.cnblogs.com/Trees/p/7497268.html
+	# 暂时的解决方案是进入到docker中对yum等配置文件进行修改
+	&& ln -s -f /usr/local/python3/bin/python3.6 /usr/bin/python \
+	&& ln -s -f /usr/local/python3/bin/pip3.6 /usr/bin/pip \
+	&& cd .. \
+	&& rm -rf Python-3.6.8
+
+RUN rm -rf /tmp
+
+CMD ["usr","bin","bash"]
+```
 
 Dockerfile文件编写完成之后,执行下面的命令
 ```bash
@@ -258,8 +294,9 @@ docker build -t <REPOSITORY>:<TAG>
 # 4、项目镜像
 基础镜像中包含了通用的一些信息, 这些信息大部分项目中都可能会用到, 或者需要跟某些正式环境中相互一致的信息, 而项目镜像中则需要根据不同项目的需求安装自己的库.比如某个项目需要使用到http和tcp服务等. 同时还可以把自己的项目代码通过Dockerfile复制到容器内, 熟练使用将会非常方便的部署Docker
 
-## 4.1 项目镜像的Dockerfile：
-```
+## 4.1 项目镜像的Dockerfile(Ubuntu)
+以ubuntu为基础镜像生成项目镜像
+```Dockerfile
 #基础镜像
 FROM ubuntu_base:1.2
  
@@ -280,7 +317,68 @@ EXPOSE 8989
 CMD ["python", "/opt/workshop/jerry/src/hello.py"]
 ```
 
+## 4.2 项目镜像的Dockerfile(CentOS)
+以centos为基础镜像生成项目镜像
+```Dockerfile
+# 推荐系统排序模型DockerFile
+FROM deepq:1.0
+MAINTAINER DeepQ
+
+RUN mkdir -p /root/ai/files/recsys/rank-model/rankmodel_lgb/0.0.1-install_files/
+
+COPY ./install_files/* /root/ai/files/recsys/rank-model/rankmodel_lgb/0.0.1-install_files/
+
+ENV LANG "en_US.UTF-8"
+
+# 基础环境配置
+RUN chmod +x /root/ai/files/recsys/rank-model/rankmodel_lgb/0.0.1-install_files/start_api \
+    && mkdir /root/ai/files/recsys/rank-model/rankmodel_lgb/0.0.1-install_files/.rankmodel_lgb \
+    && mkdir /root/ai/files/recsys/rank-model/rankmodel_lgb/0.0.1-install_files/.rankmodel_lgb/log \
+    && mkdir /root/ai/files/recsys/rank-model/rankmodel_lgb/0.0.1/ \
+    && pip install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple \
+    && pip install --no-cache-dir -r /root/ai/files/recsys/rank-model/rankmodel_lgb/0.0.1-install_files/requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple \
+    && pip install --no-cache-dir /root/ai/files/recsys/rank-model/rankmodel_lgb/0.0.1-install_files/rankmodel_lgb-0.0.2-py3-none-any.whl
+
+# LightGBM安装
+RUN set -ex \
+    && yum install -y git \
+    && yum install -y gcc gcc-c++ make automake \
+    && yum install -y cmake \
+    && yum install -y setuptool
+
+RUN git clone --recursive --branch v3-release --depth 1 https://github.com/Microsoft/LightGBM && \
+    mkdir LightGBM/build && \
+    cd LightGBM/build && \
+    cmake .. && \
+    make -j4 && \
+    make install && \
+    cd ../ && \
+    cd python-package/ && \
+    python setup.py install && \
+    cd ../.. && \
+    rm -rf LightGBM
+
+# java环境配置
+RUN yum install java-1.8.0-openjdk* -y \
+    && export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.212.b04-0.el7_6.x86_64 \
+    && export JRE_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.212.b04-0.el7_6.x86_64 \
+    && export CLASSPATH=.:JAVAHOME/jre/lib:JAVA_HOME/lib \
+    && export PATH=PATH:JAVA_HOME/bin
+
+RUN set -ex rm -rf /tmp
+
+RUN echo =******=================== \
+    && ls -al /root/ai/files/recsys/rank-model/rankmodel_lgb/0.0.1-install_files/ \
+    && pip list\
+    && echo =****************===================================
+
+RUN yum clean all
+
+CMD ["usr","bin","bash"]
+```
+
 # 5、容器管理
+## Portainer
 
 # 6、kubernetes管理容器
 
