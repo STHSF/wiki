@@ -210,7 +210,7 @@
 <ul>
 <li>CMD的命令会被docker run 命令所覆盖, 但是ECTRYPOINT不会. 而是把docker run 后面的命令当作ENTRYPOINT执行命令的参数</li>
 </ul>
-<p>如 DOckerfile中有:<br />
+<p>如 Dockerfile中有:<br />
 <code>ENTRYPOINT ["/usr/sbin/nginx"]</code><br />
   然后通过启动build之后的容器<br />
 <code>docker run -it &lt;image&gt; -g "daemon off"</code><br />
