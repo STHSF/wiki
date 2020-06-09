@@ -101,7 +101,7 @@ CMD ["bin/bash"]
 
 - CMD的命令会被docker run 命令所覆盖, 但是ECTRYPOINT不会. 而是把docker run 后面的命令当作ENTRYPOINT执行命令的参数
   
-  如 DOckerfile中有:
+  如 Dockerfile中有:
   ```
   ENTRYPOINT ["/usr/sbin/nginx"]
   ```
