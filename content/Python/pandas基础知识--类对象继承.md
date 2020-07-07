@@ -1,5 +1,5 @@
 ---
-title: "pandas基础知识--类对象继承.md"
+title: "pandas基础知识--类对象继承"
 layout: page
 date: 2018-01-30 13:00
 ---

@@ -1,5 +1,5 @@
 ---
-title: "pandas基础知识--sqlalchemy.md"
+title: "pandas基础知识--sqlalchemy"
 layout: page
 date: 2019-01-30 13:00
 ---

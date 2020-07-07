@@ -1,5 +1,5 @@
 ---
-title: "python基础知识--多进程.md"
+title: "python基础知识--多进程"
 layout: page
 date: 2018-01-30 13:00
 ---

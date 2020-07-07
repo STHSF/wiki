@@ -1,5 +1,5 @@
 ---
-title: "pandas基础知识--setuptools打包.md"
+title: "pandas基础知识--setuptools打包"
 layout: page
 date: 2018-01-30 13:00
 ---

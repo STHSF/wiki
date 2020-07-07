@@ -1,5 +1,5 @@
 ---
-title: "python基础知识--pandas panel和multiindex使用技巧.md"
+title: "python基础知识--pandas panel和multiindex使用技巧"
 layout: page
 date: 2099-06-02 00:00
 ---

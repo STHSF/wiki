@@ -1,5 +1,5 @@
 ---
-title: "python基础知识--python的特殊方法.md"
+title: "python基础知识--python的特殊方法"
 layout: page
 date: 2018-01-09 00:00
 ---
