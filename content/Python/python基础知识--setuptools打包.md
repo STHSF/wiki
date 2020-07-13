@@ -4,16 +4,16 @@ layout: page
 date: 2018-01-30 13:00
 ---
 
-# 打包测试
+# 一、打包测试
 ```
 python setup.py test
 ```
-# 打包
+# 二、打包
 ```
 python setup.py bdist_wheel
 ```
 
-# 打包非```.py```文件以外的静态资源--```MANIFEST.in```
+# 三、打包非```.py```文件以外的静态资源--```MANIFEST.in```
 ## 模板
 1、在setup.py中设置include_package_data=True
 
@@ -53,7 +53,7 @@ graft dir   #include all files under dir
 ```
 
 
-# 问题
+# 四、问题
 ## 问题1
 使用```python setup.py install```安装完成之后, 调用包接口, 显示```No module named XXX```, setup.py文件中的```name```跟```XXX```是一致的, 而且也添加了```__init__.py```文件
 
