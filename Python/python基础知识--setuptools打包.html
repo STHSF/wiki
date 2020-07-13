@@ -40,17 +40,17 @@
 <div class="clearfix"></div>
 <div id="title">python基础知识--setuptools打包</div>
 <div id="content">
-  <h1 id="_1">打包测试</h1>
+  <h1 id="_1">一、打包测试</h1>
 <div class="hlcode"><pre><span class="n">python</span> <span class="n">setup</span><span class="p">.</span><span class="n">py</span> <span class="n">test</span>
 </pre></div>
 
 
-<h1 id="_2">打包</h1>
+<h1 id="_2">二、打包</h1>
 <div class="hlcode"><pre><span class="n">python</span> <span class="n">setup</span><span class="p">.</span><span class="n">py</span> <span class="n">bdist_wheel</span>
 </pre></div>
 
 
-<h1 id="py-manifestin">打包非<code>.py</code>文件以外的静态资源--<code>MANIFEST.in</code></h1>
+<h1 id="py-manifestin">三、打包非<code>.py</code>文件以外的静态资源--<code>MANIFEST.in</code></h1>
 <h2 id="_3">模板</h2>
 <p>1、在setup.py中设置include_package_data=True</p>
 <div class="hlcode"><pre><span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span><span class="p">,</span> <span class="n">find_packages</span>
@@ -87,7 +87,7 @@
 </pre></div>
 
 
-<h1 id="_4">问题</h1>
+<h1 id="_4">四、问题</h1>
 <h2 id="1">问题1</h2>
 <p>使用<code>python setup.py install</code>安装完成之后, 调用包接口, 显示<code>No module named XXX</code>, setup.py文件中的<code>name</code>跟<code>XXX</code>是一致的, 而且也添加了<code>__init__.py</code>文件</p>
 <h2 id="_5">原因</h2>
