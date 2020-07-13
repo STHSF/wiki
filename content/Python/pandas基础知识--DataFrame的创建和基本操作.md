@@ -1,5 +1,5 @@
 ---
-title: "pandas DataFrame的创建和基本操作"
+title: "pandas基础知识-- DataFrame的创建和基本操作"
 layout: page
 date: 2018-03-02 00:00
 ---
