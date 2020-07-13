@@ -50,10 +50,47 @@
 </pre></div>
 
 
-<h1 id="_3">问题</h1>
+<h1 id="py-manifestin">打包非<code>.py</code>文件以外的静态资源--<code>MANIFEST.in</code></h1>
+<h2 id="_3">模板</h2>
+<p>1、在setup.py中设置include_package_data=True</p>
+<div class="hlcode"><pre><span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span><span class="p">,</span> <span class="n">find_packages</span>
+
+<span class="n">setup</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s">&#39;your_project_name&#39;</span><span class="p">,</span>
+    <span class="n">version</span><span class="o">=</span><span class="s">&#39;0.1&#39;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s">&#39;A description.&#39;</span><span class="p">,</span>
+    <span class="n">packages</span><span class="o">=</span><span class="n">find_packages</span><span class="p">(</span><span class="n">exclude</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;ez_setup&#39;</span><span class="p">,</span> <span class="s">&#39;tests&#39;</span><span class="p">,</span> <span class="s">&#39;tests.*&#39;</span><span class="p">]),</span>
+    <span class="n">include_package_data</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">install_requires</span><span class="o">=</span><span class="p">[],</span>
+<span class="p">)</span>
+</pre></div>
+
+
+<p>2、在根目录下新建 MANIFEST.in</p>
+<div class="hlcode"><pre><span class="n">include</span> <span class="n">MANIFEST</span><span class="p">.</span><span class="n">in</span>
+<span class="n">include</span> <span class="n">README</span><span class="p">.</span><span class="n">md</span>
+<span class="n">include</span> <span class="o">*</span><span class="p">.</span><span class="n">txt</span>  <span class="err">#包含根目录下的所有</span><span class="n">txt</span><span class="err">文件</span>
+<span class="n">recursive</span><span class="o">-</span><span class="n">include</span> <span class="n">examples</span> <span class="o">*</span><span class="p">.</span><span class="n">txt</span> <span class="o">*</span><span class="p">.</span><span class="n">py</span>  <span class="err">#包含所有位置的</span><span class="n">examples</span><span class="err">文件夹下的</span><span class="n">txt</span><span class="err">与</span><span class="n">py</span><span class="err">文件</span>
+<span class="n">prune</span> <span class="n">examples</span><span class="o">/</span><span class="n">sample</span><span class="o">?/</span><span class="n">build</span>  <span class="err">#排除所有位置</span><span class="n">examples</span><span class="o">/</span><span class="n">sample</span><span class="o">?/</span><span class="n">build</span>
+</pre></div>
+
+
+<p>3、其他书写方式</p>
+<div class="hlcode"><pre><span class="n">include</span> <span class="n">pat1</span> <span class="n">pat2</span> <span class="p">...</span>   <span class="err">#</span><span class="n">include</span> <span class="n">all</span> <span class="n">files</span> <span class="n">matching</span> <span class="n">any</span> <span class="n">of</span> <span class="n">the</span> <span class="n">listed</span> <span class="n">patterns</span>
+<span class="n">exclude</span> <span class="n">pat1</span> <span class="n">pat2</span> <span class="p">...</span>   <span class="err">#</span><span class="n">exclude</span> <span class="n">all</span> <span class="n">files</span> <span class="n">matching</span> <span class="n">any</span> <span class="n">of</span> <span class="n">the</span> <span class="n">listed</span> <span class="n">patterns</span>
+<span class="n">recursive</span><span class="o">-</span><span class="n">include</span> <span class="n">dir</span> <span class="n">pat1</span> <span class="n">pat2</span> <span class="p">...</span>  <span class="err">#</span><span class="n">include</span> <span class="n">all</span> <span class="n">files</span> <span class="n">under</span> <span class="n">dir</span> <span class="n">matching</span> <span class="n">any</span> <span class="n">of</span> <span class="n">the</span> <span class="n">listed</span> <span class="n">patterns</span>
+<span class="n">recursive</span><span class="o">-</span><span class="n">exclude</span> <span class="n">dir</span> <span class="n">pat1</span> <span class="n">pat2</span> <span class="p">...</span> <span class="err">#</span><span class="n">exclude</span> <span class="n">all</span> <span class="n">files</span> <span class="n">under</span> <span class="n">dir</span> <span class="n">matching</span> <span class="n">any</span> <span class="n">of</span> <span class="n">the</span> <span class="n">listed</span> <span class="n">patterns</span>
+<span class="n">global</span><span class="o">-</span><span class="n">include</span> <span class="n">pat1</span> <span class="n">pat2</span> <span class="p">...</span>    <span class="err">#</span><span class="n">include</span> <span class="n">all</span> <span class="n">files</span> <span class="n">anywhere</span> <span class="n">in</span> <span class="n">the</span> <span class="n">source</span> <span class="n">tree</span> <span class="n">matching</span> <span class="err">—</span> <span class="o">&amp;</span> <span class="n">any</span> <span class="n">of</span> <span class="n">the</span> <span class="n">listed</span> <span class="n">patterns</span>
+<span class="n">global</span><span class="o">-</span><span class="n">exclude</span> <span class="n">pat1</span> <span class="n">pat2</span> <span class="p">...</span>    <span class="err">#</span><span class="n">exclude</span> <span class="n">all</span> <span class="n">files</span> <span class="n">anywhere</span> <span class="n">in</span> <span class="n">the</span> <span class="n">source</span> <span class="n">tree</span> <span class="n">matching</span> <span class="err">—</span> <span class="o">&amp;</span> <span class="n">any</span> <span class="n">of</span> <span class="n">the</span> <span class="n">listed</span> <span class="n">patterns</span>
+<span class="n">prune</span> <span class="n">dir</span>   <span class="err">#</span><span class="n">exclude</span> <span class="n">all</span> <span class="n">files</span> <span class="n">under</span> <span class="n">dir</span>
+<span class="n">graft</span> <span class="n">dir</span>   <span class="err">#</span><span class="n">include</span> <span class="n">all</span> <span class="n">files</span> <span class="n">under</span> <span class="n">dir</span>
+</pre></div>
+
+
+<h1 id="_4">问题</h1>
 <h2 id="1">问题1</h2>
 <p>使用<code>python setup.py install</code>安装完成之后, 调用包接口, 显示<code>No module named XXX</code>, setup.py文件中的<code>name</code>跟<code>XXX</code>是一致的, 而且也添加了<code>__init__.py</code>文件</p>
-<h2 id="_4">原因</h2>
+<h2 id="_5">原因</h2>
 <p>刚开始怀疑目录下面缺少<code>__init__.py</code>文件, 但实际上在查看生成的build文件时发现, 原来将setup.py放在了安装包文件目录的内部, 打包完成之后发现<code>./build/lib/</code>目录下并不是以<code>XXX</code>为主目录的包结构, 而是以<code>XXX</code>命名的目录下的文件, 由此可以看出setup.py文件放错了位置, 而是应该放在以<code>XXX</code>为主目录的包结构的外面, 这样, 打包之后才能将以<code>XXX</code>命名的文件全部打包进去.</p>
 <p>正确打包的build结果如下:<br />
 <center><img src="/wiki/static/images/python/Snipaste_2020-07-07_18-39-52.png" alt="build"/></center></p>
