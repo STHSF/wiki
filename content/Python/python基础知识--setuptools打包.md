@@ -1,7 +1,7 @@
 ---
 title: "python基础知识--setuptools打包"
 layout: page
-date: 2018-01-30 13:00
+date: 2020-06-30 13:00
 ---
 
 # 一、打包测试
