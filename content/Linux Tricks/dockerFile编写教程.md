@@ -183,7 +183,7 @@ root@jerry:/home/jerry/workshop/projects/docker_test# docker run -it ba0
 jerry@051e0e29e94f:/usr/local/docker$ ls
 src
 ```
-注意, docekr的用户名和RUN产生的结果.
+注意, docker的用户名和RUN产生的结果.
 
 
 # 3、基础镜像制作
@@ -252,7 +252,7 @@ RUN $DOCKER_SCRIPTS/run.sh
 ```Dockerfile
 # 基础镜像Dockerfile, 包含python3.6.8
 FROM centos:7.6.1810
-MAINTAINER DeepQ
+MAINTAINER liyu
 
 ENV PATH $PATH:/usr/local/python3/bin/
 ENV PYTHONIOENCODING utf-8
@@ -280,7 +280,7 @@ RUN set -ex \
 
 RUN rm -rf /tmp
 
-CMD ["usr","bin","bash"]
+CMD ["bin/bash"]
 ```
 
 Dockerfile文件编写完成之后,执行下面的命令
@@ -322,7 +322,7 @@ CMD ["python", "/opt/workshop/jerry/src/hello.py"]
 ```Dockerfile
 # 推荐系统排序模型DockerFile
 FROM deepq:1.0
-MAINTAINER DeepQ
+MAINTAINER liyu
 
 RUN mkdir -p /root/ai/files/recsys/rank-model/rankmodel_lgb/0.0.1-install_files/
 
@@ -374,7 +374,7 @@ RUN echo =******=================== \
 
 RUN yum clean all
 
-CMD ["usr","bin","bash"]
+CMD ["bin/bash"]
 ```
 
 # 5、容器管理
@@ -391,8 +391,35 @@ docker run -d --name portainerUI -p 9000:9000 -v /var/run/docker.sock:/var/run/d
 ```
 启动完成之后, 浏览器访问 http://IP:9000 , 设置一个密码即可，然后点击创建用户(Create user), 就可以在页面中查看和管理本地机器的docker了.
 
-
 # 6、kubernetes管理容器
+
+
+# 7、坑
+### 1、CMD[]中的命令有问题
+
+<center><img src="/wiki/static/images/docker/docker_run_failed.png" alt="run_failed" height="600" width="600"/></center>
+
+运行docker镜像的代码 ```docker run -q images:tags```
+
+出现这种情况的主要原因是在启动docker镜像的时候没有指定执行命令, 此时, 就会执行Dockerfile中预设的CMD命令, 但是用于当时Dockerfile中的CMD命令是```CMD["usr", "bin", "bash"]```, 所以运行镜像会出现上图的错误. 
+
+可以将CMD修改成通用的比如```CMD["/bin/bash"]```等. 
+
+### 2、执行```docker -d run```之后, 后台却没有启动
+- 想要后台运行docker, 然后使用```docker run -d --name server images:tags ```, 然后使用```docker ps ```查看, 却发现后台没有运行成功
+
+主要原因就是镜像构建过程中Dockerfile添加了```CMD["/bin/bash"]```命令, 意味着在执行```run -d ```在后台运行的时候，这个镜像创建的容器会首先执行/bin/bash，这意味着，当在后台运行（-d）时，shell立即退出。所以除非命令未在前台运行，否则容器会立即停止
+
+解决方案, 通过```-i```或者```-t```为```-d```提供一个伪"tty n"
+
+比如```docker run -i -t -d images:tags ```
+
+另外, Docker官方更是提倡-i 和 -t搭配使用，使其行为类似于shell。
+
+更多细节在官方文档有提到哦
+[分离模式](https://docs.docker.com/engine/reference/run/#detached--d) and in [前台模式 (-t, -i or -it)](https://docs.docker.com/engine/reference/run/#foreground)
+
+
 
 # 7、参考文献
 [Docker Dockerfile 定制镜像](https://blog.csdn.net/wo18237095579/article/details/80540571)
