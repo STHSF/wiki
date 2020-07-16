@@ -12,9 +12,8 @@ Dockerfile是由一系列命令和参数构成的脚本，这些命令应用于�
 
 # 2、Dockerfile基础知识
 ## 2.1 常用命令列表
-| | |
+|部分 |命令 |
 |---|---|
-部分|命令
 基础镜像信息|FROM
 维护者信息|MAINTAINER
 镜像操作指令|RUN、COPY、ADD、EXPOSE、WORKDIR、ONBUILD、USER、VOLUME等
