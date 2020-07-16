@@ -419,7 +419,6 @@ docker run -d --name portainerUI -p 9000:9000 -v /var/run/docker.sock:/var/run/d
 [分离模式](https://docs.docker.com/engine/reference/run/#detached--d) and in [前台模式 (-t, -i or -it)](https://docs.docker.com/engine/reference/run/#foreground)
 
 
-
 # 八 参考文献
 [Docker Dockerfile 定制镜像](https://blog.csdn.net/wo18237095579/article/details/80540571)
 
@@ -430,4 +429,3 @@ docker run -d --name portainerUI -p 9000:9000 -v /var/run/docker.sock:/var/run/d
 [python项目代码打包成Docker镜像](https://www.cnblogs.com/sammy1989/p/9406899.html)
 
 [Docker应用配置文件管理的正确姿势](https://www.sohu.com/a/156424469_151779)
-
