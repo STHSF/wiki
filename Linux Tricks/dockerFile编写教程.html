@@ -497,7 +497,7 @@ docker pull portainer/portainer
 <h1 id="6kubernetes">6、kubernetes管理容器</h1>
 <h1 id="7">7、坑</h1>
 <h3 id="1cmd">1、CMD[]中的命令有问题</h3>
-<p><center><img src="/wiki/static/images/docker/docker_run_failed.png" alt="run_failed" height="600" width="600"/></center></p>
+<p><center><img src="/wiki/static/images/docker/docker_run_failed.png" alt="run_failed" height="60" width="600"/></center></p>
 <p>运行docker镜像的代码 <code>docker run -q images:tags</code></p>
 <p>出现这种情况的主要原因是在启动docker镜像的时候没有指定执行命令, 此时, 就会执行Dockerfile中预设的CMD命令, 但是用于当时Dockerfile中的CMD命令是<code>CMD["usr", "bin", "bash"]</code>, 所以运行镜像会出现上图的错误. </p>
 <p>可以将CMD修改成通用的比如<code>CMD["/bin/bash"]</code>等. </p>
