@@ -498,7 +498,7 @@ docker pull portainer/portainer
 <h1 id="_5">七、坑</h1>
 <h3 id="71cmd">7.1、CMD[]中的命令有问题</h3>
 <p><center><img src="/wiki/static/images/docker/docker_run_failed.png" alt="run_failed" height="80" width="800"/></center></p>
-<p>运行docker镜像的代码 <code>docker run -q images:tags</code></p>
+<p>运行docker镜像的代码 <code>docker run -d images:tags</code></p>
 <p>出现这种情况的主要原因是在启动docker镜像的时候没有指定执行命令, 此时, 就会执行Dockerfile中预设的CMD命令, 但是用于当时Dockerfile中的CMD命令是<code>CMD["usr", "bin", "bash"]</code>, 所以运行镜像会出现上图的错误. </p>
 <p>可以将CMD修改成通用的比如<code>CMD["/bin/bash"]</code>等. </p>
 <h3 id="72docker-d-run">7.2、执行<code>docker -d run</code>之后, 后台却没有启动</h3>
@@ -517,6 +517,7 @@ docker pull portainer/portainer
 <p><a href="https://blog.csdn.net/bocai_xiaodaidai/article/details/92838984">python项目打包成docker镜像并发布</a></p>
 <p><a href="https://www.cnblogs.com/sammy1989/p/9406899.html">python项目代码打包成Docker镜像</a></p>
 <p><a href="https://www.sohu.com/a/156424469_151779">Docker应用配置文件管理的正确姿势</a></p>
+<p><a href="https://blog.csdn.net/qq_19381989/article/details/102781663">docker run 的 -i -t -d参数</a></p>
 </div>
 <div id="content-footer">created in <span class="create-date date"> 2019-06-02 00:00 </span></div>
 <div id="comments"></div>
