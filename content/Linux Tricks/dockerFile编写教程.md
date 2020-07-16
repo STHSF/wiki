@@ -396,7 +396,7 @@ docker run -d --name portainerUI -p 9000:9000 -v /var/run/docker.sock:/var/run/d
 # 7、坑
 ### 1、CMD[]中的命令有问题
 
-<center><img src="/wiki/static/images/docker/docker_run_failed.png" alt="run_failed" height="60" width="600"/></center>
+<center><img src="/wiki/static/images/docker/docker_run_failed.png" alt="run_failed" height="80" width="800"/></center>
 
 运行docker镜像的代码 ```docker run -q images:tags```
 
