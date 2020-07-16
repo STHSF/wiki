@@ -52,6 +52,7 @@
 <li><a href="#imagecontainer">运行image实例container</a></li>
 <li><a href="#imagecontainer_1">启动和停止某个image的container</a></li>
 <li><a href="#docker_2">Docker常用命令</a><ul>
+<li><a href="#docker-run">docker run 其他参数</a></li>
 <li><a href="#dockervim-telnetifconfig">Docker下安装vim 、telnet、ifconfig命令</a></li>
 <li><a href="#docker-commitdocker-push">通过容器提交镜像（docker commit）以及推送镜像（docker push)</a></li>
 </ul>
@@ -284,6 +285,89 @@
 </pre></div>
 
 
+<h4 id="docker-run">docker run 其他参数</h4>
+<table>
+<thead>
+<tr>
+<th align="center">Options</th>
+<th align="center">Mean</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">-a stdin</td>
+<td align="center">指定标准输入输出内容类型，可选 STDIN/STDOUT/STDERR 三项；</td>
+</tr>
+<tr>
+<td align="center">-d</td>
+<td align="center">后台运行容器，并返回容器ID；</td>
+</tr>
+<tr>
+<td align="center">-i</td>
+<td align="center">以交互模式运行容器，通常与 -t 同时使用；</td>
+</tr>
+<tr>
+<td align="center">-P</td>
+<td align="center">随机端口映射，容器内部端口随机映射到主机的高端口</td>
+</tr>
+<tr>
+<td align="center">-p</td>
+<td align="center">指定端口映射，格式为：主机(宿主)端口:容器端口</td>
+</tr>
+<tr>
+<td align="center">-t</td>
+<td align="center">为容器重新分配一个伪输入终端，通常与 -i 同时使用；</td>
+</tr>
+<tr>
+<td align="center">–name=“nginx-lb”</td>
+<td align="center">为容器指定一个名称；</td>
+</tr>
+<tr>
+<td align="center">–dns 8.8.8.8</td>
+<td align="center">指定容器使用的DNS服务器，默认和宿主一致；</td>
+</tr>
+<tr>
+<td align="center">–dns-search example.com</td>
+<td align="center">指定容器DNS搜索域名，默认和宿主一致；</td>
+</tr>
+<tr>
+<td align="center">-h “mars”</td>
+<td align="center">指定容器的hostname；</td>
+</tr>
+<tr>
+<td align="center">-e username=“ritchie”</td>
+<td align="center">设置环境变量；</td>
+</tr>
+<tr>
+<td align="center">–env-file=[]</td>
+<td align="center">从指定文件读入环境变量；</td>
+</tr>
+<tr>
+<td align="center">–cpuset=“0-2” or --cpuset=“0,1,2”</td>
+<td align="center">绑定容器到指定CPU运行；</td>
+</tr>
+<tr>
+<td align="center">-m</td>
+<td align="center">设置容器使用内存最大值；</td>
+</tr>
+<tr>
+<td align="center">–net=“bridge”</td>
+<td align="center">指定容器的网络连接类型，支持 bridge/host/none/</td>
+</tr>
+<tr>
+<td align="center">–link=[]</td>
+<td align="center">添加链接到另一个容器；</td>
+</tr>
+<tr>
+<td align="center">–expose=[]</td>
+<td align="center">开放一个端口或一组端口；</td>
+</tr>
+<tr>
+<td align="center">–volume , -v</td>
+<td align="center">绑定一个卷</td>
+</tr>
+</tbody>
+</table>
 <h4 id="dockervim-telnetifconfig">Docker下安装vim 、telnet、ifconfig命令</h4>
 <div class="hlcode"><pre><span class="cp"># 同步 /etc/apt/sources.list 和 /etc/apt/sources.list.d 中列出的源的索引，这样才能获取到最新的软件包。</span>
 <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">update</span>
