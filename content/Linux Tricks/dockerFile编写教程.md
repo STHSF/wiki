@@ -398,7 +398,7 @@ docker run -d --name portainerUI -p 9000:9000 -v /var/run/docker.sock:/var/run/d
 
 <center><img src="/wiki/static/images/docker/docker_run_failed.png" alt="run_failed" height="80" width="800"/></center>
 
-运行docker镜像的代码 ```docker run -q images:tags```
+运行docker镜像的代码 ```docker run -d images:tags```
 
 出现这种情况的主要原因是在启动docker镜像的时候没有指定执行命令, 此时, 就会执行Dockerfile中预设的CMD命令, 但是用于当时Dockerfile中的CMD命令是```CMD["usr", "bin", "bash"]```, 所以运行镜像会出现上图的错误. 
 
@@ -429,3 +429,5 @@ docker run -d --name portainerUI -p 9000:9000 -v /var/run/docker.sock:/var/run/d
 [python项目代码打包成Docker镜像](https://www.cnblogs.com/sammy1989/p/9406899.html)
 
 [Docker应用配置文件管理的正确姿势](https://www.sohu.com/a/156424469_151779)
+
+[docker run 的 -i -t -d参数](https://blog.csdn.net/qq_19381989/article/details/102781663)
