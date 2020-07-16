@@ -5,12 +5,12 @@ date: 2019-06-02 00:00
 ---
 [TOC]
 
-# 1、写在前面
+# 一 写在前面
 生成镜像的两种方法：dockerfile创建和手动创建
 
 Dockerfile是由一系列命令和参数构成的脚本，这些命令应用于基础镜像并最终创建一个新的镜像。它们简化了从头到尾的流程并极大的简化了部署工作。Dockerfile从FROM命令开始，紧接着跟随者各种方法，命令和参数。其产出为一个新的可以用于创建容器的镜像，类似于makefile
 
-# 2、Dockerfile基础知识
+# 二 Dockerfile基础知识
 ## 2.1 常用命令列表
 |部分 |命令 |
 |---|---|
@@ -185,7 +185,7 @@ src
 注意, docker的用户名和RUN产生的结果.
 
 
-# 3、基础镜像制作
+# 三 基础镜像制作
 基础镜像是镜像中运行的项目或者启动的一些服务，都要在一个基础镜像之上才能运行这些服务，比如一个django项目或者mysql数据库等，都要在Linux操作系统之上来运行，所以打包我们自己的项目时，必须要有个基础镜像来当作我们项目运行的基础环境。
 
 基础镜像一般为某个linux操作系统, 比如centos, ubuntu等. 里面可以包含一些通用的服务, 比如python版本,等等
@@ -290,7 +290,7 @@ docker build -t <REPOSITORY>:<TAG>
 这样,就可以生成一个基础镜像了.
 
 当然, 也可以有另外的方式进行安装, 比如, 我们可以直接pull一个纯净的镜像, 然后启动镜像, 在contanier中执行所需要的安装, 安装完成之后可以直接push成image, 这个image跟上面Dockerfile启动的基本上应该没什么区别
-# 4、项目镜像
+# 四 项目镜像
 基础镜像中包含了通用的一些信息, 这些信息大部分项目中都可能会用到, 或者需要跟某些正式环境中相互一致的信息, 而项目镜像中则需要根据不同项目的需求安装自己的库.比如某个项目需要使用到http和tcp服务等. 同时还可以把自己的项目代码通过Dockerfile复制到容器内, 熟练使用将会非常方便的部署Docker
 
 ## 4.1 项目镜像的Dockerfile(Ubuntu)
@@ -376,25 +376,25 @@ RUN yum clean all
 CMD ["bin/bash"]
 ```
 
-# 5、容器管理
+# 五 容器管理
 ## Portainer
 轻量级图形页面管理
-### 1、查看, 下载portainer镜像
+### 5.1、查看, 下载portainer镜像
 ```bash
 docker search portainer
 docker pull portainer/portainer
 ```
-### 2、启动dockerUI镜像
+### 5.2、启动dockerUI镜像
 ```
 docker run -d --name portainerUI -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer
 ```
 启动完成之后, 浏览器访问 http://IP:9000 , 设置一个密码即可，然后点击创建用户(Create user), 就可以在页面中查看和管理本地机器的docker了.
 
-# 6、kubernetes管理容器
+# 六、kubernetes管理容器
 
 
-# 7、坑
-### 1、CMD[]中的命令有问题
+# 七、坑
+### 7.1、CMD[]中的命令有问题
 
 <center><img src="/wiki/static/images/docker/docker_run_failed.png" alt="run_failed" height="80" width="800"/></center>
 
@@ -404,7 +404,7 @@ docker run -d --name portainerUI -p 9000:9000 -v /var/run/docker.sock:/var/run/d
 
 可以将CMD修改成通用的比如```CMD["/bin/bash"]```等. 
 
-### 2、执行```docker -d run```之后, 后台却没有启动
+### 7.2、执行```docker -d run```之后, 后台却没有启动
 - 想要后台运行docker, 然后使用```docker run -d --name server images:tags ```, 然后使用```docker ps ```查看, 却发现后台没有运行成功
 
 主要原因就是镜像构建过程中Dockerfile添加了```CMD["/bin/bash"]```命令, 意味着在执行```run -d ```在后台运行的时候，这个镜像创建的容器会首先执行/bin/bash，这意味着，当在后台运行（-d）时，shell立即退出。所以除非命令未在前台运行，否则容器会立即停止
@@ -420,7 +420,7 @@ docker run -d --name portainerUI -p 9000:9000 -v /var/run/docker.sock:/var/run/d
 
 
 
-# 7、参考文献
+# 八 参考文献
 [Docker Dockerfile 定制镜像](https://blog.csdn.net/wo18237095579/article/details/80540571)
 
 [将应用制作成镜像发布到服务器k8s上作为容器微服务运行](https://blog.csdn.net/luanpeng825485697/article/details/81256680)
