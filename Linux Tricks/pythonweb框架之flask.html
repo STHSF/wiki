@@ -5,7 +5,7 @@
     <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
     <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
-    <title>pythonweb框架之flask - LiYu's personal knowledge wiki</title>
+    <title>python Web框架之Flask - LiYu's personal knowledge wiki</title>
     <meta name="keywords" content="Technology, MachineLearning, DataMining, Economics"/>
     <meta name="description" content="A wiki website of sthsf when I learned new knowledgy and technics."/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -35,10 +35,10 @@
 <div id="container">
     
 <div id="header">
-  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Linux Tricks">Linux Tricks</a>&nbsp;»&nbsp;pythonweb框架之flask</div>
+  <div id="post-nav"><a href="/wiki/">Home</a>&nbsp;»&nbsp;<a href="/wiki/#Linux Tricks">Linux Tricks</a>&nbsp;»&nbsp;python Web框架之Flask</div>
 </div>
 <div class="clearfix"></div>
-<div id="title">pythonweb框架之flask</div>
+<div id="title">python Web框架之Flask</div>
 <div id="content">
   <h1 id="_1">写在前面</h1>
 <p>初识Flask, 会觉得Flask很容易上手, 刚开始用flask也写过一些小项目, 当初对WEB服务器和WEB框架没有什么太多的概念, 天真的认为只要在服务器上用nohup跑一个python脚本就算成功发布了一个flask项目, 如果简单的拿来测试,则基本够用. 如果作为工程项目的话这还会面临很多的问题, 比如并发性不好, 不支持异步等等. 换句话说, 使用python web.py来启动一个flask服务的方式是为了进行本地开发调试, 线上运行时则要保证更高的性能和稳定性. 实际上, 真正的做法是用某些WEB容器或者WEB服务器来启动项目.</p>
@@ -72,7 +72,12 @@
 
 
 <p>浏览器中访问<code>192.168.79.1:18008</code>, 页面会返回Hello, Word, 其中‘192.168.79.1’为宿主机ip, 18008:8000为宿主机和docker的端口映射.</p>
-<h1 id="q">参考文献:q</h1>
+<h1 id="flask">flask部署</h1>
+<p>nginx一般是用来反向代理用的，还能处理静态文件、ip控制等，是比较专业并且高性能的web服务器 </p>
+<p>gunicorn一般用来nohup、多进程和日志 </p>
+<p>当然用flask直接裸跑也可以，但是这样很多轮子就要自己实现了。 最好还是加一层nginx，起码可以缓冲http请求，python本身应该有很多包也可以支持相应功能，不过有没人人维护这些东西，就不知道了，不建议用。我也没听说过，基本百度不到这些包的文档。 </p>
+<p>将来业务起来了，如果需要水平拓展，flask裸跑会带来很多麻烦。</p>
+<h1 id="_5">参考文献</h1>
 <p><a href="https://www.cnblogs.com/sss4/p/8097653.html">PythonWEB框架之Flask</a></p>
 <p><a href="https://blog.csdn.net/tonydz0523/article/details/82701502">Ubuntu16.04 部署Flask应用若干方法（Apache2、Nginx）</a></p>
 <p><a href="https://blog.csdn.net/tonydz0523/article/details/82707569">Ubuntu16.04 将 Flaskapp 部署到Heroku 上</a></p>
@@ -91,7 +96,7 @@
 <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script type="text/javascript">
 const gitment = new Gitment({
-  title: 'pythonweb框架之flask',
+  title: 'python Web框架之Flask',
   owner: 'sthsf',
   repo: 'wiki',
   oauth: {
