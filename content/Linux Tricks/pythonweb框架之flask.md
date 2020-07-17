@@ -1,5 +1,5 @@
 ---
-title: "pythonweb框架之flask"
+title: "python Web框架之Flask"
 layout: page
 date: 2019-04-11 10:00
 ---
@@ -26,6 +26,8 @@ $\color{red}负责处理逻辑的服务器,$ 比如php, python的代码, 是不�
 
 
 # docker下配置和使用flask
+
+
 # 遇到的问题
 docker下编写server的时候, app.run()中host应该改写为‘0.0.0.0’, 如果使用默认设置或者设置contenner的其他ip为host, docker宿主机将不能访问, 其中port已经做了映射, 所以感觉跟port没有关系, 
 
@@ -45,7 +47,17 @@ if __name__ ==  '__main__':
 
 浏览器中访问```192.168.79.1:18008```, 页面会返回Hello, Word, 其中‘192.168.79.1’为宿主机ip, 18008:8000为宿主机和docker的端口映射.
 
-# 参考文献:q
+
+# flask部署
+nginx一般是用来反向代理用的，还能处理静态文件、ip控制等，是比较专业并且高性能的web服务器 
+
+gunicorn一般用来nohup、多进程和日志 
+
+当然用flask直接裸跑也可以，但是这样很多轮子就要自己实现了。 最好还是加一层nginx，起码可以缓冲http请求，python本身应该有很多包也可以支持相应功能，不过有没人人维护这些东西，就不知道了，不建议用。我也没听说过，基本百度不到这些包的文档。 
+
+将来业务起来了，如果需要水平拓展，flask裸跑会带来很多麻烦。
+
+# 参考文献
 
 [PythonWEB框架之Flask](https://www.cnblogs.com/sss4/p/8097653.html)
 
