@@ -90,6 +90,23 @@ c.Authenticator.whitelist = {'user1'}
 c.Authenticator.admin_users = {'ubuntu'}
 ```
 
+### 用户下创建env虚拟环境, 并且添加到jupyterhub中
+step1、首先在当前用户下使用```virtualenv```创建本地虚拟环境
+
+step2、该虚拟环境下安装ipykernel
+```
+pip install ipykernel
+```
+step3、 安装完ipykernel之后执行下面的命令
+```
+python -m ipykernel install --user --name [环境名]--display-name [简称]
+```
+例如
+```
+python -m ipykernel install --user --name  python_basic --display-name basic
+```
+然后重启当前用户的jupyterhubserver就可以看到该环境了
+
 ### jupyterhub的启动配置
 
 ### 使用nohup让程序在后台运行.
