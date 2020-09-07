@@ -47,6 +47,7 @@
 <li><a href="#jupyterhub_1">安装jupyterhub</a></li>
 <li><a href="#jupyterhub_2">配置jupyterhub</a></li>
 <li><a href="#_1">创建多用户</a></li>
+<li><a href="#env-jupyterhub">用户下创建env虚拟环境, 并且添加到jupyterhub中</a></li>
 <li><a href="#jupyterhub_3">jupyterhub的启动配置</a></li>
 <li><a href="#nohup">使用nohup让程序在后台运行.</a></li>
 <li><a href="#_2">开机运行</a></li>
@@ -153,6 +154,24 @@
 </pre></div>
 
 
+<h3 id="env-jupyterhub">用户下创建env虚拟环境, 并且添加到jupyterhub中</h3>
+<p>step1、首先在当前用户下使用<code>virtualenv</code>创建本地虚拟环境</p>
+<p>step2、该虚拟环境下安装ipykernel</p>
+<div class="hlcode"><pre><span class="n">pip</span> <span class="n">install</span> <span class="n">ipykernel</span>
+</pre></div>
+
+
+<p>step3、 安装完ipykernel之后执行下面的命令</p>
+<div class="hlcode"><pre><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">ipykernel</span> <span class="n">install</span> <span class="o">--</span><span class="n">user</span> <span class="o">--</span><span class="n">name</span> <span class="p">[</span><span class="err">环境名</span><span class="p">]</span><span class="o">--</span><span class="n">display</span><span class="o">-</span><span class="n">name</span> <span class="p">[</span><span class="err">简称</span><span class="p">]</span>
+</pre></div>
+
+
+<p>例如</p>
+<div class="hlcode"><pre><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">ipykernel</span> <span class="n">install</span> <span class="o">--</span><span class="n">user</span> <span class="o">--</span><span class="n">name</span>  <span class="n">python_basic</span> <span class="o">--</span><span class="n">display</span><span class="o">-</span><span class="n">name</span> <span class="n">basic</span>
+</pre></div>
+
+
+<p>然后重启当前用户的jupyterhubserver就可以看到该环境了</p>
 <h3 id="jupyterhub_3">jupyterhub的启动配置</h3>
 <h3 id="nohup">使用nohup让程序在后台运行.</h3>
 <p>注, 运行时好像需要在root用户下运行,其他用户运行可能会导致有的用户启动不了.如果想要使用sudo运行而不用root用户运行,可以参考<a href="https://github.com/jupyterhub/jupyterhub/wiki/Using-sudo-to-run-JupyterHub-without-root-privileges">Using sudo to run JupyterHub without root privileges</a></p>
