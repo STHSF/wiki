@@ -48,6 +48,9 @@
 <li><a href="#jupyterhub_2">配置jupyterhub</a></li>
 <li><a href="#_1">创建多用户</a></li>
 <li><a href="#env-jupyterhub">用户下创建env虚拟环境, 并且添加到jupyterhub中</a></li>
+</ul>
+</li>
+<li><a href="#jupyterhubjupyterlab">Jupyterhub中使用JupyterLab</a><ul>
 <li><a href="#jupyterhub_3">jupyterhub的启动配置</a></li>
 <li><a href="#nohup">使用nohup让程序在后台运行.</a></li>
 <li><a href="#_2">开机运行</a></li>
@@ -172,6 +175,24 @@
 
 
 <p>然后重启当前用户的jupyterhubserver就可以看到该环境了</p>
+<h2 id="jupyterhubjupyterlab">Jupyterhub中使用JupyterLab</h2>
+<p>1、安装jupyterlab</p>
+<div class="hlcode"><pre><span class="n">pip</span> <span class="n">install</span> <span class="n">jupyterlab</span>
+</pre></div>
+
+
+<p>2、配置jupyterhub_config.py文件<br />
+在jupyterhub_config.py文件中找到</p>
+<div class="hlcode"><pre><span class="n">c</span><span class="p">.</span><span class="n">Spawner</span><span class="p">.</span><span class="n">default_url</span><span class="o">=</span><span class="err">&#39;&#39;</span>
+</pre></div>
+
+
+<p>修改为:</p>
+<div class="hlcode"><pre><span class="n">c</span><span class="p">.</span><span class="n">Spawner</span><span class="p">.</span><span class="n">default_url</span><span class="o">=</span><span class="err">&#39;</span><span class="o">/</span><span class="n">lab</span><span class="err">&#39;</span>
+</pre></div>
+
+
+<p>重启jupyterhub, 即可.</p>
 <h3 id="jupyterhub_3">jupyterhub的启动配置</h3>
 <h3 id="nohup">使用nohup让程序在后台运行.</h3>
 <p>注, 运行时好像需要在root用户下运行,其他用户运行可能会导致有的用户启动不了.如果想要使用sudo运行而不用root用户运行,可以参考<a href="https://github.com/jupyterhub/jupyterhub/wiki/Using-sudo-to-run-JupyterHub-without-root-privileges">Using sudo to run JupyterHub without root privileges</a></p>
