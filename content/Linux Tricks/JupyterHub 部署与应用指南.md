@@ -107,6 +107,23 @@ python -m ipykernel install --user --name  python_basic --display-name basic
 ```
 然后重启当前用户的jupyterhubserver就可以看到该环境了
 
+## Jupyterhub中使用JupyterLab
+1、安装jupyterlab
+```
+pip install jupyterlab
+```
+
+2、配置jupyterhub_config.py文件
+在jupyterhub_config.py文件中找到
+```
+c.Spawner.default_url=''
+```
+修改为:
+```
+c.Spawner.default_url='/lab'
+```
+重启jupyterhub, 即可.
+
 ### jupyterhub的启动配置
 
 ### 使用nohup让程序在后台运行.
