@@ -106,6 +106,7 @@ python -m ipykernel install --user --name [环境名]--display-name [简称]
 python -m ipykernel install --user --name  env1 --display-name env1
 ```
 然后重启当前用户的jupyterhubserver就可以看到该环境了
+
 样例：
 ```
 (env1) [ly@deepq venv]$ python -m ipykernel install --user --name env1 --display-name env1
