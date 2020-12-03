@@ -103,9 +103,14 @@ python -m ipykernel install --user --name [环境名]--display-name [简称]
 ```
 例如
 ```
-python -m ipykernel install --user --name  python_basic --display-name basic
+python -m ipykernel install --user --name  env1 --display-name env1
 ```
 然后重启当前用户的jupyterhubserver就可以看到该环境了
+样例：
+```
+(env1) [ly@deepq venv]$ python -m ipykernel install --user --name env1 --display-name env1
+Installed kernelspec env1 in /home/ly/.local/share/jupyter/kernels/env1
+```
 
 ## Jupyterhub中使用JupyterLab
 1、安装jupyterlab
@@ -124,7 +129,33 @@ c.Spawner.default_url='/lab'
 ```
 重启jupyterhub, 即可.
 
-### jupyterhub的启动配置
+## jupyterhub 插件
+### jupyterlab-execute-time
+jupyterlab-execute-time插件帮助我们在jupyter lab中记录每个单元cell的执行开始以及运行耗时
+```
+jupyter labextension install jupyterlab-execute-time
+```
+### jupyterlab-drawio
+jupyterlab-drawio是一个让我们可以在jupyter lab界面内基于drawio绘制流程图、思维导图等示意图的插件：
+```
+jupyter labextension install jupyterlab-drawio
+```
+
+### jupyterlab-spreadsheet
+jupyterlab-spreadsheet帮助我们在jupyter lab中查看表格类文件，特别是其支持查看多工作表的excel表格文件：
+```
+jupyter labextension install jupyterlab-spreadsheet
+```
+### jupyterlab-system-monitor
+jupyterlab-system-monitor通过在jupyter lab界面中添加资源监视器部件，能帮助我们在工作过程中方便的看到CPU、内存的实时占用情况：
+```
+pip install nbresuse
+jupyter labextension install jupyterlab-topbar-extension jupyterlab-system-monitor
+```
+
+
+
+## jupyterhub的启动配置
 
 ### 使用nohup让程序在后台运行.
 注, 运行时好像需要在root用户下运行,其他用户运行可能会导致有的用户启动不了.如果想要使用sudo运行而不用root用户运行,可以参考[Using sudo to run JupyterHub without root privileges](https://github.com/jupyterhub/jupyterhub/wiki/Using-sudo-to-run-JupyterHub-without-root-privileges)
