@@ -357,6 +357,32 @@ nodejs: /usr/bin/nodejs /usr/lib/nodejs /usr/include/nodejs /usr/share/nodejs /u
 
 **ps**网上说npm的镜像在国外, 也有可能自己在使用npm升级的时候没有升级成功, 导致一系列的错误, 但是升级不成功他也不能没有提示吧. 有空可以设置使用淘宝镜像然后再尝试尝试.
 
+# jupyterhub用户登陆失败
+使用某一个用户登陆成功，然后退出，使用另外一个用户登陆失败。
+```
+[I 2020-12-03 10:35:28.350 JupyterHub login:43] User logged out: ly
+[I 2020-12-03 10:35:28.368 JupyterHub log:181] 302 GET /hub/logout -> /hub/login (@::ffff:192.168.11.51) 20.69ms
+[I 2020-12-03 10:35:28.387 JupyterHub log:181] 200 GET /hub/login (@::ffff:192.168.11.51) 5.69ms
+[W 2020-12-03 10:35:34.858 JupyterHub auth:1032] PAM Authentication failed (cxh@::ffff:192.168.11.51): [PAM Error 7] Authentication failure
+[W 2020-12-03 10:35:34.859 JupyterHub base:762] Failed login for cxh
+[I 2020-12-03 10:35:34.861 JupyterHub log:181] 200 POST /hub/login?next= (@::ffff:192.168.11.51) 1971.52ms
+[I 2020-12-03 10:35:38.887 JupyterHub log:181] 302 GET /hub/ -> /hub/login?next=%2Fhub%2F (@::ffff:192.168.11.51) 1.16ms
+[I 2020-12-03 10:35:38.900 JupyterHub log:181] 200 GET /hub/login?next=%2Fhub%2F (@::ffff:192.168.11.51) 1.21ms
+[I 2020-12-03 10:35:39.618 JupyterHub log:181] 302 GET /hub/ -> /hub/login?next=%2Fhub%2F (@::ffff:192.168.11.51) 0.89ms
+[I 2020-12-03 10:35:40.267 JupyterHub log:181] 302 GET /hub/ -> /hub/login?next=%2Fhub%2F (@::ffff:192.168.11.51) 0.53ms
+[W 2020-12-03 10:35:49.040 JupyterHub auth:1032] PAM Authentication failed (cxh@::ffff:192.168.11.51): [PAM Error 7] Authentication failure
+[W 2020-12-03 10:35:49.041 JupyterHub base:762] Failed login for cxh
+```
+解决方法：
+在配置文件在jupyterhub_config.py中添加以下代码：
+```
+c.PAMAuthenticator.open_sessions = False
+```
+
+
+参考文献：
+[PAM Authentication failed (adaragso@x.x.x.x): [PAM Error 3] Error in service module #2235](https://github.com/jupyterhub/jupyterhub/issues/2235)
+[Centos搭建jupyterhub环境](https://zhuanlan.zhihu.com/p/57727463)
 
 # jupyterhub下使用tensorflow-gpu产生的错误
 [update2019-09-19]使用jupyter的过程出现了一个奇怪的问题, 在终端下测试使用tensorflow调用gpu的情况没有问题, 但是在jupyter使用同样的代码则检测不到gpu
