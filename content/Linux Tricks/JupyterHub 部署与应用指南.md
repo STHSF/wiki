@@ -153,8 +153,6 @@ pip install nbresuse
 jupyter labextension install jupyterlab-topbar-extension jupyterlab-system-monitor
 ```
 
-
-
 ## jupyterhub的启动配置
 
 ### 使用nohup让程序在后台运行.
