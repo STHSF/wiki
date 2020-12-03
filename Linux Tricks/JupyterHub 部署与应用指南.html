@@ -50,11 +50,18 @@
 <li><a href="#env-jupyterhub">用户下创建env虚拟环境, 并且添加到jupyterhub中</a></li>
 </ul>
 </li>
-<li><a href="#jupyterhubjupyterlab">Jupyterhub中使用JupyterLab</a><ul>
-<li><a href="#jupyterhub_3">jupyterhub的启动配置</a></li>
+<li><a href="#jupyterhubjupyterlab">Jupyterhub中使用JupyterLab</a></li>
+<li><a href="#jupyterhub_3">jupyterhub 插件</a><ul>
+<li><a href="#jupyterlab-execute-time">jupyterlab-execute-time</a></li>
+<li><a href="#jupyterlab-drawio">jupyterlab-drawio</a></li>
+<li><a href="#jupyterlab-spreadsheet">jupyterlab-spreadsheet</a></li>
+<li><a href="#jupyterlab-system-monitor">jupyterlab-system-monitor</a></li>
+</ul>
+</li>
+<li><a href="#jupyterhub_4">jupyterhub的启动配置</a><ul>
 <li><a href="#nohup">使用nohup让程序在后台运行.</a></li>
 <li><a href="#_2">开机运行</a></li>
-<li><a href="#jupyterhub_4">jupyterhub启用代理</a></li>
+<li><a href="#jupyterhub_5">jupyterhub启用代理</a></li>
 </ul>
 </li>
 <li><a href="#2docker-jupyterhub">2、Docker 下安装配置jupyterhub</a><ul>
@@ -68,7 +75,7 @@
 </li>
 </ul>
 </li>
-<li><a href="#jupyterhub_5">jupyterhub用户登陆失败</a></li>
+<li><a href="#jupyterhub_6">jupyterhub用户登陆失败</a></li>
 <li><a href="#jupyterhubtensorflow-gpu">jupyterhub下使用tensorflow-gpu产生的错误</a></li>
 <li><a href="#_3">参考文献</a></li>
 </ul>
@@ -171,11 +178,17 @@
 
 
 <p>例如</p>
-<div class="hlcode"><pre><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">ipykernel</span> <span class="n">install</span> <span class="o">--</span><span class="n">user</span> <span class="o">--</span><span class="n">name</span>  <span class="n">python_basic</span> <span class="o">--</span><span class="n">display</span><span class="o">-</span><span class="n">name</span> <span class="n">basic</span>
+<div class="hlcode"><pre><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">ipykernel</span> <span class="n">install</span> <span class="o">--</span><span class="n">user</span> <span class="o">--</span><span class="n">name</span>  <span class="n">env1</span> <span class="o">--</span><span class="n">display</span><span class="o">-</span><span class="n">name</span> <span class="n">env1</span>
 </pre></div>
 
 
-<p>然后重启当前用户的jupyterhubserver就可以看到该环境了</p>
+<p>然后重启当前用户的jupyterhubserver就可以看到该环境了<br />
+样例：</p>
+<div class="hlcode"><pre><span class="p">(</span><span class="n">env1</span><span class="p">)</span> <span class="p">[</span><span class="n">ly</span><span class="err">@</span><span class="n">deepq</span> <span class="n">venv</span><span class="p">]</span><span class="err">$</span> <span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">ipykernel</span> <span class="n">install</span> <span class="o">--</span><span class="n">user</span> <span class="o">--</span><span class="n">name</span> <span class="n">env1</span> <span class="o">--</span><span class="n">display</span><span class="o">-</span><span class="n">name</span> <span class="n">env1</span>
+<span class="n">Installed</span> <span class="n">kernelspec</span> <span class="n">env1</span> <span class="n">in</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">ly</span><span class="o">/</span><span class="p">.</span><span class="n">local</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">jupyter</span><span class="o">/</span><span class="n">kernels</span><span class="o">/</span><span class="n">env1</span>
+</pre></div>
+
+
 <h2 id="jupyterhubjupyterlab">Jupyterhub中使用JupyterLab</h2>
 <p>1、安装jupyterlab</p>
 <div class="hlcode"><pre><span class="n">pip</span> <span class="n">install</span> <span class="n">jupyterlab</span>
@@ -194,7 +207,33 @@
 
 
 <p>重启jupyterhub, 即可.</p>
-<h3 id="jupyterhub_3">jupyterhub的启动配置</h3>
+<h2 id="jupyterhub_3">jupyterhub 插件</h2>
+<h3 id="jupyterlab-execute-time">jupyterlab-execute-time</h3>
+<p>jupyterlab-execute-time插件帮助我们在jupyter lab中记录每个单元cell的执行开始以及运行耗时</p>
+<div class="hlcode"><pre><span class="n">jupyter</span> <span class="n">labextension</span> <span class="n">install</span> <span class="n">jupyterlab</span><span class="o">-</span><span class="n">execute</span><span class="o">-</span><span class="n">time</span>
+</pre></div>
+
+
+<h3 id="jupyterlab-drawio">jupyterlab-drawio</h3>
+<p>jupyterlab-drawio是一个让我们可以在jupyter lab界面内基于drawio绘制流程图、思维导图等示意图的插件：</p>
+<div class="hlcode"><pre><span class="n">jupyter</span> <span class="n">labextension</span> <span class="n">install</span> <span class="n">jupyterlab</span><span class="o">-</span><span class="n">drawio</span>
+</pre></div>
+
+
+<h3 id="jupyterlab-spreadsheet">jupyterlab-spreadsheet</h3>
+<p>jupyterlab-spreadsheet帮助我们在jupyter lab中查看表格类文件，特别是其支持查看多工作表的excel表格文件：</p>
+<div class="hlcode"><pre><span class="n">jupyter</span> <span class="n">labextension</span> <span class="n">install</span> <span class="n">jupyterlab</span><span class="o">-</span><span class="n">spreadsheet</span>
+</pre></div>
+
+
+<h3 id="jupyterlab-system-monitor">jupyterlab-system-monitor</h3>
+<p>jupyterlab-system-monitor通过在jupyter lab界面中添加资源监视器部件，能帮助我们在工作过程中方便的看到CPU、内存的实时占用情况：</p>
+<div class="hlcode"><pre><span class="n">pip</span> <span class="n">install</span> <span class="n">nbresuse</span>
+<span class="n">jupyter</span> <span class="n">labextension</span> <span class="n">install</span> <span class="n">jupyterlab</span><span class="o">-</span><span class="n">topbar</span><span class="o">-</span><span class="n">extension</span> <span class="n">jupyterlab</span><span class="o">-</span><span class="n">system</span><span class="o">-</span><span class="n">monitor</span>
+</pre></div>
+
+
+<h2 id="jupyterhub_4">jupyterhub的启动配置</h2>
 <h3 id="nohup">使用nohup让程序在后台运行.</h3>
 <p>注, 运行时好像需要在root用户下运行,其他用户运行可能会导致有的用户启动不了.如果想要使用sudo运行而不用root用户运行,可以参考<a href="https://github.com/jupyterhub/jupyterhub/wiki/Using-sudo-to-run-JupyterHub-without-root-privileges">Using sudo to run JupyterHub without root privileges</a></p>
 <div class="hlcode"><pre><span class="n">nohup</span> <span class="n">jupyterhub</span> <span class="o">&gt;</span> <span class="n">jupyterhub</span><span class="p">.</span><span class="n">log</span> <span class="o">&amp;</span>
@@ -225,7 +264,7 @@
 </pre></div>
 
 
-<h3 id="jupyterhub_4">jupyterhub启用代理</h3>
+<h3 id="jupyterhub_5">jupyterhub启用代理</h3>
 <p>为了方便安全使用, 下面介绍使用nginx代理</p>
 <div class="hlcode"><pre><span class="n">server</span> <span class="p">{</span>
     <span class="n">listen</span> <span class="mi">443</span> <span class="n">ssl</span> <span class="n">http2</span><span class="p">;</span>
@@ -409,7 +448,7 @@
 <p>权限问题,一脸懵,所有的操作都是root用户,又去查看了node_modules这个文件,发现用户名是nobody,又是一脸懵.算了,使用777修改文件夹的权限.修改完之后重新运行jupyterhu还是同样的问题,这个问题就没有解决了,最后还是使用上面的的教程,从官网下载nodejs替换之后两个问题都没有出现,jupyterhub可以在docker上启动,其他配置需要自己配置.</p>
 <p><strong>ps</strong>,之前学习使用nodejs的时候刚开始也是使用npm来做程序管理的, 但是是由于npm一直无法更新到最新, 后来才从源码安装的.</p>
 <p><strong>ps</strong>网上说npm的镜像在国外, 也有可能自己在使用npm升级的时候没有升级成功, 导致一系列的错误, 但是升级不成功他也不能没有提示吧. 有空可以设置使用淘宝镜像然后再尝试尝试.</p>
-<h1 id="jupyterhub_5">jupyterhub用户登陆失败</h1>
+<h1 id="jupyterhub_6">jupyterhub用户登陆失败</h1>
 <p>使用某一个用户登陆成功，然后退出，使用另外一个用户登陆失败。</p>
 <div class="hlcode"><pre><span class="p">[</span><span class="n">I</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mo">03</span> <span class="mi">10</span><span class="o">:</span><span class="mi">35</span><span class="o">:</span><span class="mf">28.350</span> <span class="n">JupyterHub</span> <span class="n">login</span><span class="o">:</span><span class="mi">43</span><span class="p">]</span> <span class="n">User</span> <span class="n">logged</span> <span class="n">out</span><span class="o">:</span> <span class="n">ly</span>
 <span class="p">[</span><span class="n">I</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mo">03</span> <span class="mi">10</span><span class="o">:</span><span class="mi">35</span><span class="o">:</span><span class="mf">28.368</span> <span class="n">JupyterHub</span> <span class="n">log</span><span class="o">:</span><span class="mi">181</span><span class="p">]</span> <span class="mi">302</span> <span class="n">GET</span> <span class="o">/</span><span class="n">hub</span><span class="o">/</span><span class="n">logout</span> <span class="o">-&gt;</span> <span class="o">/</span><span class="n">hub</span><span class="o">/</span><span class="n">login</span> <span class="p">(</span><span class="err">@</span><span class="o">::</span><span class="n">ffff</span><span class="o">:</span><span class="mf">192.168.11.51</span><span class="p">)</span> <span class="mf">20.69</span><span class="n">ms</span>
