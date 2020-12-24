@@ -5,12 +5,12 @@ date: 2019-03-02 00:00
 ---
 [TOC]
 
-# 1、JupyterHub on Kubernetes部署与应用指南
+# 1 JupyterHub on Kubernetes部署与应用指南
 
-# jupyterHub 安装
-## 1、virtualenv 下安装与配置
+# 2 jupyterHub 安装
+## 2.1 virtualenv 下安装与配置
 
-### 安装jupyterhub
+### 2.1.1 安装jupyterhub
 在装好的虚拟环境下安装jupyterhub,首先要保证使用的python版本是3.0以上的版本,官方说明只支持3.0以上的版本.
 ```
 pip install jupyterhub
@@ -24,7 +24,7 @@ sudo apt-get install npm nodejs-legacy
 pip install --upgrade notebook
 ```
 
-### 配置jupyterhub
+### 2.1.2 配置jupyterhub
 
 ```
 jupyterhub --generate-config
@@ -74,7 +74,7 @@ c.Spawner.notebook_dir = '~/notebook'
 c.Spawner.notebook_dir = 'home/ubuntu/notebook'
 ```
 
-### 创建多用户
+### 2.1.3 创建多用户
 首先除了当前root用户之外,我们还可以新建其他的用户作为普通用户,这个还是跟linux下添加用户一样
 ```
 adduser user1
@@ -90,7 +90,7 @@ c.Authenticator.whitelist = {'user1'}
 c.Authenticator.admin_users = {'ubuntu'}
 ```
 
-### 非root用户下创建env虚拟环境, 并且添加到jupyterhub中
+### 2.1.4 非root用户下创建env虚拟环境, 并且添加到jupyterhub中
 step1、首先在当前用户下使用```virtualenv```创建本地虚拟环境
 
 step2、该虚拟环境下安装ipykernel
@@ -122,7 +122,7 @@ Available kernels:
   python3          /usr/local/share/jupyter/kernels/python3
 ```
 
-### root用户下创建多个版本的虚拟环境，并且添加到jupyterhub中
+### 2.1.5 root用户下创建多个版本的虚拟环境，并且添加到jupyterhub中
 step1、首先在root用户下使用```virtualenv```创建多个虚拟环境
 
 例如：
@@ -206,7 +206,7 @@ Available kernels:
 ***与非root用户下创建env虚拟环境的虚拟环境相比多了两个可用的虚拟环境。***
 
 
-## Jupyterhub中使用JupyterLab
+## 2.2 Jupyterhub中使用JupyterLab
 1、安装jupyterlab
 ```
 pip install jupyterlab
@@ -223,38 +223,38 @@ c.Spawner.default_url='/lab'
 ```
 重启jupyterhub, 即可.
 
-## jupyterhub 插件
-### jupyterlab-execute-time
+## 2.3 jupyterhub 插件
+### 2.3.1 jupyterlab-execute-time
 jupyterlab-execute-time插件帮助我们在jupyter lab中记录每个单元cell的执行开始以及运行耗时
 ```
 jupyter labextension install jupyterlab-execute-time
 ```
-### jupyterlab-drawio
+### 2.3.2 jupyterlab-drawio
 jupyterlab-drawio是一个让我们可以在jupyter lab界面内基于drawio绘制流程图、思维导图等示意图的插件：
 ```
 jupyter labextension install jupyterlab-drawio
 ```
 
-### jupyterlab-spreadsheet
+### 2.3.3 jupyterlab-spreadsheet
 jupyterlab-spreadsheet帮助我们在jupyter lab中查看表格类文件，特别是其支持查看多工作表的excel表格文件：
 ```
 jupyter labextension install jupyterlab-spreadsheet
 ```
-### jupyterlab-system-monitor
+### 2.3.4 jupyterlab-system-monitor
 jupyterlab-system-monitor通过在jupyter lab界面中添加资源监视器部件，能帮助我们在工作过程中方便的看到CPU、内存的实时占用情况：
 ```
 pip install nbresuse
 jupyter labextension install jupyterlab-topbar-extension jupyterlab-system-monitor
 ```
 
-## jupyterhub的启动配置
+## 2.3 jupyterhub的启动配置
 
-### 使用nohup让程序在后台运行.
+### 2.3.1 使用nohup让程序在后台运行.
 注, 运行时好像需要在root用户下运行,其他用户运行可能会导致有的用户启动不了.如果想要使用sudo运行而不用root用户运行,可以参考[Using sudo to run JupyterHub without root privileges](https://github.com/jupyterhub/jupyterhub/wiki/Using-sudo-to-run-JupyterHub-without-root-privileges)
 ```
 nohup jupyterhub > jupyterhub.log &
 ```
-### 开机运行
+### 2.3.2 开机运行
 开机配置
 ```
 sudo cat  /etc/systemd/system/jupyterhub.service  
@@ -276,7 +276,7 @@ sudo systemctl daemon-reload     # 加载配置文件
 sudo systemctl start jupyterhub  # 启动
 sudo journalctl -u jupyterhub    # 查看log
 ```
-### jupyterhub启用代理
+### 2.3.3 jupyterhub启用代理
 为了方便安全使用, 下面介绍使用nginx代理
 ```
 server {
@@ -316,20 +316,20 @@ server {
 ```
 
 
-## 2、Docker 下安装配置jupyterhub
-#### 1、pull 一个纯净的ubuntu环境
-#### 2、进入ubuntu docker, 安装相关软件, 这里仅考虑安装的最基本的应用需求, 其他需要自行下载.
+## 3 Docker 下安装配置jupyterhub
+#### 3.1 pull 一个纯净的ubuntu环境
+#### 3.2 进入ubuntu docker, 安装相关软件, 这里仅考虑安装的最基本的应用需求, 其他需要自行下载.
 ```
 python3
 vim
 ```
 docker下的应用的安装和使用可以参见[Docker使用教程](https://sthsf.github.io/wiki/Linux%20Tricks/docker%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html)和[python3.5升级到python3.6](https://sthsf.github.io/wiki/Linux%20Tricks/python3.5%E5%8D%87%E7%BA%A7%E5%88%B0python3.6.html)中的相关内容.
 
-#### 3、安装基于python3的虚拟环境
+#### 3.3 安装基于python3的虚拟环境
 虚拟环境的使用参考[virtualenv使用教程](https://sthsf.github.io/wiki/Linux%20Tricks/virtualenv%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B.html)
 
 当然你也可以使用annaconda进行安装, 据说annaconda安装不会出现下面的问题.
-#### 4、配置好之后进入虚拟环境, 使用pip安装和生成jupyterhub配置文件, 同第一节中的安装方式.
+#### 3.4 配置好之后进入虚拟环境, 使用pip安装和生成jupyterhub配置文件, 同第一节中的安装方式.
 
 在执行过程中会出现下面的错误, 正确的使用方式如下:
 
@@ -352,7 +352,7 @@ export NODEJS_HOME
 
 ***这时候也可以使用源码安装node后自带的npm来安装```configurable-http-proxy```, 安装好后就不需要在jupyterhub_config.py中配置了***
 
-#### 5、在配置文件目录下运行jupyterhub,其他配置没有改变,结束.
+#### 3.5 在配置文件目录下运行jupyterhub,其他配置没有改变,结束.
 Docker下运行配置,与非docker下的情况类似,主要是如何访问docker下的jupyterhub,下面提供一个简单的访问使用方式
 - 1、设置docker容器和宿主机的端口映射,这个在运行docker的时候设置, 例如:
 ```
