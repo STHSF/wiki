@@ -47,7 +47,8 @@
 <li><a href="#jupyterhub_1">安装jupyterhub</a></li>
 <li><a href="#jupyterhub_2">配置jupyterhub</a></li>
 <li><a href="#_1">创建多用户</a></li>
-<li><a href="#env-jupyterhub">用户下创建env虚拟环境, 并且添加到jupyterhub中</a></li>
+<li><a href="#rootenv-jupyterhub">非root用户下创建env虚拟环境, 并且添加到jupyterhub中</a></li>
+<li><a href="#rootjupyterhub">root用户下创建多个版本的虚拟环境，并且添加到jupyterhub中</a></li>
 </ul>
 </li>
 <li><a href="#jupyterhubjupyterlab">Jupyterhub中使用JupyterLab</a></li>
@@ -165,7 +166,7 @@
 </pre></div>
 
 
-<h3 id="env-jupyterhub">用户下创建env虚拟环境, 并且添加到jupyterhub中</h3>
+<h3 id="rootenv-jupyterhub">非root用户下创建env虚拟环境, 并且添加到jupyterhub中</h3>
 <p>step1、首先在当前用户下使用<code>virtualenv</code>创建本地虚拟环境</p>
 <p>step2、该虚拟环境下安装ipykernel</p>
 <div class="hlcode"><pre><span class="n">pip</span> <span class="n">install</span> <span class="n">ipykernel</span>
@@ -182,13 +183,105 @@
 </pre></div>
 
 
-<p>然后重启当前用户的jupyterhubserver就可以看到该环境了</p>
+<p>然后重启当前用户的jupyterhub server就可以看到该环境了</p>
 <p>样例：</p>
 <div class="hlcode"><pre><span class="p">(</span><span class="n">env1</span><span class="p">)</span> <span class="p">[</span><span class="n">ly</span><span class="err">@</span><span class="n">deepq</span> <span class="n">venv</span><span class="p">]</span><span class="err">$</span> <span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">ipykernel</span> <span class="n">install</span> <span class="o">--</span><span class="n">user</span> <span class="o">--</span><span class="n">name</span> <span class="n">env1</span> <span class="o">--</span><span class="n">display</span><span class="o">-</span><span class="n">name</span> <span class="n">env1</span>
 <span class="n">Installed</span> <span class="n">kernelspec</span> <span class="n">env1</span> <span class="n">in</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">ly</span><span class="o">/</span><span class="p">.</span><span class="n">local</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">jupyter</span><span class="o">/</span><span class="n">kernels</span><span class="o">/</span><span class="n">env1</span>
 </pre></div>
 
 
+<p>在非root用户下查看当前可使用的环境：</p>
+<div class="hlcode"><pre><span class="p">[</span><span class="n">liyu</span><span class="err">@</span><span class="n">localhost</span> <span class="n">virtualenv</span><span class="p">]</span><span class="err">$</span> <span class="n">jupyter</span> <span class="n">kernelspec</span> <span class="n">list</span>
+<span class="n">Available</span> <span class="n">kernels</span><span class="o">:</span>
+  <span class="n">tensorflow2</span><span class="mf">.3</span>    <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">liyu</span><span class="o">/</span><span class="p">.</span><span class="n">local</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">jupyter</span><span class="o">/</span><span class="n">kernels</span><span class="o">/</span><span class="n">tensorflow2</span><span class="mf">.3</span>
+  <span class="n">tf1</span><span class="mf">.0</span>            <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">liyu</span><span class="o">/</span><span class="p">.</span><span class="n">local</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">jupyter</span><span class="o">/</span><span class="n">kernels</span><span class="o">/</span><span class="n">tf1</span><span class="mf">.0</span>
+  <span class="n">venv</span>             <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">liyu</span><span class="o">/</span><span class="p">.</span><span class="n">local</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">jupyter</span><span class="o">/</span><span class="n">kernels</span><span class="o">/</span><span class="n">venv</span>
+  <span class="n">python3</span>          <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">jupyter</span><span class="o">/</span><span class="n">kernels</span><span class="o">/</span><span class="n">python3</span>
+</pre></div>
+
+
+<h3 id="rootjupyterhub">root用户下创建多个版本的虚拟环境，并且添加到jupyterhub中</h3>
+<p>step1、首先在root用户下使用<code>virtualenv</code>创建多个虚拟环境</p>
+<p>例如：<br />
+在root用户下，使用<code>vitrualenv</code>创建名为<code>tensorflow1.0</code>, <code>tensorflow2.4</code>的虚拟环境</p>
+<div class="hlcode"><pre><span class="p">(</span><span class="n">env</span><span class="p">)</span> <span class="p">[</span><span class="n">root</span><span class="err">@</span><span class="n">localhost</span> <span class="n">jupyterhub</span><span class="p">]</span><span class="err">#</span> <span class="n">tree</span> <span class="o">-</span><span class="n">L</span> <span class="mi">2</span>
+<span class="p">.</span>
+<span class="err">├──</span> <span class="n">env</span>
+<span class="err">│  </span> <span class="err">├──</span> <span class="n">bin</span>
+<span class="err">│  </span> <span class="err">├──</span> <span class="n">lib</span>
+<span class="err">│  </span> <span class="err">├──</span> <span class="n">lib64</span>
+<span class="err">│  </span> <span class="err">└──</span> <span class="n">pyvenv</span><span class="p">.</span><span class="n">cfg</span>
+<span class="err">├──</span> <span class="n">tensorflow1</span><span class="mf">.0</span>
+<span class="err">│  </span> <span class="err">├──</span> <span class="n">bin</span>
+<span class="err">│  </span> <span class="err">├──</span> <span class="n">lib</span>
+<span class="err">│  </span> <span class="err">├──</span> <span class="n">lib64</span>
+<span class="err">│  </span> <span class="err">└──</span> <span class="n">pyvenv</span><span class="p">.</span><span class="n">cfg</span>
+<span class="err">└──</span> <span class="n">tensorflow2</span><span class="mf">.4</span>
+    <span class="err">├──</span> <span class="n">bin</span>
+    <span class="err">├──</span> <span class="n">lib</span>
+    <span class="err">├──</span> <span class="n">lib64</span>
+    <span class="err">└──</span> <span class="n">pyvenv</span><span class="p">.</span><span class="n">cfg</span>
+</pre></div>
+
+
+<p>step2、该虚拟环境下安装ipykernel</p>
+<div class="hlcode"><pre><span class="n">pip</span> <span class="n">install</span> <span class="n">ipykernel</span>
+</pre></div>
+
+
+<p>step3、 安装完ipykernel之后执行下面的命令</p>
+<div class="hlcode"><pre><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">ipykernel</span> <span class="n">install</span> <span class="o">--</span><span class="n">name</span> <span class="p">[</span><span class="err">环境名</span><span class="p">]</span><span class="o">--</span><span class="n">display</span><span class="o">-</span><span class="n">name</span> <span class="p">[</span><span class="err">简称</span><span class="p">]</span>
+</pre></div>
+
+
+<p><strong><em>注，与非root用户下指定环境的区别在于没有使用--user命令</em></strong></p>
+<p>例如</p>
+<div class="hlcode"><pre><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">ipykernel</span> <span class="n">install</span> <span class="o">--</span><span class="n">name</span>  <span class="n">tensorflow1</span><span class="mf">.0</span> <span class="o">--</span><span class="n">display</span><span class="o">-</span><span class="n">name</span> <span class="n">tensorflow1</span><span class="mf">.0</span>
+
+<span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">ipykernel</span> <span class="n">install</span> <span class="o">--</span><span class="n">name</span>  <span class="n">tensorflow2</span><span class="mf">.4</span> <span class="o">--</span><span class="n">display</span><span class="o">-</span><span class="n">name</span> <span class="n">tensorflow2</span><span class="mf">.4</span>
+</pre></div>
+
+
+<p><strong>注</strong></p>
+<p><strong><em>jupyterhub服务 不需要重启</em></strong></p>
+<p><strong>查看可以使用的公用环境</strong></p>
+<p>查看命令如下：</p>
+<div class="hlcode"><pre><span class="n">jupyter</span> <span class="n">kernelspec</span> <span class="n">list</span>
+</pre></div>
+
+
+<p>例如：<br />
+查看step3创建的环境：</p>
+<div class="hlcode"><pre><span class="p">(</span><span class="n">env</span><span class="p">)</span> <span class="p">[</span><span class="n">root</span><span class="err">@</span><span class="n">localhost</span> <span class="n">jupyterhub</span><span class="p">]</span><span class="err">#</span> <span class="n">jupyter</span> <span class="n">kernelspec</span> <span class="n">list</span>
+<span class="n">Available</span> <span class="n">kernels</span><span class="o">:</span>
+  <span class="n">python3</span>          <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">jupyterhub</span><span class="o">/</span><span class="n">env</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">jupyter</span><span class="o">/</span><span class="n">kernels</span><span class="o">/</span><span class="n">python3</span>
+  <span class="n">tensorflow1</span><span class="mf">.0</span>    <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">jupyter</span><span class="o">/</span><span class="n">kernels</span><span class="o">/</span><span class="n">tensorflow1</span><span class="mf">.0</span>
+  <span class="n">tensorflow2</span><span class="mf">.4</span>    <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">jupyter</span><span class="o">/</span><span class="n">kernels</span><span class="o">/</span><span class="n">tensorflow2</span><span class="mf">.4</span>
+</pre></div>
+
+
+<p>退出(<code>deactivate</code>)当前使用的虚拟环境查看的区别如下:</p>
+<div class="hlcode"><pre><span class="p">[</span><span class="n">root</span><span class="err">@</span><span class="n">localhost</span> <span class="n">virtualenv</span><span class="p">]</span><span class="err">#</span> <span class="n">jupyter</span> <span class="n">kernelspec</span> <span class="n">list</span>
+<span class="n">Available</span> <span class="n">kernels</span><span class="o">:</span>
+  <span class="n">python3</span>          <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">jupyter</span><span class="o">/</span><span class="n">kernels</span><span class="o">/</span><span class="n">python3</span>
+  <span class="n">tensorflow1</span><span class="mf">.0</span>    <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">jupyter</span><span class="o">/</span><span class="n">kernels</span><span class="o">/</span><span class="n">tensorflow1</span><span class="mf">.0</span>
+  <span class="n">tensorflow2</span><span class="mf">.4</span>    <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">jupyter</span><span class="o">/</span><span class="n">kernels</span><span class="o">/</span><span class="n">tensorflow2</span><span class="mf">.4</span>
+</pre></div>
+
+
+<p>在非root用户下查看当前可使用的环境：</p>
+<div class="hlcode"><pre><span class="p">[</span><span class="n">liyu</span><span class="err">@</span><span class="n">localhost</span> <span class="n">virtualenv</span><span class="p">]</span><span class="err">$</span> <span class="n">jupyter</span> <span class="n">kernelspec</span> <span class="n">list</span>
+<span class="n">Available</span> <span class="n">kernels</span><span class="o">:</span>
+  <span class="n">tensorflow2</span><span class="mf">.3</span>    <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">liyu</span><span class="o">/</span><span class="p">.</span><span class="n">local</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">jupyter</span><span class="o">/</span><span class="n">kernels</span><span class="o">/</span><span class="n">tensorflow2</span><span class="mf">.3</span>
+  <span class="n">tf1</span><span class="mf">.0</span>            <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">liyu</span><span class="o">/</span><span class="p">.</span><span class="n">local</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">jupyter</span><span class="o">/</span><span class="n">kernels</span><span class="o">/</span><span class="n">tf1</span><span class="mf">.0</span>
+  <span class="n">venv</span>             <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">liyu</span><span class="o">/</span><span class="p">.</span><span class="n">local</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">jupyter</span><span class="o">/</span><span class="n">kernels</span><span class="o">/</span><span class="n">venv</span>
+  <span class="n">python3</span>          <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">jupyter</span><span class="o">/</span><span class="n">kernels</span><span class="o">/</span><span class="n">python3</span>
+  <span class="n">tensorflow1</span><span class="mf">.0</span>    <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">jupyter</span><span class="o">/</span><span class="n">kernels</span><span class="o">/</span><span class="n">tensorflow1</span><span class="mf">.0</span>
+  <span class="n">tensorflow2</span><span class="mf">.4</span>    <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">jupyter</span><span class="o">/</span><span class="n">kernels</span><span class="o">/</span><span class="n">tensorflow2</span><span class="mf">.4</span>
+</pre></div>
+
+
+<p><strong><em>与非root用户下创建env虚拟环境的虚拟环境相比多了两个可用的虚拟环境。</em></strong></p>
 <h2 id="jupyterhubjupyterlab">Jupyterhub中使用JupyterLab</h2>
 <p>1、安装jupyterlab</p>
 <div class="hlcode"><pre><span class="n">pip</span> <span class="n">install</span> <span class="n">jupyterlab</span>
