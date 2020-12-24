@@ -90,7 +90,7 @@ c.Authenticator.whitelist = {'user1'}
 c.Authenticator.admin_users = {'ubuntu'}
 ```
 
-### 用户下创建env虚拟环境, 并且添加到jupyterhub中
+### 非root用户下创建env虚拟环境, 并且添加到jupyterhub中
 step1、首先在当前用户下使用```virtualenv```创建本地虚拟环境
 
 step2、该虚拟环境下安装ipykernel
@@ -105,13 +105,106 @@ python -m ipykernel install --user --name [环境名]--display-name [简称]
 ```
 python -m ipykernel install --user --name  env1 --display-name env1
 ```
-然后重启当前用户的jupyterhubserver就可以看到该环境了
+然后重启当前用户的jupyterhub server就可以看到该环境了
 
 样例：
 ```
 (env1) [ly@deepq venv]$ python -m ipykernel install --user --name env1 --display-name env1
 Installed kernelspec env1 in /home/ly/.local/share/jupyter/kernels/env1
 ```
+在非root用户下查看当前可使用的环境：
+```
+[liyu@localhost virtualenv]$ jupyter kernelspec list
+Available kernels:
+  tensorflow2.3    /home/liyu/.local/share/jupyter/kernels/tensorflow2.3
+  tf1.0            /home/liyu/.local/share/jupyter/kernels/tf1.0
+  venv             /home/liyu/.local/share/jupyter/kernels/venv
+  python3          /usr/local/share/jupyter/kernels/python3
+```
+
+### root用户下创建多个版本的虚拟环境，并且添加到jupyterhub中
+step1、首先在root用户下使用```virtualenv```创建多个虚拟环境
+
+例如：
+在root用户下，使用```vitrualenv```创建名为```tensorflow1.0```, ```tensorflow2.4```的虚拟环境
+```
+(env) [root@localhost jupyterhub]# tree -L 2
+.
+├── env
+│   ├── bin
+│   ├── lib
+│   ├── lib64
+│   └── pyvenv.cfg
+├── tensorflow1.0
+│   ├── bin
+│   ├── lib
+│   ├── lib64
+│   └── pyvenv.cfg
+└── tensorflow2.4
+    ├── bin
+    ├── lib
+    ├── lib64
+    └── pyvenv.cfg
+```
+
+step2、该虚拟环境下安装ipykernel
+```
+pip install ipykernel
+```
+step3、 安装完ipykernel之后执行下面的命令
+```
+python -m ipykernel install --name [环境名]--display-name [简称]
+```
+***注，与非root用户下指定环境的区别在于没有使用--user命令***
+
+例如
+```
+python -m ipykernel install --name  tensorflow1.0 --display-name tensorflow1.0
+
+python -m ipykernel install --name  tensorflow2.4 --display-name tensorflow2.4
+```
+**注**
+
+***jupyterhub服务 不需要重启***
+
+**查看可以使用的公用环境**
+
+查看命令如下：
+```
+jupyter kernelspec list
+```
+例如：
+查看step3创建的环境：
+```
+(env) [root@localhost jupyterhub]# jupyter kernelspec list
+Available kernels:
+  python3          /opt/jupyterhub/env/share/jupyter/kernels/python3
+  tensorflow1.0    /usr/local/share/jupyter/kernels/tensorflow1.0
+  tensorflow2.4    /usr/local/share/jupyter/kernels/tensorflow2.4
+```
+
+退出(```deactivate```)当前使用的虚拟环境查看的区别如下:
+```
+[root@localhost virtualenv]# jupyter kernelspec list
+Available kernels:
+  python3          /usr/local/share/jupyter/kernels/python3
+  tensorflow1.0    /usr/local/share/jupyter/kernels/tensorflow1.0
+  tensorflow2.4    /usr/local/share/jupyter/kernels/tensorflow2.4
+```
+
+在非root用户下查看当前可使用的环境：
+```
+[liyu@localhost virtualenv]$ jupyter kernelspec list
+Available kernels:
+  tensorflow2.3    /home/liyu/.local/share/jupyter/kernels/tensorflow2.3
+  tf1.0            /home/liyu/.local/share/jupyter/kernels/tf1.0
+  venv             /home/liyu/.local/share/jupyter/kernels/venv
+  python3          /usr/local/share/jupyter/kernels/python3
+  tensorflow1.0    /usr/local/share/jupyter/kernels/tensorflow1.0
+  tensorflow2.4    /usr/local/share/jupyter/kernels/tensorflow2.4
+```
+***与非root用户下创建env虚拟环境的虚拟环境相比多了两个可用的虚拟环境。***
+
 
 ## Jupyterhub中使用JupyterLab
 1、安装jupyterlab
