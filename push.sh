@@ -19,3 +19,7 @@ echo "提交到gh-pages分支"
 fab deploy
 
 echo "结束"
+
+# pip install simiki
+# pip install fabric3-1.14.post1(fabric3)
+# pip install ghp-import
